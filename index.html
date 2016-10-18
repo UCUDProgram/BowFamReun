@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="js/Registration.js"></script>
+        <script src="js/PageNavigation.js"></script>
+    </head>
+    <body>
+        <!--Container for Page Header -->
+        <div id="Page_Header">
+            <h1>Welcome to the Bowman 2017 Family Reunion</h1>
+        </div>
+        <div id="homePage">
+            <button type = "button" id ="signUp">Account Registration</button> 
+            <button type = "button" id ="logIn">Login</button> 
+        <div id="news"></div>
+        </div>
+        <!--Container for User Registration Section -->
+        <div id= "signup" class="hidden">
+            <div class = "row_block">
+                <div>
+                   <label for="fName">First Name: </label>
+                <input type = "text" id = "fName"/> 
+                </div>
+                <div>
+                   <label for="lName">Last Name: </label>
+                <input type = "text" id = "lName"/> 
+                </div>
+            </div>
+            <div class = "row_block">
+                <div>
+                   <label for="addr">Address: </label>
+                <input type = "text" id = "addr"/> 
+                </div>
+                </div>
+            <div class="row_block">
+                  <div class="individual_block_first">
+                   <label for="city">City: </label>
+                <input type = "text" id = "city"/> 
+                </div>
+                <div class ="individual_block">
+                   <label for="state">State: </label>
+                <input type = "text" id = "state"/> 
+                </div>
+                <div class="individual_block">
+                   <label for="zip">Zipcode: </label>
+                <input type = "text" id = "zip"/> 
+                </div>   
+            </div>
+            
+            <div class = "row_block">
+            <div class ="individual_block">
+                   <label for="email">Email: </label>
+                <input type = "text" id = "email"/> 
+                </div>
+               <div class="individual_block">
+                   <label for="phone">Phone Number: </label>
+                <input type = "text" id = "phone"/> 
+                </div> 
+            </div>
+            
+            <div class = "row_block">
+            <div class="individual_block_first">
+                   <label for="uname">Username: </label>
+                <input type = "text" id = "uname"/> 
+                </div>
+               <div class="individual_block">
+                    <button type = "button" id ="userCheck">Username Check</button> 
+                </div> 
+            </div>
+            
+            <div class = "row_block">
+            <div class="individual_block">
+                   <label for="uname">Password: </label>
+                <input type = "text" id = "pword"/> 
+                </div>
+                <div class="individual_block">
+                   <label for="uname">Password Verify: </label>
+                <input type = "text" id = "pword_Verify"/> 
+                </div>
+                
+               <div class="individual_block">
+                    <button type = "button" id ="passCheck">Password Check</button> 
+                </div> 
+            </div>
+            <button type = "button" id ="regHomeReturn">Return to Home Screen</button> 
+
+            
+        </div>
+        
+        <!--Container for User Login Section -->
+        <div id="login" class="hidden">
+            <div>
+                   <label for="uname">Username: </label>
+                <input type = "text" id = "user"/> 
+                </div>
+                <div>
+                   <label for="uname">Password: </label>
+                <input type = "text" id = "pass"/> 
+                </div>
+                
+               <div>
+                    <button type = "button" id ="loginSubmit">Login</button> 
+                </div>
+                <div>
+                <button type = "button" id ="loginHomeReturn">Return to Home Screen</button> 
+                </div>
+        </div>
+        
+        
+        <!--Container for Adding attendees Section -->
+        <div id ="loginHome" class="hidden">
+            
+    <!--This is for each new member in the table-->
+            <div class="row_block">
+            
+            <div class="individual_block_first">
+                   <label for="fName">First Name: </label>
+                <input type = "text" id = "fName"/> 
+            </div>
+                
+            <div class="individual_block">
+                   <label for="LName">Last Name: </label>
+                <input type = "text" id = "lName"/> 
+            </div>
+            
+            <div class="individual_block">
+                <select name="age">
+                    <option value="None" selected>Select this person's Age </option>
+                     <option value="Child">Child (17 & under) </option>
+                     <option value="Adult">Adult (18 & older) </option>
+                </select>
+            </div>
+               <button type = "button" id ="newPerson">New Person</button>     
+            </div>
+                 
+              </div>   
+                 
+         
+    
+        
+        
+        <!--Container for Admin Login Section -->
+        <div id ="adminlogin" class="hidden">
+            
+        </div>
+        
+        <!--Container for Administrator Activity Section -->
+        <div id ="adminHome" class="hidden">
+            
+        </div>
+        
+        <!--Container for Tee Shirt Section -->
+        <div id ="teeShirtGeneral" class="hidden">
+          <div>
+              <div id="tshirt">
+                  <div class="textCentered">Front</div>
+                  <img src="images/BFR Tee Shirt Front 2.jpg">
+              </div>
+              <div id ="tshirt">
+                  <div class="textCentered">Back</div>
+                  <img src="images/BFR Tee Shirt Back.jpg">
+              </div>
+              
+          </div>
+          
+          <button type = "button" id ="tShirtHomeReturn">Return to Home Screen</button> 
+
+        </div>
+        
+        <div id ="teeShirtLogin" class="hidden">
+          
+          
+        </div>
+        
+         <!--Container for Cost Section -->
+        <div id ="costInf" class="hidden">
+            <div id="costInfo"></div>
+            <button type = "button" id ="costHomeReturn">Return to Home Screen</button> 
+        </div>
+        
+        <!--Container for Page Footer -->
+        <div id ="navigation">
+             <button type = "button" id ="costBut">Cost</button> 
+             <button type = "button" id ="teeShirt">Tee Shirt Information</button> 
+            
+        </div>
+        
+    </body>
+</html>

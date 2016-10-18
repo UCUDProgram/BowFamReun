@@ -1,0 +1,31 @@
+.hidden{
+    display:none;
+    /*display:inline;*/
+}
+
+.row_block{
+    display:block;
+}
+
+.individual_block_first{
+    width:250px;
+    display:inline-block;
+}
+
+.individual_block{
+    display: inline-block;
+    /*width:300px;*/
+}
+
+.textCentered{
+    text-align:center;
+}
+
+#tshirt{
+    display:inline-block;
+}
+
+#tshirt img{
+    height:300px;
+    width:300px;
+}
