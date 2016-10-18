@@ -104,11 +104,6 @@ var appStart = function(){
 
     document.getElementById("teeShirt").addEventListener("click",showTeeShirtGeneralScreen);
     document.getElementById("costBut").addEventListener("click",showCostScreen);
-
-
-
-
-    
 };
 
 document.addEventListener('DOMContentLoaded',appStart);

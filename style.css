@@ -2,11 +2,19 @@
     display:none;
     /*display:inline;*/
 }
-
+/* This section addresses Styles in Account Registration*/
 .row_block{
     display:block;
 }
 
+.regInfo{
+    display:inline-block;
+}
+
+.regAcctInfo{
+    display:inline-block;
+    padding-left: 2em;
+}
 .individual_block_first{
     width:250px;
     display:inline-block;
@@ -16,9 +24,18 @@
     display: inline-block;
     /*width:300px;*/
 }
-
+/*This Section addresses Button Arrangement*/
+.screenButtons{
+    padding-top:1em;
+}
+/*This Section addresses the T-Shirt Page*/
 .textCentered{
     text-align:center;
+}
+
+/*Ths Section addresses Id's Properties*/
+#navigation{
+    padding-top: 3em;
 }
 
 #tshirt{
@@ -28,4 +45,13 @@
 #tshirt img{
     height:300px;
     width:300px;
+}
+
+#reunPhoto{
+    float: right;
+}
+
+#reunPhoto img{
+    height: 200px;
+    width:200px;
 }

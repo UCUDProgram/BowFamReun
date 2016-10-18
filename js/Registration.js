@@ -73,7 +73,7 @@ var registerStart = function(){
     
     document.getElementById("userCheck").addEventListener("click",userNameCheck);
     document.getElementById("passCheck").addEventListener("click",userPasswordCheck);
-    document.getElementById("regAcct").addEventListener("click",registerAccount);
+    document.getElementById("acctSubmit").addEventListener("click",registerAccount);
 };
 
 document.addEventListener('DOMContentLoaded',registerStart);
