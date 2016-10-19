@@ -9,7 +9,7 @@ var uPhone = "";
 var uUName="";
 var uPass="";
 var uPassVer = "";
-
+var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
 var setFirstName = function(){
   uFirst = document.getElementById("fName").value;  
@@ -45,16 +45,48 @@ var setPassVer = function(){
   uPassVer = document.getElementById("pword_Verify").value;  
 };
 
+var pushAccountData = function(){
+  var regData = DB.child("Accounts");
+  regData.push().set({firstname: uFirst, 
+                      lastname: uLast,
+                      address: uAddress,
+                      city: uCity,
+                      state: uState,
+                      zip: uZip,
+                      email: uEmail,
+                      phone: uPhone,
+                      userName: uUName
+  });
+};
+
+var pushUsersData = function(){
+  var regData = DB.child("Users");
+  regData.push().set({userName: uUName,
+                      password: uPass
+  });
+};
+
 var userNameCheck = function(){
+  
     alert("Thank You for Checking if Your Username is acceptable");
 };
 
 var userPasswordCheck = function(){
+  if(uPass != uPassVer){
+    alert("The two passwords do not match");
+  } else{
+    
     alert("Thank You for checking to see if your Password is acceptable");
+  }
 };
 
 var registerAccount = function(){
-    alert("Thank You for Registering");
+    console.log(uFirst);
+    console.log(uLast);
+    pushAccountData();
+    pushUsersData();
+    alert("Thank You for Registering.  You can now login to your account.");
+    showHomePageScreen();
 };
 
 var registerStart = function(){

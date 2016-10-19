@@ -1,9 +1,12 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+       <script src="js/PageNavigation.js"></script>
+        <script src="js/PassReset.js"></script>
         <script src="js/Login.js"></script>
         <script src="js/Registration.js"></script>
-        <script src="js/PageNavigation.js"></script>
+        
     </head>
     <body>
         <!--Container for Page Header -->
@@ -49,11 +52,11 @@
                 </div>
                 <div class ="individual_block">
                    <label for="state">State: </label>
-                <input type = "text" size="2" id = "state"/> 
+                <input type = "text" size="4" id = "state"/> 
                 </div>
                 <div class="individual_block">
                    <label for="zip">Zipcode: </label>
-                <input type = "text" size="5" id = "zip"/> 
+                <input type = "text" size="7" id = "zip"/> 
                 </div>   
             </div>
             
@@ -120,13 +123,44 @@
                 
                <div class= "screenButtons">
                     <button type = "button" id ="loginSubmit">Login</button>
+                    <button type = "button" id ="passForgotten">Forgot Your Password</button>
                     <button type = "button" id ="loginHomeReturn">Return to Home Screen</button> 
                 </div>
         </div>
         
+        <!--Container for Password Reset Section -->
+        <div id="pass_reset" class="hidden">
+            <h1>Password Reset</h1>
+            <div>
+                   <label for="contact">Username or email address: </label>
+                <input type = "text" id = "contact"/> 
+                </div>
+            <div>
+            <div class=individual_block>
+                <div>
+                   <label for="passReset">New Password: </label>
+                <input type = "text" id = "passReset"/> 
+                </div>
+                <div>
+                   <label for="passResetVerify">New Password Verify: </label>
+                <input type = "text" id = "passResetVerify"/> 
+                </div>
+            </div>
+            <div class="individual_block">
+                <button type = "button" id ="newPassCheck">New Password Check</button>
+
+            </div>
+            </div>    
+               <div class= "screenButtons">
+                    <button type = "button" id ="passResetSubmit">Reset Password</button>
+                    <button type = "button" id ="loginReturn">Return to Login Screen</button> 
+                </div>
+        </div>
         
         <!--Container for Adding attendees Section -->
         <div id ="loginHome" class="hidden">
+            <h1>Attendees for the Bowman Family Reunion</h1>
+            <div id="attendants"></div>
             
     <!--This is for each new member in the table-->
             <div class="row_block">
