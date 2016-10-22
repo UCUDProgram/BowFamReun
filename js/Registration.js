@@ -10,6 +10,7 @@ var uUName="";
 var uPass="";
 var uPassVer = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
+var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var setFirstName = function(){
   uFirst = document.getElementById("fName").value;  
@@ -45,6 +46,35 @@ var setPassVer = function(){
   uPassVer = document.getElementById("pword_Verify").value;  
 };
 
+var clearInputFields = function(){
+    document.getElementById("fName").value = "";
+    document.getElementById("lName").value = "";
+    document.getElementById("addr").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("state").value = "";
+    document.getElementById("zip").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("uname").value = "";
+    document.getElementById("pword").value = "";
+    document.getElementById("pword_Verify").value = "";
+
+};
+
+var validUserCheck = function(){
+   useDB.orderByChild("userName").equalTo(uUName).on("value", function(snapshot) {
+      var results = snapshot.val();
+    if(results == null) {
+      console.log("No Results Found")
+      alert("Username is acceptable")
+    } else {
+      console.log("Results Found");
+      alert("Username exists.  Choose a different Username");
+    }
+   });
+};
+
+
 var pushAccountData = function(){
   var regData = DB.child("Accounts");
   regData.push().set({firstname: uFirst, 
@@ -66,10 +96,10 @@ var pushUsersData = function(){
   });
 };
 
-var userNameCheck = function(){
+// var userNameCheck = function(){
   
-    alert("Thank You for Checking if Your Username is acceptable");
-};
+//     alert("Thank You for Checking if Your Username is acceptable");
+// };
 
 var userPasswordCheck = function(){
   if(uPass != uPassVer){
@@ -81,11 +111,10 @@ var userPasswordCheck = function(){
 };
 
 var registerAccount = function(){
-    console.log(uFirst);
-    console.log(uLast);
     pushAccountData();
     pushUsersData();
     alert("Thank You for Registering.  You can now login to your account.");
+    clearInputFields();
     showHomePageScreen();
 };
 
@@ -103,7 +132,7 @@ var registerStart = function(){
     document.getElementById("pword").addEventListener("blur",setPassword);
     document.getElementById("pword_Verify").addEventListener("blur",setPassVer);
     
-    document.getElementById("userCheck").addEventListener("click",userNameCheck);
+    document.getElementById("userCheck").addEventListener("click",validUserCheck);
     document.getElementById("passCheck").addEventListener("click",userPasswordCheck);
     document.getElementById("acctSubmit").addEventListener("click",registerAccount);
 };
