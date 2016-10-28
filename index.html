@@ -2,9 +2,13 @@
     <head>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+        <script src="js/Profile.js"></script>
        <script src="js/PageNavigation.js"></script>
+       
         <script src="js/Login.js"></script>
-        <script src="js/User.js"></script>
+        <!--<script src="js/User.js"></script>-->
+        
+        
         <script src="js/PassReset.js"></script>
         <script src="js/Registration.js"></script>
         
@@ -157,44 +161,7 @@
                     <button type = "button" id ="loginReturn">Return to Login Screen</button> 
                 </div>
         </div>
-        
-        <!--Container for Adding attendees Section -->
-        <div id ="loginHome" class="hidden">
-            <h1>Attendees for the Bowman Family Reunion</h1>
-            <div id="attendants"></div>
-            
-    <!--This is for each new member in the table-->
-            <div class="row_block">
-            
-            <div class="individual_block_first">
-                   <label for="fName">First Name: </label>
-                <input type = "text" id = "fName"/> 
-            </div>
-                
-            <div class="individual_block">
-                   <label for="LName">Last Name: </label>
-                <input type = "text" id = "lName"/> 
-            </div>
-            
-            <div class="individual_block">
-                <select name="age">
-                    <option value="None" selected>Select this person's Age </option>
-                     <option value="Infant">Infant (Under 3)</option>
-                     <option value="Child">Child (Between 3 & 17) </option>
-                     <option value="Adult">Adult (Between 18 & 79, inclusive) </option>
-                     <option value="Senior">Distinguished Adult(80 & over) </option>
-                </select>
-            </div>
-            </div>
-                 <div>
-                    <button type = "button" id ="newPerson">New Person</button>     
 
-                 </div>
-              </div>   
-                 
-         
-    
-        
         
         <!--Container for Admin Login Section -->
         <div id ="adminlogin" class="hidden">
@@ -237,8 +204,77 @@
             <h1>Cost per person for the 2017 Bowman Family Reunion</h1>
             <div id="costInfo"></div>
             <button type = "button" id ="costHomeReturn">Return to Home Screen</button> 
-            <h2>Warning: Trying to reduce your cost by falsifying attendees age may result in additional fees being charged to each attendee infraction</h2>
         </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+              <!--Container for Adding attendees Section -->
+        <div id ="loginHome" class="hidden">
+            <div id = "loginWelcome"></div>
+            <div id="logHead"></div>
+            <div id ="newPersonInput"></div>
+            <div id="attendants"></div>
+            
+            
+            
+    <!--This is for each new member in the table-->
+    <!--        <div class="row_block">-->
+            
+    <!--        <div class="individual_block_first">-->
+    <!--               <label for="fName">First Name: </label>-->
+    <!--            <input type = "text" id = "fName"/> -->
+    <!--        </div>-->
+                
+    <!--        <div class="individual_block">-->
+    <!--               <label for="LName">Last Name: </label>-->
+    <!--            <input type = "text" id = "lName"/> -->
+    <!--        </div>-->
+            
+    <!--        <div class="individual_block">-->
+    <!--            <select name="age">-->
+    <!--                <option value="None" selected>Select this person's Age </option>-->
+    <!--                 <option value="Infant">Infant (Under 3)</option>-->
+    <!--                 <option value="Child">Child (Between 3 & 17) </option>-->
+    <!--                 <option value="Adult">Adult (Between 18 & 79, inclusive) </option>-->
+    <!--                 <option value="Senior">Distinguished Adult(80 & over) </option>-->
+    <!--            </select>-->
+    <!--        </div>-->
+    <!--        </div>-->
+                 <!--<div>-->
+                 <!--   <button type = "button" id ="newPerson">New Person</button>     -->
+                 <!--</div>-->
+
+
+
+
+
+              </div>   
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

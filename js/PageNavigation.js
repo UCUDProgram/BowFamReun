@@ -1,6 +1,7 @@
 var pages = ['homePage','signup','login','pass_reset', 'loginHome','adminlogin','adminHome','teeShirtGeneral','teeShirtLogin','costInf'];
 var currentPageIndex =0;
-
+var userAccount = new Profile();
+var useAcct = "guest";
 
 var showHomePageScreen = function(){
   var oldIndex = currentPageIndex;
@@ -32,10 +33,15 @@ var showPasswordResetScreen = function(){
 };
 
 var showLoginHomeScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =4;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  // var oldIndex = currentPageIndex;
+  // currentPageIndex =4;
+  // document.getElementById(pages[oldIndex]).classList.add('hidden');
+  // document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+
+
+
+window.location.href = "members.html";
+
 };
 
 var showAdminLoginScreen = function(){
@@ -68,7 +74,7 @@ var showTeeShirtLoginScreen = function(){
 
 var showCostScreen = function(){
   var oldIndex = currentPageIndex;
-  currentPageIndex =8;
+  currentPageIndex =9;
   document.getElementById(pages[oldIndex]).classList.add('hidden');
   document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
     renderCostInfo();

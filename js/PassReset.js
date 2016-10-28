@@ -1,7 +1,7 @@
 var userAcct= "";
 var newPass="";
 var newPassVer="";
-var userDB = new Firebase("https://bowmanfamreun.firebaseio.com/User");
+var userDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 
 var setContact = function(){
@@ -24,14 +24,16 @@ var clearPassResetFields = function(){
 
 var updatePassword = function(){
         userDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot) {
-      var keyVal = snapshot.key();
-        userDB.child(keyVal).update({password: newPass
+      snapshot.forEach(function(childSnapshot){
+        userDB.child(childSnapshot.key()).update({password: newPass
                     } );
+      });
    });
-}
+};
 
 var changePassword = function(){
-    
+    alert("Your Password has been changed");
+    updatePassword();
     clearPassResetFields();
     showHomePageScreen();
 };

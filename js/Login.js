@@ -1,4 +1,3 @@
-var member = "";
 var acctUser = "";
 var acctPass = "";
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
@@ -33,6 +32,9 @@ var getUsers = function(){
 
 var passwordVerification = function(passAct){
   if (passAct == acctPass){
+    userAccount.setName(acctUser);
+    useAcct = acctUser;
+    console.log(userAccount.name);
     showLoginHomeScreen();
   } else {
     alert("The password does not match!")

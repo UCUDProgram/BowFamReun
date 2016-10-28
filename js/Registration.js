@@ -63,14 +63,16 @@ var clearInputFields = function(){
 
 var validUserCheck = function(){
    useDB.orderByChild("userName").equalTo(uUName).on("value", function(snapshot) {
-      var results = snapshot.val();
+    var results = snapshot.val();
     if(results == null) {
       console.log("No Results Found")
       alert("Username is acceptable")
     } else {
+      console.log(results.key);
       console.log("Results Found");
       alert("Username exists.  Choose a different Username");
     }
+    
    });
 };
 
@@ -92,7 +94,8 @@ var pushAccountData = function(){
 var pushUsersData = function(){
   var regData = DB.child("Users");
   regData.push().set({userName: uUName,
-                      password: uPass
+                      password: uPass,
+                      email:uEmail
   });
 };
 
@@ -111,11 +114,17 @@ var userPasswordCheck = function(){
 };
 
 var registerAccount = function(){
+    var regCont = false;
+    
+    if(regCont){
     pushAccountData();
     pushUsersData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();
+    } else {
+      showSignUpScreen
+    }
 };
 
 var registerStart = function(){

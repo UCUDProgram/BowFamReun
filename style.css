@@ -16,13 +16,15 @@
     padding-left: 2em;
 }
 .individual_block_first{
-    width:250px;
+    /*width:20px;*/
     display:inline-block;
+    padding-right: 2em;
 }
 
 .individual_block{
     display: inline-block;
-    /*width:300px;*/
+    padding-right:2em;
+    /*width:50px;*/
 }
 /*This Section addresses Button Arrangement*/
 .screenButtons{
