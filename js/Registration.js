@@ -65,14 +65,10 @@ var validUserCheck = function(){
    useDB.orderByChild("userName").equalTo(uUName).on("value", function(snapshot) {
     var results = snapshot.val();
     if(results == null) {
-      console.log("No Results Found")
       alert("Username is acceptable")
     } else {
-      console.log(results.key);
-      console.log("Results Found");
       alert("Username exists.  Choose a different Username");
     }
-    
    });
 };
 
@@ -99,10 +95,6 @@ var pushUsersData = function(){
   });
 };
 
-// var userNameCheck = function(){
-  
-//     alert("Thank You for Checking if Your Username is acceptable");
-// };
 
 var userPasswordCheck = function(){
   if(uPass != uPassVer){
@@ -114,20 +106,80 @@ var userPasswordCheck = function(){
 };
 
 var registerAccount = function(){
-    var regCont = false;
+    // var regCont = false;
     
-    if(regCont){
+    // if(regCont){
     pushAccountData();
     pushUsersData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();
-    } else {
-      showSignUpScreen
-    }
+    // } else {
+    //   showSignUpScreen
+    // }
 };
 
+var renderRegistrationScreen = function(){
+  renderHeader();
+  renderPersonInfo();
+  renderUserInfo();
+};
+
+var renderHeader = function(){
+  var $div = document.getElementById("signup");
+  var $head = document.createElement("h1");
+  $head.innerHTML = "Registration for a Free Account";
+  $div.appendChild($head);
+};
+
+var renderPersonInfo = function(){
+  renderPersonRow1();
+  renderPersonRow2();
+  renderPersonRow3();
+  renderPersonRow4();
+};
+
+var renderPersonRow1 = function(){
+  var $div = document.getElementById("regInfo");
+  var $row1div = document.createElement("div");
+  var fNamediv = document.createElement("div");
+  var fnameLab = document.createElement("label")
+  fnameLab.setAttribute("for", "fName");
+  // fnameLab.setAttribute("")
+  
+  $div.appendChild($row1div);
+  
+};
+
+var renderPersonRow2 = function(){
+  
+};
+
+var renderPersonRow3 = function(){
+  
+};
+
+var renderPersonRow4 = function(){
+  
+};
+
+var renderUserInfo = function(){
+  renderUserRow();
+  renderPassRow();
+  
+};
+
+var renderUserRow = function(){
+  
+};
+
+var renderPassRow = function(){
+  
+};
+
+
 var registerStart = function(){
+    // renderRegistrationScreen();
 
     document.getElementById("fName").addEventListener("blur",setFirstName);
     document.getElementById("lName").addEventListener("blur",setLastName);

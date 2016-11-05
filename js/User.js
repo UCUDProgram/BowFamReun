@@ -16,6 +16,11 @@ var deletePerson = function(aKey){
     getPeople();
 };
 
+var setAcct = function(){
+  acct = localStorage.getItem("user");
+  console.log(acct);
+};
+
 var setAge= function(){
     ageStatus = document.getElementById("ageOption").value;  
 };
@@ -45,18 +50,16 @@ var resetAges = function(){
 
 var personSubmit = function(){
     setAge();
-    // console.log(ageStatus);
     
   var regData = DB.child("Attendees");
   regData.push().set({firstname: first,
-                        account:"LawAdmin", 
-                        // userAccount.name
+                        account: acct, 
                       lastname: last,
                       age: ageStatus
                     });
     getPeople();
     renderFamReg();
-    // inputReset();
+    inputReset();
 };
 
 var updateAgeStatus = function(anAgeOption){
@@ -65,8 +68,10 @@ var updateAgeStatus = function(anAgeOption){
 
 
 var inputReset = function(){
-  document.getElementById("fName").value = "";
-  document.getElementById("lName").value = "";
+  document.getElementById("newFnameText").value = "";
+  document.getElementById("newLnameText").value = "";
+    // document.getElementById("ageOption").value = "Choose Person's Age";
+
 };
 
 var editItemName = function(personDiv, first, last,pKey){
@@ -81,7 +86,6 @@ var editItemName = function(personDiv, first, last,pKey){
   $fnameInput.innerHTML = first;
   $fnameInput.addEventListener("blur", function(ev){
          newFirst = document.getElementById("fnameText").value;
-        // console.log(newFirst);
     });
  $div.appendChild($fnameInput);
  
@@ -91,13 +95,10 @@ var editItemName = function(personDiv, first, last,pKey){
   $lnameInput.setAttribute("value", last);
   $lnameInput.addEventListener("blur", function(ev){
         newLast = document.getElementById("lnameText").value;
-        // console.log(newLast);
     });
       $div.appendChild($lnameInput);
 
-    //   renderAgeClassify($div);
-      
-var $updateButton = document.createElement("button");
+    var $updateButton = document.createElement("button");
     $updateButton.setAttribute("type","button");
     var buttonName = first.concat(last).concat("Update"); 
     $updateButton.setAttribute("id",buttonName);
@@ -119,52 +120,44 @@ var $updateButton = document.createElement("button");
         getPeople();
     });
     $div.appendChild($cancelButton);
-  
-  
 };
 
 var getPeople = function(){
-    var $div = document.getElementById("attendants");
     var parDiv = document.getElementById("attendants");
     while(parDiv.firstChild)
         parDiv.removeChild(parDiv.firstChild);
     resetAges();
-    // $div.innerHTML = '';
-    // LawAdmin"
-    // var user = userAccount.getName();
-    // console.log(user);
-    // console.log(useAcct);
-    // "LawAdmin"
-     attendeeDB.orderByChild("account").equalTo("LawAdmin").on("value", function(snapshot){
-        // console.log(snapshot);
-        // var index =0;
+     attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
             var itemKey = childSnapshot.key();
           var aFirst = childSnapshot.val().firstname;
           var aLast = childSnapshot.val().lastname;
-          var anAge = childSnapshot.val().age
+          var anAge = childSnapshot.val().age;
           console.log(anAge);
         renderPerson(aFirst,aLast,anAge,itemKey);
         updateAttendees(anAge);
-        // index++;
       });
 });
-    // renderFamReg();
 }; 
+
+var setPeopleCount = function(){
+    attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+          var anAge = childSnapshot.val().age;
+        updateAttendees(anAge);
+      });
+});
+};
 
 var updateAttendees = function(aPersAge){
   if (aPersAge == "Infant"){
       updateInfantAge();
-      console.log(infantAttend);
   } else if(aPersAge == "Child"){
       updateChildAge();
-      console.log(childAttend);
   } else if(aPersAge == "Adult"){
       updateAdultAge();
-      console.log(adultAttend);
   } else {
       updateSeniorAge();
-      console.log(seniorAttend);
   }
 };
 
@@ -186,28 +179,8 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
     $lnamediv.classList.add('individual_block');
     $lnamediv.setAttribute("id",divNameLast);
     $namediv.appendChild($lnamediv);
-
-
-// var $indAgeDiv = document.createElement("div");
-//     // $indAgeDiv.innerHTML = aAge;
-//     var divNameAge = divName.concat("Age");
-//     $indAgeDiv.classList.add('individual_block');
-//     $indAgeDiv.setAttribute("id",divNameAge);
-//     renderChangeAge(divNameAge,$namediv,itemKey); 
-//     $namediv.appendChild($indAgeDiv);
-
-
-    //  var $indAgeDiv = document.createElement("div");
-    //  var divNameAge = divName.concat("Age");
-    // // $indAgeDiv.innerHTML = aAge;
-    // $indAgeDiv.classList.add('individual_block');
-    // $indAgeDiv.setAttribute("id",divNameAge);
-    renderChangeAge(divName,$namediv,aAge, itemKey); 
-    // $namediv.appendChild($indAgeDiv);
-
-
-
     
+    renderChangeAge(divName,$namediv,aAge, itemKey); 
     
     var $editButton = document.createElement("button");
     $editButton.setAttribute("type","button");
@@ -235,7 +208,7 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
 var renderWelcome= function(){
    var $titleHead = document.getElementById("loginWelcome");
    var $tHeader =document.createElement("h1");
-  $tHeader.innerHTML = "Welcome Kinfolk ";
+  $tHeader.innerHTML = "Welcome " + acct;
    $titleHead.appendChild($tHeader);
 };
 
@@ -282,10 +255,9 @@ var renderLastNew = function(){
       $lNameDiv.appendChild($newLnameLabel);
     
     var $newLnameInput = document.createElement("input");
-  $newLnameInput.setAttribute("type", "text");
-  $newLnameInput.setAttribute("id", "newLnameText");
- 
-$newLnameInput.addEventListener("blur", function(ev){
+    $newLnameInput.setAttribute("type", "text");
+    $newLnameInput.setAttribute("id", "newLnameText");
+    $newLnameInput.addEventListener("blur", function(ev){
         last = document.getElementById("newLnameText").value;
     });
     
@@ -312,42 +284,25 @@ $defaultClassify.setAttribute("selected", true);
   $infantClassify.setAttribute("value", "Infant");
   $infantClassify.setAttribute("id", "infantAge");
   $infantClassify.innerHTML = "Infant";
-//   $infantClassify.addEventListener("change", function(ev){
-    // document.getElementById("ageOption").value = document.getElementById("infantAge").value;
-    // console.log(document.getElementById("ageOption").value);
-    // });
       $ageClassify.appendChild($infantClassify);
-      
       
     var $childClassify = document.createElement("option");
 $childClassify.setAttribute("value", "Child");
 $childClassify.setAttribute("id", "childAge");
   $childClassify.innerHTML = "Child";
-//   $childClassify.addEventListener("onchange", function(ev){
-        // ageStatus ="Child";
-    // });
       $ageClassify.appendChild($childClassify);
-      
       
   var $adultClassify = document.createElement("option");
   $adultClassify.setAttribute("value", "Adult");
   $adultClassify.setAttribute("id", "adultAge");
   $adultClassify.innerHTML = "Adult";
   $adultClassify.classList.add("Adult");
-    // $adultClassify.addEventListener("change", function(ev){
-    // document.getElementById("ageOption").value = document.getElementById("adultAge").value;
-    // ageStatus = document.getElementById("ageClassify").value;
-    // });
       $ageClassify.appendChild($adultClassify);
-      
       
   var $seniorClassify = document.createElement("option");
   $seniorClassify.setAttribute("value", "Senior");
   $seniorClassify.setAttribute("id", "seniorAge");
   $seniorClassify.innerHTML = "Distinguished Adult";
-//   $seniorClassify.addEventListener("change", function(ev){
-        // ageStatus = document.getElementById("seniorAge").value;
-    // });
       $ageClassify.appendChild($seniorClassify);
       
    $ageDiv.appendChild($ageClassify);
@@ -356,49 +311,32 @@ $childClassify.setAttribute("id", "childAge");
 
 var renderChangeAge = function(apersonDiv, attachDiv, persAge,itemK){
     var newAge = "";
-    // var $div = document.getElementById(apersonDivName);
    var $indAgeDiv = document.createElement("div");
      var divNameAge = apersonDiv.concat("Age");
-    // $indAgeDiv.innerHTML = aAge;
     $indAgeDiv.classList.add('individual_block');
     $indAgeDiv.setAttribute("id",divNameAge);
-    
     
     var $ageClassification = document.createElement("select");
   $ageClassification.setAttribute("name", "age");
   var nameSelect = apersonDiv.concat("Select");
-//   $ageClassification.setAttribute("id", "newAgeOption");
   $ageClassification.setAttribute("id", nameSelect);
   
-//  $ageClassification.setAttribute("value",persAge);
-//  document.getElementById("newAgeOption").value = persAge;
- 
     var $infantClassification = document.createElement("option");
   $infantClassification.setAttribute("value", "Infant");
   $infantClassification.setAttribute("id", "newInfantAge");
   $infantClassification.innerHTML = "Infant";
-//   $infantClassification.addEventListener("change", function(ev){
-    // document.getElementById("ageOption").value = document.getElementById("infantAge").value;
-    // console.log(document.getElementById("ageOption").value);
-    // });
       if(persAge == "Infant"){
           $infantClassification.setAttribute("selected",true);
       }
-      
       $ageClassification.appendChild($infantClassification);
 
-      
     var $childClassification = document.createElement("option");
 $childClassification.setAttribute("value", "Child");
 $childClassification.setAttribute("id", "newChildAge");
   $childClassification.innerHTML = "Child";
-//   $childClassification.addEventListener("onchange", function(ev){
-//         ageStatus ="Child";
-//     });
      if(persAge == "Child"){
           $childClassification.setAttribute("selected",true)
       }
-      
       $ageClassification.appendChild($childClassification);
       
       
@@ -406,41 +344,29 @@ $childClassification.setAttribute("id", "newChildAge");
   $adultClassification.setAttribute("value", "Adult");
   $adultClassification.setAttribute("id", "newAdultAge");
   $adultClassification.innerHTML = "Adult";
-//   $adultClassification.classList.add("Adult");
-    // $adultClassification.addEventListener("change", function(ev){
-    // document.getElementById("ageOption").value = document.getElementById("adultAge").value;
-    // ageStatus = document.getElementById("ageClassify").value;
-    // });
      if(persAge == "Adult"){
           $adultClassification.setAttribute("selected",true);
       }
-      
       $ageClassification.appendChild($adultClassification);
       
-      
+     
   var $seniorClassification = document.createElement("option");
   $seniorClassification.setAttribute("value", "Senior");
   $seniorClassification.setAttribute("id", "newSeniorAge");
   $seniorClassification.innerHTML = "Distinguished Adult";
-//   $seniorClassification.addEventListener("change", function(ev){
-        // ageStatus = document.getElementById("seniorAge").value;
-    // });
     if(persAge == "Senior"){
           $seniorClassification.setAttribute("selected",true)
       }
     
       $ageClassification.appendChild($seniorClassification);
       $ageClassification.addEventListener("change",function(ev){
-        //  newAge =  document.getElementById("newAgeOption").value;
          newAge =  document.getElementById(nameSelect).value;
-
          attendeeDB.child(itemK).update({age: newAge
                     } );
          getPeople();
          renderFamReg();
       });
        
-      
    $indAgeDiv.appendChild($ageClassification);
    attachDiv.appendChild($indAgeDiv);
 };
@@ -483,29 +409,43 @@ var renderFamReg = function(){
     var attendanceString = stringBeg.concat(infantString).concat(childString).concat(adultString).concat(seniorString);   
   determineFamCost();
    var costString = "  The cost for your family to attend is ".concat(famCost).concat(".00 dollars.");
-   
-   
   $cHeader.innerHTML = attendanceString.concat(costString);
    $costHead.appendChild($cHeader);
 };
 
+var renderMemberNav = function(){
+  var $div = document.getElementById("memberNav");
+  var $butt = document.createElement("button");
+  $butt.setAttribute("id", "tShirtMem");
+  $butt.innerHTML = "TShirt Ordering";
+  $butt.addEventListener("click", function(ev){
+      window.location.href = "memberTShirt.html";
+  });
+  $div.appendChild($butt);
+    
+};
+
+var renderCostButton = function(){
+  var $div = document.getElementById("regButton");
+  var costBut = document.createElement("button");
+  costBut.setAttribute("id","costButton");
+  costBut.innerHTML = "Calculate Registration Cost";
+  costBut.addEventListener("click",function(ev){
+      document.getElementById("regButton").classList.add("hidden");
+      document.getElementById("registrationCost").classList.remove("hidden");
+      renderFamReg();
+  });
+  $div.appendChild(costBut);
+};
 
 var userStart = function(){
-    //   document.getElementById("loginHome").classList.remove('hidden');
-
-    // var user = document.getElementById("user").value;
-    // console.log(user);
-    
+    setAcct();
     getPeople();
     renderWelcome();
     renderTitle();
     renderNewPerson();
-    renderFamReg();
-    // document.getElementById("fName").addEventListener("blur",setFirst);
-    // document.getElementById("lName").addEventListener("blur",setLast);
-    // document.getElementById("addPerson").addEventListener("click",personSubmit);
-
-    
+    renderCostButton();
+    renderMemberNav();
 };
 
 document.addEventListener('DOMContentLoaded',userStart);
