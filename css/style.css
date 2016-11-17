@@ -6,12 +6,11 @@
 .row_block{
     display:block;
 }
-
-.regInfo{
+#regInfo{
     display:inline-block;
 }
 
-.regAcctInfo{
+#regAcctInfo{
     display:inline-block;
     padding-left: 2em;
 }

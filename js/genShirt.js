@@ -1,3 +1,4 @@
+//  RENDERING THE SCREEN (VIEW)
 var loadGeneralShirt = function(){
   genShirtHeader();
   genShirtImages();
@@ -25,7 +26,7 @@ var genShirtImages = function(){
     image1Div.appendChild(frontText);
     
     var frontImage = document.createElement("img");
-    frontImage.setAttribute("src", "images/BFR Tee Shirt Front 2.jpg");
+    frontImage.setAttribute("src", "../images/BFR Tee Shirt Front 2.jpg");
     image1Div.appendChild(frontImage);
     firstDiv.appendChild(image1Div);
     
@@ -38,7 +39,7 @@ var genShirtImages = function(){
     image2Div.appendChild(backText);
     
     var backImage = document.createElement("img");
-    backImage.setAttribute("src", "images/BFR Tee Shirt Back.jpg");
+    backImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
     image2Div.appendChild(backImage);
     
     firstDiv.appendChild(image2Div);

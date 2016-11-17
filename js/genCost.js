@@ -1,3 +1,4 @@
+//  RENDERING THE SCREEN (VIEW)
 var loadGenCost = function(){
     costHeader();
     costInfo();

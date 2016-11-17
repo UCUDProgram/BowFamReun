@@ -1,88 +1,47 @@
-var pages = ['homePage','signup','login','pass_reset', 'loginHome','adminlogin','adminHome','teeShirtGeneral','teeShirtLogin','costInf'];
-var currentPageIndex =0;
-var userAccount = new Profile();
-var useAcct = "guest";
-
 var showHomePageScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =0;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+    window.location.href = "index.html";
 };
 
 var showSignUpScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =1;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  window.location.href = "registration.html";
 };
 
 var showLoginScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =2;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+    window.location.href = "login.html";
 };
 
 var showPasswordResetScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =3;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  window.location.href = "passwordRest.html";
 };
 
 var showLoginHomeScreen = function(){
-  // var oldIndex = currentPageIndex;
-  // currentPageIndex =4;
-  // document.getElementById(pages[oldIndex]).classList.add('hidden');
-  // document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
-
-window.location.href = "members.html";
-
-};
-
-var showAdminLoginScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =5;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
-};
-
-var showAdminHomeScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =6;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  window.location.href = "members.html";
 };
 
 var showTeeShirtGeneralScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =7;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
-};
-
-var showTeeShirtLoginScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =8;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  window.location.href = "tShirtInfo.html";
 };
 
 var showCostScreen = function(){
-  var oldIndex = currentPageIndex;
-  currentPageIndex =9;
-  document.getElementById(pages[oldIndex]).classList.add('hidden');
-  document.getElementById(pages[currentPageIndex]).classList.remove('hidden');
+  window.location.href = "reunCost.html";
 };
 
+var showAdminHomeScreen = function(){
+  window.location.href = "adminHome.html";
+};
 
-var appStart = function(){
-    currentPageIndex = 0;  
-    showHomePageScreen();
-    // Event Listeners for Navgation
-    document.getElementById("regHomeReturn").addEventListener("click",showHomePageScreen);
-    document.getElementById("tShirtHomeReturn").addEventListener("click",showHomePageScreen);
-  };
+var showAdminLoginScreen = function(){
+  window.location.href = "adminLogin.html";
+};
 
-document.addEventListener('DOMContentLoaded',appStart);
+// var showAdminPassReset = function(){
+  
+// };
+
+var showAdminShirtsScreen = function(){
+  window.location.href = "adminShirts.html";
+};
+
+var showAdminContacts = function(){
+  window.location.href = "adminContacts.html";
+};

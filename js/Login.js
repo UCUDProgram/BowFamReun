@@ -1,21 +1,107 @@
 var acctUser = "";
 var acctPass = "";
-var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
+var userNameChk= false;
+var userAcct = "";
+var userPassword = "";
 
+var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
+var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var setAcctUser = function(){
-  acctUser = document.getElementById("user").value;
+  acctUser = document.getElementById("userUser").value;
+  userCheck();
+  setVariables();
 };
 
 var setAcctPass = function(){
-  acctPass = document.getElementById("pass").value;
+  acctPass = document.getElementById("userPass").value;
+};
+
+var setUserAcct = function(account){
+  userAcct = account;
+};
+
+var setUserPass = function(pass){
+  userPassword = pass;
+};
+
+var setUserNameChk = function(bool){
+  if(bool == "true")
+    userNameChk = true;
+  else
+    userNameChk = false;
 };
 
 var clearLoginFields = function(){
-  document.getElementById("user").value = "";
-  document.getElementById("pass").value = "";
+  document.getElementById("userUser").value = "";
+  document.getElementById("userPass").value = "";
 };
 
+
+var userCheck = function(){
+    useDB.orderByChild("userName").equalTo(acctUser).on("value", function(snapshot) {
+      if (snapshot.val() == null){
+        setUserNameChk("false");
+      } else {
+        setUserNameChk("true");
+      }
+    });
+};
+
+var setVariables = function(){
+  if(userNameChk){
+      useDB.orderByChild("userName").equalTo(acctUser).on("value", function(snapshot) {
+      snapshot.forEach(function(snap){
+          setUserPass(snap.val().password);
+          setUserAcct(snap.val().userName);
+          // console.log(snap.val().password);
+          // console.log(userPassword);
+          // console.log()
+      });
+  });  
+  } else {
+    
+  emailDB.orderByChild("email").equalTo(acctUser).on("value", function(childSnapshot) {
+        childSnapshot.forEach(function(child){
+            setUserPass(child.val().password);
+            setUserAcct(child.val().userName);
+        });
+      });
+}
+};
+
+var passwordUserVerification = function(){
+  if (userPassword == acctPass){
+    localStorage.setItem("user",userAcct);
+    showLoginHomeScreen();
+  } else {
+    alert("Username and/or Password does not match!")
+  }
+};
+var loggingIn = function(){
+  // var userActPass = "";
+  userCheck();
+  setVariables();
+  passwordUserVerification();
+
+// console.log(userNameChk);
+// console.log(acctUser);
+// console.log(acctPass);
+// console.log(userNameChk);
+// console.log(userPass);
+// console.log(userAcct);
+// console.log(userActPass);
+  // passwordVerification(userActPass);
+};
+
+var loginSubmission = function(){
+    clearLoginFields();
+    passwordUserVerification();
+
+    // loggingIn();
+};
+
+// RENDERING THE SCREEN (VIEW)
 var renderLoginScreen = function(){
   renderLoginHeader();
   renderLoginUser();
@@ -26,7 +112,7 @@ var renderLoginScreen = function(){
 var renderLoginHeader = function(){
   var $loginHeader = document.getElementById("login");
   var logHeader = document.createElement("h1");
-  logHeader.innerHTML = "Login";
+  logHeader.innerHTML = "User Login";
   $loginHeader.appendChild(logHeader);
 };
 
@@ -41,7 +127,7 @@ var renderLoginUser = function(){
   
   var userLogInpt = document.createElement("input");
   userLogInpt.setAttribute("type", "text");
-  userLogInpt.setAttribute("id", "user");
+  userLogInpt.setAttribute("id", "userUser");
   userLogInpt.addEventListener("blur", function(ev){
     setAcctUser();
   });
@@ -61,7 +147,7 @@ var renderLoginPass = function(){
   
   var passLogInpt = document.createElement("input");
   passLogInpt.setAttribute("type", "text");
-  passLogInpt.setAttribute("id", "pass");
+  passLogInpt.setAttribute("id", "userPass");
   passLogInpt.addEventListener("blur", function(ev){
     setAcctPass();
   });
@@ -75,9 +161,11 @@ var renderLoginButtons = function(){
   var $buttDiv = document.createElement("div");
   $buttDiv.classList.add("screenButtons");
   
+  
+  
   var $loginButton = document.createElement("button");
   $loginButton.setAttribute("type", "button");
-  $loginButton.setAttribute("id", "loginSubmit");
+  $loginButton.setAttribute("id", "loginSubmission");
   $loginButton.innerHTML = "Login";
   $loginButton.addEventListener("click", function(ev){
     loginSubmission();
@@ -93,6 +181,8 @@ var renderLoginButtons = function(){
   });
   $buttDiv.appendChild($forgotPassButton);
   
+  
+  
    var $homeReturnButton = document.createElement("button");
   $homeReturnButton.setAttribute("type", "button");
   $homeReturnButton.setAttribute("id", "loginHomeReturn");
@@ -102,37 +192,25 @@ var renderLoginButtons = function(){
   });
   $buttDiv.appendChild($homeReturnButton);
   
+  var $adminLoginButton = document.createElement("button");
+  $adminLoginButton.setAttribute("type", "button");
+  $adminLoginButton.setAttribute("id", "adminlogin");
+  $adminLoginButton.innerHTML = "Administer login";
+  $adminLoginButton.addEventListener("click", function(ev){
+    showAdminLoginScreen();
+  });
+  $buttDiv.appendChild($adminLoginButton);
+  
+  
+  
+  
   $logHdr.appendChild($buttDiv);
 };
 
-var passwordVerification = function(passAct){
-  if (passAct == acctPass){
-    localStorage.setItem("user",acctUser);
-    showLoginHomeScreen();
-  } else {
-    alert("The password does not match!")
-  }
-};
 
-var loggingIn = function(){
-  var userActPass = "";
-  useDB.orderByChild("userName").equalTo(acctUser).on("child_added", function(snapshot) {
-  userActPass = snapshot.val().password;
-});
-  passwordVerification(userActPass);
-};
-
-var loginSubmission = function(){
-    clearLoginFields();
-    loggingIn();
-};
     
 var loginStart = function(){
   renderLoginScreen();
-  // document.getElementById("user").addEventListener("blur",setAcctUser);
-  // document.getElementById("pass").addEventListener("blur",setAcctPass);
-  // document.getElementById("loginSubmit").addEventListener("click",loginSubmission);
-
 };
 
 document.addEventListener('DOMContentLoaded',loginStart);

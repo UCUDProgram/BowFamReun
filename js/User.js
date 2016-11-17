@@ -10,6 +10,9 @@ var infantAttend = 0;
 var seniorAttend = 0;
 var famCost= 0;
 
+var logout = function(){
+    localStorage.clear();
+}
 
 var deletePerson = function(aKey){
     attendeeDB.child(aKey).remove();
@@ -18,7 +21,6 @@ var deletePerson = function(aKey){
 
 var setAcct = function(){
   acct = localStorage.getItem("user");
-  console.log(acct);
 };
 
 var setAge= function(){
@@ -70,10 +72,57 @@ var updateAgeStatus = function(anAgeOption){
 var inputReset = function(){
   document.getElementById("newFnameText").value = "";
   document.getElementById("newLnameText").value = "";
-    // document.getElementById("ageOption").value = "Choose Person's Age";
-
 };
 
+var getPeople = function(){
+    var parDiv = document.getElementById("attendants");
+    while(parDiv.firstChild)
+        parDiv.removeChild(parDiv.firstChild);
+    resetAges();
+     attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var itemKey = childSnapshot.key();
+          var aFirst = childSnapshot.val().firstname;
+          var aLast = childSnapshot.val().lastname;
+          var anAge = childSnapshot.val().age;
+          console.log(anAge);
+        renderPerson(aFirst,aLast,anAge,itemKey);
+        updateAttendees(anAge);
+      });
+});
+}; 
+
+var setPeopleCount = function(){
+    attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+          var anAge = childSnapshot.val().age;
+        updateAttendees(anAge);
+      });
+});
+};
+
+var updateAttendees = function(aPersAge){
+  if (aPersAge == "Infant"){
+      updateInfantAge();
+  } else if(aPersAge == "Child"){
+      updateChildAge();
+  } else if(aPersAge == "Adult"){
+      updateAdultAge();
+  } else {
+      updateSeniorAge();
+  }
+};
+
+var determineFamCost = function(){
+    var infantCost = infantAttend * 0;
+    var seniorCost = seniorAttend * 0;
+    var childCost = childAttend * 5;
+    var adultCost = adultAttend * 20;
+    famCost = infantCost + seniorCost + childCost + adultCost;
+};
+
+
+//  RENDERING THE SCREEN (VIEW)
 var editItemName = function(personDiv, first, last,pKey){
     var newFirst = first;
     var newLast = last;
@@ -120,45 +169,6 @@ var editItemName = function(personDiv, first, last,pKey){
         getPeople();
     });
     $div.appendChild($cancelButton);
-};
-
-var getPeople = function(){
-    var parDiv = document.getElementById("attendants");
-    while(parDiv.firstChild)
-        parDiv.removeChild(parDiv.firstChild);
-    resetAges();
-     attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
-        snapshot.forEach(function (childSnapshot){
-            var itemKey = childSnapshot.key();
-          var aFirst = childSnapshot.val().firstname;
-          var aLast = childSnapshot.val().lastname;
-          var anAge = childSnapshot.val().age;
-          console.log(anAge);
-        renderPerson(aFirst,aLast,anAge,itemKey);
-        updateAttendees(anAge);
-      });
-});
-}; 
-
-var setPeopleCount = function(){
-    attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
-        snapshot.forEach(function (childSnapshot){
-          var anAge = childSnapshot.val().age;
-        updateAttendees(anAge);
-      });
-});
-};
-
-var updateAttendees = function(aPersAge){
-  if (aPersAge == "Infant"){
-      updateInfantAge();
-  } else if(aPersAge == "Child"){
-      updateChildAge();
-  } else if(aPersAge == "Adult"){
-      updateAdultAge();
-  } else {
-      updateSeniorAge();
-  }
 };
 
 var renderPerson = function(firstName, lastName,aAge,itemKey){
@@ -277,6 +287,7 @@ var renderAgeNew = function(){
     var $defaultClassify = document.createElement("option");
 $defaultClassify.setAttribute("value", "Choose Age");
 $defaultClassify.setAttribute("selected", true);
+  $defaultClassify.setAttribute("id", "defaultOption");
   $defaultClassify.innerHTML = "Choose Person's Age";
        $ageClassify.appendChild($defaultClassify);
     
@@ -389,13 +400,7 @@ var renderNewPerson = function(){
     renderSubmission();
 };
 
-var determineFamCost = function(){
-    var infantCost = infantAttend * 0;
-    var seniorCost = seniorAttend * 0;
-    var childCost = childAttend * 5;
-    var adultCost = adultAttend * 20;
-    famCost = infantCost + seniorCost + childCost + adultCost;
-};
+
 
 var renderFamReg = function(){
     var $costHead = document.getElementById("registrationCost");
@@ -438,13 +443,54 @@ var renderCostButton = function(){
   $div.appendChild(costBut);
 };
 
+var renderLogoutButton = function(){
+     var $div = document.getElementById("accountButtons");
+  var logoutButton = document.createElement("button");
+  logoutButton.setAttribute("id","logOutButton");
+  logoutButton.innerHTML = "Logout";
+  logoutButton.addEventListener("click",function(ev){
+      logout();
+      window.location.href = "index.html";
+  });
+  $div.appendChild(logoutButton);
+};
+
+var renderPaymentInfo = function(){
+    var div = document.getElementById("registrationPayment");
+    var paymentDiv = document.createElement("div");
+    paymentDiv.setAttribute("id","payDiv");
+    paymentDiv.innerHTML = "";
+    
+    var payhead = document.createElement("div");
+    payhead.innerHTML = "Send Registration Payment to the following Address";
+    paymentDiv.appendChild(payhead);
+    
+    var payContact = document.createElement("div");
+    payContact.innerHTML = "Sharon Jefferson";
+    paymentDiv.appendChild(payContact);
+    
+    var payAddress = document.createElement("div");
+    payAddress.innerHTML = "1305 Chipper Court";
+    paymentDiv.appendChild(payAddress);
+    
+    var payCity = document.createElement("div");
+    payCity.innerHTML = "Henrico, VA 23075";
+    paymentDiv.appendChild(payCity);
+    
+    div.appendChild(paymentDiv);
+    
+}
+
+
 var userStart = function(){
     setAcct();
     getPeople();
     renderWelcome();
+    renderLogoutButton();
     renderTitle();
     renderNewPerson();
     renderCostButton();
+    renderPaymentInfo();
     renderMemberNav();
 };
 

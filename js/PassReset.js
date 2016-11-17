@@ -95,6 +95,7 @@ var changeDecision = function(){
             }
 };
 
+//  RENDERING THE SCREEN (VIEW)
 var renderPassResetScreen = function(){
   renderPassHeader();
   renderPassReset();
@@ -218,7 +219,6 @@ var renderPassResetButt = function(){
 
 var passResetStart = function(){
     renderPassResetScreen();
-    // document.getElementById("passResetSubmit").addEventListener("click",updatePassword);
 };
 
 document.addEventListener('DOMContentLoaded',passResetStart);

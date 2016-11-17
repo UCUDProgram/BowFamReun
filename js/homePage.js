@@ -18,7 +18,7 @@ var renderReunPhoto = function(){
     var photoContDiv = document.createElement("div");
     photoContDiv.setAttribute("id", "reunPhoto");
     var photo = document.createElement("img");
-    photo.setAttribute("src","images/BFR Tee Shirt Front 2.jpg");
+    photo.setAttribute("src","../images/BFR Tee Shirt Front 2.jpg");
     photoContDiv.appendChild(photo);
     homeDiv.appendChild(photoContDiv);
 };

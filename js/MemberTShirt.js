@@ -27,6 +27,46 @@ var updateXXLTShirt= function(xxL){
     xXLTShirt = xxL;
 };
 
+var initShirtSubmit = function(){
+  var regData = DB.child("TShirt");
+  regData.push().set({account:useAccount, 
+                      small: smallTShirt,
+                      medium: mediumTShirt,
+                      large: largeTShirt,
+                      xxLarge: xXLTShirt
+                    });
+};
+
+var getUser = function(){
+    useAccount = localStorage.getItem("user");
+};
+
+var getTShirtData = function(){
+    tShirtDB.orderByChild("account").equalTo(useAccount).on("value", function(snapshot){
+        if(snapshot.val() == null){
+            renderNewTShirtOrder();
+            renderNewTShirtButton();
+        } else {
+        snapshot.forEach(function (childSnapshot){
+          var key = childSnapshot.key();
+          var small = childSnapshot.val().small;
+          var medium = childSnapshot.val().medium;
+          var large = childSnapshot.val().large;
+          var doubleXLarge = childSnapshot.val().xxLarge;
+        updateTShirtOrder(small,medium,large,doubleXLarge);
+        renderUserTShirtOrder(key);
+      })
+      }});
+};
+
+var updateTShirtOrder = function(sma,medi,lar,doubXLg){
+    updateSmallTShirt(sma);
+    updateMediumTShirt(medi);
+    updateLargeTShirt(lar);
+    updateXXLTShirt(doubXLg);
+};
+
+//  RENDERING THE SCREEN (VIEW)
 var renderMemberTShirtScreen = function(){
     renderTShirtOrderHeader();
     renderTShirtOrderLook();
@@ -55,7 +95,8 @@ var renderTShirtOrderLook = function(){
     tShirtImage1Div.appendChild(tShirtFrontText);
     
     var tShirtFrontImage = document.createElement("img");
-    tShirtFrontImage.setAttribute("src", "images/BFR Tee Shirt Front 2.jpg");
+    tShirtFrontImage.setAttribute("src", "../images/BFR Tee Shirt Front 2.jpg");
+    tShirtFrontImage.setAttribute("id","tshirt");
     tShirtImage1Div.appendChild(tShirtFrontImage);
     tShirtFirstDiv.appendChild(tShirtImage1Div);
     
@@ -68,54 +109,13 @@ var renderTShirtOrderLook = function(){
     tShirtImage2Div.appendChild(tShirtBackText);
     
     var tShirtBackImage = document.createElement("img");
-    tShirtBackImage.setAttribute("src", "images/BFR Tee Shirt Back.jpg");
+    tShirtBackImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
+    tShirtBackImage.setAttribute("id","tshirt");
     tShirtImage2Div.appendChild(tShirtBackImage);
     
     tShirtFirstDiv.appendChild(tShirtImage2Div);
     tShirtOrigDiv.appendChild(tShirtFirstDiv);
     memTShirtSource.appendChild(tShirtOrigDiv);
-};
-
-
-var initShirtSubmit = function(){
-  var regData = DB.child("TShirt");
-  regData.push().set({account:useAccount, 
-                      small: smallTShirt,
-                      medium: mediumTShirt,
-                      large: largeTShirt,
-                      xxLarge: xXLTShirt
-                    });
-};
-
-var getUser = function(){
-    useAccount = localStorage.getItem("user");
-    console.log(useAccount);
-};
-
-var getTShirtData = function(){
-    tShirtDB.orderByChild("account").equalTo(useAccount).on("value", function(snapshot){
-        if(snapshot.val() == null){
-            renderNewTShirtOrder();
-            renderNewTShirtButton();
-        } else {
-        snapshot.forEach(function (childSnapshot){
-          var key = childSnapshot.key();
-          var small = childSnapshot.val().small;
-          var medium = childSnapshot.val().medium;
-          var large = childSnapshot.val().large;
-          var doubleXLarge = childSnapshot.val().xxLarge;
-        updateTShirtOrder(small,medium,large,doubleXLarge);
-        renderUserTShirtOrder(key);
-        // renderMemberTShirtButton();
-      })
-      }});
-};
-
-var updateTShirtOrder = function(sma,medi,lar,doubXLg){
-    updateSmallTShirt(sma);
-    updateMediumTShirt(medi);
-    updateLargeTShirt(lar);
-    updateXXLTShirt(doubXLg);
 };
 
 var renderUserTShirtOrder = function(userKey){
@@ -468,12 +468,58 @@ var determineShirtCost = function(){
   totalShirtCost = smShirt + mShirt + lgShirt + xXLShirt;
 };
 
+var renderShirtPaymentInfo = function(){
+    // var divOrig = document.getElementById("teeShirtLogin");
+    var div = document.getElementById("tShirtPayment");
+    var paymentDiv = document.createElement("div");
+    paymentDiv.setAttribute("id","payDiv");
+    paymentDiv.innerHTML = "";
+    
+    var payhead = document.createElement("div");
+    payhead.innerHTML = "Send T-Shirt Payment to the following Address";
+    paymentDiv.appendChild(payhead);
+    
+    var payContact = document.createElement("div");
+    payContact.innerHTML = "Sharon Jefferson";
+    paymentDiv.appendChild(payContact);
+    
+    var payAddress = document.createElement("div");
+    payAddress.innerHTML = "1305 Chipper Court";
+    paymentDiv.appendChild(payAddress);
+    
+    var payCity = document.createElement("div");
+    payCity.innerHTML = "Henrico, VA 23075";
+    paymentDiv.appendChild(payCity);
+    
+    div.appendChild(paymentDiv);
+    // divOrig.appendChild(div);
+    
+}
+
+var renderShirtNavButtons = function(){
+  var $nav = document.getElementById("shirtNav");
+  var $buttDiv = document.createElement("div");
+//   $buttDiv.classList.add("screenButtons");
+  
+  var $homeButton = document.createElement("button");
+  $homeButton.setAttribute("type", "button");
+  $homeButton.setAttribute("id", "memberHome");
+  $homeButton.innerHTML = "Return to User Home Screen";
+  $homeButton.addEventListener("click", function(ev){
+    showLoginHomeScreen();
+  });
+  $buttDiv.appendChild($homeButton);
+  
+  $nav.appendChild($buttDiv);
+};
 
 var memTShirtStart = function(){
     renderMemberTShirtScreen();
     getUser();
     getTShirtData();
     renderMemberTShirtButton();
+    renderShirtPaymentInfo();
+    renderShirtNavButtons();
 };
 
 document.addEventListener('DOMContentLoaded',memTShirtStart);
