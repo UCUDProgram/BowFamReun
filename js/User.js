@@ -85,7 +85,7 @@ var getPeople = function(){
           var aFirst = childSnapshot.val().firstname;
           var aLast = childSnapshot.val().lastname;
           var anAge = childSnapshot.val().age;
-          console.log(anAge);
+        //   console.log(anAge);
         renderPerson(aFirst,aLast,anAge,itemKey);
         updateAttendees(anAge);
       });

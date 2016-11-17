@@ -7,11 +7,7 @@ var userPassword = "";
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
-var setAcctUser = function(){
-  acctUser = document.getElementById("userUser").value;
-  userCheck();
-  setVariables();
-};
+
 
 var setAcctPass = function(){
   acctPass = document.getElementById("userPass").value;
@@ -49,12 +45,13 @@ var userCheck = function(){
 };
 
 var setVariables = function(){
+  // console.log(userNameChk);
   if(userNameChk){
       useDB.orderByChild("userName").equalTo(acctUser).on("value", function(snapshot) {
       snapshot.forEach(function(snap){
           setUserPass(snap.val().password);
           setUserAcct(snap.val().userName);
-          // console.log(snap.val().password);
+          console.log(snap.val().password);
           // console.log(userPassword);
           // console.log()
       });
@@ -65,9 +62,21 @@ var setVariables = function(){
         childSnapshot.forEach(function(child){
             setUserPass(child.val().password);
             setUserAcct(child.val().userName);
+            console.log(child.val().password);
         });
       });
 }
+};
+
+
+
+var setAcctUser = function(){
+  acctUser = document.getElementById("userUser").value;
+  console.log(acctUser);
+  userCheck();
+  console.log(userNameChk);
+  setVariables();
+  console.log(userPassword);
 };
 
 var passwordUserVerification = function(){
@@ -78,6 +87,7 @@ var passwordUserVerification = function(){
     alert("Username and/or Password does not match!")
   }
 };
+
 var loggingIn = function(){
   // var userActPass = "";
   userCheck();

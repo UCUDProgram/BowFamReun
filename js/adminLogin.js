@@ -136,17 +136,17 @@ var renderAdminLoginPass = function(){
 
 var renderAdminLoginButtons = function(){
   var $logHdr = document.getElementById("adminLogin");
-  var $buttDiv = document.createElement("div");
-  $buttDiv.classList.add("screenButtons");
+  var $butDiv = document.createElement("div");
+  $butDiv.classList.add("screenButtons");
   
-  var $loginButton = document.createElement("button");
-  $loginButton.setAttribute("type", "button");
-  $loginButton.setAttribute("id", "loginSubmit");
-  $loginButton.innerHTML = "Login";
-  $loginButton.addEventListener("click", function(ev){
+  var $adminLoginButton = document.createElement("button");
+  $adminLoginButton.setAttribute("type", "button");
+  $adminLoginButton.setAttribute("id", "loginSubmit");
+  $adminLoginButton.innerHTML = "Login";
+  $adminLoginButton.addEventListener("click", function(ev){
     loginSubmission();
   });
-  $buttDiv.appendChild($loginButton);
+  $butDiv.appendChild($adminLoginButton);
   
    var $forgotAdminPassButton = document.createElement("button");
   $forgotAdminPassButton.setAttribute("type", "button");
@@ -155,7 +155,7 @@ var renderAdminLoginButtons = function(){
   $forgotAdminPassButton.addEventListener("click", function(ev){
     showPasswordResetScreen();
   });
-  $buttDiv.appendChild($forgotAdminPassButton);
+  $butDiv.appendChild($forgotAdminPassButton);
   
    var $homeReturnButton = document.createElement("button");
   $homeReturnButton.setAttribute("type", "button");
@@ -164,9 +164,9 @@ var renderAdminLoginButtons = function(){
   $homeReturnButton.addEventListener("click", function(ev){
     showHomePageScreen();
   });
-  $buttDiv.appendChild($homeReturnButton);
+  $butDiv.appendChild($homeReturnButton);
   
-  $logHdr.appendChild($buttDiv);
+  $logHdr.appendChild($butDiv);
 };
 
 var adminLoginStart = function(){
