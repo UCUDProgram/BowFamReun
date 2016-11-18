@@ -11,7 +11,7 @@ var showLoginScreen = function(){
 };
 
 var showPasswordResetScreen = function(){
-  window.location.href = "passwordRest.html";
+  window.location.href = "passwordReset.html";
 };
 
 var showLoginHomeScreen = function(){
