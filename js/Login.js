@@ -7,8 +7,6 @@ var userPassword = "";
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
-
-
 var setAcctPass = function(){
   acctPass = document.getElementById("userPass").value;
 };
@@ -33,7 +31,6 @@ var clearLoginFields = function(){
   document.getElementById("userPass").value = "";
 };
 
-
 var userCheck = function(){
     useDB.orderByChild("userName").equalTo(acctUser).on("value", function(snapshot) {
       if (snapshot.val() == null){
@@ -45,38 +42,27 @@ var userCheck = function(){
 };
 
 var setVariables = function(){
-  // console.log(userNameChk);
   if(userNameChk){
       useDB.orderByChild("userName").equalTo(acctUser).on("value", function(snapshot) {
       snapshot.forEach(function(snap){
           setUserPass(snap.val().password);
           setUserAcct(snap.val().userName);
-          console.log(snap.val().password);
-          // console.log(userPassword);
-          // console.log()
       });
   });  
   } else {
-    
   emailDB.orderByChild("email").equalTo(acctUser).on("value", function(childSnapshot) {
         childSnapshot.forEach(function(child){
             setUserPass(child.val().password);
             setUserAcct(child.val().userName);
-            console.log(child.val().password);
         });
       });
 }
 };
 
-
-
 var setAcctUser = function(){
   acctUser = document.getElementById("userUser").value;
-  console.log(acctUser);
   userCheck();
-  console.log(userNameChk);
   setVariables();
-  console.log(userPassword);
 };
 
 var passwordUserVerification = function(){
@@ -88,27 +74,9 @@ var passwordUserVerification = function(){
   }
 };
 
-var loggingIn = function(){
-  // var userActPass = "";
-  userCheck();
-  setVariables();
-  passwordUserVerification();
-
-// console.log(userNameChk);
-// console.log(acctUser);
-// console.log(acctPass);
-// console.log(userNameChk);
-// console.log(userPass);
-// console.log(userAcct);
-// console.log(userActPass);
-  // passwordVerification(userActPass);
-};
-
 var loginSubmission = function(){
     clearLoginFields();
     passwordUserVerification();
-
-    // loggingIn();
 };
 
 // RENDERING THE SCREEN (VIEW)
@@ -217,8 +185,6 @@ var renderLoginButtons = function(){
   $logHdr.appendChild($buttDiv);
 };
 
-
-    
 var loginStart = function(){
   renderLoginScreen();
 };
