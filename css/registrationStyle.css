@@ -1,0 +1,28 @@
+#regInfo{
+    display:inline-block;
+}
+
+#regAcctInfo{
+    display:inline-block;
+    padding-left: 2em;
+}
+
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
+
+.row_block{
+    display:block;
+}
+
+/*This Section addresses Button Arrangement*/
+.screenButtons{
+    padding-top:1em;
+}
+

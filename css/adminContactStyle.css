@@ -1,0 +1,13 @@
+.individual_block_first{
+    display:inline-block;
+    padding-right: .5em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right: .5em;
+}
+
+.contactDivSpace{
+    padding-top:2em;
+}

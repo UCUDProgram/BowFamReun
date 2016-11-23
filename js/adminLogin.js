@@ -3,17 +3,11 @@ var adminUserPass = "";
 var adminNameChk= false;
 var adminAcct = "";
 var adminPass = "";
+var adminDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
 
-var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
-
-var setAdminUser = function(){
-  adminUserUser = document.getElementById("adminUser").value;
-  adminCheck();
-  setAdminVariables();
-};
-
-var setAdminPass = function(){
+var setAdminUserPassword = function(){
   adminUserPass = document.getElementById("adminPass").value;
+  console.log(adminUserPass);
 };
 
 var setAdminAcct = function(account){
@@ -22,6 +16,7 @@ var setAdminAcct = function(account){
 
 var setAdminPass = function(pass){
   adminPass = pass;
+  console.log(adminPass);
 };
 
 var setAdminNameChk = function(bool){
@@ -31,51 +26,75 @@ var setAdminNameChk = function(bool){
     adminNameChk = false;
 };
 
-var clearLoginFields = function(){
+var clearAdminLoginFields = function(){
   document.getElementById("adminUser").value = "";
   document.getElementById("adminPass").value = "";
 };
 
 
 var adminCheck = function(){
-    useDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
+    adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
+     console.log(snapshot.val());
       if (snapshot.val() == null){
         setAdminNameChk("false");
       } else {
         setAdminNameChk("true");
       }
+      console.log(adminNameChk);
     });
 };
 
 var setAdminVariables = function(){
+  // console.log(adminUserUser);
+  // adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function (snapshot){
+    
+  //   console.log(snapshot.val());
+  // })
+  
+  
   if(adminNameChk){
-      useDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
+      adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
+      console.log(snapshot.val());
       snapshot.forEach(function(snap){
-          setAdminPass(snap.val().password);
+          setAdminPass(snap.val().passWord);
           setAdminAcct(snap.val().userName);
       });
   });  
   } else {
-  useDB.orderByChild("email").equalTo(adminUserUser).on("value", function(childSnapshot) {
+    adminDB.orderByChild("email").equalTo(adminUserUser).on("value", function(childSnapshot) {
+        console.log(childSnapshot.val());
         childSnapshot.forEach(function(child){
-            setAdminPass(child.val().password);
+            setAdminPass(child.val().passWord);
             setAdminAcct(child.val().userName);
         });
       });
 }
 };
 
+var setAdminUser = function(){
+  adminUserUser = document.getElementById("adminUser").value;
+  console.log(adminUserUser);
+  adminCheck();
+  console.log(adminNameChk);
+  setAdminVariables();
+  console.log(adminPass);
+};
+
 var adminPasswordVerification = function(){
+  adminCheck();
+  setAdminVariables();
+  console.log(adminPass);
+  console.log(adminUserPass);
   if (adminUserPass == adminPass){
     localStorage.setItem("admin",adminAcct);
-    showAdminLoginHomeScreen();
+    showAdminHomeScreen();
   } else {
     alert("Administrator Username and/or Password does not match!")
   }
 };
 
-var loginSubmission = function(){
-    clearLoginFields();
+var adminLoginSubmission = function(){
+    clearAdminLoginFields();
     adminPasswordVerification();
 };
 
@@ -88,85 +107,85 @@ var renderAdminLoginScreen = function(){
 };
 
 var renderAdminLoginHeader = function(){
-  var $loginHeader = document.getElementById("adminLogin");
-  var logHeader = document.createElement("h1");
-  logHeader.innerHTML = "Administrator Login";
-  $loginHeader.appendChild(logHeader);
+  var $admLoginHeader = document.getElementById("adminLogin");
+  var adminLogHeader = document.createElement("h1");
+  adminLogHeader.innerHTML = "Administrator Login";
+  $admLoginHeader.appendChild(adminLogHeader);
 };
 
 var renderAdminLoginUser = function(){
-  var $logHead = document.getElementById("adminLogin");
-  var $logInfDiv = document.createElement("div");
+  var $adLogHead = document.getElementById("adminLogin");
+  var $adUsLogDiv = document.createElement("div");
   
-  var userLogLbl = document.createElement("label");
-  userLogLbl.setAttribute("for", "uname");
-  userLogLbl.innerHTML = "Username: ";
-  $logInfDiv.appendChild(userLogLbl);
+  var adminLogLbl = document.createElement("label");
+  adminLogLbl.setAttribute("for", "admName");
+  adminLogLbl.innerHTML = "Username: ";
+  $adUsLogDiv.appendChild(adminLogLbl);
   
-  var userLogInpt = document.createElement("input");
-  userLogInpt.setAttribute("type", "text");
-  userLogInpt.setAttribute("id", "adminUser");
-  userLogInpt.addEventListener("blur", function(ev){
+  var adminLogInpt = document.createElement("input");
+  adminLogInpt.setAttribute("type", "text");
+  adminLogInpt.setAttribute("id", "adminUser");
+  adminLogInpt.addEventListener("blur", function(ev){
     setAdminUser();
   });
-  $logInfDiv.appendChild(userLogInpt);
+  $adUsLogDiv.appendChild(adminLogInpt);
   
-  $logHead.appendChild($logInfDiv);
+  $adLogHead.appendChild($adUsLogDiv);
 };
 
 var renderAdminLoginPass = function(){
-  var $lgHd = document.getElementById("adminLogin");
-  var $logInfoDiv = document.createElement("div");
+  var $adLgHd = document.getElementById("adminLogin");
+  var $adLogDiv = document.createElement("div");
   
-  var passLogLbl = document.createElement("label");
-  passLogLbl.setAttribute("for", "upass");
-  passLogLbl.innerHTML = "Password: ";
-  $logInfoDiv.appendChild(passLogLbl);
+  var adminPassLogLbl = document.createElement("label");
+  adminPassLogLbl.setAttribute("for", "admPass");
+  adminPassLogLbl.innerHTML = "Password: ";
+  $adLogDiv.appendChild(adminPassLogLbl);
   
-  var passLogInpt = document.createElement("input");
-  passLogInpt.setAttribute("type", "text");
-  passLogInpt.setAttribute("id", "adminPass");
-  passLogInpt.addEventListener("blur", function(ev){
-    setAdminPass();
+  var adminPassLogInpt = document.createElement("input");
+  adminPassLogInpt.setAttribute("type", "text");
+  adminPassLogInpt.setAttribute("id", "adminPass");
+  adminPassLogInpt.addEventListener("blur", function(ev){
+    setAdminUserPassword();
   });
-  $logInfoDiv.appendChild(passLogInpt);
+  $adLogDiv.appendChild(adminPassLogInpt);
   
-  $lgHd.appendChild($logInfoDiv);
+  $adLgHd.appendChild($adLogDiv);
 };
 
 var renderAdminLoginButtons = function(){
-  var $logHdr = document.getElementById("adminLogin");
-  var $butDiv = document.createElement("div");
-  $butDiv.classList.add("screenButtons");
+  var $admLogHdr = document.getElementById("adminLogin");
+  var $admButDiv = document.createElement("div");
+  $admButDiv.classList.add("screenButtons");
   
   var $adminLoginButton = document.createElement("button");
   $adminLoginButton.setAttribute("type", "button");
   $adminLoginButton.setAttribute("id", "loginSubmit");
   $adminLoginButton.innerHTML = "Login";
   $adminLoginButton.addEventListener("click", function(ev){
-    loginSubmission();
+    adminLoginSubmission();
   });
-  $butDiv.appendChild($adminLoginButton);
+  $admButDiv.appendChild($adminLoginButton);
   
    var $forgotAdminPassButton = document.createElement("button");
   $forgotAdminPassButton.setAttribute("type", "button");
-  $forgotAdminPassButton.setAttribute("id", "passForgotten");
+  $forgotAdminPassButton.setAttribute("id", "adminPassForgot");
   $forgotAdminPassButton.innerHTML = "Forgot Your Admin Password";
   $forgotAdminPassButton.addEventListener("click", function(ev){
-    showPasswordResetScreen();
+    showAdminPasswordResetScreen();
   });
-  $butDiv.appendChild($forgotAdminPassButton);
+  $admButDiv.appendChild($forgotAdminPassButton);
   
-   var $homeReturnButton = document.createElement("button");
-  $homeReturnButton.setAttribute("type", "button");
-  $homeReturnButton.setAttribute("id", "loginHomeReturn");
-  $homeReturnButton.innerHTML = "Return to Home Screen";
-  $homeReturnButton.addEventListener("click", function(ev){
+   var $adminHomeReturnButton = document.createElement("button");
+  $adminHomeReturnButton.setAttribute("type", "button");
+  $adminHomeReturnButton.setAttribute("id", "admLoginHomeReturn");
+  $adminHomeReturnButton.innerHTML = "Return to Home Screen";
+  $adminHomeReturnButton.addEventListener("click", function(ev){
     showHomePageScreen();
   });
-  $butDiv.appendChild($homeReturnButton);
+  $admButDiv.appendChild($adminHomeReturnButton);
   
-  $logHdr.appendChild($butDiv);
+  $admLogHdr.appendChild($admButDiv);
 };
 
 var adminLoginStart = function(){

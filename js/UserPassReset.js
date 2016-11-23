@@ -172,21 +172,7 @@ var renderPassResetPass = function(){
     nPassVerDiv.appendChild(newPassVerTxt);
     $inputDiv.appendChild(nPassVerDiv);
     $passDiv.appendChild($inputDiv);
-    
-    // var $passCheckDiv = document.createElement("div");
-    // $passCheckDiv.classList.add("individual_block");
-    // var passChecktxt = document.createElement("button");
-    // passChecktxt.setAttribute("type", "button");
-    // passChecktxt.setAttribute("id","newPassCheck");
-    // passChecktxt.innerHTML = "New Password Check";
-    // passChecktxt.addEventListener("blur",function(ev){
-    //     // setNewPass();
-    // });
-    
-    // $passCheckDiv.appendChild(passChecktxt);
-    // $passDiv.appendChild($passCheckDiv);
-    
-    
+
     $div.appendChild($passDiv);
 };
 

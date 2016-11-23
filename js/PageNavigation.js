@@ -1,21 +1,10 @@
+// These pages can be viewed by anyone
 var showHomePageScreen = function(){
     window.location.href = "index.html";
 };
 
 var showSignUpScreen = function(){
   window.location.href = "registration.html";
-};
-
-var showLoginScreen = function(){
-    window.location.href = "login.html";
-};
-
-var showPasswordResetScreen = function(){
-  window.location.href = "passwordReset.html";
-};
-
-var showLoginHomeScreen = function(){
-  window.location.href = "members.html";
 };
 
 var showTeeShirtGeneralScreen = function(){
@@ -26,22 +15,41 @@ var showCostScreen = function(){
   window.location.href = "reunCost.html";
 };
 
-var showAdminHomeScreen = function(){
-  window.location.href = "adminHome.html";
+var showLoginScreen = function(){
+    window.location.href = "login.html";
+};
+
+var showPasswordResetScreen = function(){
+  window.location.href = "userPasswordReset.html";
+};
+
+var showAdminPasswordResetScreen = function(){
+  window.location.href = "adminPasswordReset.html";
 };
 
 var showAdminLoginScreen = function(){
   window.location.href = "adminLogin.html";
 };
 
-// var showAdminPassReset = function(){
-  
-// };
+// These pages can be viewed only by Registered Users
+
+var showLoginHomeScreen = function(){
+  window.location.href = "members.html";
+};
+
+var showMemberShirtScreen = function(){
+  window.location.href = "memberTShirt.html";
+};
+
+// These pages can be viewed only by Administraters
+var showAdminHomeScreen = function(){
+  window.location.href = "adminHome.html";
+};
 
 var showAdminShirtsScreen = function(){
   window.location.href = "adminShirts.html";
 };
 
-var showAdminContacts = function(){
+var showAdminContactsScreen = function(){
   window.location.href = "adminContacts.html";
 };

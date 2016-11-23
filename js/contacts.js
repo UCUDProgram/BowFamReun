@@ -1,8 +1,15 @@
+var admini = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 
+var getAdmin = function(){
+    admini = localStorage.getItem("admin");
+     if(admini == null){
+      showAdminLoginScreen();
+     }
+};
 
 var getContactList = function(){
-    DB.orderByChild().equalTo().on("value", function(snapshot){
+    DB.orderByKey().on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
             var aFirst = childSnapshot.val().firstname;
             var aLast = childSnapshot.val().lastname;
@@ -17,61 +24,103 @@ var getContactList = function(){
     });
 };
 
-
 // RENDERING THE SCREEN (VIEW)
+var renderContactPage = function(){
+  renderContactHeader();
+  getContactList();
+  
+};
+
 var renderContactHeader = function(){
-    
+    var cont = document.getElementById("contactHead");
+  var contHead = document.createElement("h1");
+  contHead.innerHTML = "Registered Users";
+  cont.appendChild(contHead);
 };
 
 
 var renderUser = function(first,last,addr,city,state,zip,phone,email){
+    var contactSource = document.getElementById("contactList");
     
     var contactDiv = document.createElement("div");
+    var contactName = first + last + "Contact";
+    contactDiv.setAttribute("id", contactName);
+    contactDiv.classList.add("contactDivSpace");
     
-    renderUserFirstName(first);
-    renderUserLastName(last);
-    renderUserAddress(addr);
-    renderUserCity(city);
-    renderUserState(state);
-    renderUserZip(zip);
-    renderUserPhone(phone);
-    renderUserEmail(email);
+    renderContactRow1(first, last, contactDiv);
+    renderContactRow2(addr, contactDiv);
+    renderContactRow3(city, state, zip, contactDiv);
+    renderContactRow4(phone,email,contactDiv);
+    
+    contactSource.appendChild(contactDiv);
 };
 
-var renderUserFirstName = function(perFirst){
+var renderContactRow1 = function(perFirst, perLast, source){
+    var rowOne = document.createElement("div");
     
+    var firstN = document.createElement("div");
+    firstN.classList.add("individual_block_first");
+    firstN.innerHTML = perFirst;
+    rowOne.appendChild(firstN);
+    
+    var lastN = document.createElement("div");
+    lastN.classList.add("individual_block");
+    lastN.innerHTML = perLast;
+    rowOne.appendChild(lastN);
+    
+    source.appendChild(rowOne);
 };
 
-var renderUserLastName = function(perLast){
+var renderContactRow2 = function(perAddr, div){
+    var rowTwo = document.createElement("div");
     
+    var addrN = document.createElement("div");
+    addrN.innerHTML = perAddr;
+    rowTwo.appendChild(addrN);
+    
+    div.appendChild(rowTwo);
 };
 
-var renderUserAddress = function(perAddr){
+var renderContactRow3 = function(perCity, perState, perZip, aDiv){
+    var rowThree = document.createElement("div");
     
+    var cityN = document.createElement("div");
+    cityN.classList.add("individual_block_first");
+    cityN.innerHTML = perCity;
+    rowThree.appendChild(cityN);
+    
+    var stateN = document.createElement("div");
+    stateN.classList.add("individual_block");
+    stateN.innerHTML = perState;
+    rowThree.appendChild(stateN);
+    
+    var zipN = document.createElement("div");
+    zipN.classList.add("individual_block");
+    zipN.innerHTML = perZip;
+    rowThree.appendChild(zipN);
+    
+    aDiv.appendChild(rowThree);
 };
 
-var renderUserCity = function(perCity){
+var renderContactRow4 = function(perPhone, perEmail, orig){
+    var rowFour = document.createElement("div");
     
-};
+    var phoneN = document.createElement("div");
+    phoneN.classList.add("individual_block_first");
+    phoneN.innerHTML = perPhone;
+    rowFour.appendChild(phoneN);
+    
+    var emailN = document.createElement("div");
+    emailN.classList.add("individual_block");
+    emailN.innerHTML = perEmail;
+    rowFour.appendChild(emailN);
 
-var renderUserState = function(perState){
-    
-};
-
-var renderUserZip = function(perZip){
-    
-};
-
-var renderUserPhone = function(perPhone){
-    
-};
-
-var renderUserEmail = function(perEmail){
-    
+    orig.appendChild(rowFour);
 };
 
 var contactStart = function(){
-    
+    getAdmin();
+    renderContactPage();
 };
 
 document.addEventListener('DOMContentLoaded', contactStart);

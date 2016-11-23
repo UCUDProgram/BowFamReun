@@ -9,6 +9,7 @@ var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var setAcctPass = function(){
   acctPass = document.getElementById("userPass").value;
+  console.log(acctPass);
 };
 
 var setUserAcct = function(account){
@@ -61,11 +62,19 @@ var setVariables = function(){
 
 var setAcctUser = function(){
   acctUser = document.getElementById("userUser").value;
+  console.log(acctUser);
+  
   userCheck();
+  console.log(userNameChk);
   setVariables();
+  console.log(userPassword);
 };
 
 var passwordUserVerification = function(){
+  userCheck();
+  // console.log(userNameChk);
+  setVariables();
+  
   if (userPassword == acctPass){
     localStorage.setItem("user",userAcct);
     showLoginHomeScreen();
@@ -99,7 +108,7 @@ var renderLoginUser = function(){
   var $logInfDiv = document.createElement("div");
   
   var userLogLbl = document.createElement("label");
-  userLogLbl.setAttribute("for", "uname");
+  userLogLbl.setAttribute("for", "logName");
   userLogLbl.innerHTML = "Username: ";
   $logInfDiv.appendChild(userLogLbl);
   
@@ -108,6 +117,9 @@ var renderLoginUser = function(){
   userLogInpt.setAttribute("id", "userUser");
   userLogInpt.addEventListener("blur", function(ev){
     setAcctUser();
+  //   userCheck();
+  // setVariables();
+  // console.log(userPassword);
   });
   $logInfDiv.appendChild(userLogInpt);
   
@@ -119,7 +131,7 @@ var renderLoginPass = function(){
   var $logInfoDiv = document.createElement("div");
   
   var passLogLbl = document.createElement("label");
-  passLogLbl.setAttribute("for", "upass");
+  passLogLbl.setAttribute("for", "logPass");
   passLogLbl.innerHTML = "Password: ";
   $logInfoDiv.appendChild(passLogLbl);
   
@@ -128,6 +140,7 @@ var renderLoginPass = function(){
   passLogInpt.setAttribute("id", "userPass");
   passLogInpt.addEventListener("blur", function(ev){
     setAcctPass();
+    
   });
   $logInfoDiv.appendChild(passLogInpt);
   

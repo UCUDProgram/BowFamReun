@@ -1,11 +1,12 @@
 .hidden{
     display:none;
-    /*display:inline;*/
 }
+
 /* This section addresses Styles in Account Registration*/
 .row_block{
     display:block;
 }
+
 #regInfo{
     display:inline-block;
 }
@@ -14,8 +15,8 @@
     display:inline-block;
     padding-left: 2em;
 }
+
 .individual_block_first{
-    /*width:20px;*/
     display:inline-block;
     padding-right: 2em;
 }
@@ -27,12 +28,13 @@
 .individual_block{
     display: inline-block;
     padding-right:2em;
-    /*width:50px;*/
 }
+
 /*This Section addresses Button Arrangement*/
 .screenButtons{
     padding-top:1em;
 }
+
 /*This Section addresses the T-Shirt Page*/
 .textCentered{
     text-align:center;

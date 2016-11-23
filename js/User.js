@@ -21,6 +21,12 @@ var deletePerson = function(aKey){
 
 var setAcct = function(){
   acct = localStorage.getItem("user");
+  console.log(acct);
+  if(acct == null){
+      showLoginScreen();
+  }
+  
+  
 };
 
 var setAge= function(){
@@ -399,8 +405,6 @@ var renderNewPerson = function(){
     renderSubmission();
 };
 
-
-
 var renderFamReg = function(){
     var $costHead = document.getElementById("registrationCost");
     $costHead.innerHTML = "";
@@ -423,7 +427,7 @@ var renderMemberNav = function(){
   $butt.setAttribute("id", "tShirtMem");
   $butt.innerHTML = "TShirt Ordering";
   $butt.addEventListener("click", function(ev){
-      window.location.href = "memberTShirt.html";
+      showMemberShirtScreen();
   });
   $div.appendChild($butt);
     
@@ -449,7 +453,7 @@ var renderLogoutButton = function(){
   logoutButton.innerHTML = "Logout";
   logoutButton.addEventListener("click",function(ev){
       logout();
-      window.location.href = "index.html";
+      showHomePageScreen();
   });
   $div.appendChild(logoutButton);
 };

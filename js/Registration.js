@@ -107,17 +107,11 @@ var userPasswordCheck = function(){
 };
 
 var registerAccount = function(){
-    // var regCont = false;
-    
-    // if(regCont){
     pushAccountData();
     pushUsersData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();
-    // } else {
-    //   showSignUpScreen
-    // }
 };
 
 

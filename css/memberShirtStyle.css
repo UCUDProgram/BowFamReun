@@ -1,0 +1,23 @@
+#tshirt{
+    display:inline-block;
+}
+
+#tshirt img{
+    height:300px;
+    width:300px;
+}
+
+/*This Section addresses the T-Shirt Page*/
+.textCentered{
+    text-align:center;
+}
+
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}

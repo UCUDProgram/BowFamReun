@@ -2,7 +2,7 @@ var smallTShirt = 0;
 var mediumTShirt = 0;
 var largeTShirt = 0;
 var xXLTShirt = 0;
-var useAccount = "";
+var userAccount = "";
 
 var regShirtCost = 20;
 var largerShirtCost = 25;
@@ -37,12 +37,15 @@ var initShirtSubmit = function(){
                     });
 };
 
-var getUser = function(){
-    useAccount = localStorage.getItem("user");
+var getShirtUser = function(){
+    userAccount = localStorage.getItem("user");
+     if(userAccount == null){
+      showLoginScreen();
+     }
 };
 
 var getTShirtData = function(){
-    tShirtDB.orderByChild("account").equalTo(useAccount).on("value", function(snapshot){
+    tShirtDB.orderByChild("account").equalTo(userAccount).on("value", function(snapshot){
         if(snapshot.val() == null){
             renderNewTShirtOrder();
             renderNewTShirtButton();
@@ -429,7 +432,6 @@ var renderUserXXLTShirtOrder = function(key){
 var renderMemberTShirtButton = function(){
     var pageSource = document.getElementById("teeShirtLogin");
     var $div = document.getElementById("memberTShirtCostButton");
-    // document.getElementById("memberTShirtCostButton").classList.remove("hidden");
   var costBut = document.createElement("button");
   costBut.setAttribute("id","costButton");
   costBut.innerHTML = "Calculate TShirt Cost";
@@ -469,7 +471,6 @@ var determineShirtCost = function(){
 };
 
 var renderShirtPaymentInfo = function(){
-    // var divOrig = document.getElementById("teeShirtLogin");
     var div = document.getElementById("tShirtPayment");
     var paymentDiv = document.createElement("div");
     paymentDiv.setAttribute("id","payDiv");
@@ -492,15 +493,11 @@ var renderShirtPaymentInfo = function(){
     paymentDiv.appendChild(payCity);
     
     div.appendChild(paymentDiv);
-    // divOrig.appendChild(div);
-    
 }
 
 var renderShirtNavButtons = function(){
   var $nav = document.getElementById("shirtNav");
   var $buttDiv = document.createElement("div");
-//   $buttDiv.classList.add("screenButtons");
-  
   var $homeButton = document.createElement("button");
   $homeButton.setAttribute("type", "button");
   $homeButton.setAttribute("id", "memberHome");
@@ -514,8 +511,8 @@ var renderShirtNavButtons = function(){
 };
 
 var memTShirtStart = function(){
+    getShirtUser();
     renderMemberTShirtScreen();
-    getUser();
     getTShirtData();
     renderMemberTShirtButton();
     renderShirtPaymentInfo();
