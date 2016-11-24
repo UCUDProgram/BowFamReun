@@ -29,7 +29,7 @@ var updateXXLTShirt= function(xxL){
 
 var initShirtSubmit = function(){
   var regData = DB.child("TShirt");
-  regData.push().set({account:useAccount, 
+  regData.push().set({account:userAccount, 
                       small: smallTShirt,
                       medium: mediumTShirt,
                       large: largeTShirt,
@@ -79,7 +79,7 @@ var renderTShirtOrderHeader = function(){
     var $tShHd = document.getElementById("teeShirtLogin");
     var tShirtHead = document.getElementById("tShirtHeader");
     var $tShirtOrdHead = document.createElement("h1");
-    $tShirtOrdHead.innerHTML = "Member TShirt Ordering";
+    $tShirtOrdHead.innerHTML = userAccount + " Member TShirt Ordering";
     tShirtHead.appendChild($tShirtOrdHead);
     $tShHd.appendChild(tShirtHead);
 };

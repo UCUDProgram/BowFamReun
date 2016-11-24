@@ -1,3 +1,7 @@
+.hidden{
+    display:none;
+}
+
 .individual_block_first{
     /*width:20px;*/
     display:inline-block;
@@ -9,3 +13,12 @@
     padding-right:2em;
 }
 
+.attendSpace{
+    padding-top:1em;
+    padding-bottom:1em;
+}
+
+.paymCont{
+    padding-top:.75em;
+    padding-bottom:.75em;
+}

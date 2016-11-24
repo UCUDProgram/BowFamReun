@@ -78,10 +78,15 @@ var updateAgeStatus = function(anAgeOption){
 var inputReset = function(){
   document.getElementById("newFnameText").value = "";
   document.getElementById("newLnameText").value = "";
+    // document.getElementById("ageOption").value = "Choose Person's Age";
+    document.getElementById("ageOption").selectedIndex = 0;
+
 };
 
 var getPeople = function(){
     var parDiv = document.getElementById("attendants");
+    parDiv.classList.add("attendSpace");
+    
     while(parDiv.firstChild)
         parDiv.removeChild(parDiv.firstChild);
     resetAges();
@@ -128,6 +133,13 @@ var determineFamCost = function(){
 
 
 //  RENDERING THE SCREEN (VIEW)
+var renderNewPersonHeader = function(){
+    var divHead = document.getElementById("newPersonHead");
+    var newHead = document.createElement("h3");
+    newHead.innerHTML = "Register a new person that will be attending the reunion";
+    divHead.appendChild(newHead);
+};
+
 var editItemName = function(personDiv, first, last,pKey){
     var newFirst = first;
     var newLast = last;
@@ -230,7 +242,7 @@ var renderWelcome= function(){
 var renderTitle = function(){
     var $head = document.getElementById("logHead");
    var $header =document.createElement("h2");
-  $header.innerHTML = "Attendees for the Bowman Family Reunion";
+  $header.innerHTML = "Your attendees for the Bowman Family Reunion";
    $head.appendChild($header);
 };
 
@@ -460,6 +472,7 @@ var renderLogoutButton = function(){
 
 var renderPaymentInfo = function(){
     var div = document.getElementById("registrationPayment");
+    div.classList.add("paymCont");
     var paymentDiv = document.createElement("div");
     paymentDiv.setAttribute("id","payDiv");
     paymentDiv.innerHTML = "";
@@ -491,6 +504,7 @@ var userStart = function(){
     renderWelcome();
     renderLogoutButton();
     renderTitle();
+    renderNewPersonHeader();
     renderNewPerson();
     renderCostButton();
     renderPaymentInfo();
