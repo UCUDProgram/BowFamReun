@@ -25,7 +25,7 @@ var renderAdminNavigationButtons = function(){
   adminContactButton.setAttribute("id","adminContactButton");
   adminContactButton.innerHTML = "Contact Information";
   adminContactButton.addEventListener("click",function(ev){
-      window.location.href = "adminContacts.html";
+      showAdminContactsScreen();
   });
     adminNav.appendChild(adminContactButton);
     
@@ -34,10 +34,25 @@ var renderAdminNavigationButtons = function(){
   adminTShirtButton.setAttribute("id","adminTShirtsButton");
   adminTShirtButton.innerHTML = "T-Shirt Ordering Total";
   adminTShirtButton.addEventListener("click",function(ev){
-      window.location.href = "adminShirts.html";
+      showAdminShirtsScreen();
   });
     adminNav.appendChild(adminTShirtButton);
     
+    var adminAttendeesButton = document.createElement("button");
+  adminAttendeesButton.setAttribute("id","adminAttendeesButton");
+  adminAttendeesButton.innerHTML = "Attendees Total";
+  adminAttendeesButton.addEventListener("click",function(ev){
+      showAdminAttendeesScreen();
+  });
+    adminNav.appendChild(adminAttendeesButton);
+    
+     var adminAttendeesListButton = document.createElement("button");
+  adminAttendeesListButton.setAttribute("id","adminAttendeesListButton");
+  adminAttendeesListButton.innerHTML = "Attendees List";
+  adminAttendeesListButton.addEventListener("click",function(ev){
+      showAdminAttendeesListScreen();
+  });
+    adminNav.appendChild(adminAttendeesListButton);
     
 };
 

@@ -53,3 +53,11 @@ var showAdminShirtsScreen = function(){
 var showAdminContactsScreen = function(){
   window.location.href = "adminContacts.html";
 };
+
+var showAdminAttendeesScreen = function(){
+  window.location.href = "adminAttendees.html";
+};
+
+var showAdminAttendeesListScreen = function(){
+  window.location.href = "adminAttendeeList.html";
+};
