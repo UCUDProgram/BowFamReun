@@ -58,6 +58,7 @@ var getTShirtData = function(){
           var doubleXLarge = childSnapshot.val().xxLarge;
         updateTShirtOrder(small,medium,large,doubleXLarge);
         renderUserTShirtOrder(key);
+        renderShirtCost();
       })
       }});
 };
@@ -514,7 +515,7 @@ var memTShirtStart = function(){
     getShirtUser();
     renderMemberTShirtScreen();
     getTShirtData();
-    renderMemberTShirtButton();
+    // renderMemberTShirtButton();
     renderShirtPaymentInfo();
     renderShirtNavButtons();
 };

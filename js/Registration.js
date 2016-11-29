@@ -9,43 +9,158 @@ var uPhone = "";
 var uUName="";
 var uPass="";
 var uPassVer = "";
+var formIncompleteErrorString = "";
+var allEntered = false;
+var entries = ["First Name", "Last Name", "Address", "City", "State", "Zip Code", "Email", "Phone Number", "Username", "Password", "Password Verify"];
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var setFirstName = function(){
-  uFirst = document.getElementById("fName").value;  
-};
-var setLastName = function(){
-  uLast = document.getElementById("lName").value;  
-};
-var setAddress = function(){
-  uAddress = document.getElementById("addr").value;  
-};
-var setCity = function(){
-  uCity = document.getElementById("city").value;  
-};
-var setState = function(){
-  uState = document.getElementById("state").value;  
-};
-var setZip = function(){
-  uZip = document.getElementById("zip").value;  
-};
-var setEMail = function(){
-  uEmail = document.getElementById("email").value;  
-};
-var setPhone = function(){
-  uPhone = document.getElementById("phone").value;  
-};
-var setUser = function(){
-  uUName = document.getElementById("uname").value;  
-};
-var setPassword = function(){
-  uPass = document.getElementById("pword").value;  
-};
-var setPassVer = function(){
-  uPassVer = document.getElementById("pword_Verify").value;  
+  uFirst = document.getElementById("fName").value;
+  firstNameValidation();
+  // console.log(entries);
 };
 
+var setLastName = function(){
+  uLast = document.getElementById("lName").value;
+  lastNameValidation();
+  // console.log(entries);
+};
+
+var setAddress = function(){
+  uAddress = document.getElementById("addr").value;  
+  addressValidation();
+  // console.log(entries);
+};
+
+var setCity = function(){
+  uCity = document.getElementById("city").value;  
+  cityValidation();
+  // console.log(entries);
+};
+
+var setState = function(){
+  uState = document.getElementById("state").value;
+  stateValidation();
+  // console.log(entries);
+};
+
+var setZip = function(){
+  uZip = document.getElementById("zip").value;
+  zipValidation();
+  // console.log(entries);
+};
+
+var setEMail = function(){
+  uEmail = document.getElementById("email").value;  
+  emailValidation();
+  // console.log(entries);
+};
+
+var setPhone = function(){
+  uPhone = document.getElementById("phone").value;
+  phoneValidation();
+  // console.log(entries);
+};
+
+var setUser = function(){
+  uUName = document.getElementById("uname").value;
+  userValidation();
+  // console.log(entries);
+};
+
+var setPassword = function(){
+  uPass = document.getElementById("pword").value;
+  passwordValidation();
+  // console.log(entries);
+};
+
+var setPassVer = function(){
+  uPassVer = document.getElementById("pword_Verify").value;
+  passVerValidation();
+    // console.log(entries);
+};
+
+var firstNameValidation = function(){
+  var firstString = "First Name";
+  entriesUpdate(uFirst, firstString);
+};
+
+var lastNameValidation = function(){
+  var lastString = "Last Name";
+  entriesUpdate(uLast, lastString);
+};
+
+var addressValidation = function(){
+  var addressString = "Address";
+  entriesUpdate(uAddress, addressString);
+};
+
+var cityValidation = function(){
+  var cityString = "City";
+  entriesUpdate(uCity,cityString);
+};
+
+var stateValidation = function(){
+  var stateString = "State";
+  entriesUpdate(uState, stateString);
+};
+
+var zipValidation = function(){
+  var zipString = "Zip Code";
+  entriesUpdate(uZip, zipString);
+};
+
+var emailValidation = function(){
+  var emailString = "Email";
+  entriesUpdate(uEmail,emailString)
+};
+
+var phoneValidation = function(){
+  var phoneString = "Phone Number";
+  entriesUpdate(uPhone,phoneString);
+};
+
+var userValidation = function(){
+  var userString = "Username";
+  entriesUpdate(uUName,userString);
+};
+
+var passwordValidation = function(){
+  var passString = "Password";
+  entriesUpdate(uPass, passString);
+};
+
+var passVerValidation = function(){
+  var passVerString = "Password Verify";
+  entriesUpdate(uPassVer, passVerString);
+};
+
+var formErrorString = function(){
+  formIncompleteErrorString = "The following fields are not set: ";
+  entries.forEach(function(aValue){
+    formIncompleteErrorString += aValue;
+    formIncompleteErrorString += ", ";
+  });
+  formIncompleteErrorString += "."
+};
+
+var entriesUpdate = function(variable, varStr){
+  if (variable == ""){
+    var varIndex = entries.indexOf(varStr);
+    if (varIndex == -1)
+      entries.push(varStr);
+  } else {
+    var strInd = entries.indexOf(varStr);
+    entries.splice(strInd,1);
+  }
+};
+
+var completeRegistration = function(){
+  if (entries.length == 0){
+    allEntered = true;
+  }
+};
 
 var clearInputFields = function(){
     document.getElementById("fName").value = "";
@@ -72,7 +187,6 @@ var validUserCheck = function(){
     }
    });
 };
-
 
 var pushAccountData = function(){
   var regData = DB.child("Accounts");
@@ -107,11 +221,17 @@ var userPasswordCheck = function(){
 };
 
 var registerAccount = function(){
+  completeRegistration();
+  if(allEntered){
     pushAccountData();
     pushUsersData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();
+  } else{
+    formErrorString();
+    displayIncompleteForm();
+  }
 };
 
 
@@ -123,6 +243,10 @@ var renderRegistrationScreen = function(){
   renderUserInfo();
   renderRegNavButtons();
 };
+
+var displayIncompleteForm = function(){
+  alert(formIncompleteErrorString);
+}
 
 var renderHeader = function(){
   var $div = document.getElementById("signup");

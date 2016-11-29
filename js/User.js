@@ -25,8 +25,6 @@ var setAcct = function(){
   if(acct == null){
       showLoginScreen();
   }
-  
-  
 };
 
 var setAge= function(){
@@ -98,6 +96,7 @@ var getPeople = function(){
           var anAge = childSnapshot.val().age;
         renderPerson(aFirst,aLast,anAge,itemKey);
         updateAttendees(anAge);
+        renderFamReg();
       });
 });
 }; 
@@ -193,6 +192,8 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
      var divName = firstName.concat(lastName); 
     var $namediv = document.createElement("div");
     $namediv.setAttribute("id",divName);
+    $namediv.classList.add("personSpace");
+    
     var $fnamediv = document.createElement("div");
     $fnamediv.innerHTML = firstName;
     $fnamediv.classList.add('individual_block_first');
@@ -233,8 +234,10 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
 };
 
 var renderWelcome= function(){
-   var $titleHead = document.getElementById("loginWelcome");
+//   var $titleHead = document.getElementById("loginWelcome");
+   var $titleHead = document.getElementById("loginHeader");
    var $tHeader =document.createElement("h1");
+   $tHeader.classList.add("individual_block_first");
   $tHeader.innerHTML = "Welcome " + acct;
    $titleHead.appendChild($tHeader);
 };
@@ -459,8 +462,10 @@ var renderCostButton = function(){
 };
 
 var renderLogoutButton = function(){
-     var $div = document.getElementById("accountButtons");
+    //  var $div = document.getElementById("accountButtons");
+     var $div = document.getElementById("loginHeader");
   var logoutButton = document.createElement("button");
+  logoutButton.classList.add("individual_block");
   logoutButton.setAttribute("id","logOutButton");
   logoutButton.innerHTML = "Logout";
   logoutButton.addEventListener("click",function(ev){
@@ -501,12 +506,13 @@ var renderPaymentInfo = function(){
 var userStart = function(){
     setAcct();
     getPeople();
+    // renderFamReg();
     renderWelcome();
     renderLogoutButton();
     renderTitle();
     renderNewPersonHeader();
     renderNewPerson();
-    renderCostButton();
+    // renderCostButton();
     renderPaymentInfo();
     renderMemberNav();
 };
