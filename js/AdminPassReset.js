@@ -7,6 +7,10 @@ var adminEmailCheckFail = false;
 
 var admDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
 
+var clrStrg = function(){
+  localStorage.clear();  
+};
+
 var setAdminContact = function(){
     adminAcct = document.getElementById("admContact").value;
 };
@@ -207,6 +211,7 @@ var renderAdminPassResetButt = function(){
 };
 
 var passAdminResetStart = function(){
+    clrStrg();
     renderAdminPassResetScreen();
 };
 

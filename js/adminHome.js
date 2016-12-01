@@ -54,6 +54,14 @@ var renderAdminNavigationButtons = function(){
   });
     adminNav.appendChild(adminAttendeesListButton);
     
+    var adminExpenseButton = document.createElement("button");
+  adminExpenseButton.setAttribute("id","adminExpenseButton");
+  adminExpenseButton.innerHTML = "Expenses";
+  adminExpenseButton.addEventListener("click",function(ev){
+      showAdminExpenseScreen();
+  });
+    adminNav.appendChild(adminExpenseButton);
+    
 };
 
 var renderAdminLogoutButton = function(){

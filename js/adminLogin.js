@@ -5,6 +5,10 @@ var adminAcct = "";
 var adminPass = "";
 var adminDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
 
+var strgClr = function(){
+  localStorage.clear();
+};
+
 var setAdminUserPassword = function(){
   adminUserPass = document.getElementById("adminPass").value;
   console.log(adminUserPass);
@@ -189,6 +193,7 @@ var renderAdminLoginButtons = function(){
 };
 
 var adminLoginStart = function(){
+  strgClr();
   renderAdminLoginScreen();
 };
 

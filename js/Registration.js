@@ -15,6 +15,10 @@ var entries = ["First Name", "Last Name", "Address", "City", "State", "Zip Code"
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
+var clearData = function(){
+  localStorage.clear(;)
+};
+
 var setFirstName = function(){
   uFirst = document.getElementById("fName").value;
   firstNameValidation();
@@ -577,7 +581,8 @@ var renderRegNavButtons = function(){
 };
 
 var registerStart = function(){
-    renderRegistrationScreen();
-    };
+  clearData();
+  renderRegistrationScreen();
+};
 
 document.addEventListener('DOMContentLoaded',registerStart);

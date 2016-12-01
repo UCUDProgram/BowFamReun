@@ -7,6 +7,10 @@ var emailCheckFail = false;
 var userDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var passDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
+var storageClear = function(){
+  localStorage.clear();  
+};
+
 var setContact = function(){
     userAcct = document.getElementById("contact").value;
 };
@@ -204,6 +208,7 @@ var renderPassResetButt = function(){
 };
 
 var passResetStart = function(){
+    storageClear();
     renderPassResetScreen();
 };
 

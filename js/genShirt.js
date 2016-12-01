@@ -1,3 +1,7 @@
+var clearStrgData = function(){
+    localStorage.clear();
+};
+
 //  RENDERING THE SCREEN (VIEW)
 var loadGeneralShirt = function(){
   genShirtHeader();
@@ -72,6 +76,7 @@ var genShirtNews = function(){
 };
 
 var genShirtStart = function(){
+    clearStrgData();
     loadGeneralShirt();    
 };
 

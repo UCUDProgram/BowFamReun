@@ -12,7 +12,7 @@ var famCost= 0;
 
 var logout = function(){
     localStorage.clear();
-}
+};
 
 var deletePerson = function(aKey){
     attendeeDB.child(aKey).remove();

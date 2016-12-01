@@ -7,6 +7,10 @@ var userPassword = "";
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
+var clrStrgDt = function(){
+  localStorage.clear();
+};
+
 var setAcctPass = function(){
   acctPass = document.getElementById("userPass").value;
   console.log(acctPass);
@@ -199,6 +203,7 @@ var renderLoginButtons = function(){
 };
 
 var loginStart = function(){
+  clrStrgDt();
   renderLoginScreen();
 };
 

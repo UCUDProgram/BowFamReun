@@ -61,3 +61,7 @@ var showAdminAttendeesScreen = function(){
 var showAdminAttendeesListScreen = function(){
   window.location.href = "adminAttendeeList.html";
 };
+
+var showAdminExpenseScreen = function(){
+  window.location.href = "adminExpense.html";
+};

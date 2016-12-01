@@ -1,3 +1,7 @@
+var clearStorage = function(){
+  localStorage.clear();  
+};
+
 var loadHomePage = function(){
   renderHomeTitle();
   renderReunPhoto();
@@ -84,6 +88,7 @@ var renderHomeNavButtons = function(){
 };
 
 var homeStart = function(){
+    clearStorage();
     loadHomePage();
 };
 

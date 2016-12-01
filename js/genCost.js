@@ -1,3 +1,7 @@
+var clrStrDt = function(){
+  localStorage.clear();  
+};
+
 //  RENDERING THE SCREEN (VIEW)
 var loadGenCost = function(){
     costHeader();
@@ -44,6 +48,7 @@ var costNav = function(){
 };
 
 var genCostStart = function(){
+    clrStrDt();
   loadGenCost();  
 };
 
