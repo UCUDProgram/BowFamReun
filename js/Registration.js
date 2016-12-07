@@ -11,12 +11,23 @@ var uPass="";
 var uPassVer = "";
 var formIncompleteErrorString = "";
 var allEntered = false;
+var passwordCheckResult = false;
+var passwordCheckMessage = "";
 var entries = ["First Name", "Last Name", "Address", "City", "State", "Zip Code", "Email", "Phone Number", "Username", "Password", "Password Verify"];
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var clearData = function(){
-  localStorage.clear(;)
+  localStorage.clear();
+};
+
+
+var setPwdCkRst = function(result){
+  passwordCheckResult = result;
+};
+
+var setPwdChkMsg = function(resMes){
+  passwordCheckMessage = resMes;
 };
 
 var setFirstName = function(){
@@ -79,7 +90,21 @@ var setPassword = function(){
   // console.log(entries);
 };
 
+var resetPassword = function(){
+  document.getElementById("pword").value = "";
+  uPass = document.getElementById("pword").value;
+  passwordValidation();
+  // console.log(entries);
+};
+
 var setPassVer = function(){
+  uPassVer = document.getElementById("pword_Verify").value;
+  passVerValidation();
+    // console.log(entries);
+};
+
+var resetPassVer = function(){
+    document.getElementById("pword_Verify").value = "";
   uPassVer = document.getElementById("pword_Verify").value;
   passVerValidation();
     // console.log(entries);
@@ -214,13 +239,62 @@ var pushUsersData = function(){
   });
 };
 
+var passwordSend = function(){
+  var passVald = JSON.stringify({password:uPass});
+  return passVald;
+};
+
+var parsePassResponse = function(chuckJSON){
+    console.log(chuckJSON);
+  var pasdata = JSON.parse(chuckJSON);
+  var pwdrst = pasdata.response;
+  setPwdCkRst(pwdrst);
+  var pwdmsg = pasdata.message;
+  setPwdChkMsg(pwdmsg);
+  
+  
+  // console.log(pasdata);
+  // console.log(pwdrst);
+  // console.log(pwdmsg);
+  // var pasdata = JSON.parse(chuckJSON);
+  // passwordCheckResult = pasdata.response;
+  // passwordCheckMessage = pasdata.message;
+};
+
+var passVer = function(chuckJSON){
+  parsePassResponse(chuckJSON);
+  if (passwordCheckResult){
+    alert(passwordCheckMessage);
+  } else {
+    alert(passwordCheckMessage);  
+    resetPassword();
+    resetPassVer();
+  }
+};
+
+var getPasswordCheck = function(){
+  var URL = "../php/validPasswordCheck.php";
+  // var URL = "https://bow-fam-reun-ucudprogram.c9users.io/php/validPasswordCheck.php";
+  var xhr = new XMLHttpRequest();
+  
+  xhr.onload = function(){
+    if (this.status == 200){
+      passVer(this.response);
+    }
+  };
+  var data = passwordSend();
+  xhr.open("POST", URL);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(data);
+};
+
 
 var userPasswordCheck = function(){
   if(uPass != uPassVer){
-    alert("The two passwords do not match");
+    alert("The Two Passwords do not match");
   } else{
-    
-    alert("Thank You for checking to see if your Password is acceptable");
+    getPasswordCheck();
+    // alert("Thank You for checking to see if your Password is acceptable");
   }
 };
 
@@ -237,8 +311,6 @@ var registerAccount = function(){
     displayIncompleteForm();
   }
 };
-
-
 
 //  RENDERING THE SCREEN (VIEW)
 var renderRegistrationScreen = function(){
@@ -541,6 +613,15 @@ var renderPassRow = function(){
  userChkBut.setAttribute("id", "passCheck");
  userChkBut.innerHTML = "Password Check";
  userChkBut.addEventListener("click", function(ev){
+   
+   
+   
+  userPasswordCheck();
+   
+   
+   
+   
+   
    
  });
  passButtDiv.appendChild(userChkBut);

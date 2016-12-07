@@ -1,0 +1,11 @@
+button{
+    background-color:red;
+    /*padding-left: 4em;*/
+    text-align: center;
+    width:120px;
+    height: 75px;
+    background-size: 120px 75px;
+    background-image: url("../images/BFR Button.png");
+    background-repeat: no-repeat;
+}
+

@@ -1,3 +1,7 @@
+/*
+This file has all the css styles used, across all the different html.
+THe order does not matter, but is just a reference to all the styles implemented
+*/
 .hidden{
     display:none;
 }
@@ -21,13 +25,13 @@
     padding-right: 2em;
 }
 
-.buttWidth{
-    width:50px;
-}
-
 .individual_block{
     display: inline-block;
     padding-right:2em;
+}
+
+.buttWidth{
+    width:50px;
 }
 
 /*This Section addresses Button Arrangement*/
