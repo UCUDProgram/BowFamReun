@@ -296,3 +296,4 @@ var passResetStart = function(){
 };
 
 document.addEventListener('DOMContentLoaded',passResetStart);
+document.getElementById("userPassCheck").addEventListener("click", userPasswordCheck);
