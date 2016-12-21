@@ -613,16 +613,7 @@ var renderPassRow = function(){
  userChkBut.setAttribute("id", "passCheck");
  userChkBut.innerHTML = "Password Check";
  userChkBut.addEventListener("click", function(ev){
-   
-   
-   
   userPasswordCheck();
-   
-   
-   
-   
-   
-   
  });
  passButtDiv.appendChild(userChkBut);
   

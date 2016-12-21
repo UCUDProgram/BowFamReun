@@ -4,6 +4,8 @@ var newAdminPassVer="";
 var newAdminPassWordVerify = false;
 var adminUserCheckFail = false;
 var adminEmailCheckFail = false;
+var adminPassChgResult = false;
+var adminPassChgMessage = "";
 
 var admDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
 
@@ -19,8 +21,18 @@ var setAdminNewPass = function(){
     newAdminPass = document.getElementById("adminPassReset").value;
 };
 
+var resetAdminNewPass = function(){
+    document.getElementById("adminPassReset").value = "";
+    setAdminNewPass();
+};
+
 var setAdminNewPassVer = function(){
     newAdminPassVer = document.getElementById("adminPassResetVerify").value;
+};
+
+var resetAdminNewPassVer = function(){
+  document.getElementById("adminPassResetVerify").value = "";
+  setAdminNewPassVer();
 };
 
 var adminUserTrue = function(){
@@ -30,6 +42,15 @@ var adminUserTrue = function(){
 var adminEmailTrue = function(){
   adminEmailCheckFail = true;  
 };
+
+var setAdminPassRst = function(rst){
+    adminPassChgResult = rst;
+};
+
+var setAdminPassMsg = function(messa){
+  adminPassChgMessage = messa;  
+};
+
 
 var adminVariableReset = function(){
     adminUserCheckFail = false;
@@ -43,6 +64,68 @@ var clearAdminPassResetFields = function(){
   document.getElementById("adminPassResetVerify").value = "";
 };
 
+var adminPasswordSend = function(){
+  var adminVald = JSON.stringify({password:newAdminPass});
+  return adminVald;
+};
+
+var parseAdminResponse = function(chuckJSON){
+    // console.log(chuckJSON);
+  var admindata = JSON.parse(chuckJSON);
+  var adminrst = admindata.response;
+  setAdminPassRst(adminrst);
+  var adminmsg = admindata.message;
+  setAdminPassMsg(adminmsg);
+  
+  
+  // console.log(pasdata);
+  // console.log(pwdrst);
+  // console.log(pwdmsg);
+  // var pasdata = JSON.parse(chuckJSON);
+  // passwordCheckResult = pasdata.response;
+  // passwordCheckMessage = pasdata.message;
+};
+
+var adminVer = function(chuckJSON){
+  parseAdminResponse(chuckJSON);
+  if (adminPassChgResult){
+    alert(adminPassChgMessage);
+  } else {
+    alert(adminPassChgMessage);  
+    resetAdminNewPass();
+    resetAdminNewPassVer();
+  }
+};
+
+var getAdminPasswordCheck = function(){
+  var URL = "../php/validPasswordCheck.php";
+  // var URL = "https://bow-fam-reun-ucudprogram.c9users.io/php/validPasswordCheck.php";
+  var xhr = new XMLHttpRequest();
+  
+  xhr.onload = function(){
+    if (this.status == 200){
+      adminVer(this.response);
+    }
+  };
+  var data = adminPasswordSend();
+  xhr.open("POST", URL);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(data);
+};
+
+
+var adminPasswordCheck = function(){
+  if(newAdminPass != newAdminPassVer){
+    alert("The Two Passwords do not match");
+  } else{
+    getAdminPasswordCheck();
+    // alert("Thank You for checking to see if your Password is acceptable");
+  }
+};
+
+
+
+
 var updateAdminPassword = function(){
         // variableReset();
         newAdminPasswordChangeVerification();
@@ -52,7 +135,7 @@ var updateAdminPassword = function(){
         adminChangeDecision();
         } else {
             alert("The New Password Fields do not Match");
-            clearPassResetFields();
+            clearAdminPassResetFields();
             showPasswordResetScreen();
         }
 };
@@ -142,7 +225,7 @@ var renderAdminPassResetPass = function(){
     var $adminDiv = document.createElement("div");
     
     var $adminInputDiv = document.createElement("div");
-    $adminInputDiv.classList.add("individual_block");
+    $adminInputDiv.classList.add("individual_block_first");
     
     
     var adminPassDiv = document.createElement("div");
@@ -172,12 +255,24 @@ var renderAdminPassResetPass = function(){
     newAdminPassVerTxt.addEventListener("blur",function(ev){
         setAdminNewPassVer();
     });
-    
     AdminPassVerDiv.appendChild(newAdminPassVerTxt);
     $adminInputDiv.appendChild(AdminPassVerDiv);
     $adminDiv.appendChild($adminInputDiv);
 
 
+  var adminButtDiv = document.createElement("div");
+  adminButtDiv.classList.add("individual_block");
+  
+  var adminChkBut = document.createElement("button");
+ adminChkBut.setAttribute("type", "button");
+ adminChkBut.setAttribute("id", "adminCheck");
+ adminChkBut.innerHTML = "New Admin Password Check";
+ adminChkBut.addEventListener("click", function(ev){
+  adminPasswordCheck();
+ });
+ adminButtDiv.appendChild(adminChkBut);
+ 
+$adminDiv.appendChild(adminButtDiv);
 
 
     $admDiv.appendChild($adminDiv);

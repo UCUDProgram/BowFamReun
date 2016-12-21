@@ -183,9 +183,9 @@ var renderAdminLoginButtons = function(){
    var $adminHomeReturnButton = document.createElement("button");
   $adminHomeReturnButton.setAttribute("type", "button");
   $adminHomeReturnButton.setAttribute("id", "admLoginHomeReturn");
-  $adminHomeReturnButton.innerHTML = "Return to Home Screen";
+  $adminHomeReturnButton.innerHTML = "Return to Login Screen";
   $adminHomeReturnButton.addEventListener("click", function(ev){
-    showHomePageScreen();
+    showLoginScreen();
   });
   $admButDiv.appendChild($adminHomeReturnButton);
   
