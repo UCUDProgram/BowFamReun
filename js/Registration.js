@@ -545,18 +545,26 @@ var renderUserRow = function(){
   userNamediv.appendChild(userIpt);
   $row1div.appendChild(userNamediv);
  
- var userChkdiv = document.createElement("div");
-  userChkdiv.classList.add("individual_block");
  
- var userChkBut = document.createElement("button");
- userChkBut.setAttribute("type", "button");
- userChkBut.setAttribute("id", "userCheck");
- userChkBut.innerHTML = "Username Check";
- userChkBut.addEventListener("click", function(ev){
+ 
+ 
+// var userChkdiv = document.createElement("div");
+//   userChkdiv.classList.add("individual_block");
+ 
+// var userChkBut = document.createElement("button");
+// userChkBut.setAttribute("type", "button");
+// userChkBut.setAttribute("id", "userCheck");
+// userChkBut.innerHTML = "Username Check";
+// userChkBut.addEventListener("click", function(ev){
    
- });
- userChkdiv.appendChild(userChkBut);
-  $row1div.appendChild(userChkdiv);
+// });
+// userChkdiv.appendChild(userChkBut);
+//   $row1div.appendChild(userChkdiv);
+ 
+ 
+ 
+ 
+ 
  
   $div.appendChild($row1div);
   $source.appendChild($div);
@@ -605,24 +613,27 @@ var renderPassRow = function(){
   $userRow1div.appendChild(userPassRegdiv);
  
   
-  var passButtDiv = document.createElement("div");
-  passButtDiv.classList.add("individual_block");
   
-  var userChkBut = document.createElement("button");
- userChkBut.setAttribute("type", "button");
- userChkBut.setAttribute("id", "passCheck");
- userChkBut.innerHTML = "Password Check";
- userChkBut.addEventListener("click", function(ev){
-  userPasswordCheck();
- });
- passButtDiv.appendChild(userChkBut);
   
-  $userRow1div.appendChild(passButtDiv);
+//   var passButtDiv = document.createElement("div");
+//   passButtDiv.classList.add("individual_block");
+  
+//   var userChkBut = document.createElement("button");
+// userChkBut.setAttribute("type", "button");
+// userChkBut.setAttribute("id", "passCheck");
+// userChkBut.innerHTML = "Password Check";
+// userChkBut.addEventListener("click", function(ev){
+//   userPasswordCheck();
+// });
+// passButtDiv.appendChild(userChkBut);
+  
+//   $userRow1div.appendChild(passButtDiv);
+  
+  
+  
     $div.appendChild($userRow1div);
   $source.appendChild($div);
-  
 };
-
 
 var renderRegNavButtons = function(){
   var $source = document.getElementById("signup");

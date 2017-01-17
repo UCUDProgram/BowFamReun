@@ -260,19 +260,22 @@ var renderAdminPassResetPass = function(){
     $adminDiv.appendChild($adminInputDiv);
 
 
-  var adminButtDiv = document.createElement("div");
-  adminButtDiv.classList.add("individual_block");
+
+
+//   var adminButtDiv = document.createElement("div");
+//   adminButtDiv.classList.add("individual_block");
   
-  var adminChkBut = document.createElement("button");
- adminChkBut.setAttribute("type", "button");
- adminChkBut.setAttribute("id", "adminCheck");
- adminChkBut.innerHTML = "New Admin Password Check";
- adminChkBut.addEventListener("click", function(ev){
-  adminPasswordCheck();
- });
- adminButtDiv.appendChild(adminChkBut);
- 
-$adminDiv.appendChild(adminButtDiv);
+//   var adminChkBut = document.createElement("button");
+//  adminChkBut.setAttribute("type", "button");
+//  adminChkBut.setAttribute("id", "adminCheck");
+//  adminChkBut.innerHTML = "New Admin Password Check";
+//  adminChkBut.addEventListener("click", function(ev){
+//   adminPasswordCheck();
+//  });
+//  adminButtDiv.appendChild(adminChkBut);
+// $adminDiv.appendChild(adminButtDiv);
+
+
 
 
     $admDiv.appendChild($adminDiv);

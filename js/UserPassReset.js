@@ -245,18 +245,22 @@ var renderPassResetPass = function(){
     $inputDiv.appendChild(nPassVerDiv);
     $passDiv.appendChild($inputDiv);
     
-    var userButtDiv = document.createElement("div");
-  userButtDiv.classList.add("individual_block");
+    
+    
+    
+    
+//     var userButtDiv = document.createElement("div");
+//   userButtDiv.classList.add("individual_block");
   
-  var userChgChkBut = document.createElement("button");
- userChgChkBut.setAttribute("type", "button");
- userChgChkBut.setAttribute("id", "userPassCheck");
- userChgChkBut.innerHTML = "User Password Check";
- userChgChkBut.addEventListener("click", function(ev){
-  userPasswordCheck();
- });
- userButtDiv.appendChild(userChgChkBut);
- $passDiv.appendChild(userButtDiv);
+//   var userChgChkBut = document.createElement("button");
+//  userChgChkBut.setAttribute("type", "button");
+//  userChgChkBut.setAttribute("id", "userPassCheck");
+//  userChgChkBut.innerHTML = "User Password Check";
+//  userChgChkBut.addEventListener("click", function(ev){
+//   userPasswordCheck();
+//  });
+//  userButtDiv.appendChild(userChgChkBut);
+//  $passDiv.appendChild(userButtDiv);
     
     
 
