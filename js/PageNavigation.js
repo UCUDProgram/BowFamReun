@@ -41,6 +41,10 @@ var showMemberShirtScreen = function(){
   window.location.href = "memberTShirt.html";
 };
 
+var showMemberFoodScreen = function(){
+  window.location.href = "memberFood.html";
+};
+
 // These pages can be viewed only by Administraters
 var showAdminHomeScreen = function(){
   window.location.href = "adminHome.html";
