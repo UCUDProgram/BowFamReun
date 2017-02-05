@@ -84,6 +84,15 @@ var renderHomeNavButtons = function(){
     });
     nav.appendChild(homeGenTBut);
     
+    var homeMenu = document.createElement("button");
+    homeMenu.setAttribute("type", "button");
+    homeMenu.setAttribute("id", "genMenu");
+    homeMenu.innerHTML = "Menu Information";
+    homeMenu.addEventListener("click", function(ev){
+        showCurrentMenuScreen();
+    });
+    nav.appendChild(homeMenu);
+    
     home.appendChild(nav);
 };
 

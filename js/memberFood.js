@@ -272,15 +272,6 @@ var renderCatChange = function(afoodDiv, attachmentDiv, foodCateg,indFoodKey){
   var foodNameSelect = afoodDiv.concat("Select");
   $catClassification.setAttribute("id", foodNameSelect);
   
-    var $sideDishClassification = document.createElement("option");
-  $sideDishClassification.setAttribute("value", "Side Dish");
-  $sideDishClassification.setAttribute("id", "newSideDish");
-  $sideDishClassification.innerHTML = "Side Dish";
-      if(foodCateg == "Side Dish"){
-          $sideDishClassification.setAttribute("selected",true);
-      }
-      $catClassification.appendChild($sideDishClassification);
-      
         var $saladClassification = document.createElement("option");
   $saladClassification.setAttribute("value", "Salad");
   $saladClassification.setAttribute("id", "newSalad");
@@ -289,6 +280,15 @@ var renderCatChange = function(afoodDiv, attachmentDiv, foodCateg,indFoodKey){
           $saladClassification.setAttribute("selected",true);
       }
       $catClassification.appendChild($saladClassification);
+      
+        var $sideDishClassification = document.createElement("option");
+  $sideDishClassification.setAttribute("value", "Side Dish");
+  $sideDishClassification.setAttribute("id", "newSideDish");
+  $sideDishClassification.innerHTML = "Side Dish";
+      if(foodCateg == "Side Dish"){
+          $sideDishClassification.setAttribute("selected",true);
+      }
+      $catClassification.appendChild($sideDishClassification);
       
 var $veggiesClassification = document.createElement("option");
   $veggiesClassification.setAttribute("value", "Veggies");

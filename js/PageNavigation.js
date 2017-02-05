@@ -15,6 +15,10 @@ var showCostScreen = function(){
   window.location.href = "reunCost.html";
 };
 
+var showCurrentMenuScreen = function(){
+  window.location.href = "reunMenu.html";
+};
+
 var showLoginScreen = function(){
     window.location.href = "login.html";
 };
