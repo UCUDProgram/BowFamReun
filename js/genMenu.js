@@ -20,7 +20,6 @@ var renderCategoryHeaders = function(){
     renderMenuHeader();
     renderSaladHeader();
     renderSideDishHeader();
-    renderVeggieHeader();
     renderMeatHeader();
     renderDessertHeader();
 };
@@ -46,13 +45,6 @@ var renderSideDishHeader = function(){
     sideDishHeadDiv.appendChild(sideDishHead);
 };
 
-var renderVeggieHeader = function(){
-  var veggieHeadDiv = document.getElementById("veggieSection");
-    var veggieHead = document.createElement("h1");
-    veggieHead.innerHTML = "Vegetables";
-    veggieHeadDiv.appendChild(veggieHead);  
-};
-
 var renderMeatHeader = function(){
     var meatHeadDiv = document.getElementById("meatSection");
     var meatHead = document.createElement("h1");
@@ -72,8 +64,6 @@ var renderIndividualFood = function(afood, aCategory){
         renderSalad(afood);
     } else if (aCategory == "Side Dish"){
         renderSideDish(afood);
-    } else if (aCategory == "Veggies"){
-        renderVeggie(afood);
     } else if (aCategory == "Meat"){
         renderMeat(afood);
     } else {
@@ -93,13 +83,6 @@ var renderSideDish = function (aSideDish){
     var sideDishItem = document.createElement("div");
     sideDishItem.innerHTML = aSideDish;
     sideDishDiv.appendChild(sideDishItem);
-};
-
-var renderVeggie = function (aVeggie){
-  var veggieDiv = document.getElementById("VeggieSection");
-    var veggieItem = document.createElement("div");
-    veggieItem.innerHTML = aVeggie;
-    veggieDiv.appendChild(veggieItem);
 };
 
 var renderMeat = function (aMeat){

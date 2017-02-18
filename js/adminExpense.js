@@ -1,15 +1,20 @@
 var smallCount = 0;
-var smallCost = 20;
 var smallTot = 0;
 var mediumCount = 0;
-var mediumCost = 20;
 var mediumTot = 0;
 var largeCount = 0;
-var largeCost = 20;
 var largeTot = 0;
+var xLCount = 0;
+var xLTot = 0;
 var xXLCount = 0;
-var xXLCost = 25;
 var xXLTot = 0;
+var xXXLCount = 0;
+var xXXLTot = 0;
+var xXXXLCount = 0;
+var xXXXLTot = 0;
+var regularTShirtCost = 10;
+var largerTShirtCost = 15;
+
 
 var infantCount = 0;
 var infantCost = 0;
@@ -36,19 +41,28 @@ var getShirtTotals = function(){
        var shirtSm = child.val().small;
        var shirtMed = child.val().medium;
        var shirtLg = child.val().large;
+       var shirtxLg = child.val().xL;
        var shirtXXL = child.val().xxLarge;
+       var shirtXXXL = child.val().xxxLarge;
+       var shirtXXXXL = child.val().xxxxLarge;
        
-       console.log(shirtSm);
+    //   console.log(shirtSm);
        
        var shirtSmall = parseInt(shirtSm ,10);
        var shirtMedium = parseInt(shirtMed,10);
        var shirtLarge = parseInt(shirtLg,10);
+       var shirtXLarge = parseInt(shirtxLg,10);
        var shirtDoubleL = parseInt(shirtXXL,10);
+       var shirtTripleXL = parseInt(shirtXXXL,10);
+       var shirtQuadXL = parseInt(shirtXXXXL,10);
        
        updateSmallShirtTotal(shirtSmall);
        updateMediumShirtTotal(shirtMedium);
       updateLargeShirtTotal(shirtLarge);
+      updateXLShirtTotal(shirtXLarge);
        updateXXLShirtTotal(shirtDoubleL);
+       updateXXXLShirtTotal(shirtTripleXL);
+       updateXXXXLShirtTotal(shirtQuadXL);
     //   console.log(smallCount);
        updateShirtCosts();
       renderShirtTable();
@@ -89,7 +103,7 @@ var updateSmallShirtTotal = function(smallOrder){
 };
 
 var updateSmallTotal = function(){
-  smallTot = smallCount * smallCost;  
+  smallTot = smallCount * regularTShirtCost;  
 };
 
 var updateMediumShirtTotal = function(mediumOrder){
@@ -97,7 +111,7 @@ var updateMediumShirtTotal = function(mediumOrder){
 };
 
 var updateMediumTotal = function(){
-    mediumTot = mediumCount * mediumCost;
+    mediumTot = mediumCount * regularTShirtCost;
 };
 
 var updateLargeShirtTotal = function(largeOrder){
@@ -105,7 +119,15 @@ var updateLargeShirtTotal = function(largeOrder){
 };
 
 var updateLargeTotal = function(){
-  largeTot = largeCount * largeCost;  
+  largeTot = largeCount * regularTShirtCost;  
+};
+
+var updateXLShirtTotal = function(xlOrder){
+  xLCount += xlOrder;  
+};
+
+var updateXLTotal = function(){
+  xLTot = xLCount * regularTShirtCost;  
 };
 
 var updateXXLShirtTotal = function(xxlOrder){
@@ -113,7 +135,23 @@ var updateXXLShirtTotal = function(xxlOrder){
 };
 
 var updateXXLTotal = function(){
-  xXLTot = xXLCount * xXLCost;  
+  xXLTot = xXLCount * regularTShirtCost;  
+};
+
+var updateXXXLShirtTotal = function(xxxlOrder){
+  xXXLCount += xxxlOrder;  
+};
+
+var updateXXXLTotal = function(){
+  xXXLTot = xXXLCount * largerTShirtCost;  
+};
+
+var updateXXXXLShirtTotal = function(xxxxlOrder){
+  xXXXLCount += xxxxlOrder;  
+};
+
+var updateXXXXLTotal = function(){
+  xXXXLTot = xXXXLCount * largerTShirtCost;  
 };
 
 var updateInfantCount = function(){
@@ -152,7 +190,10 @@ var updateShirtCosts = function(){
   updateSmallTotal();
   updateMediumTotal();
   updateLargeTotal();
+  updateXLTotal();
   updateXXLTotal();
+  updateXXXLTotal();
+  updateXXXXLTotal();
 };
 
 var updateRegCosts = function(){
@@ -185,7 +226,10 @@ var renderShirtTable = function(){
     renderSmallShirtRow(shtTbl);
     renderMediumShirtRow(shtTbl);
     renderLargeShirtRow(shtTbl);
+    renderXLShirtRow(shtTbl);
     renderXXLShirtRow(shtTbl);
+    renderXXXLShirtRow(shtTbl);
+    renderXXXXLShirtRow(shtTbl);
 
     shtDiv.appendChild(shtTbl);
     shtTblSrc.appendChild(shtDiv);
@@ -260,6 +304,23 @@ var renderLargeShirtRow = function(shrtTbl){
     shrtTbl.appendChild(largeRow);
 };
 
+var renderXLShirtRow = function(shrtTbl){
+    var xlargeRow = document.createElement("tr");
+    
+    var xlargeName = document.createElement("td");
+    xlargeName.innerHTML = "XL";
+    xlargeRow.appendChild(xlargeName);
+    
+    var xlargeQuant = document.createElement("td");
+    xlargeQuant.innerHTML = xLCount;
+    xlargeRow.appendChild(xlargeQuant);
+    
+    var xlargeRev = document.createElement("td");
+    xlargeRev.innerHTML = xLTot;
+    xlargeRow.appendChild(xlargeRev);
+    shrtTbl.appendChild(xlargeRow);
+};
+
 var renderXXLShirtRow = function(siTae){
     var xXLRow = document.createElement("tr");
     
@@ -277,6 +338,39 @@ var renderXXLShirtRow = function(siTae){
     siTae.appendChild(xXLRow);
 };
 
+var renderXXXLShirtRow = function(siTae){
+    var xXXLRow = document.createElement("tr");
+    
+    var xXXLName = document.createElement("td");
+    xXXLName.innerHTML = "XXXL";
+    xXXLRow.appendChild(xXXLName);
+    
+    var xXXLQuant = document.createElement("td");
+    xXXLQuant.innerHTML = xXXLCount;
+    xXXLRow.appendChild(xXXLQuant);
+    
+    var xXXLRev = document.createElement("td");
+    xXXLRev.innerHTML = xXXLTot;
+    xXXLRow.appendChild(xXXLRev);
+    siTae.appendChild(xXXLRow);
+};
+
+var renderXXXXLShirtRow = function(siTae){
+    var xXXXLRow = document.createElement("tr");
+    
+    var xXXXLName = document.createElement("td");
+    xXXXLName.innerHTML = "XXXXL";
+    xXXXLRow.appendChild(xXXXLName);
+    
+    var xXXXLQuant = document.createElement("td");
+    xXXXLQuant.innerHTML = xXXXLCount;
+    xXXXLRow.appendChild(xXXXLQuant);
+    
+    var xXXXLRev = document.createElement("td");
+    xXXXLRev.innerHTML = xXXXLTot;
+    xXXXLRow.appendChild(xXXXLRev);
+    siTae.appendChild(xXXXLRow);
+};
 
 var renderAttendanceTable = function(){
   var attTblSrc = document.getElementById("registrationExpense");

@@ -2,7 +2,10 @@ var administ = "";
 var smallShirtTotal=0;
 var mediumShirtTotal=0;
 var lgShirtTotal=0;
+var xLGShirtTotal = 0;
 var doubXLShirtTotal=0;
+var tripXLShirtTotal = 0;
+var quadXLShirtTotal = 0;
 var shirtTotal = 0;
 var shirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 
@@ -26,12 +29,24 @@ var updateLargeCount = function(lg){
   // console.log(lgShirtTotal);
 };
 
+var updateXLCount = function(xlg){
+  xLGShirtTotal += xlg;  
+};
+
 var updateXXLShirtCount = function(xxl){
   doubXLShirtTotal += xxl;  
 };
 
-var setShirtTotal = function(){
-    shirtTotal = smallShirtTotal + mediumShirtTotal + lgShirtTotal + doubXLShirtTotal;
+var updateXXXLShirtCount = function(xxxl){
+    tripXLShirtTotal += xxxl;
+}
+
+var updateXXXXLShirtCount = function(xxxxl){
+  quadXLShirtTotal += xxxxl;  
+};
+
+var updateShirtTotal = function(aShOrder){
+    shirtTotal += aShOrder;
 }
 
 var getShirtCount = function(){
@@ -44,12 +59,19 @@ var getShirtCount = function(){
        var shSm = child.val().small;
        var shMed = child.val().medium;
        var shLg = child.val().large;
+       var shXL = child.val().xL
        var shXXL = child.val().xxLarge;
+       var shXXXL = child.val().xxxLarge;
+       var shXXXXL = child.val().xxxxLarge;
        
        var shirtSmall = parseInt(shSm,10);
        var shirtMedium = parseInt(shMed,10);
        var shirtLarge = parseInt(shLg,10);
+       var shirtXL = parseInt(shXL, 10);
        var shirtXXL = parseInt(shXXL,10);
+       var shirtXXXL = parseInt(shXXXL,10);
+       var shirtXXXXL = parseInt(shXXXXL,10);
+       
       // console.log(sma);
       // console.log(medi);
       // console.log(shLg);
@@ -58,10 +80,19 @@ var getShirtCount = function(){
       // console.log(xXLa);
        
        updateSmallCount(shirtSmall);
+       updateShirtTotal(shirtSmall);
        updateMediumCount(shirtMedium);
-      updateLargeCount(shirtLarge);
-      // updateLargeCount(shLg);
+       updateShirtTotal(shirtMedium);
+        updateLargeCount(shirtLarge);
+        updateShirtTotal(shirtLarge);   
+       updateLargeCount(shirtXL);
+       updateShirtTotal(shirtXL);
        updateXXLShirtCount(shirtXXL);
+       updateShirtTotal(shirtXXL);
+       updateXXXLShirtCount(shirtXXXL);
+       updateShirtTotal(shirtXXXL);
+       updateXXXXLShirtCount(shirtXXXXL);
+       updateShirtTotal(shirtXXXXL);
        renderShirtTotal();
      });
    });
@@ -107,9 +138,25 @@ var renderShirtTotal = function(){
     shirtDiv.appendChild(larTot);
     // console.log(lgShirtTotal);
     
+    var xlarTot = document.createElement("h3");
+    xlarTot.innerHTML = "Total Extra Large Shirts Ordered: " + xLGShirtTotal;
+    shirtDiv.appendChild(xlarTot);
+    
     var xxlTot = document.createElement("h3");
     xxlTot.innerHTML = "Double Extra Large Shirts Ordered: " + doubXLShirtTotal;
     shirtDiv.appendChild(xxlTot);
+    
+    var xxxlTot = document.createElement("h3");
+    xxxlTot.innerHTML = "Triple Extra Large Shirts Ordered: " + tripXLShirtTotal;
+    shirtDiv.appendChild(xxxlTot);
+    
+    var xxxxlTot = document.createElement("h3");
+    xxxxlTot.innerHTML = "Quadruple Extra Large Shirts Ordered: " + quadXLShirtTotal;
+    shirtDiv.appendChild(xxxxlTot);
+    
+    var tot = document.createElement("h3");
+    tot.innerHTML = "Total confirmed to Order: " + shirtTotal;
+    shirtDiv.appendChild(tot);
 };
 
 var shirtStart = function(){

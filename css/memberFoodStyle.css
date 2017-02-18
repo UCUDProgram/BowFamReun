@@ -8,3 +8,7 @@
     display: inline-block;
     padding-right:2em;
 }
+
+.hidden{
+    display:none;
+}
