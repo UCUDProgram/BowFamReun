@@ -13,7 +13,7 @@ var xXXLTot = 0;
 var xXXXLCount = 0;
 var xXXXLTot = 0;
 var regularTShirtCost = 10;
-var largerTShirtCost = 15;
+var largerTShirtCost = 12;
 
 
 var infantCount = 0;

@@ -56,7 +56,7 @@ var renderNews = function(){
     $div.setAttribute("id", "news");
     $div.innerHTML = "";
   var $head = document.createElement("h2");
-  $head.innerHTML = "Family Reunion Tee-Shirts will be available.  Please come back later for more information. The button below will give you basic information";
+  $head.innerHTML = "Family Reunion Tee-Shirts will be available.  More information about cost will be provided once one has created a free account and logged in. The buttons below will give you basic information";
     $div.appendChild($head); 
     homeP.appendChild($div);
 };

@@ -483,6 +483,14 @@ var renderLogoutButton = function(){
   $div.appendChild(logoutButton);
 };
 
+var renderMemberInformation = function(){
+  var memDiv = document.getElementById("memberNews");
+  var payChgDiv = document.createElement("h2");
+  payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address to send the money.";
+  memDiv.appendChild(payChgDiv);
+};
+
+
 var renderPaymentInfo = function(){
     var div = document.getElementById("registrationPayment");
     div.classList.add("paymCont");
@@ -491,19 +499,19 @@ var renderPaymentInfo = function(){
     paymentDiv.innerHTML = "";
     
     var payhead = document.createElement("div");
-    payhead.innerHTML = "Send Registration Payment to the following Address";
+    payhead.innerHTML = "Send Registration Payment to the following Address: ";
     paymentDiv.appendChild(payhead);
     
     var payContact = document.createElement("div");
-    payContact.innerHTML = "Sharon Jefferson";
+    payContact.innerHTML = "Delores Law";
     paymentDiv.appendChild(payContact);
     
     var payAddress = document.createElement("div");
-    payAddress.innerHTML = "1305 Chipper Court";
+    payAddress.innerHTML = "1 Lisa Drive";
     paymentDiv.appendChild(payAddress);
     
     var payCity = document.createElement("div");
-    payCity.innerHTML = "Henrico, VA 23075";
+    payCity.innerHTML = "Newark, DE, 19702";
     paymentDiv.appendChild(payCity);
     
     div.appendChild(paymentDiv);
@@ -521,6 +529,7 @@ var userStart = function(){
     renderNewPersonHeader();
     renderNewPerson();
     // renderCostButton();
+    renderMemberInformation();
     renderPaymentInfo();
     renderMemberNav();
 };

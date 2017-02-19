@@ -8,7 +8,7 @@ var quadXLTShirt = 0;
 var userAccount = "";
 
 var regShirtCost = 10;
-var largerShirtCost = 15;
+var largerShirtCost = 12;
 var totalShirtCost = 0;
 
 var tShirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
@@ -722,15 +722,15 @@ var renderShirtPaymentInfo = function(){
     paymentDiv.appendChild(payhead);
     
     var payContact = document.createElement("div");
-    payContact.innerHTML = "Sharon Jefferson";
+    payContact.innerHTML = "Delores Law";
     paymentDiv.appendChild(payContact);
     
     var payAddress = document.createElement("div");
-    payAddress.innerHTML = "1305 Chipper Court";
+    payAddress.innerHTML = "1 Lisa Drive";
     paymentDiv.appendChild(payAddress);
     
     var payCity = document.createElement("div");
-    payCity.innerHTML = "Henrico, VA 23075";
+    payCity.innerHTML = "Newark, DE 19702";
     paymentDiv.appendChild(payCity);
     
     div.appendChild(paymentDiv);
