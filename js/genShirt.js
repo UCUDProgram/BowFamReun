@@ -4,21 +4,22 @@ var clearStrgData = function(){
 
 //  RENDERING THE SCREEN (VIEW)
 var loadGeneralShirt = function(){
-  genShirtHeader();
-  genShirtImages();
-  genShirtNavigation();
-  genShirtNews();
+  renderGenShirtHeader();
+  renderGenShirtImages();
+//   renderGenShirtNavigation();
+  renderGenShirtCost();
+//   renderGenShirtNews();
 };
 
-var genShirtHeader = function(){
-    var $shirtHead = document.getElementById("teeShirtGeneral");
+var renderGenShirtHeader = function(){
+    var shirtHead = document.getElementById("tShirtHead");
     var genShirtHead = document.createElement("h1");
     genShirtHead.innerHTML = "T-Shirt Information";
-    $shirtHead.appendChild(genShirtHead);
+    shirtHead.appendChild(genShirtHead);
 };
 
-var genShirtImages = function(){
-    var originDiv = document.getElementById("teeShirtGeneral");
+var renderGenShirtImages = function(){
+    var originDiv = document.getElementById("tShirtImage");
     var firstDiv = document.createElement("div");
 
     var image1Div = document.createElement("div");
@@ -30,28 +31,40 @@ var genShirtImages = function(){
     image1Div.appendChild(frontText);
     
     var frontImage = document.createElement("img");
-    frontImage.setAttribute("src", "../images/BFR Tee Shirt Front 2.jpg");
+    frontImage.setAttribute("src", "../images/BFR Tee Shirt.jpeg");
     image1Div.appendChild(frontImage);
     firstDiv.appendChild(image1Div);
     
-    var image2Div = document.createElement("div");
-    image2Div.setAttribute("id","tshirt");
+    // var image2Div = document.createElement("div");
+    // image2Div.setAttribute("id","tshirt");
     
-    var backText = document.createElement("div");
-    backText.classList.add("textCentered");
-    backText.innerHTML = "Back";
-    image2Div.appendChild(backText);
+    // var backText = document.createElement("div");
+    // backText.classList.add("textCentered");
+    // backText.innerHTML = "Back";
+    // image2Div.appendChild(backText);
     
-    var backImage = document.createElement("img");
-    backImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
-    image2Div.appendChild(backImage);
+    // var backImage = document.createElement("img");
+    // backImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
+    // image2Div.appendChild(backImage);
     
-    firstDiv.appendChild(image2Div);
+    // firstDiv.appendChild(image2Div);
     originDiv.appendChild(firstDiv);
 };
 
-var genShirtNavigation = function(){
-    var sourceDiv = document.getElementById("teeShirtGeneral");
+var renderGenShirtCost = function(){
+    var shtDv = document.getElementById("tShirtCost");
+    var normCost = document.createElement("h4");
+    normCost.innerHTML = "Shirt sizes from small up to and including XXL can be purchased for 10 dollars ($10) each."
+    shtDv.appendChild(normCost);
+    
+    var biggerCost = document.createElement("h4");
+    biggerCost.innerHTML = "Triple and Quadruple XL Shirts, however, can be purchased for 12 dollars ($12) each."
+    shtDv.appendChild(biggerCost);
+    
+};
+
+var renderGenShirtNavigation = function(){
+    var sourceDiv = document.getElementById("tShirtNav");
     var buttonDiv = document.createElement("div");
     
     var genShirtHomeReturn = document.createElement("button");
@@ -66,7 +79,7 @@ var genShirtNavigation = function(){
     sourceDiv.appendChild(buttonDiv);
 };
 
-var genShirtNews = function(){
+var renderGenShirtNews = function(){
   var shirtSourceDiv = document.getElementById("teeShirtGeneral");
   var newsDiv = document.createElement("div");
   var newsPar = document.createElement("p");

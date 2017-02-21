@@ -503,7 +503,7 @@ var renderPaymentInfo = function(){
     paymentDiv.appendChild(payhead);
     
     var payContact = document.createElement("div");
-    payContact.innerHTML = "Delores Law";
+    payContact.innerHTML = "Delores F. Law";
     paymentDiv.appendChild(payContact);
     
     var payAddress = document.createElement("div");
