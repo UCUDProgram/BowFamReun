@@ -46,8 +46,6 @@ var getShirtTotals = function(){
        var shirtXXXL = child.val().xxxLarge;
        var shirtXXXXL = child.val().xxxxLarge;
        
-    //   console.log(shirtSm);
-       
        var shirtSmall = parseInt(shirtSm ,10);
        var shirtMedium = parseInt(shirtMed,10);
        var shirtLarge = parseInt(shirtLg,10);
@@ -63,12 +61,10 @@ var getShirtTotals = function(){
        updateXXLShirtTotal(shirtDoubleL);
        updateXXXLShirtTotal(shirtTripleXL);
        updateXXXXLShirtTotal(shirtQuadXL);
-    //   console.log(smallCount);
        updateShirtCosts();
       renderShirtTable();
      });
    });
-//   renderShirtTable();
 };
 
 var getAttendanceTotals = function(){
@@ -83,7 +79,6 @@ var getAttendanceTotals = function(){
     renderAttendanceTable();
       });
   });
-    // renderAttendanceTable();
 };
 
 var getPersonAge = function(aPAge){

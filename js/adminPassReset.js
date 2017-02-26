@@ -70,21 +70,12 @@ var adminPasswordSend = function(){
 };
 
 var parseAdminResponse = function(chuckJSON){
-    // console.log(chuckJSON);
   var admindata = JSON.parse(chuckJSON);
   var adminrst = admindata.response;
   setAdminPassRst(adminrst);
   var adminmsg = admindata.message;
   setAdminPassMsg(adminmsg);
-  
-  
-  // console.log(pasdata);
-  // console.log(pwdrst);
-  // console.log(pwdmsg);
-  // var pasdata = JSON.parse(chuckJSON);
-  // passwordCheckResult = pasdata.response;
-  // passwordCheckMessage = pasdata.message;
-};
+  };
 
 var adminVer = function(chuckJSON){
   parseAdminResponse(chuckJSON);
@@ -99,9 +90,7 @@ var adminVer = function(chuckJSON){
 
 var getAdminPasswordCheck = function(){
   var URL = "../php/validPasswordCheck.php";
-  // var URL = "https://bow-fam-reun-ucudprogram.c9users.io/php/validPasswordCheck.php";
   var xhr = new XMLHttpRequest();
-  
   xhr.onload = function(){
     if (this.status == 200){
       adminVer(this.response);
@@ -119,15 +108,10 @@ var adminPasswordCheck = function(){
     alert("The Two Passwords do not match");
   } else{
     getAdminPasswordCheck();
-    // alert("Thank You for checking to see if your Password is acceptable");
-  }
+ }
 };
 
-
-
-
 var updateAdminPassword = function(){
-        // variableReset();
         newAdminPasswordChangeVerification();
         if (newAdminPassWordVerify){
         userAdminPasswordChangeCheck();

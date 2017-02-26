@@ -56,7 +56,6 @@ var resetAges = function(){
 
 var personSubmit = function(){
     setAge();
-    
   var regData = DB.child("Attendees");
   regData.push().set({firstname: first,
                         account: acct, 
@@ -72,13 +71,10 @@ var updateAgeStatus = function(anAgeOption){
     ageStatus = anAgeOption;
 };
 
-
 var inputReset = function(){
   document.getElementById("newFnameText").value = "";
   document.getElementById("newLnameText").value = "";
-    // document.getElementById("ageOption").value = "Choose Person's Age";
-    document.getElementById("ageOption").selectedIndex = 0;
-
+  document.getElementById("ageOption").selectedIndex = 0;
 };
 
 var getPeople = function(){
@@ -125,11 +121,10 @@ var updateAttendees = function(aPersAge){
 var determineFamCost = function(){
     var infantCost = infantAttend * 0;
     var seniorCost = seniorAttend * 0;
-    var childCost = childAttend * 5;
+    var childCost = childAttend * 10;
     var adultCost = adultAttend * 20;
     famCost = infantCost + seniorCost + childCost + adultCost;
 };
-
 
 //  RENDERING THE SCREEN (VIEW)
 var renderNewPersonHeader = function(){
@@ -234,7 +229,6 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
 };
 
 var renderWelcome= function(){
-//   var $titleHead = document.getElementById("loginWelcome");
    var $titleHead = document.getElementById("loginHeader");
    var $tHeader =document.createElement("h1");
    $tHeader.classList.add("individual_block_first");
@@ -261,7 +255,6 @@ var renderFirstNew = function(){
   $newFnameLabel.innerHTML = "First Name";
   $fNameDiv.appendChild($newFnameLabel);  
     
-    
   $newFnameInput.setAttribute("type", "text");
   $newFnameInput.setAttribute("id", "newFnameText");
   $newFnameInput.innerHTML = null;
@@ -277,7 +270,6 @@ var renderLastNew = function(){
     var $nPLHead = document.getElementById("newPersonInput");
     var $lNameDiv = document.createElement("div");
     $lNameDiv.classList.add("individual_block");
-    
     
  var $newLnameLabel = document.createElement("label");
   $newLnameLabel.setAttribute("for", $newLnameInput);
@@ -370,7 +362,6 @@ $childClassification.setAttribute("id", "newChildAge");
       }
       $ageClassification.appendChild($childClassification);
       
-      
   var $adultClassification = document.createElement("option");
   $adultClassification.setAttribute("value", "Adult");
   $adultClassification.setAttribute("id", "newAdultAge");
@@ -379,7 +370,6 @@ $childClassification.setAttribute("id", "newChildAge");
           $adultClassification.setAttribute("selected",true);
       }
       $ageClassification.appendChild($adultClassification);
-      
      
   var $seniorClassification = document.createElement("option");
   $seniorClassification.setAttribute("value", "Senior");
@@ -470,7 +460,6 @@ var renderCostButton = function(){
 };
 
 var renderLogoutButton = function(){
-    //  var $div = document.getElementById("accountButtons");
      var $div = document.getElementById("loginHeader");
   var logoutButton = document.createElement("button");
   logoutButton.classList.add("individual_block");
@@ -489,7 +478,6 @@ var renderMemberInformation = function(){
   payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address to send the money.";
   memDiv.appendChild(payChgDiv);
 };
-
 
 var renderPaymentInfo = function(){
     var div = document.getElementById("registrationPayment");
@@ -515,20 +503,16 @@ var renderPaymentInfo = function(){
     paymentDiv.appendChild(payCity);
     
     div.appendChild(paymentDiv);
-    
-}
-
+};
 
 var userStart = function(){
     setAcct();
     getPeople();
-    // renderFamReg();
     renderWelcome();
     renderLogoutButton();
     renderTitle();
     renderNewPersonHeader();
     renderNewPerson();
-    // renderCostButton();
     renderMemberInformation();
     renderPaymentInfo();
     renderMemberNav();

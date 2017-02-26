@@ -26,7 +26,6 @@ var updateMediumCount = function(med){
 
 var updateLargeCount = function(lg){
   lgShirtTotal += lg;  
-  // console.log(lgShirtTotal);
 };
 
 var updateXLCount = function(xlg){
@@ -55,7 +54,6 @@ var getShirtCount = function(){
        var parDiv = document.getElementById("shirtTotals");
       while(parDiv.firstChild)
           parDiv.removeChild(parDiv.firstChild);
-      // console.log(child.val());
        var shSm = child.val().small;
        var shMed = child.val().medium;
        var shLg = child.val().large;
@@ -71,13 +69,6 @@ var getShirtCount = function(){
        var shirtXXL = parseInt(shXXL,10);
        var shirtXXXL = parseInt(shXXXL,10);
        var shirtXXXXL = parseInt(shXXXXL,10);
-       
-      // console.log(sma);
-      // console.log(medi);
-      // console.log(shLg);
-      // console.log(shirtLarge);
-
-      // console.log(xXLa);
        
        updateSmallCount(shirtSmall);
        updateShirtTotal(shirtSmall);
@@ -96,15 +87,9 @@ var getShirtCount = function(){
        renderShirtTotal();
      });
    });
-  // console.log(smallShirtTotal);
-  // console.log(mediumShirtTotal);
-  // console.log(lgShirtTotal);
-  // console.log(doubXLShirtTotal);
-  // renderShirtTotal();
 };
 
 var updateCount = function(){
-  // getShirtCount();
   renderShirtTotal();
 };
 
@@ -136,8 +121,7 @@ var renderShirtTotal = function(){
     var larTot = document.createElement("h3");
     larTot.innerHTML = "Total Large Shirts Ordered: " + lgShirtTotal;
     shirtDiv.appendChild(larTot);
-    // console.log(lgShirtTotal);
-    
+
     var xlarTot = document.createElement("h3");
     xlarTot.innerHTML = "Total Extra Large Shirts Ordered: " + xLGShirtTotal;
     shirtDiv.appendChild(xlarTot);
@@ -163,12 +147,6 @@ var shirtStart = function(){
     getAdmUser();
     getShirtCount();
     renderShirtOrderHeader();
-    // updateCount();
-    // renderShirtTotal();
-    // renderShirtPage();
 };
-// document.addEventListener("load",shirtStart);
-// document.addEventListener('DOMWindowCreated',shirtStart);
-document.addEventListener('DOMContentLoaded',shirtStart);
-// document.getElementById("body").addEventListener('DOMContentLoaded',shirtStart);
 
+document.addEventListener('DOMContentLoaded',shirtStart);

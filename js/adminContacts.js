@@ -28,7 +28,6 @@ var getContactList = function(){
 var renderContactPage = function(){
   renderContactHeader();
   getContactList();
-  
 };
 
 var renderContactHeader = function(){

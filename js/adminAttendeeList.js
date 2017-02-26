@@ -1,7 +1,5 @@
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 
-
-
 var getAttendList = function(){
     attendDB.orderByKey().on("value", function(snapshot){
      snapshot.forEach(function (snap){

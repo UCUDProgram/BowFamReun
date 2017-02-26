@@ -35,7 +35,6 @@ var clearAdminLoginFields = function(){
   document.getElementById("adminPass").value = "";
 };
 
-
 var adminCheck = function(){
     adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
      console.log(snapshot.val());
@@ -49,13 +48,6 @@ var adminCheck = function(){
 };
 
 var setAdminVariables = function(){
-  // console.log(adminUserUser);
-  // adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function (snapshot){
-    
-  //   console.log(snapshot.val());
-  // })
-  
-  
   if(adminNameChk){
       adminDB.orderByChild("userName").equalTo(adminUserUser).on("value", function(snapshot) {
       console.log(snapshot.val());
@@ -77,18 +69,13 @@ var setAdminVariables = function(){
 
 var setAdminUser = function(){
   adminUserUser = document.getElementById("adminUser").value;
-  console.log(adminUserUser);
   adminCheck();
-  console.log(adminNameChk);
   setAdminVariables();
-  console.log(adminPass);
 };
 
 var adminPasswordVerification = function(){
   adminCheck();
   setAdminVariables();
-  console.log(adminPass);
-  console.log(adminUserPass);
   if (adminUserPass == adminPass){
     localStorage.setItem("admin",adminAcct);
     showAdminHomeScreen();

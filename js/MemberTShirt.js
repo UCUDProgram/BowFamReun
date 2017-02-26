@@ -51,7 +51,7 @@ var initShirtSubmit = function(){
                       xL: xLgTShirt,
                       xxLarge: xXLTShirt,
                       xxxLarge: tripXLTShirt,
-                      xxxxLarge: quadXLTShirt
+                      xxxxLarge: quadXLTShirt,
                     });
     getTShirtData();
 };
@@ -102,16 +102,13 @@ var renderMemberTShirtScreen = function(){
 };
 
 var renderTShirtOrderHeader = function(){
-    // var $tShHd = document.getElementById("teeShirtLogin");
     var tShirtHead = document.getElementById("tShirtHeader");
     var $tShirtOrdHead = document.createElement("h1");
     $tShirtOrdHead.innerHTML = userAccount + " Member TShirt Ordering";
     tShirtHead.appendChild($tShirtOrdHead);
-    // $tShHd.appendChild(tShirtHead);
 };
 
 var renderTShirtOrderLook = function(){
-    // var memTShirtSource = document.getElementById("teeShirtLogin");
      var tShirtOrigDiv = document.getElementById("tShirtPicture");
     var tShirtFirstDiv = document.createElement("div");
 
@@ -128,23 +125,7 @@ var renderTShirtOrderLook = function(){
     tShirtFrontImage.setAttribute("id","tshirt");
     tShirtImage1Div.appendChild(tShirtFrontImage);
     tShirtFirstDiv.appendChild(tShirtImage1Div);
-    
-    // var tShirtImage2Div = document.createElement("div");
-    // tShirtImage2Div.setAttribute("id","tshirt");
-    
-    // var tShirtBackText = document.createElement("div");
-    // tShirtBackText.classList.add("textCentered");
-    // tShirtBackText.innerHTML = "Back";
-    // tShirtImage2Div.appendChild(tShirtBackText);
-    
-    // var tShirtBackImage = document.createElement("img");
-    // tShirtBackImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
-    // tShirtBackImage.setAttribute("id","tshirt");
-    // tShirtImage2Div.appendChild(tShirtBackImage);
-    
-    // tShirtFirstDiv.appendChild(tShirtImage2Div);
     tShirtOrigDiv.appendChild(tShirtFirstDiv);
-    // memTShirtSource.appendChild(tShirtOrigDiv);
 };
 
 var renderUserTShirtOrder = function(userKey){
@@ -173,7 +154,6 @@ var renderNewTShirtOrder = function(){
 };
 
 var renderNewTShirtButton = function(){
-    // var $nTSDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
      var $orderSubmit = document.createElement("button");
      $orderSubmit.setAttribute("type","button");
@@ -183,12 +163,10 @@ var renderNewTShirtButton = function(){
         initShirtSubmit();
     });
     $div.appendChild($orderSubmit);
-    // $nTSDiv.appendChild($div);
 };
 
 var renderSmallTShirtOption = function(){
     var newSmall = 0;
-    // var $smOptDiv = document.getElementById("teeShirtLogin");
     var $div =document.getElementById("initTShirtOptions");
     var $smallDiv = document.createElement("div");
     $smallDiv.classList.add("individual_block_first");
@@ -220,12 +198,10 @@ $smallDiv.setAttribute("id", "smallShirtDiv");
     
     $smallDiv.appendChild($selection);
     $div.appendChild($smallDiv);
-    // $smOptDiv.appendChild($div);
 };
 
 var renderMediumTShirtOption = function(){
     var newMedium = 0;
-    // var $mdOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $mediumDiv = document.createElement("div");
     $mediumDiv.classList.add("individual_block");
@@ -251,12 +227,10 @@ var renderMediumTShirtOption = function(){
     });
     $mediumDiv.appendChild($mediumselection);
     $div.appendChild($mediumDiv);
-    // $mdOptDiv.appendChild($div);
 };
 
 var renderLargeTShirtOption = function(){
     var newLarge = 0;
-    // var $lgOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $largeDiv = document.createElement("div");
     $largeDiv.classList.add("individual_block");
@@ -283,12 +257,10 @@ var renderLargeTShirtOption = function(){
     });
     $largeDiv.appendChild($largeselection);
     $div.appendChild($largeDiv);
-    // $lgOptDiv.appendChild($div)
 };
 
 var renderXLTShirtOption = function(){
     var newXLarge = 0;
-    // var $xlgOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $xlargeDiv = document.createElement("div");
     $xlargeDiv.classList.add("individual_block");
@@ -315,12 +287,10 @@ var renderXLTShirtOption = function(){
     });
     $xlargeDiv.appendChild($xlargeselection);
     $div.appendChild($xlargeDiv);
-    // $xlgOptDiv.appendChild($div)
 };
 
 var renderXXLTShirtOption = function(){
     var newXXL = 0;
-    // var $xxlOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $doubXXLDiv = document.createElement("div");
     $doubXXLDiv.classList.add("individual_block");
@@ -346,12 +316,10 @@ var renderXXLTShirtOption = function(){
     });
     $doubXXLDiv.appendChild($doubXXLselection);
     $div.appendChild($doubXXLDiv);
-    // $xxlOptDiv.appendChild($div);
 };
 
 var renderXXXLTShirtOption = function(){
     var newXXXL = 0;
-    // var $xxxlOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $tripXLDiv = document.createElement("div");
     $tripXLDiv.classList.add("individual_block");
@@ -377,12 +345,10 @@ var renderXXXLTShirtOption = function(){
     });
     $tripXLDiv.appendChild($tripXLselection);
     $div.appendChild($tripXLDiv);
-    // $xxxlOptDiv.appendChild($div);
 };
 
 var renderXXXXLTShirtOption = function(){
     var newXXXXL = 0;
-    // var $xxxxlOptDiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("initTShirtOptions");
     var $quadXLDiv = document.createElement("div");
     $quadXLDiv.classList.add("individual_block");
@@ -408,12 +374,10 @@ var renderXXXXLTShirtOption = function(){
     });
     $quadXLDiv.appendChild($quadXLselection);
     $div.appendChild($quadXLDiv);
-    // $xxxxlOptDiv.appendChild($div);
 };
 
 var renderUserSmallTShirtOrder = function(key){
     var newUserSmall = 0;
-    // var $smdiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $smallDiv = document.createElement("div");
     $smallDiv.classList.add("individual_block");
@@ -444,12 +408,10 @@ var renderUserSmallTShirtOrder = function(key){
     });
     $smallDiv.appendChild($smallselection);
     $div.appendChild($smallDiv);
-    // $smdiv.appendChild($div);
 };
 
 var renderUserMediumTShirtOrder = function(key){
     var newUserMedium = 0;
-    // var $mediv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $mediumDiv = document.createElement("div");
     $mediumDiv.classList.add("individual_block");
@@ -480,12 +442,10 @@ var renderUserMediumTShirtOrder = function(key){
     });
     $mediumDiv.appendChild($mediumselection);
     $div.appendChild($mediumDiv);
-    // $mediv.appendChild($div);
 };
 
 var renderUserLargeTShirtOrder = function(key){
     var newUserLarge = 0;
-    // var largediv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $largeDiv = document.createElement("div");
     $largeDiv.classList.add("individual_block");
@@ -516,12 +476,10 @@ var renderUserLargeTShirtOrder = function(key){
     });
     $largeDiv.appendChild($largeselection);
     $div.appendChild($largeDiv);
-    // largediv.appendChild($div);
 };
 
 var renderUserXLargeTShirtOrder = function(key){
     var newUserXLarge = 0;
-    // var xlargediv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $xlargeDiv = document.createElement("div");
     $xlargeDiv.classList.add("individual_block");
@@ -552,12 +510,10 @@ var renderUserXLargeTShirtOrder = function(key){
     });
     $xlargeDiv.appendChild($xlargeselection);
     $div.appendChild($xlargeDiv);
-    // xlargediv.appendChild($div);
 };
 
 var renderUserXXLTShirtOrder = function(key){
     var newUserXXL = 0;
-    // var $xxldiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $xXLDiv = document.createElement("div");
     $xXLDiv.classList.add("individual_block");
@@ -588,12 +544,10 @@ var renderUserXXLTShirtOrder = function(key){
     });
     $xXLDiv.appendChild($xXLselection);
     $div.appendChild($xXLDiv);
-    // $xxldiv.appendChild($div);
 };
 
 var renderUserXXXLTShirtOrder = function(key){
     var newUserXXXL = 0;
-    // var $xxxldiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $xXXLDiv = document.createElement("div");
     $xXXLDiv.classList.add("individual_block");
@@ -624,12 +578,10 @@ var renderUserXXXLTShirtOrder = function(key){
     });
     $xXXLDiv.appendChild($xXXLselection);
     $div.appendChild($xXXLDiv);
-    // $xxxldiv.appendChild($div);
 };
 
 var renderUserXXXXLTShirtOrder = function(key){
     var newUserXXXXL = 0;
-    // var $xxxxldiv = document.getElementById("teeShirtLogin");
      var $div =document.getElementById("updateTShirtOptions");
     var $xXXXLDiv = document.createElement("div");
     $xXXXLDiv.classList.add("individual_block");
@@ -660,11 +612,9 @@ var renderUserXXXXLTShirtOrder = function(key){
     });
     $xXXXLDiv.appendChild($xXXXLselection);
     $div.appendChild($xXXXLDiv);
-    // $xxxxldiv.appendChild($div);
 };
 
 var renderMemberTShirtButton = function(){
-    // var pageSource = document.getElementById("teeShirtLogin");
     var $div = document.getElementById("memberTShirtCostButton");
   var costBut = document.createElement("button");
   costBut.setAttribute("id","costButton");
@@ -675,11 +625,9 @@ var renderMemberTShirtButton = function(){
       renderShirtCost();
   });
   $div.appendChild(costBut);
-//   pageSource.appendChild($div);
 };
 
 var renderShirtCost = function(){
-    // var $shirtCostOrig = document.getElementById("teeShirtLogin");
   var $shirtHead = document.getElementById("memberTShirtCost");
   $shirtHead.innerHTML = "";
   var $sCHeader = document.createElement("h2");
@@ -696,7 +644,6 @@ var renderShirtCost = function(){
   var shirtCost = " The cost of the TShirts are ".concat(totalShirtCost).concat(".00 dollars");
   $sCHeader.innerHTML = shirtOrderString.concat(shirtCost);
   $shirtHead.appendChild($sCHeader);
-    // $shirtCostOrig.appendChild($shirtHead);
 };
 
 var determineShirtCost = function(){

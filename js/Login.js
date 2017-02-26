@@ -3,7 +3,6 @@ var acctPass = "";
 var userNameChk= false;
 var userAcct = "";
 var userPassword = "";
-
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var emailDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
@@ -66,19 +65,13 @@ var setVariables = function(){
 
 var setAcctUser = function(){
   acctUser = document.getElementById("userUser").value;
-  console.log(acctUser);
-  
   userCheck();
-  console.log(userNameChk);
   setVariables();
-  console.log(userPassword);
 };
 
 var passwordUserVerification = function(){
   userCheck();
-  // console.log(userNameChk);
   setVariables();
-  
   if (userPassword == acctPass){
     localStorage.setItem("user",userAcct);
     showLoginHomeScreen();
@@ -121,9 +114,6 @@ var renderLoginUser = function(){
   userLogInpt.setAttribute("id", "userUser");
   userLogInpt.addEventListener("blur", function(ev){
     setAcctUser();
-  //   userCheck();
-  // setVariables();
-  // console.log(userPassword);
   });
   $logInfDiv.appendChild(userLogInpt);
   
@@ -144,7 +134,6 @@ var renderLoginPass = function(){
   passLogInpt.setAttribute("id", "userPass");
   passLogInpt.addEventListener("blur", function(ev){
     setAcctPass();
-    
   });
   $logInfoDiv.appendChild(passLogInpt);
   
@@ -155,8 +144,6 @@ var renderLoginButtons = function(){
   var $logHdr = document.getElementById("login");
   var $buttDiv = document.createElement("div");
   $buttDiv.classList.add("screenButtons");
-  
-  
   
   var $loginButton = document.createElement("button");
   $loginButton.setAttribute("type", "button");
@@ -176,8 +163,6 @@ var renderLoginButtons = function(){
   });
   $buttDiv.appendChild($forgotPassButton);
   
-  
-  
    var $homeReturnButton = document.createElement("button");
   $homeReturnButton.setAttribute("type", "button");
   $homeReturnButton.setAttribute("id", "loginHomeReturn");
@@ -195,10 +180,6 @@ var renderLoginButtons = function(){
     showAdminLoginScreen();
   });
   $buttDiv.appendChild($adminLoginButton);
-  
-  
-  
-  
   $logHdr.appendChild($buttDiv);
 };
 

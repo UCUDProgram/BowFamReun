@@ -68,7 +68,6 @@ var renderAttendeeTotal = function(){
     var adultTot = document.createElement("h3");
     adultTot.innerHTML = "Total Adults attending " + adultTotal;
     attendeeDiv.appendChild(adultTot);
-    // console.log(lgShirtTotal);
     
     var seniorTot = document.createElement("h3");
     seniorTot.innerHTML = "Total Seniors attending: " + seniorTotal;

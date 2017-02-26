@@ -22,7 +22,7 @@ var costInfo = function(){
      $costInfoDiv.setAttribute("id","costInfo");
     $costInfoDiv.innerHTML = "";
     var $child = document.createElement("h2");
-    $child.innerHTML = "Cost for a child(Age 3-17) is $5.00";
+    $child.innerHTML = "Cost for a child(Age 3-17) is $10.00";
     $costInfoDiv.appendChild($child);
     var $adult = document.createElement("h2");
     $adult.innerHTML = "Cost for an adult(Age 18-79) is $20.00";
@@ -31,7 +31,6 @@ var costInfo = function(){
     $free.innerHTML = "Cost for a child(Under 3) or an adult 80 & over is FREE ($0.00)";
     $costInfoDiv.appendChild($free);
     costDiv.appendChild($costInfoDiv);
-    
 };
 
 var costNav = function(){
@@ -43,7 +42,6 @@ var costNav = function(){
     costHomeReturnButton.addEventListener("click", function(ev){
         showHomePageScreen();
     });
-    
     costInfDiv.appendChild(costHomeReturnButton);
 };
 

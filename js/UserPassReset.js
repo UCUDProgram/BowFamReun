@@ -34,6 +34,7 @@ var resetUserPassVer = function(){
     document.getElementById("passResetVerify").value = "";
     setNewPassVer();
 };
+
 var userTrue = function(){
   userCheckFail = true;  
 };
@@ -62,7 +63,6 @@ var clearPassResetFields = function(){
 };
 
 var updatePassword = function(){
-        // variableReset();
         newPasswordChangeVerification();
         if (newPassWordVerify){
         userPasswordChangeCheck();
@@ -122,7 +122,6 @@ var userPasswordSend = function(){
 };
 
 var parseUserResponse = function(chuckJSON){
-    // console.log(chuckJSON);
   var userdata = JSON.parse(chuckJSON);
   var userpwdrst = userdata.response;
   setUserPwdCkRst(userpwdrst);
@@ -132,7 +131,6 @@ var parseUserResponse = function(chuckJSON){
 
 var getUserPasswordCheck = function(){
   var URL = "../php/validPasswordCheck.php";
-  // var URL = "https://bow-fam-reun-ucudprogram.c9users.io/php/validPasswordCheck.php";
   var xhr = new XMLHttpRequest();
   
   xhr.onload = function(){
@@ -146,13 +144,11 @@ var getUserPasswordCheck = function(){
   xhr.send(data);
 };
 
-
 var userPasswordCheck = function(){
   if(newPass != newPassVer){
     alert("The Two Passwords do not match");
   } else{
     getUserPasswordCheck();
-    // alert("Thank You for checking to see if your Password is acceptable");
   }
 };
 

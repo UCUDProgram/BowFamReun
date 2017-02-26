@@ -11,10 +11,7 @@ var getAdministrator = function(){
 var renderAdminHeader = function(){
     var div = document.getElementById("adminHeader");
     var adminHead = document.createElement("h1");
-    
-    // adminHead.innerHTML= "Welcome Administer";
     adminHead.innerHTML= "Welcome Administer " + adminUser;
-    
     div.appendChild(adminHead);
 };
 

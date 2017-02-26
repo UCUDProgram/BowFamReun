@@ -21,7 +21,6 @@ var clearData = function(){
   localStorage.clear();
 };
 
-
 var setPwdCkRst = function(result){
   passwordCheckResult = result;
 };
@@ -33,81 +32,68 @@ var setPwdChkMsg = function(resMes){
 var setFirstName = function(){
   uFirst = document.getElementById("fName").value;
   firstNameValidation();
-  // console.log(entries);
 };
 
 var setLastName = function(){
   uLast = document.getElementById("lName").value;
   lastNameValidation();
-  // console.log(entries);
 };
 
 var setAddress = function(){
   uAddress = document.getElementById("addr").value;  
   addressValidation();
-  // console.log(entries);
 };
 
 var setCity = function(){
   uCity = document.getElementById("city").value;  
   cityValidation();
-  // console.log(entries);
 };
 
 var setState = function(){
   uState = document.getElementById("state").value;
   stateValidation();
-  // console.log(entries);
 };
 
 var setZip = function(){
   uZip = document.getElementById("zip").value;
   zipValidation();
-  // console.log(entries);
 };
 
 var setEMail = function(){
   uEmail = document.getElementById("email").value;  
   emailValidation();
-  // console.log(entries);
 };
 
 var setPhone = function(){
   uPhone = document.getElementById("phone").value;
   phoneValidation();
-  // console.log(entries);
 };
 
 var setUser = function(){
   uUName = document.getElementById("uname").value;
   userValidation();
-  // console.log(entries);
 };
 
 var setPassword = function(){
   uPass = document.getElementById("pword").value;
   passwordValidation();
-  // console.log(entries);
 };
 
 var resetPassword = function(){
   document.getElementById("pword").value = "";
   uPass = document.getElementById("pword").value;
   passwordValidation();
-  // console.log(entries);
 };
 
 var setPassVer = function(){
   uPassVer = document.getElementById("pword_Verify").value;
   passVerValidation();
-    // console.log(entries);
 };
 
 var resetPassVer = function(){
     document.getElementById("pword_Verify").value = "";
   uPassVer = document.getElementById("pword_Verify").value;
   passVerValidation();
-    // console.log(entries);
 };
 
 var firstNameValidation = function(){
@@ -203,7 +189,6 @@ var clearInputFields = function(){
     document.getElementById("uname").value = "";
     document.getElementById("pword").value = "";
     document.getElementById("pword_Verify").value = "";
-
 };
 
 var validUserCheck = function(){
@@ -251,14 +236,6 @@ var parsePassResponse = function(chuckJSON){
   setPwdCkRst(pwdrst);
   var pwdmsg = pasdata.message;
   setPwdChkMsg(pwdmsg);
-  
-  
-  // console.log(pasdata);
-  // console.log(pwdrst);
-  // console.log(pwdmsg);
-  // var pasdata = JSON.parse(chuckJSON);
-  // passwordCheckResult = pasdata.response;
-  // passwordCheckMessage = pasdata.message;
 };
 
 var passVer = function(chuckJSON){
@@ -274,9 +251,7 @@ var passVer = function(chuckJSON){
 
 var getPasswordCheck = function(){
   var URL = "../php/validPasswordCheck.php";
-  // var URL = "https://bow-fam-reun-ucudprogram.c9users.io/php/validPasswordCheck.php";
   var xhr = new XMLHttpRequest();
-  
   xhr.onload = function(){
     if (this.status == 200){
       passVer(this.response);
@@ -288,13 +263,11 @@ var getPasswordCheck = function(){
   xhr.send(data);
 };
 
-
 var userPasswordCheck = function(){
   if(uPass != uPassVer){
     alert("The Two Passwords do not match");
   } else{
     getPasswordCheck();
-    // alert("Thank You for checking to see if your Password is acceptable");
   }
 };
 
@@ -364,7 +337,7 @@ var renderPersonRow1 = function(){
    var lNamediv = document.createElement("div");
   lNamediv.classList.add("individual_block");
   
-  var lnameLab = document.createElement("label")
+  var lnameLab = document.createElement("label");
   lnameLab.setAttribute("for", "lName");
   lnameLab.innerHTML = "Last Name: ";
   lNamediv.appendChild(lnameLab);
@@ -417,7 +390,7 @@ var renderPersonRow3 = function(){
   var citydiv = document.createElement("div");
   citydiv.classList.add("individual_block_first");
   
-  var cityLab = document.createElement("label")
+  var cityLab = document.createElement("label");
   cityLab.setAttribute("for", "city");
   cityLab.innerHTML = "City: ";
   citydiv.appendChild(cityLab);
@@ -434,7 +407,7 @@ var renderPersonRow3 = function(){
    var statediv = document.createElement("div");
   statediv.classList.add("individual_block");
   
-  var stateLab = document.createElement("label")
+  var stateLab = document.createElement("label");
   stateLab.setAttribute("for", "state");
   stateLab.innerHTML = "State: ";
   statediv.appendChild(stateLab);
@@ -452,7 +425,7 @@ var renderPersonRow3 = function(){
  var zipdiv = document.createElement("div");
   zipdiv.classList.add("individual_block");
   
-  var zipLab = document.createElement("label")
+  var zipLab = document.createElement("label");
   zipLab.setAttribute("for", "zip");
   zipLab.innerHTML = "ZipCode: ";
   zipdiv.appendChild(zipLab);
@@ -480,7 +453,7 @@ var renderPersonRow4 = function(){
   var emaildiv = document.createElement("div");
   emaildiv.classList.add("individual_block_first");
   
-  var emailLab = document.createElement("label")
+  var emailLab = document.createElement("label");
   emailLab.setAttribute("for", "email");
   emailLab.innerHTML = "Email: ";
   emaildiv.appendChild(emailLab);
@@ -497,7 +470,7 @@ var renderPersonRow4 = function(){
    var phonediv = document.createElement("div");
   phonediv.classList.add("individual_block");
   
-  var phoneLab = document.createElement("label")
+  var phoneLab = document.createElement("label");
   phoneLab.setAttribute("for", "phone");
   phoneLab.innerHTML = "Phone Number: ";
   phonediv.appendChild(phoneLab);
@@ -531,7 +504,7 @@ var renderUserRow = function(){
   var userNamediv = document.createElement("div");
   userNamediv.classList.add("individual_block_first");
   
-  var userLab = document.createElement("label")
+  var userLab = document.createElement("label");
   userLab.setAttribute("for", "uname");
   userLab.innerHTML = "Username: ";
   userNamediv.appendChild(userLab);
@@ -581,7 +554,7 @@ var renderPassRow = function(){
   
   
   var userPassRdiv = document.createElement("div");
-  var userPassLab = document.createElement("label")
+  var userPassLab = document.createElement("label");
   userPassLab.setAttribute("for", "pword");
   userPassLab.innerHTML = "Password: ";
   userPassRdiv.appendChild(userPassLab);
@@ -597,7 +570,7 @@ var renderPassRow = function(){
   
   var userPassRVer = document.createElement("div");
   
-  var userPassVLab = document.createElement("label")
+  var userPassVLab = document.createElement("label");
   userPassVLab.setAttribute("for", "pword_Verify");
   userPassVLab.innerHTML = "Password Verify: ";
   userPassRVer.appendChild(userPassVLab);

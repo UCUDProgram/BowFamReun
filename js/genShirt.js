@@ -6,9 +6,7 @@ var clearStrgData = function(){
 var loadGeneralShirt = function(){
   renderGenShirtHeader();
   renderGenShirtImages();
-//   renderGenShirtNavigation();
   renderGenShirtCost();
-//   renderGenShirtNews();
 };
 
 var renderGenShirtHeader = function(){
@@ -34,20 +32,6 @@ var renderGenShirtImages = function(){
     frontImage.setAttribute("src", "../images/BFR Tee Shirt.jpeg");
     image1Div.appendChild(frontImage);
     firstDiv.appendChild(image1Div);
-    
-    // var image2Div = document.createElement("div");
-    // image2Div.setAttribute("id","tshirt");
-    
-    // var backText = document.createElement("div");
-    // backText.classList.add("textCentered");
-    // backText.innerHTML = "Back";
-    // image2Div.appendChild(backText);
-    
-    // var backImage = document.createElement("img");
-    // backImage.setAttribute("src", "../images/BFR Tee Shirt Back.jpg");
-    // image2Div.appendChild(backImage);
-    
-    // firstDiv.appendChild(image2Div);
     originDiv.appendChild(firstDiv);
 };
 
