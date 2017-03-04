@@ -4,6 +4,7 @@ var last = "";
 var ageStatus = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
+var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 var adultAttend = 0;
 var childAttend = 0;
 var infantAttend = 0;
@@ -52,7 +53,7 @@ var resetAges = function(){
     childAttend = 0;
     adultAttend = 0;
     seniorAttend = 0;
-}
+};
 
 var personSubmit = function(){
     setAge();
@@ -97,6 +98,10 @@ var getPeople = function(){
 });
 }; 
 
+var getBalance = function(){
+    
+};
+
 var setPeopleCount = function(){
     attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
@@ -127,11 +132,26 @@ var determineFamCost = function(){
 };
 
 //  RENDERING THE SCREEN (VIEW)
+var renderUser = function(){
+    renderWelcome();
+    renderLogoutButton();
+    renderTitle();
+    renderNewPersonHeader();
+    renderNewPerson();
+    renderMemberInformation();
+    renderPaymentInfo();
+    renderMemberNav();
+};
+
 var renderNewPersonHeader = function(){
     var divHead = document.getElementById("newPersonHead");
-    var newHead = document.createElement("h3");
+    var newHead = document.createElement("h2");
     newHead.innerHTML = "Register a new person that will be attending the reunion";
     divHead.appendChild(newHead);
+    
+    var remind = document.createElement("h3");
+    remind.innerHTML = "DON'T FORGET TO REGISTER YOURSELF";
+    divHead.appendChild(remind);
 };
 
 var editItemName = function(personDiv, first, last,pKey){
@@ -217,8 +237,8 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
     
     var $deleteButton = document.createElement("button");
     $deleteButton.setAttribute("type","button");
-    var buttonName = firstName.concat(lastName).concat("Delete"); 
-    $deleteButton.setAttribute("id",buttonName);
+    var deleteButtonName = firstName.concat(lastName).concat("Delete"); 
+    $deleteButton.setAttribute("id",deleteButtonName);
     $deleteButton.innerHTML ="Delete";
     $deleteButton.addEventListener("click", function(ev){
         deletePerson(itemKey);
@@ -358,7 +378,7 @@ $childClassification.setAttribute("value", "Child");
 $childClassification.setAttribute("id", "newChildAge");
   $childClassification.innerHTML = "Child";
      if(persAge == "Child"){
-          $childClassification.setAttribute("selected",true)
+          $childClassification.setAttribute("selected",true);
       }
       $ageClassification.appendChild($childClassification);
       
@@ -376,7 +396,7 @@ $childClassification.setAttribute("id", "newChildAge");
   $seniorClassification.setAttribute("id", "newSeniorAge");
   $seniorClassification.innerHTML = "Distinguished Adult";
     if(persAge == "Senior"){
-          $seniorClassification.setAttribute("selected",true)
+          $seniorClassification.setAttribute("selected",true);
       }
     
       $ageClassification.appendChild($seniorClassification);
@@ -426,6 +446,10 @@ var renderFamReg = function(){
    $costHead.appendChild($cHeader);
 };
 
+var renderRegCost = function(){
+    
+};
+
 var renderMemberNav = function(){
   var $div = document.getElementById("memberNav");
   var $butt = document.createElement("button");
@@ -444,19 +468,6 @@ var renderMemberNav = function(){
   });
   $div.appendChild($foodButt);
     
-};
-
-var renderCostButton = function(){
-  var $div = document.getElementById("regButton");
-  var costBut = document.createElement("button");
-  costBut.setAttribute("id","costButton");
-  costBut.innerHTML = "Calculate Registration Cost";
-  costBut.addEventListener("click",function(ev){
-      document.getElementById("regButton").classList.add("hidden");
-      document.getElementById("registrationCost").classList.remove("hidden");
-      renderFamReg();
-  });
-  $div.appendChild(costBut);
 };
 
 var renderLogoutButton = function(){
@@ -508,14 +519,7 @@ var renderPaymentInfo = function(){
 var userStart = function(){
     setAcct();
     getPeople();
-    renderWelcome();
-    renderLogoutButton();
-    renderTitle();
-    renderNewPersonHeader();
-    renderNewPerson();
-    renderMemberInformation();
-    renderPaymentInfo();
-    renderMemberNav();
+    renderUser();
 };
 
 document.addEventListener('DOMContentLoaded',userStart);

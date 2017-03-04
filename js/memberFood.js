@@ -110,7 +110,7 @@ var renderFoodOrderHeader = function(){
   fdHeadText.innerHTML = "Enter the food that you will bring to the Family Renunion";
   
   var fdHeadInfo = document.createElement("h2");
-  fdHeadInfo.innerHTML = "Keep in mind the food needs to be able to feed AT LEAST 15 People";
+  fdHeadInfo.innerHTML = "Keep in mind the food needs to be able to feed AT LEAST 15 People.";
   
   var fdHeadOther = document.createElement("h2");
   fdHeadOther.innerHTML = "If you do not see the food you are bringing, you can enter it in other food Item Area.  For Example, enter Macaroni Salad in the Textbox and select the Salad option in the accompanying Checkbox.";

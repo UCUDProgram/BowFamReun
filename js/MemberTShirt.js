@@ -7,6 +7,9 @@ var tripXLTShirt = 0;
 var quadXLTShirt = 0;
 var userAccount = "";
 
+var shirtPaid = 0;
+var shirtReceive = 0;
+
 var regShirtCost = 10;
 var largerShirtCost = 12;
 var totalShirtCost = 0;
@@ -42,6 +45,14 @@ var updateXXXXLTShirt= function(xxxxL){
     quadXLTShirt = xxxxL;
 };
 
+var updateShirtPaid = function(pay){
+  shirtPaid = pay;  
+};
+
+var updateShirtReceive = function(rec){
+    shirtReceive = rec;
+};
+
 var initShirtSubmit = function(){
   var regData = DB.child("TShirt");
   regData.push().set({account:userAccount, 
@@ -51,7 +62,7 @@ var initShirtSubmit = function(){
                       xL: xLgTShirt,
                       xxLarge: xXLTShirt,
                       xxxLarge: tripXLTShirt,
-                      xxxxLarge: quadXLTShirt,
+                      xxxxLarge: quadXLTShirt
                     });
     getTShirtData();
 };
@@ -644,6 +655,17 @@ var renderShirtCost = function(){
   var shirtCost = " The cost of the TShirts are ".concat(totalShirtCost).concat(".00 dollars");
   $sCHeader.innerHTML = shirtOrderString.concat(shirtCost);
   $shirtHead.appendChild($sCHeader);
+  renderShirtPayReceived($shirtHead);
+};
+
+var renderShirtPayReceived = function(shDv){
+  var feePaid = document.createElement("h2");
+  feePaid.innerHTML = "You have paid " +  + " dollars.";
+  shDv.appendChild(feePaid);
+  
+  var feeLeft = document.createElement("h2");
+  feeLeft.innerHTML =  "You have a TShirt balance of " +  + "dollars.";
+  shDv.appendChild(feeLeft);
 };
 
 var determineShirtCost = function(){
@@ -651,11 +673,11 @@ var determineShirtCost = function(){
   var mShirt = mediumTShirt * regShirtCost;
   var lgShirt = largeTShirt * regShirtCost;
   var xLgShirt = xLgTShirt * regShirtCost;
-  var xXLShirt = xXLTShirt * largerShirtCost;
+  var xXLShirt = xXLTShirt * regShirtCost;
   var xXXLShirt = tripXLTShirt * largerShirtCost;
   var xXXXLShirt = quadXLTShirt * largerShirtCost;
   totalShirtCost = smShirt + mShirt + lgShirt + xLgShirt + xXLShirt + xXXLShirt + xXXXLShirt;
-  console.log(totalShirtCost);
+//   console.log(totalShirtCost);
 };
 
 var renderShirtPaymentInfo = function(){
@@ -694,7 +716,7 @@ var renderMemberTShirtInfo = function(){
   infoDiv.appendChild(head1);
   
   var head2 = document.createElement("h2");
-  head2.innerHTML = "The Flexible deadline to order shirts is May 15th 2017.  Afterwhich we will place the TShirt Order";
+  head2.innerHTML = "The Flexible deadline to order shirts is May 15th 2017, after which the TShirt Order will be submitted.";
   infoDiv.appendChild(head2);
     
 };

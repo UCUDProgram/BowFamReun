@@ -29,8 +29,16 @@ var seniorCount = 0;
 var seniorCost = 0;
 var seniorTot = 0;
 
+var admi = "";
 var attendanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var shirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
+
+var getAdminist = function(){
+    admi = localStorage.getItem("admin");
+     if(admi == null){
+      showAdminLoginScreen();
+     }
+};
 
 var getShirtTotals = function(){
    shirtDB.orderByKey().on("value", function(snapshot){
@@ -475,6 +483,7 @@ var renderSeniorRow = function(attend){
 
 
 var adminExpenseStart = function(){
+    getAdminist();
     renderExpenseHead();
     getShirtTotals();
     getAttendanceTotals();

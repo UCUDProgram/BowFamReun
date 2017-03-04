@@ -224,6 +224,16 @@ var pushUsersData = function(){
   });
 };
 
+var pushFeeData = function(){
+  var regData = DB.child("Fees");
+  regData.push().set({userName: uUName,
+                      regPaid:0,
+                      regDue:0,
+                      shirtPaid:0,
+                      shirtDue:0
+  });
+};
+
 var passwordSend = function(){
   var passVald = JSON.stringify({password:uPass});
   return passVald;
@@ -276,6 +286,7 @@ var registerAccount = function(){
   if(allEntered){
     pushAccountData();
     pushUsersData();
+    pushFeeData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();
@@ -320,7 +331,7 @@ var renderPersonRow1 = function(){
   var fNamediv = document.createElement("div");
   fNamediv.classList.add("individual_block_first");
   
-  var fnameLab = document.createElement("label")
+  var fnameLab = document.createElement("label");
   fnameLab.setAttribute("for", "fName");
   fnameLab.innerHTML = "First Name: ";
   fNamediv.appendChild(fnameLab);

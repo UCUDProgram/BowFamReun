@@ -73,3 +73,19 @@ var showAdminAttendeesListScreen = function(){
 var showAdminExpenseScreen = function(){
   window.location.href = "adminExpense.html";
 };
+
+var showAdminNewMemberInputScreen = function(){
+  window.location.href = "adminAddMember.html";
+};
+
+var showAdminRegistrationScreen = function(){
+  window.location.href = "adminRegistrationReport.html";
+};
+
+var showAdminShirtReportScreen = function(){
+  window.location.href = "adminShirtReport.html";
+};
+
+var showAdminPaymentUpdateScreen = function(){
+  window.location.href = "adminPaymentUpdate.html";
+};
