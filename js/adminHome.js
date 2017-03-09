@@ -15,33 +15,22 @@ var renderAdminHeader = function(){
     div.appendChild(adminHead);
 };
 
-var renderAdminNavigationButtons = function(){
-    var adminNav = document.getElementById("adminNavigation");
-    
-    var adminContactButton = document.createElement("button");
+var renderAdminMembers = function(){
+  var admMem = document.getElementById("adminMembers");
+  
+  var admHead = document.createElement("h1");
+  admHead.innerHTML = "Membership Information";
+  admMem.appendChild(admHead);
+  
+  var memDiv = document.createElement("div");
+  
+   var adminContactButton = document.createElement("button");
   adminContactButton.setAttribute("id","adminContactButton");
   adminContactButton.innerHTML = "Contact Information";
   adminContactButton.addEventListener("click",function(ev){
       showAdminContactsScreen();
   });
-    adminNav.appendChild(adminContactButton);
-    
-    
-    var adminTShirtButton = document.createElement("button");
-  adminTShirtButton.setAttribute("id","adminTShirtsButton");
-  adminTShirtButton.innerHTML = "T-Shirt Ordering Total";
-  adminTShirtButton.addEventListener("click",function(ev){
-      showAdminShirtsScreen();
-  });
-    adminNav.appendChild(adminTShirtButton);
-    
-    var adminAttendeesButton = document.createElement("button");
-  adminAttendeesButton.setAttribute("id","adminAttendeesButton");
-  adminAttendeesButton.innerHTML = "Attendees Total";
-  adminAttendeesButton.addEventListener("click",function(ev){
-      showAdminAttendeesScreen();
-  });
-    adminNav.appendChild(adminAttendeesButton);
+    memDiv.appendChild(adminContactButton);
     
      var adminAttendeesListButton = document.createElement("button");
   adminAttendeesListButton.setAttribute("id","adminAttendeesListButton");
@@ -49,16 +38,69 @@ var renderAdminNavigationButtons = function(){
   adminAttendeesListButton.addEventListener("click",function(ev){
       showAdminAttendeesListScreen();
   });
-    adminNav.appendChild(adminAttendeesListButton);
+    memDiv.appendChild(adminAttendeesListButton);
     
-    var adminExpenseButton = document.createElement("button");
-  adminExpenseButton.setAttribute("id","adminExpenseButton");
-  adminExpenseButton.innerHTML = "Expenses";
-  adminExpenseButton.addEventListener("click",function(ev){
-      showAdminExpenseScreen();
+    var adminAddNewMemberButton = document.createElement("button");
+  adminAddNewMemberButton.setAttribute("id","adminAddNewMemberButton");
+  adminAddNewMemberButton.innerHTML = "Add a New Member's Information";
+  adminAddNewMemberButton.addEventListener("click",function(ev){
+      showAdminNewMemberInputScreen();
   });
-    adminNav.appendChild(adminExpenseButton);
+    memDiv.appendChild(adminAddNewMemberButton);
     
+    var adminPaymentUpdateButton = document.createElement("button");
+  adminPaymentUpdateButton.setAttribute("id","adminPaymentUpdateButton");
+  adminPaymentUpdateButton.innerHTML = "Update a Member's Payment Record";
+  adminPaymentUpdateButton.addEventListener("click",function(ev){
+      showAdminPaymentUpdateScreen();
+  });
+    memDiv.appendChild(adminPaymentUpdateButton);
+
+  admMem.appendChild(memDiv);
+};
+
+var renderAdminReports = function(){
+  
+  var admRpt = document.getElementById("adminReports");
+  
+  var rptHead = document.createElement("h1");
+  rptHead.innerHTML = "Reports";
+  admRpt.appendChild(rptHead);
+  
+  var rptDiv = document.createElement("div");
+  
+    var adminTShirtButton = document.createElement("button");
+  adminTShirtButton.setAttribute("id","adminTShirtsButton");
+  adminTShirtButton.innerHTML = "T-Shirt Ordering Total";
+  adminTShirtButton.addEventListener("click",function(ev){
+      showAdminShirtsScreen();
+  });
+    rptDiv.appendChild(adminTShirtButton);
+    
+    var adminAttendeesButton = document.createElement("button");
+  adminAttendeesButton.setAttribute("id","adminAttendeesButton");
+  adminAttendeesButton.innerHTML = "Attendees Total";
+  adminAttendeesButton.addEventListener("click",function(ev){
+      showAdminAttendeesScreen();
+  });
+    rptDiv.appendChild(adminAttendeesButton);
+  
+   var adminRegReportButton = document.createElement("button");
+  adminRegReportButton.setAttribute("id","adminRegistrationReportButton");
+  adminRegReportButton.innerHTML = "Registration Report";
+  adminRegReportButton.addEventListener("click",function(ev){
+      showAdminRegistrationReportScreen();
+  });
+    rptDiv.appendChild(adminRegReportButton);
+  
+      var adminShirtReportButton = document.createElement("button");
+  adminShirtReportButton.setAttribute("id","adminShirtReportButton");
+  adminShirtReportButton.innerHTML = "Shirt Report";
+  adminShirtReportButton.addEventListener("click",function(ev){
+      showAdminShirtReportScreen();
+  });
+    rptDiv.appendChild(adminShirtReportButton);
+  admRpt.appendChild(rptDiv);
 };
 
 var renderAdminLogoutButton = function(){
@@ -76,8 +118,9 @@ var renderAdminLogoutButton = function(){
 var adminHomeStart = function(){
     getAdministrator();
     renderAdminHeader();
-    renderAdminNavigationButtons();
     renderAdminLogoutButton();
+    renderAdminMembers();
+    renderAdminReports();
 };
 
 document.addEventListener('DOMContentLoaded', adminHomeStart);

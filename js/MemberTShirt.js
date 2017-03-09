@@ -6,6 +6,7 @@ var xXLTShirt = 0;
 var tripXLTShirt = 0;
 var quadXLTShirt = 0;
 var userAccount = "";
+var shirtCost = 0;
 
 var shirtPaid = 0;
 var shirtReceive = 0;
@@ -104,6 +105,18 @@ var updateTShirtOrder = function(sma,medi,lar,xlarge, doubXLg, tripXLg, quadXLg)
     updateXXLTShirt(doubXLg);
     updateXXXLTShirt(tripXLg);
     updateXXXXLTShirt(quadXLg);
+};
+
+var determineShirtCost = function(){
+  var smShirt = smallTShirt * regShirtCost;
+  var mShirt = mediumTShirt * regShirtCost;
+  var lgShirt = largeTShirt * regShirtCost;
+  var xLgShirt = xLgTShirt * regShirtCost;
+  var xXLShirt = xXLTShirt * regShirtCost;
+  var xXXLShirt = tripXLTShirt * largerShirtCost;
+  var xXXXLShirt = quadXLTShirt * largerShirtCost;
+  totalShirtCost = smShirt + mShirt + lgShirt + xLgShirt + xXLShirt + xXXLShirt + xXXXLShirt;
+//   console.log(totalShirtCost);
 };
 
 //  RENDERING THE SCREEN (VIEW)
@@ -668,17 +681,7 @@ var renderShirtPayReceived = function(shDv){
   shDv.appendChild(feeLeft);
 };
 
-var determineShirtCost = function(){
-  var smShirt = smallTShirt * regShirtCost;
-  var mShirt = mediumTShirt * regShirtCost;
-  var lgShirt = largeTShirt * regShirtCost;
-  var xLgShirt = xLgTShirt * regShirtCost;
-  var xXLShirt = xXLTShirt * regShirtCost;
-  var xXXLShirt = tripXLTShirt * largerShirtCost;
-  var xXXXLShirt = quadXLTShirt * largerShirtCost;
-  totalShirtCost = smShirt + mShirt + lgShirt + xLgShirt + xXLShirt + xXXLShirt + xXXXLShirt;
-//   console.log(totalShirtCost);
-};
+
 
 var renderShirtPaymentInfo = function(){
     var div = document.getElementById("tShirtPayment");

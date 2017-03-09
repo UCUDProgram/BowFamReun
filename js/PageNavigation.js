@@ -78,7 +78,7 @@ var showAdminNewMemberInputScreen = function(){
   window.location.href = "adminAddMember.html";
 };
 
-var showAdminRegistrationScreen = function(){
+var showAdminRegistrationReportScreen = function(){
   window.location.href = "adminRegistrationReport.html";
 };
 
