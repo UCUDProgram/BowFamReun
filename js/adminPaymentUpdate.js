@@ -8,8 +8,16 @@ var shrtDue = 0;
 var regD = 0;
 var regPayment =0;
 var shirtPayment =0;
+var admAct = "";
 var feeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 var accDB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
+
+var getAdminis = function(){
+    admAct = localStorage.getItem("admin");
+     if(admAct == null){
+      showAdminLoginScreen();
+     }
+};
 
 var setShirtPaid = function(shirt){
   shrtPd = shirt;  
@@ -107,13 +115,12 @@ var setNewDues = function(key){
   });
 };
 
-var getNamesList = function(){
-      getFirstNames();
-       getLastNames();
-       getResults();
-};
-
 var getResults = function(){
+    
+    var dv = document.getElementById("userPayRetrieve");
+    while (dv.firstChild)
+        dv.removeChild(dv.firstChild);
+    
   accountList.forEach(function (userN){
      accDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
@@ -214,6 +221,7 @@ var renderSearchButton = function(){
     persSearchBtn.setAttribute("id", "personPayQuery");
     persSearchBtn.innerHTML = "Search Person";
     persSearchBtn.addEventListener("click", function(ev){
+        searchReset();
         getResults();
     });
     oBDiv.appendChild(persSearchBtn);
@@ -224,6 +232,7 @@ var renderIndResult = function(frstNm, lstNm, usr){
     var perDv = document.createElement("div");
     var divName = frstNm.concat(lstNm).concat("Record");
     perDv.setAttribute("id", divName);
+    perDv.classList.add("recordSpacing");
     
     var fNDv = document.createElement("div");
     fNDv.classList.add("individual_block_first");
@@ -262,14 +271,21 @@ var renderReset = function(){
         payIpt.removeChild(payIpt.firstChild);
 };
 
+var searchReset = function(){
+    var pay = document.getElementById("currPayment");
+        while(pay.firstChild)
+            pay.removeChild(pay.firstChild);
+    
+    var payIpt = document.getElementById("userPayUpdate");
+        while(payIpt.firstChild)
+            payIpt.removeChild(payIpt.firstChild);
+};
 
 var renderUserCurrentPaid = function(){
     var dv = document.getElementById("currPayment");
     while(dv.firstChild)
         dv.removeChild(dv.firstChild);
     
-    // var cuPyDv = document.getElementById("currPayment");    
-    // cuPyDv.classList.add("curr_pay_info");
     renderUserRegPayment();
     renderUserRegDue();
     renderUserShirtPayment();
@@ -278,7 +294,7 @@ var renderUserCurrentPaid = function(){
 
 var renderUserRegPayment = function(){
     var sourc = document.getElementById("currPayment");
-    sourc.classList.add("curr_pay_info");
+    // sourc.classList.add("curr_pay_info");
     
     var regDv = document.createElement("div");
     regDv.classList.add("individual_block_first");
@@ -408,6 +424,7 @@ var renderPayUpdateButton = function(key){
 };
 
 var admPayStart = function(){
+    getAdminis();
     renderPayHeader();
     renderUserPaySearch();
     

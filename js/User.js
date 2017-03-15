@@ -2,23 +2,14 @@ var acct = "";
 var first = "";
 var last = "";
 var ageStatus = "";
-var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
-var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
-var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 var adultAttend = 0;
 var childAttend = 0;
 var infantAttend = 0;
 var seniorAttend = 0;
 var famCost= 0;
-
-var logout = function(){
-    localStorage.clear();
-};
-
-var deletePerson = function(aKey){
-    attendeeDB.child(aKey).remove();
-    getPeople();
-};
+var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
+var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
+var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 
 var setAcct = function(){
   acct = localStorage.getItem("user");
@@ -26,6 +17,10 @@ var setAcct = function(){
   if(acct == null){
       showLoginScreen();
   }
+};
+
+var logout = function(){
+    localStorage.clear();
 };
 
 var setAge= function(){
@@ -53,6 +48,11 @@ var resetAges = function(){
     childAttend = 0;
     adultAttend = 0;
     seniorAttend = 0;
+};
+
+var deletePerson = function(aKey){
+    attendeeDB.child(aKey).remove();
+    getPeople();
 };
 
 var personSubmit = function(){
