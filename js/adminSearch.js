@@ -5,17 +5,152 @@ var shirtsDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var foodDB = new Firebase("https://bowmanfamreun.firebaseio.com/Food");
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW
+var persFirst = "";
+var persLast = "";
+var persList = [];
+var setUserFirst = function(newFirst){
+  persFirst = newFirst;  
+};
 
+var setUserLast = function(newLast){
+    persLast = newLast;    
+};
 
+var getFirstNames = function(){
+  accountDB.orderByChild("firstname").equalTo(persFirst).on("value", function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+          var acctKy = childSnapshot.val().userName;
+          var index_of_uFirstNm = accountList.indexOf(acctKy);
+          console.log(index_of_uFirstNm);
+          if(index_of_uFirstNm == -1)
+            accountList.push(acctKy);
+      });
+  });
+};
 
+var getLastNames = function(){
+  accountDB.orderByChild("lastname").equalTo(persLast).on("value", function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+          var accoutKy = childSnapshot.val().userName;
+          var index_of_uLastNm = accountList.indexOf(accoutKy);
+          console.log(index_of_uLastNm);
+          if(index_of_uLastNm == -1)
+            accountList.push(accoutKy);
+      });
+  });
+};
+
+var renderPersonSearch = function(){
+    renderPersonFirstSearch();
+    renderPersonLastSearch();
+    renderPersonSearchButton();
+};
+
+var renderPersonFirstSearch = function(){
+  var orDiv = document.getElementById("personSearch");
+  
+  var dv = document.createElement("div");
+  dv.classList.add("individual_block_first");
+  
+  var fNamLbl = document.createElement("label");
+  fNamLbl.setAttribute("for", "persFName");
+  fNamLbl.innerHTML = "First Name: ";
+  dv.appendChild(fNamLbl);
+  
+  var fNamIpt = document.createElement("input");
+  fNamIpt.setAttribute("type", "text");
+  fNamIpt.setAttribute("id", "persFName");
+  fNamIpt.addEventListener("blur", function(ev){
+      setUserFirst(document.getElementById("persFName").value);
+      getFirstNames();
+  });
+  dv.appendChild(fNamIpt);
+  orDiv.appendChild(dv);
+};
+
+var renderPersonLastSearch = function(){
+    var oDiv = document.getElementById("personSearch");
+  
+  var ldv = document.createElement("div");
+  ldv.classList.add("individual_block");
+  
+  var lNamLbl = document.createElement("label");
+  lNamLbl.setAttribute("for", "persLName");
+  lNamLbl.innerHTML = "Last Name: ";
+  ldv.appendChild(lNamLbl);
+  
+  var lNamIpt = document.createElement("input");
+  lNamIpt.setAttribute("type", "text");
+  lNamIpt.setAttribute("id", "persLName");
+  lNamIpt.addEventListener("blur", function(ev){
+      setUserLast(document.getElementById("persLName").value);
+      getLastNames();
+  });
+  ldv.appendChild(lNamIpt);
+  oDiv.appendChild(ldv);
+};
+
+var renderPersonSearchButton = function(){
+    var oBDiv = document.getElementById("personSearch");
+    var persSearchBtn = document.createElement("button");
+    persSearchBtn.setAttribute("type", "button");
+    persSearchBtn.setAttribute("id", "personQuery");
+    persSearchBtn.innerHTML = "Search Person";
+    persSearchBtn.addEventListener("click", function(ev){
+        getResults();
+    });
+    oBDiv.appendChild(persSearchBtn);
+};
 
 //THIS SECTION ADDRESSES THE RESULTS PAGE VIEW
 
 
 
+var getResults = function(){
+  persList.forEach(function (userN){
+     accountDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+           var fNm = childSnapshot.val().firstname;
+           var lNm = childSnapshot.val().lastname;
+           renderIndivResult(fNm, lNm, userN);
+        }); 
+     });
+  });
+};
+
+var renderIndivResult = function(frstNm, lstNm, usr){
+    var indDv = document.getElementById("userPayRetrieve");
+    var perDv = document.createElement("div");
+    var divName = frstNm.concat(lstNm).concat("Record");
+    perDv.setAttribute("id", divName);
+    
+    var fNDv = document.createElement("div");
+    fNDv.classList.add("individual_block_first");
+    fNDv.innerHTML = frstNm;
+    perDv.appendChild(fNDv);
+    
+    var lNDv = document.createElement("div");
+    lNDv.classList.add("individual_block");
+    lNDv.innerHTML = lstNm;
+    perDv.appendChild(lNDv);
+    
+    var persSelectBtn = document.createElement("button");
+    persSelectBtn.classList.add("individual_block");
+    persSelectBtn.setAttribute("type", "button");
+    persSelectBtn.setAttribute("id", "personSelect");
+    persSelectBtn.innerHTML = "Select Person";
+    persSelectBtn.addEventListener("click", function(ev){
+        setUserAccount(usr);
+        getRecord();
+    });
+    perDv.appendChild(persSelectBtn);
+    indDv.appendChild(perDv);
+};
 
 //THIS SECTION ADDRESSES THE VIEWING OF AN ACCOUNT
-
+var getRecord = function(){
+    
+};
 
 var renderPersName = function(first, last){
     
@@ -146,10 +281,25 @@ var newXXXLShirt = 0;
 var newXXXXLShirt = 0;
 
 var updateAccountInfo = function(key){
-      
+  accountDB.child(key).update({address:newAddress,
+                                city:newCity,
+                                state:newState,
+                                zip:newZipCode,
+                                email:newEmail,
+                                phone:newPhone
+  });    
 };
 
-
+var updateShirtInfo = function(key){
+  shirtsDB.child(key).update({small:newSmallShirt,
+                              medium:newMediumShirt,
+                              large:newLargeShirt,
+                              xL:newXLShirt,
+                              xxLarge:newXXLShirt,
+                              xxxLarge:newXXXLShirt,
+                              xxxxLarge:newXXXXLShirt
+  });  
+};
 
 var renderPersEditName = function(first, last){
     
@@ -525,7 +675,7 @@ var renderEditXXXXLShirt = function(xxxxlgSht){
 };
 
 var adminSearchStart = function(){
-    
+    renderPersonSearch();
 };
 
 document.addEventListener("DOMContentLoaded", adminSearchStart);

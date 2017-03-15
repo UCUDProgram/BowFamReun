@@ -4,6 +4,8 @@ var useAcct = "";
 var accountList = [];
 var shrtPd = 0;
 var regPd = 0;
+var shrtDue = 0;
+var regD = 0;
 var regPayment =0;
 var shirtPayment =0;
 var feeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
@@ -17,8 +19,20 @@ var updateShirtPaid = function(shtValue){
   shrtPd += shtValue;  
 };
 
+var setShirtDue = function(shtDue){
+    shrtDue = shtDue;
+};
+
 var setRegPaid = function(reg){
   regPd = reg;  
+};
+
+var setRegDue = function(regDe){
+    regD = regDe;
+};
+
+var updateRegPaid = function(regValue){
+  regPd +=regValue;  
 };
 
 var setUserFirst = function(newFirst){
@@ -29,22 +43,21 @@ var setUserLast = function(newLast){
     userLast = newLast;    
 };
 
-var updateRegPaid = function(regValue){
-  regPd +=regValue;  
-};
-
 var setUserAccount = function(usAct){
   useAcct = usAct;  
 };
 
 var resetAll = function(){
   shrtPd =0;
+  shrtDue = 0;
   regPd =0;
+  regD = 0;
   regPayment =0;
   shirtPayment = 0;
   userFirst = "";
   userLast = "";
   useAcct = "";
+  accountList = [];
     renderReset();
 };
 
@@ -53,6 +66,7 @@ var getFirstNames = function(){
       snapshot.forEach(function(childSnapshot){
           var acctKy = childSnapshot.val().userName;
           var index_of_uFirstNm = accountList.indexOf(acctKy);
+          console.log(index_of_uFirstNm);
           if(index_of_uFirstNm == -1)
             accountList.push(acctKy);
       });
@@ -64,8 +78,21 @@ var getLastNames = function(){
       snapshot.forEach(function(childSnapshot){
           var accoutKy = childSnapshot.val().userName;
           var index_of_uLastNm = accountList.indexOf(accoutKy);
+          console.log(index_of_uLastNm);
           if(index_of_uLastNm == -1)
             accountList.push(accoutKy);
+      });
+  });
+};
+
+var removeChangedValue = function(nameCat, oldUser){
+  accDB.orderByChild(nameCat).equalTo(oldUser).on("value", function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+          var acctKy = childSnapshot.val().userName;
+          var index_of_userNm = accountList.indexOf(acctKy);
+          console.log(index_of_userNm);
+          if(index_of_userNm > -1)
+            accountList.splice(index_of_userNm,1);
       });
   });
 };
@@ -88,7 +115,7 @@ var getNamesList = function(){
 
 var getResults = function(){
   accountList.forEach(function (userN){
-     accDB.orderByChild("userName").equalTo(userN[0]).on("value", function(snapshot){
+     accDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
            var fNm = childSnapshot.val().firstname;
            var lNm = childSnapshot.val().lastname;
@@ -103,9 +130,14 @@ var getFees = function(){
       snapshot.forEach(function (childSnapshot){
          var shrt = childSnapshot.val().shirtPaid;
          var reg = childSnapshot.val().regPaid;
+         var regD = childSnapshot.val().regDue;
+         var shrDue = childSnapshot.val().shirtDue;
          var key = childSnapshot.key();
+         
          setRegPaid(reg);
          setShirtPaid(shrt);
+         setRegDue(regD);
+         setShirtDue(shrDue);
          renderUserCurrentPaid();
          renderPayUpdate();
          renderPayUpdateButton(key);
@@ -117,7 +149,7 @@ var getFees = function(){
 var renderPayHeader = function(){
  var div = document.getElementById("payHeader");
  var regTitle = document.createElement("h1");
- regTitle.innerHTML = "Member Payment Received";
+ regTitle.innerHTML = "Update a Member's Payment Record";
  div.appendChild(regTitle);
 };
 
@@ -142,7 +174,10 @@ var renderUserFirstSearch = function(){
   fNamIpt.setAttribute("type", "text");
   fNamIpt.setAttribute("id", "payFName");
   fNamIpt.addEventListener("blur", function(ev){
+    removeChangedValue("firstname", userFirst);
       setUserFirst(document.getElementById("payFName").value);
+      getFirstNames();
+      getLastNames();
   });
   dv.appendChild(fNamIpt);
   orDiv.appendChild(dv);
@@ -163,7 +198,10 @@ var renderUserLastSearch = function(){
   lNamIpt.setAttribute("type", "text");
   lNamIpt.setAttribute("id", "payLName");
   lNamIpt.addEventListener("blur", function(ev){
+      removeChangedValue("lastname",userLast);
       setUserLast(document.getElementById("payLName").value);
+      getLastNames();
+      getFirstNames();
   });
   ldv.appendChild(lNamIpt);
   oDiv.appendChild(ldv);
@@ -176,11 +214,7 @@ var renderSearchButton = function(){
     persSearchBtn.setAttribute("id", "personPayQuery");
     persSearchBtn.innerHTML = "Search Person";
     persSearchBtn.addEventListener("click", function(ev){
-    
-        console.log(accountList);
-        getNamesList();
-        console.log(accountList);
-        // getResults();
+        getResults();
     });
     oBDiv.appendChild(persSearchBtn);
 };
@@ -192,14 +226,17 @@ var renderIndResult = function(frstNm, lstNm, usr){
     perDv.setAttribute("id", divName);
     
     var fNDv = document.createElement("div");
+    fNDv.classList.add("individual_block_first");
     fNDv.innerHTML = frstNm;
     perDv.appendChild(fNDv);
     
     var lNDv = document.createElement("div");
+    lNDv.classList.add("individual_block");
     lNDv.innerHTML = lstNm;
     perDv.appendChild(lNDv);
     
     var persSelectBtn = document.createElement("button");
+    persSelectBtn.classList.add("individual_block");
     persSelectBtn.setAttribute("type", "button");
     persSelectBtn.setAttribute("id", "personSelect");
     persSelectBtn.innerHTML = "Select Record";
@@ -230,15 +267,21 @@ var renderUserCurrentPaid = function(){
     var dv = document.getElementById("currPayment");
     while(dv.firstChild)
         dv.removeChild(dv.firstChild);
-        
+    
+    // var cuPyDv = document.getElementById("currPayment");    
+    // cuPyDv.classList.add("curr_pay_info");
     renderUserRegPayment();
+    renderUserRegDue();
     renderUserShirtPayment();
+    renderUserShirtDue();
 };
 
 var renderUserRegPayment = function(){
     var sourc = document.getElementById("currPayment");
+    sourc.classList.add("curr_pay_info");
     
     var regDv = document.createElement("div");
+    regDv.classList.add("individual_block_first");
     
     var regPayHead = document.createElement("div");
     regPayHead.innerHTML = "Registration Paid";
@@ -250,10 +293,27 @@ var renderUserRegPayment = function(){
     sourc.appendChild(regDv);
 };
 
+var renderUserRegDue = function(){
+    var sorc = document.getElementById("currPayment");
+    
+    var shtDv = document.createElement("div");
+    shtDv.classList.add("individual_block");
+    
+    var shtPayHead = document.createElement("div");
+    shtPayHead.innerHTML = "Registration Due";
+    shtDv.appendChild(shtPayHead);
+    
+    var shtPayValue = document.createElement("div");
+    shtPayValue.innerHTML = regD;
+    shtDv.appendChild(shtPayValue);
+    sorc.appendChild(shtDv);
+};
+
 var renderUserShirtPayment = function(){
     var sorc = document.getElementById("currPayment");
     
     var shtDv = document.createElement("div");
+    shtDv.classList.add("individual_block");
     
     var shtPayHead = document.createElement("div");
     shtPayHead.innerHTML = "Shirt Paid";
@@ -261,6 +321,22 @@ var renderUserShirtPayment = function(){
     
     var shtPayValue = document.createElement("div");
     shtPayValue.innerHTML = shrtPd;
+    shtDv.appendChild(shtPayValue);
+    sorc.appendChild(shtDv);
+};
+
+var renderUserShirtDue = function(){
+    var sorc = document.getElementById("currPayment");
+    
+    var shtDv = document.createElement("div");
+    shtDv.classList.add("individual_block");
+    
+    var shtPayHead = document.createElement("div");
+    shtPayHead.innerHTML = "Shirt Due";
+    shtDv.appendChild(shtPayHead);
+    
+    var shtPayValue = document.createElement("div");
+    shtPayValue.innerHTML = shrtDue;
     shtDv.appendChild(shtPayValue);
     sorc.appendChild(shtDv);
 };

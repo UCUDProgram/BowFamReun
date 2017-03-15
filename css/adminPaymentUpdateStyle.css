@@ -1,0 +1,15 @@
+.curr_pay_info {
+    display:inline-block;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
