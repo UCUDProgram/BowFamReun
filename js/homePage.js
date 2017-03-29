@@ -11,16 +11,17 @@ var loadHomePage = function(){
 };
 
 var renderHomeTitle = function(){
-  var $home =document.getElementById("homePage");
+  var $home =document.getElementById("homeTitle");
   var $Title = document.createElement("h1");
   $Title.innerHTML = "Welcome to the Bowman 2017 Family Reunion";
   $home.appendChild($Title);
 };
 
 var renderReunPhoto = function(){
-    var homeDiv = document.getElementById("homePage");
+    var homeDiv = document.getElementById("reunPhoto");
+    homeDiv.classList.add("individual_block");
     var photoContDiv = document.createElement("div");
-    photoContDiv.setAttribute("id", "reunPhoto");
+    // photoContDiv.setAttribute("id", "reunPhoto");
     var photo = document.createElement("img");
     photo.setAttribute("src","../images/BFR Tee Shirt Front 2.jpg");
     photoContDiv.appendChild(photo);
@@ -28,32 +29,54 @@ var renderReunPhoto = function(){
 };
 
 var renderButtons = function(){
-    var hDiv = document.getElementById("homePage");
+    var hDiv = document.getElementById("regArea");
+    
+    // var acctDv = document.createElement("div");
+    
+    var signDiv = document.createElement("div");
+    signDiv.classList.add("individual_block_first");
     
     var signBut = document.createElement("button");
     signBut.setAttribute("type", "button");
-    signBut.setAttribute("id", "signUp");
-    signBut.innerHTML = "Account Registration";
+    signBut.setAttribute("id", "signUpButton");
+    // signBut.classList.add("individual_block_first");
+    signBut.innerHTML = "Account <br /> Registration";
     signBut.addEventListener("click", function(ev){
         showSignUpScreen();
     });
-    hDiv.appendChild(signBut);
+    signDiv.appendChild(signBut);
+    hDiv.appendChild(signDiv);
+    
+    // acctDv.appendChild(signDiv);
+    // hDiv.appendChild(signDiv);
+    
+    // hDiv.appendChild(signBut);
+    
+    var logDiv = document.createElement("div");
+    logDiv.classList.add("individual_block");
     
     var logBut = document.createElement("button");
     logBut.setAttribute("type", "button");
-    logBut.setAttribute("id", "logIn");
+    logBut.setAttribute("id", "logInButton");
+    // logBut.classList.add("individual_block");
     logBut.innerHTML = "Login";
     logBut.addEventListener("click", function(ev){
         showLoginScreen();
     });
-    hDiv.appendChild(logBut);
+    logDiv.appendChild(logBut);
+    hDiv.appendChild(logDiv);
+    // acctDv.appendChild(logDiv);
+    // hDiv.appendChild(acctDv);
+    
+    // hDiv.appendChild(logBut);
     
 };
 
 var renderNews = function(){
-    var homeP =document.getElementById("homePage");
+    var homeP =document.getElementById("news");
+    homeP.classList.add("individual_block_first");
     var $div = document.createElement("div");
-    $div.setAttribute("id", "news");
+    // $div.setAttribute("id", "news");
     $div.innerHTML = "";
   var $head = document.createElement("h2");
   $head.innerHTML = "Family Reunion Tee-Shirts will be available.  More information about cost will be provided once one has created a free account and logged in. The buttons below will give you basic information";
@@ -62,36 +85,56 @@ var renderNews = function(){
 };
 
 var renderHomeNavButtons = function(){
-    var home = document.getElementById("homePage");
+    var home = document.getElementById("navigation");
     var nav = document.createElement("div");
-    nav.setAttribute("id", "navigation");
+    // nav.setAttribute("id", "navigation");
+    
+    var costDiv = document.createElement("div");
+    costDiv.classList.add("individual_block_first");
     
     var homeCostBut = document.createElement("button");
     homeCostBut.setAttribute("type", "button");
     homeCostBut.setAttribute("id", "costBut");
-    homeCostBut.innerHTML = "Event Cost Information";
+    homeCostBut.innerHTML = "Event Cost <br /> Information";
     homeCostBut.addEventListener("click", function(ev){
         showCostScreen();
     });
-    nav.appendChild(homeCostBut);
+    costDiv.appendChild(homeCostBut);
+    nav.appendChild(costDiv);
+    
+    // nav.appendChild(homeCostBut);
+    
+    var shirtDv = document.createElement("div");
+    shirtDv.classList.add("individual_block");
     
     var homeGenTBut = document.createElement("button");
     homeGenTBut.setAttribute("type", "button");
     homeGenTBut.setAttribute("id", "teeShirt");
-    homeGenTBut.innerHTML = "Tee Shirt Information";
+    // homeGenTBut.classList.add("individual_block");
+    homeGenTBut.innerHTML = "Tee Shirt <br /> Information";
     homeGenTBut.addEventListener("click", function(ev){
         showTeeShirtGeneralScreen();
     });
-    nav.appendChild(homeGenTBut);
+    shirtDv.appendChild(homeGenTBut);
+    nav.appendChild(shirtDv);
     
-    var homeMenu = document.createElement("button");
-    homeMenu.setAttribute("type", "button");
-    homeMenu.setAttribute("id", "genMenu");
-    homeMenu.innerHTML = "Menu Information";
-    homeMenu.addEventListener("click", function(ev){
+    // nav.appendChild(homeGenTBut);
+    
+    var menuDiv = document.createElement("div");
+    menuDiv.classList.add("individual_block");
+    
+    var homeMenuBut = document.createElement("button");
+    homeMenuBut.setAttribute("type", "button");
+    homeMenuBut.setAttribute("id", "genMenuBut");
+    // homeMenuBut.classList.add("individual_block");
+    homeMenuBut.innerHTML = "Menu <br /> Information";
+    homeMenuBut.addEventListener("click", function(ev){
         showCurrentMenuScreen();
     });
-    nav.appendChild(homeMenu);
+    
+    menuDiv.appendChild(homeMenuBut);
+    nav.appendChild(menuDiv);
+    // nav.appendChild(homeMenuBut);
     
     home.appendChild(nav);
 };

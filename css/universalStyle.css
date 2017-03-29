@@ -2,17 +2,17 @@ button{
     background-color:red;
     /*padding-left: 4em;*/
     text-align: center;
-    width:120px;
-    height: 75px;
-    background-size: 120px 75px;
+/*Was 120 x 75 changed to 200 x 100*/
+    width:200px;
+    height: 100px;
+    background-size: 200px 100px;
     background-image: url("../images/BFR Button.png");
     background-repeat: no-repeat;
+    font-size: 18px;
 }
 
-.body {
-    
-}
+/*.body {*/
+/*}*/
 
-.body img{
-    
-}
+/*.body img{*/
+/*}*/

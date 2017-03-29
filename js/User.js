@@ -6,10 +6,47 @@ var adultAttend = 0;
 var childAttend = 0;
 var infantAttend = 0;
 var seniorAttend = 0;
+var memberRegDue = 0;
+var memberRegPaid = 0;
 var famCost= 0;
+// var personRegKy = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
+
+// var decrementChildAgeTotal = function(){
+//     childAttend -= 1;    
+// };
+// var decrementInfantAgeTotal = function(){
+//     infantAttend -= 1;  
+// };
+// var decrementAdultAgeTotal = function(){
+//     adultAttend -=1;    
+// };
+// var decrementSeniorAgeTotal = function(){
+//     seniorAttend -= 1;    
+// };
+// var attendeesAgeChange = function(ageche){
+//   if(ageche == "Infant"){
+//       decrementInfantAgeTotal();
+//   } else if(ageche == "Child"){
+//       decrementChildAgeTotal();
+//   } else if(ageche == "Adult"){
+//       decrementAdultAgeTotal();
+//   } else {
+//       decrementSeniorAgeTotal();
+//   }
+// };
+// var updateMemberKey = function(regKy){
+//     personRegKy = regKy;
+//     console.log(personRegKy);
+// };
+// updateRegCost();
+//   renderFamReg();
+// var persoKy = childSnapshot.key();
+// updateMemberKey(persoKy);
+// console.log(persoKy);
+// renderRegCost();
 
 var setAcct = function(){
   acct = localStorage.getItem("user");
@@ -43,6 +80,14 @@ var updateSeniorAge= function(){
     seniorAttend += 1;
 };
 
+var updateMemberRegDue = function(rgDu){
+    memberRegDue = rgDu;    
+};
+
+var updateMemberRegPaid = function(rgPd){
+    memberRegPaid = rgPd;
+};
+
 var resetAges = function(){
     infantAttend = 0;
     childAttend = 0;
@@ -53,6 +98,7 @@ var resetAges = function(){
 var deletePerson = function(aKey){
     attendeeDB.child(aKey).remove();
     getPeople();
+    getBalance();
 };
 
 var personSubmit = function(){
@@ -63,9 +109,24 @@ var personSubmit = function(){
                       lastname: last,
                       age: ageStatus
                     });
-    getPeople();
-    renderFamReg();
+    infoChangeUpdate();
     inputReset();
+
+
+    // getPeople();
+    // getBalance();
+    // renderFamReg();
+};
+
+var updateRegCost = function(){
+    balanceDB.orderByChild("userName").equalTo(acct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var regKey = childSnapshot.key();
+            console.log(regKey);
+            balanceDB.child(regKey).update({regDue: famCost
+                    } );  
+        });
+    });
 };
 
 var updateAgeStatus = function(anAgeOption){
@@ -76,6 +137,15 @@ var inputReset = function(){
   document.getElementById("newFnameText").value = "";
   document.getElementById("newLnameText").value = "";
   document.getElementById("ageOption").selectedIndex = 0;
+};
+
+var infoChangeUpdate = function(){
+  getPeople();
+  determineFamCost();
+  updateRegCost();
+  getBalance();
+  renderFamReg();
+  renderRegCost();
 };
 
 var getPeople = function(){
@@ -93,13 +163,37 @@ var getPeople = function(){
           var anAge = childSnapshot.val().age;
         renderPerson(aFirst,aLast,anAge,itemKey);
         updateAttendees(anAge);
-        renderFamReg();
+      determineFamCost();
+      getBalance();
+      renderFamReg();
       });
-});
+    });
 }; 
 
 var getBalance = function(){
-    
+    balanceDB.orderByChild("userName").equalTo(acct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+          var perRegDue = childSnapshot.val().regDue;
+          var perRegPaid = childSnapshot.val().regPaid;
+        updateMemberRegDue(perRegDue);
+        updateMemberRegPaid(perRegPaid);
+      });
+    });
+};
+
+var initGetBalance = function(){
+    balanceDB.orderByChild("userName").equalTo(acct).once('value').then(function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+          var perRegDue = childSnapshot.val().regDue;
+          var perRegPaid = childSnapshot.val().regPaid;
+        updateMemberRegDue(perRegDue);
+        updateMemberRegPaid(perRegPaid);
+        console.log(memberRegDue);
+        renderRegCost();
+        // renderFamReg();
+      })});
+      
+    // });
 };
 
 var setPeopleCount = function(){
@@ -110,6 +204,8 @@ var setPeopleCount = function(){
       });
 });
 };
+
+
 
 var updateAttendees = function(aPersAge){
   if (aPersAge == "Infant"){
@@ -141,6 +237,7 @@ var renderUser = function(){
     renderMemberInformation();
     renderPaymentInfo();
     renderMemberNav();
+    renderRegCost();
 };
 
 var renderNewPersonHeader = function(){
@@ -187,8 +284,10 @@ var editItemName = function(personDiv, first, last,pKey){
         attendeeDB.child(pKey).update({firstname: newFirst, 
                       lastname: newLast
                     } );
-        getPeople();
-        renderFamReg();
+        infoChangeUpdate();
+        
+        // getPeople();
+        // renderFamReg();
     });
     $div.appendChild($updateButton);
     
@@ -404,8 +503,10 @@ $childClassification.setAttribute("id", "newChildAge");
          newAge =  document.getElementById(nameSelect).value;
          attendeeDB.child(itemK).update({age: newAge
                     } );
-         getPeople();
-         renderFamReg();
+        infoChangeUpdate();            
+                    
+        //  getPeople();
+        //  renderFamReg();
       });
        
    $indAgeDiv.appendChild($ageClassification);
@@ -431,8 +532,16 @@ var renderNewPerson = function(){
 };
 
 var renderFamReg = function(){
+    determineFamCost();
+    
+    // updateRegCost();
+    
+    
     var $costHead = document.getElementById("registrationCost");
-    $costHead.innerHTML = "";
+    while($costHead.firstChild)
+        $costHead.removeChild($costHead.firstChild);
+    
+    var cosHd = document.createElement("div");
    var $cHeader =document.createElement("h4");
    var stringBeg = "Your family has ";
    var infantString = infantAttend + " Infants, ";
@@ -440,15 +549,36 @@ var renderFamReg = function(){
    var adultString = " " + adultAttend + " Adults ";
    var seniorString = " and " + seniorAttend + " Seniors attending.";
     var attendanceString = stringBeg.concat(infantString).concat(childString).concat(adultString).concat(seniorString);   
-  determineFamCost();
    var costString = "  The cost for your family to attend is ".concat(famCost).concat(".00 dollars.");
   $cHeader.innerHTML = attendanceString.concat(costString);
-   $costHead.appendChild($cHeader);
+  cosHd.appendChild($cHeader);
+   $costHead.appendChild(cosHd);
+   
+//   renderRegCost();
 };
 
 var renderRegCost = function(){
-    
+    var div = document.getElementById("regPaymentCost");
+    while(div.firstChild)
+        div.removeChild(div.firstChild);
+    getBalance();
+    renderRegPayment(div);
 };
+
+var renderRegPayment = function(atDv){
+  var pymntDv = document.createElement("div");    
+    var feePaid = document.createElement("h2");
+    feePaid.innerHTML = "You have paid " + memberRegPaid + " dollars.";
+    pymntDv.appendChild(feePaid);
+  
+  var payBalDue = memberRegDue - memberRegPaid; 
+  
+  var feeLeft = document.createElement("h2");
+  feeLeft.innerHTML =  "You have a Registration balance of " + payBalDue + " dollars.";
+  pymntDv.appendChild(feeLeft);
+  atDv.appendChild(pymntDv);  
+};
+
 
 var renderMemberNav = function(){
   var $div = document.getElementById("memberNav");
@@ -518,8 +648,14 @@ var renderPaymentInfo = function(){
 
 var userStart = function(){
     setAcct();
-    getPeople();
     renderUser();
+    // infoChangeUpdate();
+    getPeople();
+    determineFamCost();
+    initGetBalance();
+    renderFamReg();
+    renderRegCost();
+    
 };
 
 document.addEventListener('DOMContentLoaded',userStart);

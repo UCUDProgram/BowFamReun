@@ -11,6 +11,12 @@ THe order does not matter, but is just a reference to all the styles implemented
     display:block;
 }
 
+#regArea{
+    display: inline-block;
+    padding-top:1em;
+    padding-bottom:1em;
+}
+
 #regInfo{
     display:inline-block;
 }

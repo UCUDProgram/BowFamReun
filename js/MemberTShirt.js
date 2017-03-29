@@ -9,7 +9,7 @@ var userAccount = "";
 var shirtCost = 0;
 
 var shirtPaid = 0;
-var shirtReceive = 0;
+var shirtDe = 0;
 
 var regShirtCost = 10;
 var largerShirtCost = 12;
@@ -17,6 +17,21 @@ var totalShirtCost = 0;
 
 var tShirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
+var shirtFeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
+
+// var renderMemberTShirtButton = function(){
+//     var $div = document.getElementById("memberTShirtCostButton");
+//   var costBut = document.createElement("button");
+//   costBut.setAttribute("id","costButton");
+//   costBut.innerHTML = "Calculate TShirt Cost";
+//   costBut.addEventListener("click",function(ev){
+//       document.getElementById("memberTShirtCostButton").classList.add("hidden");
+//       document.getElementById("memberTShirtCost").classList.remove("hidden");
+//       renderShirtCost();
+//   });
+//   $div.appendChild(costBut);
+// };
+
 
 var updateSmallTShirt= function(sm){
     smallTShirt = sm;  
@@ -50,8 +65,8 @@ var updateShirtPaid = function(pay){
   shirtPaid = pay;  
 };
 
-var updateShirtReceive = function(rec){
-    shirtReceive = rec;
+var updateShirtDue = function(rec){
+    shirtDe = rec;
 };
 
 var initShirtSubmit = function(){
@@ -93,8 +108,55 @@ var getTShirtData = function(){
         updateTShirtOrder(small,medium,large,xLG, doubleXLarge,tripXLarge,quadXLarge);
         renderUserTShirtOrder(key);
         renderShirtCost();
-      })
-      }});
+      });
+    }});
+};
+
+var getShirtCosts = function(){
+    var shirtFee = DB.child("Fees");
+     shirtFee.orderByChild("userName").equalTo(userAccount).on("value", function(snapshot){
+         snapshot.forEach(function(childSnapshot){
+            var shtPaidCost = childSnapshot.val().shirtPaid;
+            var shirtDueCost = childSnapshot.val().shirtDue;
+            updateShirtPaid(shtPaidCost);
+            updateShirtDue(shirtDueCost);
+            // renderShirtsCosts();
+         });
+     });
+};
+
+var initGetShirtCosts = function(){
+    var shirtFee = DB.child("Fees");
+     shirtFee.orderByChild("userName").equalTo(userAccount).once("value").then(function(snapshot){
+         snapshot.forEach(function(childSnapshot){
+            var shtPaidCost = childSnapshot.val().shirtPaid;
+            var shirtDueCost = childSnapshot.val().shirtDue;
+            updateShirtPaid(shtPaidCost);
+            updateShirtDue(shirtDueCost);
+            renderShirtsCosts();
+            // renderShirtsCosts();
+         });
+     });
+};
+
+var updateShirtCost = function(){
+    shirtFeeDB.orderByChild("account").equalTo(userAccount).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var regKey = childSnapshot.key();
+            console.log(regKey);
+            shirtFeeDB.child(regKey).update({shirtDue: totalShirtCost
+                    } );  
+        });
+    });
+};
+
+var infoShirtChangeUpdate = function(){
+  getTShirtData();
+  determineShirtCost();
+  updateShirtCost();
+  getShirtCosts();
+  renderShirtCost();
+  renderShirtsCosts();
 };
 
 var updateTShirtOrder = function(sma,medi,lar,xlarge, doubXLg, tripXLg, quadXLg){
@@ -123,6 +185,10 @@ var determineShirtCost = function(){
 var renderMemberTShirtScreen = function(){
     renderTShirtOrderHeader();
     renderTShirtOrderLook();
+    renderShirtNavButtons();
+    renderMemberTShirtInfo();
+    renderShirtPaymentInfo();
+    renderShirtsCosts();
 };
 
 var renderTShirtOrderHeader = function(){
@@ -428,7 +494,8 @@ var renderUserSmallTShirtOrder = function(key){
        newUserSmall = document.getElementById("userSmallTSh").value;
        tShirtDB.child(key).update({small: newUserSmall
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $smallDiv.appendChild($smallselection);
     $div.appendChild($smallDiv);
@@ -462,7 +529,8 @@ var renderUserMediumTShirtOrder = function(key){
        newUserMedium = document.getElementById("userMediumTSh").value;
        tShirtDB.child(key).update({medium: newUserMedium
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $mediumDiv.appendChild($mediumselection);
     $div.appendChild($mediumDiv);
@@ -496,7 +564,8 @@ var renderUserLargeTShirtOrder = function(key){
        newUserLarge = document.getElementById("userLargeTSh").value;
        tShirtDB.child(key).update({large: newUserLarge
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $largeDiv.appendChild($largeselection);
     $div.appendChild($largeDiv);
@@ -528,9 +597,10 @@ var renderUserXLargeTShirtOrder = function(key){
     }
     $xlargeselection.addEventListener("change", function(ev){
        newUserXLarge = document.getElementById("userXLargeTSh").value;
-       tShirtDB.child(key).update({xlarge: newUserXLarge
+       tShirtDB.child(key).update({xL: newUserXLarge
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $xlargeDiv.appendChild($xlargeselection);
     $div.appendChild($xlargeDiv);
@@ -564,7 +634,8 @@ var renderUserXXLTShirtOrder = function(key){
        newUserXXL = document.getElementById("userXXLTSh").value;
        tShirtDB.child(key).update({xxLarge: newUserXXL
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $xXLDiv.appendChild($xXLselection);
     $div.appendChild($xXLDiv);
@@ -598,7 +669,8 @@ var renderUserXXXLTShirtOrder = function(key){
        newUserXXXL = document.getElementById("userXXXLTSh").value;
        tShirtDB.child(key).update({xxxLarge: newUserXXXL
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $xXXLDiv.appendChild($xXXLselection);
     $div.appendChild($xXXLDiv);
@@ -632,28 +704,22 @@ var renderUserXXXXLTShirtOrder = function(key){
        newUserXXXXL = document.getElementById("userXXXLTSh").value;
        tShirtDB.child(key).update({xxxxLarge: newUserXXXXL
                     } );
-        renderShirtCost();
+        infoShirtChangeUpdate();
+        // renderShirtCost();
     });
     $xXXXLDiv.appendChild($xXXXLselection);
     $div.appendChild($xXXXLDiv);
 };
 
-var renderMemberTShirtButton = function(){
-    var $div = document.getElementById("memberTShirtCostButton");
-  var costBut = document.createElement("button");
-  costBut.setAttribute("id","costButton");
-  costBut.innerHTML = "Calculate TShirt Cost";
-  costBut.addEventListener("click",function(ev){
-      document.getElementById("memberTShirtCostButton").classList.add("hidden");
-      document.getElementById("memberTShirtCost").classList.remove("hidden");
-      renderShirtCost();
-  });
-  $div.appendChild(costBut);
-};
+
 
 var renderShirtCost = function(){
+    determineShirtCost();
   var $shirtHead = document.getElementById("memberTShirtCost");
-  $shirtHead.innerHTML = "";
+    while($shirtHead.firstChild)
+        $shirtHead.removeChild($shirtHead.firstChild);
+  
+  var costDv = document.createElement("div");
   var $sCHeader = document.createElement("h2");
   var shirtStart = "You have ordered ";
   var smallCount = smallTShirt + " small T-Shirts, ";
@@ -664,24 +730,43 @@ var renderShirtCost = function(){
   var tripXXXL =tripXLTShirt + " XXXL TShirts, ";
   var quadXXXXL = "and " + quadXLTShirt + " XXXXL TShirts.";
   var shirtOrderString = shirtStart.concat(smallCount).concat(mediumCount).concat(largeCount).concat(xlargeCount).concat(doubXXL).concat(tripXXXL).concat(quadXXXXL);
-  determineShirtCost();
   var shirtCost = " The cost of the TShirts are ".concat(totalShirtCost).concat(".00 dollars");
   $sCHeader.innerHTML = shirtOrderString.concat(shirtCost);
-  $shirtHead.appendChild($sCHeader);
-  renderShirtPayReceived($shirtHead);
+  costDv.appendChild($sCHeader);
+  $shirtHead.appendChild(costDv);
+//  renderShirtsCosts();
 };
 
-var renderShirtPayReceived = function(shDv){
-  var feePaid = document.createElement("h2");
-  feePaid.innerHTML = "You have paid " +  + " dollars.";
-  shDv.appendChild(feePaid);
+var renderShirtsCosts = function(){
+  var shirtPayHead = document.getElementById("shirtPaymentCost");
+    while(shirtPayHead.firstChild)
+        shirtPayHead.removeChild(shirtPayHead.firstChild);
+   getShirtCosts();
+   
+   var paymntDv = document.createElement("div");    
+    var feePaid = document.createElement("h2");
+    feePaid.innerHTML = "You have paid " + shirtPaid + " dollars.";
+    paymntDv.appendChild(feePaid);
+    
   
-  var feeLeft = document.createElement("h2");
-  feeLeft.innerHTML =  "You have a TShirt balance of " +  + "dollars.";
-  shDv.appendChild(feeLeft);
+  
+  shirtPayHead.appendChild(paymntDv);
+   
+//   renderShirtPayStatus(shirtPayHead);
 };
 
-
+// var renderShirtPayStatus = function(shDv){
+//     determineShirtCost();
+//     var shtD = totalShirtCost;
+//   console.log(shtD);
+  
+//   var shtBalDue = shirtDe - shirtPaid; 
+  
+//   var feeLeft = document.createElement("h2");
+//   feeLeft.innerHTML =  "You have a TShirt balance of " + shtBalDue + " dollars.";
+//   paymntDv.appendChild(feeLeft);
+//     shDv.appendChild(paymntDv);  
+// };
 
 var renderShirtPaymentInfo = function(){
     var div = document.getElementById("tShirtPayment");
@@ -710,7 +795,7 @@ var renderShirtPaymentInfo = function(){
     paymentDiv.appendChild(payCity);
     
     div.appendChild(paymentDiv);
-}
+};
 
 var renderMemberTShirtInfo = function(){
   var infoDiv = document.getElementById("memTShirtInfo");
@@ -721,7 +806,6 @@ var renderMemberTShirtInfo = function(){
   var head2 = document.createElement("h2");
   head2.innerHTML = "The Flexible deadline to order shirts is May 15th 2017, after which the TShirt Order will be submitted.";
   infoDiv.appendChild(head2);
-    
 };
 
 var renderShirtNavButtons = function(){
@@ -743,9 +827,17 @@ var memTShirtStart = function(){
     getShirtUser();
     renderMemberTShirtScreen();
     getTShirtData();
-    renderMemberTShirtInfo();
-    renderShirtPaymentInfo();
-    renderShirtNavButtons();
+    determineShirtCost();
+    // updateShirtCost();
+    initGetShirtCosts();
+    renderShirtCost();
+    renderShirtsCosts();
+    
+    
+    // renderMemberTShirtScreen();
+    // renderMemberTShirtInfo();
+    // renderShirtPaymentInfo();
+    // renderShirtNavButtons();
 };
 
 document.addEventListener('DOMContentLoaded',memTShirtStart);

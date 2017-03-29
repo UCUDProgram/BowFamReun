@@ -11,3 +11,23 @@
     height: 200px;
     width:200px;
 }
+
+#news{
+    width:1000px;
+}
+
+#regArea{
+    display: inline-block;
+    padding-top:1em;
+    padding-bottom:1em;
+}
+
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
