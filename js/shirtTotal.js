@@ -57,7 +57,7 @@ var getShirtCount = function(){
        var shSm = child.val().small;
        var shMed = child.val().medium;
        var shLg = child.val().large;
-       var shXL = child.val().xL
+       var shXL = child.val().xL;
        var shXXL = child.val().xxLarge;
        var shXXXL = child.val().xxxLarge;
        var shXXXXL = child.val().xxxxLarge;
@@ -76,7 +76,7 @@ var getShirtCount = function(){
        updateShirtTotal(shirtMedium);
         updateLargeCount(shirtLarge);
         updateShirtTotal(shirtLarge);   
-       updateLargeCount(shirtXL);
+       updateXLCount(shirtXL);
        updateShirtTotal(shirtXL);
        updateXXLShirtCount(shirtXXL);
        updateShirtTotal(shirtXXL);

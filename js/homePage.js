@@ -4,9 +4,9 @@ var clearStorage = function(){
 
 var loadHomePage = function(){
   renderHomeTitle();
-  renderReunPhoto();
   renderButtons();
   renderNews();
+  renderReunPhoto();
   renderHomeNavButtons();
 };
 
@@ -31,7 +31,7 @@ var renderReunPhoto = function(){
 var renderButtons = function(){
     var hDiv = document.getElementById("regArea");
     
-    // var acctDv = document.createElement("div");
+    var acctDv = document.createElement("div");
     
     var signDiv = document.createElement("div");
     signDiv.classList.add("individual_block_first");
@@ -45,11 +45,11 @@ var renderButtons = function(){
         showSignUpScreen();
     });
     signDiv.appendChild(signBut);
-    hDiv.appendChild(signDiv);
+    acctDv.appendChild(signDiv);
     
-    // acctDv.appendChild(signDiv);
+    
     // hDiv.appendChild(signDiv);
-    
+    // hDiv.appendChild(signDiv);
     // hDiv.appendChild(signBut);
     
     var logDiv = document.createElement("div");
@@ -57,19 +57,19 @@ var renderButtons = function(){
     
     var logBut = document.createElement("button");
     logBut.setAttribute("type", "button");
-    logBut.setAttribute("id", "logInButton");
+    logBut.setAttribute("id", "login");
     // logBut.classList.add("individual_block");
     logBut.innerHTML = "Login";
     logBut.addEventListener("click", function(ev){
         showLoginScreen();
     });
     logDiv.appendChild(logBut);
-    hDiv.appendChild(logDiv);
-    // acctDv.appendChild(logDiv);
-    // hDiv.appendChild(acctDv);
+    acctDv.appendChild(logDiv);
     
+    
+    // hDiv.appendChild(logDiv);
+    hDiv.appendChild(acctDv);
     // hDiv.appendChild(logBut);
-    
 };
 
 var renderNews = function(){

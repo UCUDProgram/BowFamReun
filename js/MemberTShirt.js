@@ -188,6 +188,7 @@ var renderMemberTShirtScreen = function(){
     renderShirtNavButtons();
     renderMemberTShirtInfo();
     renderShirtPaymentInfo();
+    renderShirtPaymentNews();
     renderShirtsCosts();
 };
 
@@ -767,6 +768,13 @@ var renderShirtsCosts = function(){
 //   paymntDv.appendChild(feeLeft);
 //     shDv.appendChild(paymntDv);  
 // };
+
+var renderShirtPaymentNews = function(){
+  var sourD = document.getElementById("shirtPayNews");
+  var announce = document.createElement("h2");
+  announce.innerHTML = "If you have already sent your payment in, it may take a couple of days to be reflected.";
+  sourD.appendChild(announce);
+};
 
 var renderShirtPaymentInfo = function(){
     var div = document.getElementById("tShirtPayment");

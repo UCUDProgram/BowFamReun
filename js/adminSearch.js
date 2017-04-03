@@ -1,16 +1,17 @@
-// var pages = ["personSearch", "searchResults","personView", "personEdit"];
 var userAcct = "";
 
 var accountDB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 var shirtsDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var foodDB = new Firebase("https://bowmanfamreun.firebaseio.com/Food");
+var feeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
+var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var setUserAccount = function(usAct){
   userAcct = usAct;  
 };
 
-
+// var pages = ["personSearch", "searchResults","personView", "personEdit"];
 // var renderPersonAttendList = function(){
 //     var originDv = document.getElementById("personView");
 //     var sourceDv = document.createElement("div");
@@ -127,9 +128,17 @@ var renderPersonSearchView = function(){
 };
 
 var renderPersonSearch = function(){
+    renderSearchHeader();
     renderPersonFirstSearch();
     renderPersonLastSearch();
     renderPersonSearchButton();
+};
+
+var renderSearchHeader = function(){
+  var srcDiv = document.getElementById("personSearch");
+    var searchHead = document.createElement("h1");
+    searchHead.innerHTML = "Search for Registered Members";
+    srcDiv.appendChild(searchHead);
 };
 
 var renderPersonFirstSearch = function(){
@@ -198,7 +207,7 @@ var getResults = function(){
     var dv = document.getElementById("searchResults");
     while(dv.firstChild)
         dv.removeChild(dv.firstChild);
-    
+    renderResultsHeader();
   persList.forEach(function (userN){
      accountDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
@@ -208,6 +217,13 @@ var getResults = function(){
         }); 
      });
   });
+};
+
+var renderResultsHeader = function(){
+    var srcDiv = document.getElementById("searchResults");
+    var resultsHead = document.createElement("h1");
+    resultsHead.innerHTML = "Results";
+    srcDiv.appendChild(resultsHead);
 };
 
 var renderIndivResult = function(frstNm, lstNm, usrN){
@@ -240,8 +256,6 @@ var renderIndivResult = function(frstNm, lstNm, usrN){
 };
 
 //THIS SECTION ADDRESSES THE VIEWING OF AN ACCOUNT
-
-
 var getRecord = function(){
     
     var divS = document.getElementById("personView");
@@ -252,6 +266,7 @@ var getRecord = function(){
     
     document.getElementById("personSearch").classList.add("hidden");
     document.getElementById("searchResults").classList.add("hidden");
+    document.getElementById("personEdit").classList.add("hidden");
     renderPersonEditButton();
     renderBackButton();
     getPersonInfo();
@@ -333,7 +348,7 @@ var renderPersonInfo = function(fn,ln, ad, cy, sa, zi, em, ph){
     var personInfoDiv = document.createElement("div");
     
     var infoHead = document.createElement("h3");
-    infoHead.innerHTML = "Basic Person Information";
+    infoHead.innerHTML = "Contact Information";
     personInfoDiv.appendChild(infoHead);
     
     renderPersName(fn, ln, personInfoDiv);
@@ -392,12 +407,12 @@ var renderPersContact = function(phon, emai, perDiv){
   
   var phonDv = document.createElement("div");
   phonDv.classList.add("individual_block_first");
-  phonDv.innerHTML = "Phone Number " + phon;
+  phonDv.innerHTML = "Phone Number: " + phon;
   conDv.appendChild(phonDv);
   
   var emalDv = document.createElement("div");
   emalDv.classList.add("individual_block");
-  emalDv.innerHTML = "Email Address " + emai;
+  emalDv.innerHTML = "Email Address: " + emai;
   conDv.appendChild(emalDv);
   perDiv.appendChild(conDv);
 };
@@ -486,7 +501,7 @@ var renderPersonEditButton = function(){
     var oBDiv = document.getElementById("personView");
     var persEditBtn = document.createElement("button");
     persEditBtn.setAttribute("type", "button");
-    persEditBtn.setAttribute("id", "personEdit");
+    persEditBtn.setAttribute("id", "personEditBut");
     persEditBtn.innerHTML = "Edit Person";
     persEditBtn.addEventListener("click", function(ev){
         getEditRecord();
@@ -498,7 +513,7 @@ var renderBackButton = function(){
     var oBDiv = document.getElementById("personView");
     var persEditBtn = document.createElement("button");
     persEditBtn.setAttribute("type", "button");
-    persEditBtn.setAttribute("id", "personEdit");
+    persEditBtn.setAttribute("id", "persList");
     persEditBtn.innerHTML = "Return to Results";
     persEditBtn.addEventListener("click", function(ev){
         // resetLists();
@@ -528,6 +543,7 @@ var newXLShirt = 0;
 var newXXLShirt = 0;
 var newXXXLShirt = 0;
 var newXXXXLShirt = 0;
+var deleteKeys = [];
 
 var updateFirstName = function(newFrNm){
     newFirstName = newFrNm;    
@@ -599,6 +615,7 @@ var getPersonEditInfo = function(){
         var zp = childSnapshot.val().zip;
         var phn = childSnapshot.val().phone;
         var emal = childSnapshot.val().email;
+        
         updateFirstName(fName);
         updateLastName(lName);
         updateAddress(addre);
@@ -640,7 +657,15 @@ var getPersonShirtEditOrder = function(){
 
 
 var getEditRecord = function(){
+     var divS = document.getElementById("personEdit");
+    while(divS.firstChild)
+        divS.removeChild(divS.firstChild);
+
+    document.getElementById("personSearch").classList.add("hidden");
+    document.getElementById("searchResults").classList.add("hidden");
     document.getElementById("personView").classList.add("hidden");
+    document.getElementById("personEdit").classList.remove("hidden");
+    headerButtons();
     getPersonEditInfo();
     getPersonShirtEditOrder();
     
@@ -671,16 +696,109 @@ var updateShirtInfo = function(key){
   });  
 };
 
+var pushContactKey = function(){
+    accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var accountKey = childSnapshot.key();
+         deleteKeys.push(accountKey);
+     });
+    });
+};
+
+var pushShirtKey = function(){
+    shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var shirtKey = childSnapshot.key();
+         deleteKeys.push(shirtKey);
+     });
+    });
+};
+
+var pushAttendeesKeys = function(){
+    var attendKeys = [];
+    attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+        var attKey = childSnapshot.key();
+        attendKeys.push(attKey);
+     });
+  });
+  deleteKeys.push(attendKeys);
+};
+
+var pushFoodKeys = function(){
+    var foodKeys = [];
+    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
+       snapshot.forEach(function(childSnapshot){
+           var fdKey = childSnapshot.key();
+           foodKeys.push(fdKey);
+       });
+    });
+    deleteKeys.push(foodKeys);
+};
+
+var pushUserKey = function(){
+    useDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var userKey = childSnapshot.key();
+         deleteKeys.push(userKey);
+     });
+    });
+};
+
+var pushFeeKey = function(){
+    feeDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var feesKey = childSnapshot.key();
+         deleteKeys.push(feesKey);
+     });
+    });
+};
+
+var getDeleteKeys = function(){
+  pushContactKey();
+  pushShirtKey();
+  pushAttendeesKeys();
+  pushFoodKeys();
+  pushUserKey();
+  pushFeeKey();
+};
+
+
+
+
+var deleteRecord = function(){
+  deleteContact();
+  deleteShirt();
+  deleteAttendees();
+  deleteFood();
+  deleteUser();
+  deleteFees();
+};
+
+var headerButtons = function(){
+    renderPersonBackButton();
+    getDeleteKeys();
+    console.log(deleteKeys);
+    renderDeleteRecordButton();
+};
+
 var renderPersonEdit = function(ky){
-    var sourceDiv = document.getElementById("personEdit");
+    renderPersonEditHeader();
+    var persoDiv = document.getElementById("personEdit");
     var perEditDv = document.createElement("div");
-    
     renderPersEditName(perEditDv);
     renderPersEditAddr(perEditDv);
     renderPersEditAddrInfo(perEditDv);
     renderPersEditContactInfo(perEditDv);
     renderUpdateEditPerson(perEditDv, ky);
-    sourceDiv.appendChild(perEditDv);
+    persoDiv.appendChild(perEditDv);
+};
+
+var renderPersonEditHeader = function(){
+  var editContactHead = document.getElementById("personEdit");
+  var editHead = document.createElement("h2");
+  editHead.innerHTML = "Contact Information";
+  editContactHead.appendChild(editHead);
 };
 
 var renderPersEditName = function(dv){
@@ -695,23 +813,21 @@ var renderPersEditFirstName = function(adV){
     var $fNameDiv = document.createElement("div");
     $fNameDiv.classList.add("individual_block_first");
     
-    var $newFnameInput = document.createElement("input");
-  var $newFnameLabel = document.createElement("label");
-      $newFnameLabel.setAttribute("for", "$newFnameInput");
-  $newFnameLabel.setAttribute("value", "First Name");
-  $newFnameLabel.innerHTML = "First Name";
-  $fNameDiv.appendChild($newFnameLabel);  
+    var $newFirstNameInput = document.createElement("input");
+  var $newFirstNameLabel = document.createElement("label");
+      $newFirstNameLabel.setAttribute("for", "editFirstName");
+  $newFirstNameLabel.setAttribute("value", "First Name");
+  $newFirstNameLabel.innerHTML = "First Name";
+  $fNameDiv.appendChild($newFirstNameLabel);  
     
-  $newFnameInput.setAttribute("type", "text");
-  $newFnameInput.setAttribute("id", "newFnameText");
-  $newFnameInput.innerHTML = newFirstName;
-  $newFnameInput.addEventListener("blur", function(ev){
-         updateFirstName(document.getElementById("newFnameText").value);
+  $newFirstNameInput.setAttribute("type", "text");
+  $newFirstNameInput.setAttribute("id", "editFirstName");
+  $newFirstNameInput.setAttribute("value",newFirstName);
+  $newFirstNameInput.addEventListener("blur", function(ev){
+         updateFirstName(document.getElementById("editFirstName").value);
   });
- $fNameDiv.appendChild($newFnameInput);
-    
+ $fNameDiv.appendChild($newFirstNameInput);
   adV.appendChild($fNameDiv);  
-    
 };
 
 var renderPersEditLastName = function(adV){
@@ -719,23 +835,20 @@ var renderPersEditLastName = function(adV){
     var $fNameDiv = document.createElement("div");
     $fNameDiv.classList.add("individual_block");
     
-    var $newFnameInput = document.createElement("input");
-  var $newFnameLabel = document.createElement("label");
-      $newFnameLabel.setAttribute("for", "$newFnameInput");
-  $newFnameLabel.setAttribute("value", "First Name");
-  $newFnameLabel.innerHTML = "Last Name";
-  $fNameDiv.appendChild($newFnameLabel);  
+    var $newLnameInput = document.createElement("input");
+  var $newLnameLabel = document.createElement("label");
+      $newLnameLabel.setAttribute("for", "editLastName");
+  $newLnameLabel.innerHTML = "Last Name";
+  $fNameDiv.appendChild($newLnameLabel);  
     
-  $newFnameInput.setAttribute("type", "text");
-  $newFnameInput.setAttribute("id", "newFnameText");
-  $newFnameInput.innerHTML = newLastName;
-  $newFnameInput.addEventListener("blur", function(ev){
-         updateFirstName(document.getElementById("newFnameText").value);
+  $newLnameInput.setAttribute("type", "text");
+  $newLnameInput.setAttribute("id", "editLastName");
+  $newLnameInput.setAttribute("value",newLastName);
+  $newLnameInput.addEventListener("blur", function(ev){
+         updateLastName(document.getElementById("editLastName").value);
   });
- $fNameDiv.appendChild($newFnameInput);
-    
+ $fNameDiv.appendChild($newLnameInput);
   adV.appendChild($fNameDiv);  
-    
 };
 
 var renderPersEditAddr = function(addDv){
@@ -882,6 +995,7 @@ var renderUpdateEditPerson = function(adiv, persKy){
 };
 
 var renderShirtEditOrder = function(aky){
+    renderPersonShirtHeader();
   var shirtDiv = document.getElementById("personEdit");
   var shirtEditDiv = document.createElement("div");
     renderEditSmallShirt(shirtEditDiv);
@@ -893,6 +1007,13 @@ var renderShirtEditOrder = function(aky){
     renderEditXXXXLShirt(shirtEditDiv);
     renderUpdateEditShirt(shirtEditDiv, aky);
     shirtDiv.appendChild(shirtEditDiv);    
+};
+
+var renderPersonShirtHeader = function(){
+  var editShirtHead = document.getElementById("personEdit");
+  var editHead = document.createElement("h2");
+  editHead.innerHTML = "Shirt Ordering Information";
+  editShirtHead.appendChild(editHead);
 };
 
 var renderEditSmallShirt = function(srcDv){
@@ -1112,6 +1233,43 @@ var renderUpdateEditShirt = function(ataDv, shKy){
 };
 
 
+var renderPersonBackButton = function(){
+    var oBDiv = document.getElementById("personEdit");
+    var persEditBtn = document.createElement("button");
+    persEditBtn.setAttribute("type", "button");
+    persEditBtn.setAttribute("id", "persEditBck");
+    persEditBtn.innerHTML = "Return to Person Information";
+    persEditBtn.addEventListener("click", function(ev){
+        // resetLists();
+        var remView = document.getElementById("personEdit");
+        while(remView.firstChild)
+            remView.removeChild(remView.firstChild);
+        document.getElementById("personView").classList.remove("hidden");
+        getRecord();
+    });
+    oBDiv.appendChild(persEditBtn);
+};
+
+var renderDeleteRecordButton = function(){
+     var oBDiv = document.getElementById("personEdit");
+    var persDelBtn = document.createElement("button");
+    persDelBtn.setAttribute("type", "button");
+    persDelBtn.setAttribute("id", "persDelete");
+    persDelBtn.innerHTML = "Delete Entire Record";
+    persDelBtn.addEventListener("click", function(ev){
+        // resetLists();
+        
+        
+        
+        
+        var remView = document.getElementById("personEdit");
+        while(remView.firstChild)
+            remView.removeChild(remView.firstChild);
+        document.getElementById("personSearch").classList.remove("hidden");
+        document.getElementById("personResults").classList.remove("hidden");
+    });
+    oBDiv.appendChild(persDelBtn);
+};
 
 
 var adminSearchStart = function(){

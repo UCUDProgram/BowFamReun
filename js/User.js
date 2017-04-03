@@ -236,6 +236,7 @@ var renderUser = function(){
     renderNewPerson();
     renderMemberInformation();
     renderPaymentInfo();
+    renderRegPaymentNews();
     renderMemberNav();
     renderRegCost();
 };
@@ -555,6 +556,13 @@ var renderFamReg = function(){
    $costHead.appendChild(cosHd);
    
 //   renderRegCost();
+};
+
+var renderRegPaymentNews = function(){
+  var srD = document.getElementById("regPayNews");
+  var regNews = document.createElement("h2");
+  regNews.innerHTML = "If you have already sent your payment in, it may take a couple of days to be reflected.";
+  srD.appendChild(regNews);
 };
 
 var renderRegCost = function(){

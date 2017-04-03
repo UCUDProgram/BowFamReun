@@ -93,6 +93,14 @@ var renderAdminReports = function(){
   });
     rptDiv.appendChild(adminRegReportButton);
   
+  var adminExpensesButton = document.createElement("button");
+  adminExpensesButton.setAttribute("id","adminExpensesButton");
+  adminExpensesButton.innerHTML = "Expenses";
+  adminExpensesButton.addEventListener("click",function(ev){
+      showAdminExpenseScreen();
+  });
+    rptDiv.appendChild(adminExpensesButton);
+  
       var adminShirtReportButton = document.createElement("button");
   adminShirtReportButton.setAttribute("id","adminShirtReportButton");
   adminShirtReportButton.innerHTML = "Shirt Report";
