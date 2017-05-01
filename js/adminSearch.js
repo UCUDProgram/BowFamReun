@@ -6,6 +6,7 @@ var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var foodDB = new Firebase("https://bowmanfamreun.firebaseio.com/Food");
 var feeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
+var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
 var setUserAccount = function(usAct){
   userAcct = usAct;  
@@ -417,8 +418,6 @@ var renderPersContact = function(phon, emai, perDiv){
   perDiv.appendChild(conDv);
 };
 
-
-
 var renderShirtOrder = function(sm, me, lg, xl, xxl, xxxl, xxxxl){
   var shrtSrc = document.getElementById("personView");
   
@@ -504,6 +503,7 @@ var renderPersonEditButton = function(){
     persEditBtn.setAttribute("id", "personEditBut");
     persEditBtn.innerHTML = "Edit Person";
     persEditBtn.addEventListener("click", function(ev){
+        // getDeleteKeys();
         getEditRecord();
     });
     oBDiv.appendChild(persEditBtn);
@@ -653,24 +653,52 @@ var getPersonShirtEditOrder = function(){
   });  
 };
 
+var getAssocAttend = function(){
+    renderAttendeesEditHeader();
+    attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+        var indFirst = childSnapshot.val().firstname;
+        var indLast = childSnapshot.val().lastname;
+        var indAge = childSnapshot.val().age;
+        var indKey = childSnapshot.key();
+        renderIndAttend(indFirst, indLast, indAge, indKey);
+     });
+  });
+};
 
-
+var getAssocFood = function(){
+    renderFoodEditHeader();
+  foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
+       snapshot.forEach(function(childSnapshot){
+           var fdNm = childSnapshot.val().food;
+           var fdCat = childSnapshot.val().category;
+           var fdKey = childSnapshot.key();
+           renderIndFood(fdNm, fdCat, fdKey);
+       });
+    });  
+};
 
 var getEditRecord = function(){
-     var divS = document.getElementById("personEdit");
-    while(divS.firstChild)
-        divS.removeChild(divS.firstChild);
-
     document.getElementById("personSearch").classList.add("hidden");
     document.getElementById("searchResults").classList.add("hidden");
     document.getElementById("personView").classList.add("hidden");
     document.getElementById("personEdit").classList.remove("hidden");
+    renderEditScreen();
+    
+};
+
+var renderEditScreen = function(){
+    var divS = document.getElementById("personEdit");
+    while(divS.firstChild)
+        divS.removeChild(divS.firstChild);
+    
     headerButtons();
     getPersonEditInfo();
     getPersonShirtEditOrder();
-    
-    
-    
+    getAssocAttend();
+    renderNewAttendant();
+    getAssocFood();
+    renderNewFood();
 };
 
 var updateAccountInfo = function(key){
@@ -700,7 +728,8 @@ var pushContactKey = function(){
     accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var accountKey = childSnapshot.key();
-         deleteKeys.push(accountKey);
+         console.log(accountKey);
+        //  deleteKeys.push(accountKey);
      });
     });
 };
@@ -709,61 +738,104 @@ var pushShirtKey = function(){
     shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var shirtKey = childSnapshot.key();
-         deleteKeys.push(shirtKey);
+         console.log(shirtKey);
+        //  deleteKeys.push(shirtKey);
      });
     });
 };
 
 var pushAttendeesKeys = function(){
-    var attendKeys = [];
+    // var attendKeys = [];
     attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
         var attKey = childSnapshot.key();
-        attendKeys.push(attKey);
+        console.log(attKey);
+        // attendKeys.push(attKey);
      });
   });
-  deleteKeys.push(attendKeys);
+//   deleteKeys.push(attendKeys);
 };
 
 var pushFoodKeys = function(){
-    var foodKeys = [];
+    // var foodKeys = [];
     foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
        snapshot.forEach(function(childSnapshot){
            var fdKey = childSnapshot.key();
-           foodKeys.push(fdKey);
+           console.log(fdKey);
+        //   foodKeys.push(fdKey);
        });
     });
-    deleteKeys.push(foodKeys);
+    // deleteKeys.push(foodKeys);
 };
 
 var pushUserKey = function(){
-    useDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+    var userData = DB.child("Users");
+    userData.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
-         var userKey = childSnapshot.key();
-         deleteKeys.push(userKey);
+         var urKy = childSnapshot.key();
+         console.log(urKy);
+         
+         
+        //  deleteKeys.push(urKy);
      });
     });
 };
 
-var pushFeeKey = function(){
-    feeDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+var pushFeesKey = function(){
+    
+    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var feesKey = childSnapshot.key();
-         deleteKeys.push(feesKey);
+         console.log(feesKey);
+        //  deleteKeys.push(feesKey);
      });
     });
 };
 
 var getDeleteKeys = function(){
+    // deleteKeys = [];
   pushContactKey();
   pushShirtKey();
   pushAttendeesKeys();
   pushFoodKeys();
   pushUserKey();
-  pushFeeKey();
+  pushFeesKey();
+//   console.log(deleteKeys);
 };
 
+var deleteContact = function(){
+    var conta = deleteKeys[0];
+    accountDB.child(conta).remove();
+};
 
+var deleteShirt = function(){
+    var shrt = deleteKeys[1];
+    shirtsDB.child(shrt).remove();
+};
+
+var deleteAttendees = function(){
+    var attnd = deleteKeys[2];
+    attnd.forEach(function(atKey){
+       attendDB.child(atKey).remove(); 
+    });
+};
+
+var deleteFood = function(){
+    var fod = deleteKeys[3];
+    fod.forEach(function(foKy){
+       foodDB.child(foKy).remove(); 
+    });
+};
+
+var deleteUser = function(){
+    var usrKy = deleteKeys[4];
+    useDB.child(usrKy).remove();
+};
+
+var deleteFees = function(){
+    var feKy = deleteKeys[5];
+    feeDB.child(feKy).remove();
+};
 
 
 var deleteRecord = function(){
@@ -778,7 +850,7 @@ var deleteRecord = function(){
 var headerButtons = function(){
     renderPersonBackButton();
     getDeleteKeys();
-    console.log(deleteKeys);
+    // console.log(deleteKeys);
     renderDeleteRecordButton();
 };
 
@@ -800,6 +872,21 @@ var renderPersonEditHeader = function(){
   editHead.innerHTML = "Contact Information";
   editContactHead.appendChild(editHead);
 };
+
+var renderAttendeesEditHeader = function(){
+  var editContactHead = document.getElementById("personEdit");
+  var editHead = document.createElement("h2");
+  editHead.innerHTML = "Attendees";
+  editContactHead.appendChild(editHead);
+};
+
+var renderFoodEditHeader = function(){
+  var editContactHead = document.getElementById("personEdit");
+  var editHead = document.createElement("h2");
+  editHead.innerHTML = "Food Brought";
+  editContactHead.appendChild(editHead);
+};
+
 
 var renderPersEditName = function(dv){
   var nmDiv = document.createElement("div");
@@ -989,7 +1076,7 @@ var renderUpdateEditPerson = function(adiv, persKy){
   updatePersInfoButton.innerHTML = "Update Person Info";
   updatePersInfoButton.addEventListener("click",function(ev){
    updateAccountInfo(persKy);
-   
+   renderEditScreen();
   });
   adiv.appendChild(updatePersInfoButton);
 };
@@ -1220,6 +1307,10 @@ var renderEditXXXXLShirt = function(srDv){
     srDv.appendChild($xXXXLDiv);
 };
 
+// var get
+
+
+
 var renderUpdateEditShirt = function(ataDv, shKy){
     var updateShirtButton = document.createElement("button");
   updateShirtButton.classList.add("individual_block");
@@ -1232,6 +1323,435 @@ var renderUpdateEditShirt = function(ataDv, shKy){
   ataDv.appendChild(updateShirtButton);
 };
 
+var renderIndAttend = function(ifirst, iLast, iAge, iKey){
+  var indDiv = document.getElementById("personEdit");
+  var attendDiv = document.createElement("div");
+  var attendDivName = ifirst.concat(iLast);
+  renderAttendFirstEdit(ifirst, attendDiv,attendDivName);
+  renderAttendLastEdit(iLast,attendDiv, attendDivName);
+  renderAttendAgeEdit(iAge, attendDiv, attendDivName);
+  renderAttendUpdateButton(iKey,attendDiv, attendDivName);
+  indDiv.appendChild(attendDiv);
+};
+
+var renderAttendFirstEdit = function(first, attDiv, dvName){
+    var attFirstName = dvName.concat("First");
+    var attenDiv = document.createElement("div");
+    attenDiv.classList.add("individual_block_first");
+    
+    var attendfnameInput = document.createElement("input");
+    var attendfnameLabel = document.createElement("label");
+      attendfnameLabel.setAttribute("for", "attendfnameInput");
+  attendfnameLabel.innerHTML = "First Name";
+  attenDiv.appendChild(attendfnameLabel);  
+    
+  attendfnameInput.setAttribute("type", "text");
+  attendfnameInput.setAttribute("id", attFirstName);
+  attendfnameInput.setAttribute("value", first);
+  attendfnameInput.innerHTML = first;
+ attenDiv.appendChild(attendfnameInput);
+
+    attDiv.appendChild(attenDiv);
+};
+
+var renderAttendLastEdit = function(last, attaDiv,dvName){
+     var attLastName = dvName.concat("Last");
+    var attedDiv = document.createElement("div");
+    attedDiv.classList.add("individual_block");
+    
+    var attendlnameInput = document.createElement("input");
+    var attendlnameLabel = document.createElement("label");
+      attendlnameLabel.setAttribute("for", "attendlnameInput");
+  attendlnameLabel.innerHTML = "Last Name";
+  attedDiv.appendChild(attendlnameLabel);  
+    
+  attendlnameInput.setAttribute("type", "text");
+  attendlnameInput.setAttribute("id", attLastName);
+  attendlnameInput.setAttribute("value", last);
+  attendlnameInput.innerHTML = last;
+ attedDiv.appendChild(attendlnameInput);
+    
+    attaDiv.appendChild(attedDiv);
+};
+
+var renderAttendAgeEdit = function(age, attacDiv, dvName){
+    var attAgeName = dvName.concat("Age");
+    var atedDiv = document.createElement("div");
+    atedDiv.classList.add("individual_block");
+    
+    var attendageInput = document.createElement("input");
+    var attendageLabel = document.createElement("label");
+      attendageLabel.setAttribute("for", "attendageInput");
+  attendageLabel.innerHTML = "Age";
+  atedDiv.appendChild(attendageLabel);  
+    
+    attendAge(age, attAgeName,atedDiv);
+    
+//   attendageInput.setAttribute("type", "text");
+//   attendageInput.setAttribute("id", attAgeName);
+//   attendageInput.setAttribute("value", age);
+//   attendageInput.innerHTML = age;
+//  atedDiv.appendChild(attendageInput);
+    
+    attacDiv.appendChild(atedDiv);
+};
+
+var attendAge = function(perAg, selectNme,attachmen){
+  var $ageClassification = document.createElement("select");
+  $ageClassification.setAttribute("name", "age");
+  $ageClassification.setAttribute("id", selectNme);
+  
+    var $infantClassification = document.createElement("option");
+  $infantClassification.setAttribute("value", "Infant");
+  $infantClassification.setAttribute("id", "newInfantAge");
+  $infantClassification.innerHTML = "Infant";
+      if(perAg == "Infant"){
+          $infantClassification.setAttribute("selected",true);
+      }
+      $ageClassification.appendChild($infantClassification);
+
+    var $childClassification = document.createElement("option");
+$childClassification.setAttribute("value", "Child");
+$childClassification.setAttribute("id", "newChildAge");
+  $childClassification.innerHTML = "Child";
+     if(perAg == "Child"){
+          $childClassification.setAttribute("selected",true);
+      }
+      $ageClassification.appendChild($childClassification);
+      
+  var $adultClassification = document.createElement("option");
+  $adultClassification.setAttribute("value", "Adult");
+  $adultClassification.setAttribute("id", "newAdultAge");
+  $adultClassification.innerHTML = "Adult";
+     if(perAg == "Adult"){
+          $adultClassification.setAttribute("selected",true);
+      }
+      $ageClassification.appendChild($adultClassification);
+     
+  var $seniorClassification = document.createElement("option");
+  $seniorClassification.setAttribute("value", "Senior");
+  $seniorClassification.setAttribute("id", "newSeniorAge");
+  $seniorClassification.innerHTML = "Distinguished Adult";
+    if(perAg == "Senior"){
+          $seniorClassification.setAttribute("selected",true);
+      }
+    
+      $ageClassification.appendChild($seniorClassification);
+
+   attachmen.appendChild($ageClassification);
+  
+};
+
+
+
+var renderAttendUpdateButton = function(key, atDiv, dvName){
+    var attFirstName = dvName.concat("First");
+    var attLastName = dvName.concat("Last");
+    var attAgeName = dvName.concat("Age");
+    var butDiv = document.createElement("div");
+    butDiv.classList.add("individual_block");
+    var attSubmit = document.createElement("button");
+     attSubmit.setAttribute("id", "updateAttendSubmit");
+  attSubmit.innerHTML = "Update Attendee";
+  attSubmit.addEventListener("click", function(ev){
+      attendDB.child(key).update({firstname: document.getElementById(attFirstName).value,
+                            account: userAcct,
+                            lastname: document.getElementById(attLastName).value,
+                            age: document.getElementById(attAgeName).value
+      });
+      renderEditScreen();
+  });
+    butDiv.appendChild(attSubmit);
+    atDiv.appendChild(butDiv);
+};
+
+var renderIndFood = function(foodName, foodCat, foodKey){
+    var fdDiv = document.getElementById("personEdit");
+    var foodDiv = document.createElement("div");
+    var foodDivName = foodName.concat(foodCat);
+    renderFoodNameEdit(foodName,foodDiv,foodDivName);
+    renderFoodCatEdit(foodCat, foodDiv, foodDivName);
+    renderFoodUpdateButton(foodKey,foodDiv, foodDivName);
+    fdDiv.appendChild(foodDiv);
+};
+
+var renderFoodNameEdit = function(fdNme, fdDiv,fdDvNm){
+    var foodNm = fdDvNm.concat("Food");
+    var fodDiv = document.createElement("div");
+    fodDiv.classList.add("individual_block_first");
+
+    var foodnameInput = document.createElement("input");
+    var foodnameLabel = document.createElement("label");
+      foodnameLabel.setAttribute("for", "foodnameInput");
+  foodnameLabel.innerHTML = "Food Name";
+  fodDiv.appendChild(foodnameLabel);  
+    
+  foodnameInput.setAttribute("type", "text");
+  foodnameInput.setAttribute("id", foodNm);
+  foodnameInput.setAttribute("value", fdNme);
+  foodnameInput.innerHTML = fdNme;
+ fodDiv.appendChild(foodnameInput);
+
+    fdDiv.appendChild(fodDiv);
+};
+
+var renderFoodCatEdit = function(fdCate, fdDiv, fdDivNm){
+    var foodCt = fdDivNm.concat("Cat");
+    var fodDiv = document.createElement("div");
+    fodDiv.classList.add("individual_block");
+
+    var foodCatInput = document.createElement("input");
+    var foodCatLabel = document.createElement("label");
+      foodCatLabel.setAttribute("for", "foodCatInput");
+  foodCatLabel.innerHTML = "Food Category";
+  fodDiv.appendChild(foodCatLabel);  
+    
+    foodCatSelection(fdCate,foodCt,fodDiv);
+    
+  foodCatInput.setAttribute("type", "text");
+  foodCatInput.setAttribute("id", foodCt);
+  foodCatInput.setAttribute("value", fdCate);
+  foodCatInput.innerHTML = fdCate;
+ fodDiv.appendChild(foodCatInput);
+
+    fdDiv.appendChild(fodDiv);
+};
+
+var foodCatSelection = function(fdCategory, foodId, attachmDv){
+    var foodCategoryClassification = document.createElement("select");
+  foodCategoryClassification.setAttribute("name", "foodCat");
+  foodCategoryClassification.setAttribute("id", foodId);
+  
+   var defCat = document.createElement("option");
+  defCat.setAttribute("value", "Select Category");
+  defCat.setAttribute("id", "defCategory");
+  defCat.innerHTML = "Select Category";
+  foodCategoryClassification.appendChild(defCat);
+  
+  var saladCat = document.createElement("option");
+  saladCat.setAttribute("value", "Salad");
+  saladCat.setAttribute("id", "saladCategory");
+  saladCat.innerHTML = "Salad";
+  foodCategoryClassification.appendChild(saladCat);
+  
+  var sideDishCat = document.createElement("option");
+  sideDishCat.setAttribute("value", "Side Dish");
+  sideDishCat.setAttribute("id", "sideDishCategory");
+  sideDishCat.innerHTML = "Side Dish";
+  foodCategoryClassification.appendChild(sideDishCat);
+  
+  var meatCat = document.createElement("option");
+  meatCat.setAttribute("value", "Meat");
+  meatCat.setAttribute("id", "meatCategory");
+  meatCat.innerHTML = "Meat";
+  foodCategoryClassification.appendChild(meatCat);
+  
+    attachmDv.appendChild(foodCategoryClassification);
+};
+
+var renderFoodUpdateButton = function(fKey,fDiv, fDName){
+    var foodNm = fDName.concat("Food");
+    var fodCt = fDName.concat("Cat");
+    var fdUpButDiv = document.createElement("div");
+    fdUpButDiv.classList.add("individual_block");
+    var fdSubmit = document.createElement("button");
+     fdSubmit.setAttribute("id", "updateFoodSubmit");
+  fdSubmit.innerHTML = "Update Food Item";
+  fdSubmit.addEventListener("click", function(ev){
+      foodDB.child(fKey).update({user: userAcct,
+                            food: document.getElementById(foodNm).value,
+                            category: document.getElementById(fodCt).value
+      });
+      renderEditScreen();
+  });
+    fdUpButDiv.appendChild(fdSubmit);
+    fDiv.appendChild(fdUpButDiv);
+};
+
+var renderNewAttendant = function(){
+    var nAttSrc = document.getElementById("personEdit");
+    var nAttDiv = document.createElement("div");
+    renderAttendHeader(nAttDiv);
+    renderAttendFirst(nAttDiv);
+    renderAttendLast(nAttDiv);
+    renderAttendAge(nAttDiv);
+    renderAttendSubmit(nAttDiv);
+    nAttSrc.appendChild(nAttDiv);
+};
+
+var renderAttendHeader = function(atDivm){
+    var atteHead = document.createElement("h1");
+    atteHead.innerHTML = "Add a new Attendee";
+    atDivm.appendChild(atteHead);
+};
+
+var renderAttendFirst = function(attD){
+    
+     var attendfNameDiv = document.createElement("div");
+    attendfNameDiv.classList.add("individual_block_first");
+    
+    var attendFnameInput = document.createElement("input");
+  var attendFnameLabel = document.createElement("label");
+      attendFnameLabel.setAttribute("for", "attendFnameInput");
+  attendFnameLabel.setAttribute("value", "First Name");
+  attendFnameLabel.innerHTML = "First Name";
+  attendfNameDiv.appendChild(attendFnameLabel);  
+    
+  attendFnameInput.setAttribute("type", "text");
+  attendFnameInput.setAttribute("id", "attendFname");
+  attendFnameInput.innerHTML = null;
+ attendfNameDiv.appendChild(attendFnameInput);
+    attD.appendChild(attendfNameDiv);
+};
+
+var renderAttendLast = function(atDi){
+    var attendlNameDiv = document.createElement("div");
+    attendlNameDiv.classList.add("individual_block");
+    
+ var attendLnameLabel = document.createElement("label");
+  attendLnameLabel.setAttribute("for", attendLnameInput);
+  attendLnameLabel.innerHTML = "Last Name";
+      attendlNameDiv.appendChild(attendLnameLabel);
+    
+    var attendLnameInput = document.createElement("input");
+    attendLnameInput.setAttribute("type", "text");
+    attendLnameInput.setAttribute("id", "attendLname");
+    
+   attendlNameDiv.appendChild(attendLnameInput);
+   atDi.appendChild(attendlNameDiv);
+};
+
+var renderAttendAge = function(atDv){
+     var $ageDiv = document.createElement("div");
+    $ageDiv.classList.add("individual_block");
+    
+    var $ageClassify = document.createElement("select");
+  $ageClassify.setAttribute("name", "age");
+  $ageClassify.setAttribute("id", "ageOption");  
+ 
+    var $defaultClassify = document.createElement("option");
+$defaultClassify.setAttribute("value", "Choose Age");
+$defaultClassify.setAttribute("selected", true);
+  $defaultClassify.setAttribute("id", "defaultOption");
+  $defaultClassify.innerHTML = "Choose Person's Age";
+       $ageClassify.appendChild($defaultClassify);
+    
+    var $infantClassify = document.createElement("option");
+  $infantClassify.setAttribute("value", "Infant");
+  $infantClassify.setAttribute("id", "infantAge");
+  $infantClassify.innerHTML = "Infant";
+      $ageClassify.appendChild($infantClassify);
+      
+    var $childClassify = document.createElement("option");
+$childClassify.setAttribute("value", "Child");
+$childClassify.setAttribute("id", "childAge");
+  $childClassify.innerHTML = "Child";
+      $ageClassify.appendChild($childClassify);
+      
+  var $adultClassify = document.createElement("option");
+  $adultClassify.setAttribute("value", "Adult");
+  $adultClassify.setAttribute("id", "adultAge");
+  $adultClassify.innerHTML = "Adult";
+  $adultClassify.classList.add("Adult");
+      $ageClassify.appendChild($adultClassify);
+      
+  var $seniorClassify = document.createElement("option");
+  $seniorClassify.setAttribute("value", "Senior");
+  $seniorClassify.setAttribute("id", "seniorAge");
+  $seniorClassify.innerHTML = "Distinguished Adult";
+      $ageClassify.appendChild($seniorClassify);
+      
+   $ageDiv.appendChild($ageClassify);
+   atDv.appendChild($ageDiv);
+};
+
+var renderAttendSubmit = function(attachm){
+     var attendButton = document.createElement("button");
+  attendButton.setAttribute("id","newAttendeeSubmit");
+    attendButton.innerHTML = "Add Attendee to this person's record";
+    attendButton.addEventListener("click", function(ev){
+       
+       
+       
+    });
+    attachm.appendChild(attendButton);
+};
+
+var renderNewFood = function(){
+    var nFoodSrc = document.getElementById("personEdit");
+    var nFoodDiv = document.createElement("div");
+    renderFoodHeader(nFoodDiv);
+  renderNewFoodName(nFoodDiv);
+  renderNewFoodCat(nFoodDiv);
+  renderNewFoodSubmit(nFoodDiv);
+    nFoodSrc.appendChild(nFoodDiv);
+};
+
+var renderFoodHeader = function(fdDivm){
+    var atteHead = document.createElement("h1");
+    atteHead.innerHTML = "Add a new Food";
+    fdDivm.appendChild(atteHead);
+};
+
+var renderNewFoodName = function(attch){
+  
+  var fdNameDiv = document.createElement("div");
+    fdNameDiv.classList.add("individual_block_first");
+var foodNamLbl = document.createElement("label");
+    foodNamLbl.setAttribute("for", foodNamInput);
+    foodNamLbl.innerHTML = "Food Name: ";
+    fdNameDiv.appendChild(foodNamLbl);
+    
+    var foodNamInput = document.createElement("input");
+   foodNamInput.setAttribute("type", "text");
+    foodNamInput.setAttribute("id", "foodNamText");
+  fdNameDiv.appendChild(foodNamInput);
+  attch.appendChild(fdNameDiv);
+};
+
+var renderNewFoodCat = function(atch){
+     var newFoodCategoryClassification = document.createElement("select");
+  newFoodCategoryClassification.setAttribute("name", "otherCat");
+  newFoodCategoryClassification.setAttribute("id", "newFoodCategorySelection");
+  
+   var defCat = document.createElement("option");
+  defCat.setAttribute("value", "Select Category");
+  defCat.setAttribute("id", "defCategory");
+  defCat.innerHTML = "Select Category";
+  newFoodCategoryClassification.appendChild(defCat);
+  
+  var saladCat = document.createElement("option");
+  saladCat.setAttribute("value", "Salad");
+  saladCat.setAttribute("id", "saladCategory");
+  saladCat.innerHTML = "Salad";
+  newFoodCategoryClassification.appendChild(saladCat);
+  
+  var sideDishCat = document.createElement("option");
+  sideDishCat.setAttribute("value", "Side Dish");
+  sideDishCat.setAttribute("id", "sideDishCategory");
+  sideDishCat.innerHTML = "Side Dish";
+  newFoodCategoryClassification.appendChild(sideDishCat);
+  
+  var meatCat = document.createElement("option");
+  meatCat.setAttribute("value", "Meat");
+  meatCat.setAttribute("id", "meatCategory");
+  meatCat.innerHTML = "Meat";
+  newFoodCategoryClassification.appendChild(meatCat);
+  
+    atch.appendChild(newFoodCategoryClassification);
+};
+
+var renderNewFoodSubmit = function(attachme){
+    var foodButton = document.createElement("button");
+  foodButton.setAttribute("id","newFoodSubmit");
+    foodButton.innerHTML = "Add Food to this person's record";
+    foodButton.addEventListener("click", function(ev){
+       
+       
+       
+    });
+    attachme.appendChild(foodButton);
+};
 
 var renderPersonBackButton = function(){
     var oBDiv = document.getElementById("personEdit");
@@ -1274,6 +1794,7 @@ var renderDeleteRecordButton = function(){
 
 var adminSearchStart = function(){
     renderPersonSearchView();
+    // document.getElementById("persEditBtn").addEventListener("click", getDeleteKeys);
 };
 
 document.addEventListener("DOMContentLoaded", adminSearchStart);
