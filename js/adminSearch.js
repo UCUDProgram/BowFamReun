@@ -543,6 +543,7 @@ var newXLShirt = 0;
 var newXXLShirt = 0;
 var newXXXLShirt = 0;
 var newXXXXLShirt = 0;
+var newShirtOrder =0;
 var deleteKeys = [];
 
 var updateFirstName = function(newFrNm){
@@ -724,6 +725,11 @@ var updateShirtInfo = function(key){
   });  
 };
 
+var updateShirtInfo = function(key){
+  feeDB.child(key).update({shirtDue:newShirtOrder
+  });  
+};
+
 var pushContactKey = function(){
     accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
@@ -788,6 +794,16 @@ var pushFeesKey = function(){
          var feesKey = childSnapshot.key();
          console.log(feesKey);
         //  deleteKeys.push(feesKey);
+     });
+    });
+};
+
+var shirtFeesKey = function(){
+    
+    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var shirtKey = childSnapshot.key();
+        updateShirtsOrder(shirtKey);
      });
     });
 };
@@ -1307,8 +1323,18 @@ var renderEditXXXXLShirt = function(srDv){
     srDv.appendChild($xXXXLDiv);
 };
 
-// var get
+var setShirtCost = function(){
+  var normShtTot = newSmallShirt + newMediumShirt + newLargeShirt + newXLShirt + newXXLShirt;
+  var largShtTot = newXXXLShirt + newXXXXLShirt;
+  var normTot = normShtTot * 10;
+  var largTot = largShtTot * 12;
+    newShirtOrder = normTot + largTot;
+};
 
+var updateShirtsOrder = function(shtKy){
+  setShirtCost();
+  updateShirtInfo(shtKy);
+};
 
 
 var renderUpdateEditShirt = function(ataDv, shKy){

@@ -5,6 +5,7 @@ var clearStorage = function(){
 var loadHomePage = function(){
   renderHomeTitle();
   renderButtons();
+  renderReunInfo();
   renderNews();
   renderReunPhoto();
   renderHomeNavButtons();
@@ -70,6 +71,32 @@ var renderButtons = function(){
     // hDiv.appendChild(logDiv);
     hDiv.appendChild(acctDv);
     // hDiv.appendChild(logBut);
+};
+
+var renderReunInfo = function(){
+    var homePa =document.getElementById("news");
+    homePa.classList.add("individual_block_first");
+    var attendDate = document.createElement("h1");
+    attendDate.innerHTML = "The family reunion will take place Saturday, July 15th 2017.";
+    homePa.appendChild(attendDate);
+    
+    var attendLoc = document.createElement("div");
+    var attendLocation = document.createElement("h1");
+    attendLocation.innerHTML = "It will take place at the following Location";
+    attendLoc.appendChild(attendLocation);
+
+    var attendName = document.createElement("div");
+    attendName.innerHTML = "Charles City Social Center";
+    attendLoc.appendChild(attendName);
+
+    var attendAddr = document.createElement("div");
+    attendAddr.innerHTML = "8320 Ruthville Road";
+    attendLoc.appendChild(attendAddr);
+    
+    var attendCity = document.createElement("div");
+    attendCity.innerHTML = "Ruthville, VA 23147";
+    attendLoc.appendChild(attendCity);
+    homePa.appendChild(attendLoc);
 };
 
 var renderNews = function(){
