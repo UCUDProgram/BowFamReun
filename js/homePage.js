@@ -77,7 +77,7 @@ var renderReunInfo = function(){
     var homePa =document.getElementById("news");
     homePa.classList.add("individual_block_first");
     var attendDate = document.createElement("h1");
-    attendDate.innerHTML = "The family reunion will take place Saturday, July 15th 2017, from Noon to 6PM.";
+    attendDate.innerHTML = "The family reunion will take place Saturday, July 15th 2017, from Noon to 6 PM.";
     homePa.appendChild(attendDate);
     
     var attendLoc = document.createElement("div");
