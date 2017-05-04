@@ -1792,9 +1792,10 @@ var renderNewFoodSubmit = function(attachme){
   foodButton.setAttribute("id","newFoodSubmit");
     foodButton.innerHTML = "Add Food to this person's record";
     foodButton.addEventListener("click", function(ev){
-       
-       
-       
+       foodDB.push().set({user:userAcct,
+                          food: document.getElementById("foodNamText").value,
+                          category: document.getElementById("newFoodCategorySelection").value
+       });
     });
     attachme.appendChild(foodButton);
 };
