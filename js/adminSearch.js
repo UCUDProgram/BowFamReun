@@ -702,6 +702,12 @@ var renderEditScreen = function(){
     renderNewFood();
 };
 
+var clearAllScreen = function(){
+  var sourceScreen = document.getElementById("personEdit");
+  while(sourceScreen.firstChild)
+        sourceScreen.removeChild(sourceScreen.firstChild);
+};
+
 var updateAccountInfo = function(key){
   accountDB.child(key).update({firstname:newFirstName,
                                 lastname:newLastName,
@@ -1534,11 +1540,11 @@ var renderFoodCatEdit = function(fdCate, fdDiv, fdDivNm){
     
     foodCatSelection(fdCate,foodCt,fodDiv);
     
-  foodCatInput.setAttribute("type", "text");
-  foodCatInput.setAttribute("id", foodCt);
-  foodCatInput.setAttribute("value", fdCate);
-  foodCatInput.innerHTML = fdCate;
- fodDiv.appendChild(foodCatInput);
+//   foodCatInput.setAttribute("type", "text");
+//   foodCatInput.setAttribute("id", foodCt);
+//   foodCatInput.setAttribute("value", fdCate);
+//   foodCatInput.innerHTML = fdCate;
+//  fodDiv.appendChild(foodCatInput);
 
     fdDiv.appendChild(fodDiv);
 };
@@ -1558,18 +1564,27 @@ var foodCatSelection = function(fdCategory, foodId, attachmDv){
   saladCat.setAttribute("value", "Salad");
   saladCat.setAttribute("id", "saladCategory");
   saladCat.innerHTML = "Salad";
+  if(fdCategory == "Salad"){
+      saladCat.setAttribute("selected",true);
+  }
   foodCategoryClassification.appendChild(saladCat);
   
   var sideDishCat = document.createElement("option");
   sideDishCat.setAttribute("value", "Side Dish");
   sideDishCat.setAttribute("id", "sideDishCategory");
   sideDishCat.innerHTML = "Side Dish";
+  if(fdCategory == "Side Dish"){
+      sideDishCat.setAttribute("selected",true);
+  }
   foodCategoryClassification.appendChild(sideDishCat);
   
   var meatCat = document.createElement("option");
   meatCat.setAttribute("value", "Meat");
   meatCat.setAttribute("id", "meatCategory");
   meatCat.innerHTML = "Meat";
+  if(fdCategory == "Meat"){
+      meatCat.setAttribute("selected",true);
+  }
   foodCategoryClassification.appendChild(meatCat);
   
     attachmDv.appendChild(foodCategoryClassification);
@@ -1653,7 +1668,7 @@ var renderAttendAge = function(atDv){
     
     var $ageClassify = document.createElement("select");
   $ageClassify.setAttribute("name", "age");
-  $ageClassify.setAttribute("id", "ageOption");  
+  $ageClassify.setAttribute("id", "attendAge");  
  
     var $defaultClassify = document.createElement("option");
 $defaultClassify.setAttribute("value", "Choose Age");
@@ -1696,8 +1711,13 @@ var renderAttendSubmit = function(attachm){
   attendButton.setAttribute("id","newAttendeeSubmit");
     attendButton.innerHTML = "Add Attendee to this person's record";
     attendButton.addEventListener("click", function(ev){
-       
-       
+       attendDB.push().set({firstname: document.getElementById("attendFname").value,
+                            account:userAcct,
+                            lastname:document.getElementById("attendLname").value,
+                            age:document.getElementById("attendAge").value
+       });
+       clearAllScreen();
+       renderEditScreen();
        
     });
     attachm.appendChild(attendButton);

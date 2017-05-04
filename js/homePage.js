@@ -85,17 +85,20 @@ var renderReunInfo = function(){
     attendLocation.innerHTML = "It will take place at the following Location";
     attendLoc.appendChild(attendLocation);
 
-    var attendName = document.createElement("div");
+    var attendLoca = document.createElement("div");
+    attendLoca.classList.add("addressD");
+    var attendName = document.createElement("h3");
     attendName.innerHTML = "Charles City Social Center";
-    attendLoc.appendChild(attendName);
+    attendLoca.appendChild(attendName);
 
-    var attendAddr = document.createElement("div");
+    var attendAddr = document.createElement("h3");
     attendAddr.innerHTML = "8320 Ruthville Road";
-    attendLoc.appendChild(attendAddr);
+    attendLoca.appendChild(attendAddr);
     
-    var attendCity = document.createElement("div");
+    var attendCity = document.createElement("h3");
     attendCity.innerHTML = "Ruthville, VA 23147";
-    attendLoc.appendChild(attendCity);
+    attendLoca.appendChild(attendCity);
+    attendLoc.appendChild(attendLoca);
     homePa.appendChild(attendLoc);
 };
 

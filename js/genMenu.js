@@ -110,8 +110,6 @@ var renderGenMenuNav = function(){
         showHomePageScreen();
     });
     navDiv.appendChild(menuReturn);
-    
-    
 };
 
 var menuStart = function(){

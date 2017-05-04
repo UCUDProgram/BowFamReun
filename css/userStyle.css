@@ -2,6 +2,10 @@
     display:none;
 }
 
+#memberNav{
+    padding-top: 2em;
+}
+
 .individual_block_first{
     /*width:20px;*/
     display:inline-block;

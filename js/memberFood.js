@@ -96,6 +96,7 @@ var getFood = function(){
 //  RENDERING THE SCREEN (VIEW)
 var renderFoodScreen = function(){
     renderFoodOrderHeader();
+    renderFoodNews();
     renderSaladOptions();
     renderSideDishOptions();
     renderMeatOptions();
@@ -118,6 +119,24 @@ var renderFoodOrderHeader = function(){
   $fdHead.appendChild(fdHeadText);
   $fdHead.appendChild(fdHeadInfo);
   $fdHead.appendChild(fdHeadOther);
+};
+
+var renderFoodNews = function(){
+  var newsHead = document.getElementById("foodHeader");
+  
+  var newsText = document.createElement("h1");
+  newsText.innerHTML = "If you do not plan on bringing food, please submit 10 dollars ($10) so the committee can buy food for you and your family.";
+    newsHead.appendChild(newsText);
+  
+  var noFoodDiv = document.createElement("div");
+  var foodText = document.createElement("h1");
+  foodText.innerHTML = "Also, if you are bringing nothing, you do not need to create a record of nothing";
+  noFoodDiv.appendChild(foodText);
+    
+    var deleteFoodWarn = document.createElement("h1");
+    deleteFoodWarn.innerHTML = "WARNING: Creating a nothing Brought food Item can lead to administrator deleting that record";
+    noFoodDiv.appendChild(deleteFoodWarn);
+    newsHead.appendChild(noFoodDiv);
 };
 
 var renderSaladOptions = function(){

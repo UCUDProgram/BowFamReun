@@ -89,3 +89,7 @@ var showAdminShirtReportScreen = function(){
 var showAdminPaymentUpdateScreen = function(){
   window.location.href = "adminPaymentUpdate.html";
 };
+
+var showAdminSearchScreen = function(){
+  window.location.href = "adminSearch.html";
+};

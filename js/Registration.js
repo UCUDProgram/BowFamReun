@@ -195,7 +195,7 @@ var validUserCheck = function(){
    useDB.orderByChild("userName").equalTo(uUName).on("value", function(snapshot) {
     var results = snapshot.val();
     if(results == null) {
-      alert("Username is acceptable")
+      alert("Username is acceptable");
     } else {
       alert("Username exists.  Choose a different Username");
     }
@@ -231,6 +231,19 @@ var pushFeeData = function(){
                       regDue:0,
                       shirtPaid:0,
                       shirtDue:0
+  });
+};
+
+var pushShirtData = function(){
+  var regData = DB.child("TShirt");
+  regData.push().set({account:uUName,
+                      small:0,
+                      medium:0,
+                      large:0,
+                      xL:0,
+                      xxLarge:0,
+                      xxxLarge:0,
+                      xxxxLarge:0
   });
 };
 
@@ -287,6 +300,7 @@ var registerAccount = function(){
     pushAccountData();
     pushUsersData();
     pushFeeData();
+    pushShirtData();
     alert("Thank You for Registering.  You can now login to your account.");
     clearInputFields();
     showHomePageScreen();

@@ -624,7 +624,7 @@ var renderLogoutButton = function(){
 var renderMemberInformation = function(){
   var memDiv = document.getElementById("memberNews");
   var payChgDiv = document.createElement("h2");
-  payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address to send the money.";
+  payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address.";
   memDiv.appendChild(payChgDiv);
 };
 
