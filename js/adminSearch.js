@@ -60,7 +60,16 @@ var setUserAccount = function(usAct){
 //   });
 //   origiDv.appendChild(sourcDv);
 // };
-
+//   foodCatInput.setAttribute("type", "text");
+//   foodCatInput.setAttribute("id", foodCt);
+//   foodCatInput.setAttribute("value", fdCate);
+//   foodCatInput.innerHTML = fdCate;
+//  fodDiv.appendChild(foodCatInput);
+//   attendageInput.setAttribute("type", "text");
+//   attendageInput.setAttribute("id", attAgeName);
+//   attendageInput.setAttribute("value", age);
+//   attendageInput.innerHTML = age;
+//  atedDiv.appendChild(attendageInput);
 
 
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW
@@ -665,6 +674,7 @@ var getAssocAttend = function(){
         var indLast = childSnapshot.val().lastname;
         var indAge = childSnapshot.val().age;
         var indKey = childSnapshot.key();
+        updateAgeTotals(indAge);
         renderIndAttend(indFirst, indLast, indAge, indKey);
      });
   });
@@ -733,8 +743,13 @@ var updateShirtInfo = function(key){
   });  
 };
 
-var updateShirtInfo = function(key){
+var updateShirtCostInfo = function(key){
   feeDB.child(key).update({shirtDue:newShirtOrder
+  });  
+};
+
+var updateRegCostInfo = function(key){
+  feeDB.child(key).update({regDue:newAttendantOrder
   });  
 };
 
@@ -1341,7 +1356,7 @@ var setShirtCost = function(){
 
 var updateShirtsOrder = function(shtKy){
   setShirtCost();
-  updateShirtInfo(shtKy);
+  updateShirtCostInfo(shtKy);
 };
 
 
@@ -1420,13 +1435,6 @@ var renderAttendAgeEdit = function(age, attacDiv, dvName){
   atedDiv.appendChild(attendageLabel);  
     
     attendAge(age, attAgeName,atedDiv);
-    
-//   attendageInput.setAttribute("type", "text");
-//   attendageInput.setAttribute("id", attAgeName);
-//   attendageInput.setAttribute("value", age);
-//   attendageInput.innerHTML = age;
-//  atedDiv.appendChild(attendageInput);
-    
     attacDiv.appendChild(atedDiv);
 };
 
@@ -1469,14 +1477,9 @@ $childClassification.setAttribute("id", "newChildAge");
     if(perAg == "Senior"){
           $seniorClassification.setAttribute("selected",true);
       }
-    
       $ageClassification.appendChild($seniorClassification);
-
    attachmen.appendChild($ageClassification);
-  
 };
-
-
 
 var renderAttendUpdateButton = function(key, atDiv, dvName){
     var attFirstName = dvName.concat("First");
@@ -1508,6 +1511,11 @@ var updateAgeTotals = function(aPrsAg){
   }
 };
 
+var setPersonRegCost = function(){
+    var childCost = childCounter * 10;
+    var adultCost = adultCounter * 20;
+    newAttendantOrder = childCost + adultCost;
+};
 
 var renderIndFood = function(foodName, foodCat, foodKey){
     var fdDiv = document.getElementById("personEdit");
@@ -1551,13 +1559,6 @@ var renderFoodCatEdit = function(fdCate, fdDiv, fdDivNm){
   fodDiv.appendChild(foodCatLabel);  
     
     foodCatSelection(fdCate,foodCt,fodDiv);
-    
-//   foodCatInput.setAttribute("type", "text");
-//   foodCatInput.setAttribute("id", foodCt);
-//   foodCatInput.setAttribute("value", fdCate);
-//   foodCatInput.innerHTML = fdCate;
-//  fodDiv.appendChild(foodCatInput);
-
     fdDiv.appendChild(fodDiv);
 };
 
