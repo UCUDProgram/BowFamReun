@@ -544,6 +544,9 @@ var newXXLShirt = 0;
 var newXXXLShirt = 0;
 var newXXXXLShirt = 0;
 var newShirtOrder =0;
+var childCounter = 0;
+var adultCounter = 0;
+var newAttendantOrder = 0;
 var deleteKeys = [];
 
 var updateFirstName = function(newFrNm){
@@ -685,7 +688,6 @@ var getEditRecord = function(){
     document.getElementById("personView").classList.add("hidden");
     document.getElementById("personEdit").classList.remove("hidden");
     renderEditScreen();
-    
 };
 
 var renderEditScreen = function(){
@@ -1497,6 +1499,16 @@ var renderAttendUpdateButton = function(key, atDiv, dvName){
     atDiv.appendChild(butDiv);
 };
 
+var updateAgeTotals = function(aPrsAg){
+  if (aPrsAg == "Child"){
+      childCounter+1;
+  }  
+  if (aPrsAg == "Adult"){
+      adultCounter+1;
+  }
+};
+
+
 var renderIndFood = function(foodName, foodCat, foodKey){
     var fdDiv = document.getElementById("personEdit");
     var foodDiv = document.createElement("div");
@@ -1796,6 +1808,8 @@ var renderNewFoodSubmit = function(attachme){
                           food: document.getElementById("foodNamText").value,
                           category: document.getElementById("newFoodCategorySelection").value
        });
+       clearAllScreen();
+       renderEditScreen();
     });
     attachme.appendChild(foodButton);
 };

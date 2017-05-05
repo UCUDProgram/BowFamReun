@@ -56,6 +56,14 @@ var renderAdminMembers = function(){
   });
     memDiv.appendChild(adminPaymentUpdateButton);
 
+ var adminSearchButton = document.createElement("button");
+  adminSearchButton.setAttribute("id","adminSearchButton");
+  adminSearchButton.innerHTML = "Search Member Records";
+  adminSearchButton.addEventListener("click",function(ev){
+      showAdminSearchScreen();
+  });
+    memDiv.appendChild(adminSearchButton);
+
   admMem.appendChild(memDiv);
 };
 
