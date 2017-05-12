@@ -1,5 +1,5 @@
 var userAcct = "";
-
+var admAct = "";
 var accountDB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 var shirtsDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
@@ -10,6 +10,14 @@ var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
 var setUserAccount = function(usAct){
   userAcct = usAct;  
+};
+
+var setAdmAct = function(){
+  admAct = localStorage.getItem("admin");
+  console.log(admAct);
+  if(admAct == null){
+      showAdminLoginScreen();
+  }
 };
 
 // var pages = ["personSearch", "searchResults","personView", "personEdit"];
@@ -70,6 +78,43 @@ var setUserAccount = function(usAct){
 //   attendageInput.setAttribute("value", age);
 //   attendageInput.innerHTML = age;
 //  atedDiv.appendChild(attendageInput);
+// var shirtFeesKey = function(){
+//     feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
+//      snapshot.forEach(function(childSnapshot){
+//          var shirtKey = childSnapshot.key();
+//         updateShirtsOrder(shirtKey);
+//      });
+//     });
+// };
+
+// var getDeleteKeys = function(){
+    // deleteKeys = [];
+//   pushContactKey();
+//   pushShirtKey();
+//   pushAttendeesKeys();
+//   pushFoodKeys();
+//   pushUserKey();
+//   pushFeesKey();
+//   console.log(deleteKeys);
+// };
+
+// var deleteRecord = function(){
+//   deleteContact();
+//   deleteShirt();
+//   deleteAttendees();
+//   deleteFood();
+//   deleteUser();
+//   deleteFees();
+// };
+
+// getDeleteKeys();
+    // console.log(deleteKeys);
+    // renderDeleteRecordButton();
+//   console.log(index_of_uFirstNm);
+//   console.log(index_of_uLastNm);
+//   console.log(index_of_userNm);
+// document.getElementById("persEditBtn").addEventListener("click", getDeleteKeys);
+
 
 
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW
@@ -90,7 +135,6 @@ var getFirstNames = function(){
       snapshot.forEach(function(childSnapshot){
           var acctKy = childSnapshot.val().userName;
           var index_of_uFirstNm = persList.indexOf(acctKy);
-        //   console.log(index_of_uFirstNm);
           if(index_of_uFirstNm == -1)
             persList.push(acctKy);
       });
@@ -102,7 +146,6 @@ var getLastNames = function(){
       snapshot.forEach(function(childSnapshot){
           var accoutKy = childSnapshot.val().userName;
           var index_of_uLastNm = persList.indexOf(accoutKy);
-        //   console.log(index_of_uLastNm);
           if(index_of_uLastNm == -1)
             persList.push(accoutKy);
       });
@@ -114,7 +157,6 @@ var removeChangedValue = function(nameCat, oldUser){
       snapshot.forEach(function(childSnapshot){
           var acctKy = childSnapshot.val().userName;
           var index_of_userNm = persList.indexOf(acctKy);
-        //   console.log(index_of_userNm);
           if(index_of_userNm > -1)
             persList.splice(index_of_userNm,1);
       });
@@ -279,6 +321,7 @@ var getRecord = function(){
     document.getElementById("personEdit").classList.add("hidden");
     renderPersonEditButton();
     renderBackButton();
+    renderDeleteRecordButton();
     getPersonInfo();
     getPersonAttendeesList();
     getPersonShirtOrder();
@@ -296,7 +339,6 @@ var getPersonInfo = function(){
         var zp = childSnapshot.val().zip;
         var phn = childSnapshot.val().phone;
         var emal = childSnapshot.val().email;
-        var infoKey = childSnapshot.key();
         renderPersonInfo(fName, lName,addre, cty, st, zp, phn, emal);
       });
   });  
@@ -536,6 +578,123 @@ var renderBackButton = function(){
 };
 
 
+
+var deleteContactKey = function(){
+    accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var accountKey = childSnapshot.key();
+         console.log(accountKey);
+         deleteContact(accountKey);
+     });
+    });
+};
+
+var deleteContact = function(conta){
+    accountDB.child(conta).remove();
+};
+
+var deleteShirtKey = function(){
+    shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var shirtKey = childSnapshot.key();
+         console.log(shirtKey);
+        deleteShirt(shirtKey);
+     });
+    });
+};
+
+var deleteShirt = function(shrt){
+    shirtsDB.child(shrt).remove();
+};
+
+var deleteAttendeesKeys = function(){
+    attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+        var attKey = childSnapshot.key();
+        console.log(attKey);
+        deleteAttendees(attKey);
+     });
+  });
+};
+
+var deleteAttendees = function(attnd){
+       attendDB.child(attnd).remove(); 
+};
+
+var deleteFoodKeys = function(){
+    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
+       snapshot.forEach(function(childSnapshot){
+           var fdKey = childSnapshot.key();
+           console.log(fdKey);
+            deleteFood(fdKey);
+       });
+    });
+};
+
+var deleteFood = function(fod){
+       foodDB.child(fod).remove(); 
+};
+
+var deleteUserKey = function(){
+    var userData = DB.child("Users");
+    userData.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var urKy = childSnapshot.key();
+         console.log(urKy);
+        deleteUser(urKy);
+     });
+    });
+};
+
+var deleteUser = function(usrKy){
+    useDB.child(usrKy).remove();
+};
+
+var deleteFeesKey = function(){
+    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var feesKey = childSnapshot.key();
+         console.log(feesKey);
+        deleteFees(feesKey);
+     });
+    });
+};
+
+var deleteFees = function(feKy){
+    feeDB.child(feKy).remove();
+};
+
+var deleteEntireRecord = function(){
+    deleteContactKey();
+    deleteUserKey();
+    deleteFeesKey();
+    deleteShirtKey();
+    deleteAttendeesKeys();
+    deleteFoodKeys();
+};
+
+var renderDeleteRecordButton = function(){
+     var oBDiv = document.getElementById("personView");
+    var persDelBtn = document.createElement("button");
+    persDelBtn.setAttribute("type", "button");
+    persDelBtn.setAttribute("id", "persDelete");
+    persDelBtn.innerHTML = "Delete Entire Record";
+    persDelBtn.addEventListener("click", function(ev){
+        deleteEntireRecord();
+        var remView = document.getElementById("personView");
+        while(remView.firstChild)
+            remView.removeChild(remView.firstChild);
+        document.getElementById("personSearch").classList.remove("hidden");
+        document.getElementById("searchResults").classList.remove("hidden");
+        var remRes = document.getElementById("searchResults");
+        while(remRes.firstChild)
+            remRes.removeChild(remRes.firstChild);
+        getResults();
+    });
+    oBDiv.appendChild(persDelBtn);
+};
+
+
 // THIS SECTION ADDRESSES THE EDIT VIEW OF AN ACCOUNT
 var newFirstName = "";
 var newLastName = "";
@@ -674,8 +833,16 @@ var getAssocAttend = function(){
         var indLast = childSnapshot.val().lastname;
         var indAge = childSnapshot.val().age;
         var indKey = childSnapshot.key();
-        updateAgeTotals(indAge);
         renderIndAttend(indFirst, indLast, indAge, indKey);
+     });
+  });
+};
+
+var getAttendCount = function(){
+    attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+        var indAge = childSnapshot.val().age;
+        updateAgeTotals(indAge);
      });
   });
 };
@@ -720,6 +887,12 @@ var clearAllScreen = function(){
         sourceScreen.removeChild(sourceScreen.firstChild);
 };
 
+var resetAttendVar = function(){
+    childCounter = 0;
+    adultCounter = 0;
+    newAttendantOrder = 0;
+};
+
 var updateAccountInfo = function(key){
   accountDB.child(key).update({firstname:newFirstName,
                                 lastname:newLastName,
@@ -729,7 +902,9 @@ var updateAccountInfo = function(key){
                                 zip:newZipCode,
                                 email:newEmail,
                                 phone:newPhone
-  });    
+  });
+  clearAllScreen();
+  renderEditScreen();
 };
 
 var updateShirtInfo = function(key){
@@ -740,7 +915,28 @@ var updateShirtInfo = function(key){
                               xxLarge:newXXLShirt,
                               xxxLarge:newXXXLShirt,
                               xxxxLarge:newXXXXLShirt
-  });  
+  });
+  getShirtOrderKey();
+  clearAllScreen();
+  renderEditScreen();
+};
+
+var getShirtOrderKey = function(){
+    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var shirtKey = childSnapshot.key();
+         updateShirtsOrder(shirtKey);
+     });
+    });
+};
+
+var getAttendOrderKey = function(){
+    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
+     snapshot.forEach(function(childSnapshot){
+         var attendKey = childSnapshot.key();
+         getAttendanceOrderKey(attendKey);
+     });
+    });
 };
 
 var updateShirtCostInfo = function(key){
@@ -753,144 +949,8 @@ var updateRegCostInfo = function(key){
   });  
 };
 
-var pushContactKey = function(){
-    accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-         var accountKey = childSnapshot.key();
-         console.log(accountKey);
-        //  deleteKeys.push(accountKey);
-     });
-    });
-};
-
-var pushShirtKey = function(){
-    shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-         var shirtKey = childSnapshot.key();
-         console.log(shirtKey);
-        //  deleteKeys.push(shirtKey);
-     });
-    });
-};
-
-var pushAttendeesKeys = function(){
-    // var attendKeys = [];
-    attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-        var attKey = childSnapshot.key();
-        console.log(attKey);
-        // attendKeys.push(attKey);
-     });
-  });
-//   deleteKeys.push(attendKeys);
-};
-
-var pushFoodKeys = function(){
-    // var foodKeys = [];
-    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
-       snapshot.forEach(function(childSnapshot){
-           var fdKey = childSnapshot.key();
-           console.log(fdKey);
-        //   foodKeys.push(fdKey);
-       });
-    });
-    // deleteKeys.push(foodKeys);
-};
-
-var pushUserKey = function(){
-    var userData = DB.child("Users");
-    userData.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-         var urKy = childSnapshot.key();
-         console.log(urKy);
-         
-         
-        //  deleteKeys.push(urKy);
-     });
-    });
-};
-
-var pushFeesKey = function(){
-    
-    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-         var feesKey = childSnapshot.key();
-         console.log(feesKey);
-        //  deleteKeys.push(feesKey);
-     });
-    });
-};
-
-var shirtFeesKey = function(){
-    
-    feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-         var shirtKey = childSnapshot.key();
-        updateShirtsOrder(shirtKey);
-     });
-    });
-};
-
-var getDeleteKeys = function(){
-    // deleteKeys = [];
-  pushContactKey();
-  pushShirtKey();
-  pushAttendeesKeys();
-  pushFoodKeys();
-  pushUserKey();
-  pushFeesKey();
-//   console.log(deleteKeys);
-};
-
-var deleteContact = function(){
-    var conta = deleteKeys[0];
-    accountDB.child(conta).remove();
-};
-
-var deleteShirt = function(){
-    var shrt = deleteKeys[1];
-    shirtsDB.child(shrt).remove();
-};
-
-var deleteAttendees = function(){
-    var attnd = deleteKeys[2];
-    attnd.forEach(function(atKey){
-       attendDB.child(atKey).remove(); 
-    });
-};
-
-var deleteFood = function(){
-    var fod = deleteKeys[3];
-    fod.forEach(function(foKy){
-       foodDB.child(foKy).remove(); 
-    });
-};
-
-var deleteUser = function(){
-    var usrKy = deleteKeys[4];
-    useDB.child(usrKy).remove();
-};
-
-var deleteFees = function(){
-    var feKy = deleteKeys[5];
-    feeDB.child(feKy).remove();
-};
-
-
-var deleteRecord = function(){
-  deleteContact();
-  deleteShirt();
-  deleteAttendees();
-  deleteFood();
-  deleteUser();
-  deleteFees();
-};
-
 var headerButtons = function(){
     renderPersonBackButton();
-    getDeleteKeys();
-    // console.log(deleteKeys);
-    renderDeleteRecordButton();
 };
 
 var renderPersonEdit = function(ky){
@@ -925,7 +985,6 @@ var renderFoodEditHeader = function(){
   editHead.innerHTML = "Food Brought";
   editContactHead.appendChild(editHead);
 };
-
 
 var renderPersEditName = function(dv){
   var nmDiv = document.createElement("div");
@@ -1347,27 +1406,25 @@ var renderEditXXXXLShirt = function(srDv){
 };
 
 var setShirtCost = function(){
-  var normShtTot = newSmallShirt + newMediumShirt + newLargeShirt + newXLShirt + newXXLShirt;
-  var largShtTot = newXXXLShirt + newXXXXLShirt;
+  var normShtTot = +newSmallShirt + +newMediumShirt + +newLargeShirt + +newXLShirt + +newXXLShirt;
+  var largShtTot = +newXXXLShirt + +newXXXXLShirt;
   var normTot = normShtTot * 10;
   var largTot = largShtTot * 12;
     newShirtOrder = normTot + largTot;
 };
 
-var updateShirtsOrder = function(shtKy){
+var updateShirtsOrder = function(shrtKy){
   setShirtCost();
-  updateShirtCostInfo(shtKy);
+  updateShirtCostInfo(shrtKy);
 };
-
 
 var renderUpdateEditShirt = function(ataDv, shKy){
     var updateShirtButton = document.createElement("button");
   updateShirtButton.classList.add("individual_block");
   updateShirtButton.setAttribute("id","UpdateShirtButton");
-  updateShirtButton.innerHTML = "Update Person Info";
+  updateShirtButton.innerHTML = "Update Shirt Order";
   updateShirtButton.addEventListener("click",function(ev){
    updateShirtInfo(shKy);
-   
   });
   ataDv.appendChild(updateShirtButton);
 };
@@ -1380,6 +1437,7 @@ var renderIndAttend = function(ifirst, iLast, iAge, iKey){
   renderAttendLastEdit(iLast,attendDiv, attendDivName);
   renderAttendAgeEdit(iAge, attendDiv, attendDivName);
   renderAttendUpdateButton(iKey,attendDiv, attendDivName);
+  renderAttendDeleteButton(iKey,attendDiv, attendDivName);
   indDiv.appendChild(attendDiv);
 };
 
@@ -1496,6 +1554,24 @@ var renderAttendUpdateButton = function(key, atDiv, dvName){
                             lastname: document.getElementById(attLastName).value,
                             age: document.getElementById(attAgeName).value
       });
+      getAttendOrderKey();
+      resetAttendVar();
+      renderEditScreen();
+  });
+    butDiv.appendChild(attSubmit);
+    atDiv.appendChild(butDiv);
+};
+
+var renderAttendDeleteButton = function(key, atDiv, dvName){
+    var butDiv = document.createElement("div");
+    butDiv.classList.add("individual_block");
+    var attSubmit = document.createElement("button");
+     attSubmit.setAttribute("id", "attendDelete");
+  attSubmit.innerHTML = "Delete Attendee";
+  attSubmit.addEventListener("click", function(ev){
+      attendDB.child(key).remove();
+      getAttendOrderKey();
+      resetAttendVar();
       renderEditScreen();
   });
     butDiv.appendChild(attSubmit);
@@ -1504,17 +1580,23 @@ var renderAttendUpdateButton = function(key, atDiv, dvName){
 
 var updateAgeTotals = function(aPrsAg){
   if (aPrsAg == "Child"){
-      childCounter+1;
+      childCounter += 1;
   }  
   if (aPrsAg == "Adult"){
-      adultCounter+1;
+      adultCounter += 1 ;
   }
 };
 
+var getAttendanceOrderKey = function(atKy){
+    getAttendCount();
+    setPersonRegCost();
+    updateRegCostInfo(atKy);
+};
+
 var setPersonRegCost = function(){
-    var childCost = childCounter * 10;
-    var adultCost = adultCounter * 20;
-    newAttendantOrder = childCost + adultCost;
+    var childCost = +childCounter * 10;
+    var adultCost = +adultCounter * 20;
+    newAttendantOrder = +childCost + +adultCost;
 };
 
 var renderIndFood = function(foodName, foodCat, foodKey){
@@ -1524,6 +1606,7 @@ var renderIndFood = function(foodName, foodCat, foodKey){
     renderFoodNameEdit(foodName,foodDiv,foodDivName);
     renderFoodCatEdit(foodCat, foodDiv, foodDivName);
     renderFoodUpdateButton(foodKey,foodDiv, foodDivName);
+    renderFoodDeleteButton(foodKey,foodDiv, foodDivName);
     fdDiv.appendChild(foodDiv);
 };
 
@@ -1600,6 +1683,15 @@ var foodCatSelection = function(fdCategory, foodId, attachmDv){
   }
   foodCategoryClassification.appendChild(meatCat);
   
+  var dessCat = document.createElement("option");
+  dessCat.setAttribute("value", "Dessert");
+  dessCat.setAttribute("id", "dessCategory");
+  dessCat.innerHTML = "Dessert";
+  if(fdCategory == "Dessert"){
+      dessCat.setAttribute("selected",true);
+  }
+  foodCategoryClassification.appendChild(dessCat);
+  
     attachmDv.appendChild(foodCategoryClassification);
 };
 
@@ -1616,6 +1708,20 @@ var renderFoodUpdateButton = function(fKey,fDiv, fDName){
                             food: document.getElementById(foodNm).value,
                             category: document.getElementById(fodCt).value
       });
+      renderEditScreen();
+  });
+    fdUpButDiv.appendChild(fdSubmit);
+    fDiv.appendChild(fdUpButDiv);
+};
+
+var renderFoodDeleteButton = function(fKey,fDiv, fDName){
+    var fdUpButDiv = document.createElement("div");
+    fdUpButDiv.classList.add("individual_block");
+    var fdSubmit = document.createElement("button");
+     fdSubmit.setAttribute("id", "deleteFood");
+  fdSubmit.innerHTML = "Delete Food Item";
+  fdSubmit.addEventListener("click", function(ev){
+      foodDB.child(fKey).remove();
       renderEditScreen();
   });
     fdUpButDiv.appendChild(fdSubmit);
@@ -1722,16 +1828,16 @@ $childClassify.setAttribute("id", "childAge");
 var renderAttendSubmit = function(attachm){
      var attendButton = document.createElement("button");
   attendButton.setAttribute("id","newAttendeeSubmit");
-    attendButton.innerHTML = "Add Attendee to this person's record";
+    attendButton.innerHTML = "Add Attendee to record";
     attendButton.addEventListener("click", function(ev){
        attendDB.push().set({firstname: document.getElementById("attendFname").value,
                             account:userAcct,
                             lastname:document.getElementById("attendLname").value,
                             age:document.getElementById("attendAge").value
        });
+       getAttendOrderKey();
        clearAllScreen();
        renderEditScreen();
-       
     });
     attachm.appendChild(attendButton);
 };
@@ -1797,13 +1903,19 @@ var renderNewFoodCat = function(atch){
   meatCat.innerHTML = "Meat";
   newFoodCategoryClassification.appendChild(meatCat);
   
+  var dessertCat = document.createElement("option");
+  dessertCat.setAttribute("value", "Dessert");
+  dessertCat.setAttribute("id", "dessertCategory");
+  dessertCat.innerHTML = "Dessert";
+  newFoodCategoryClassification.appendChild(dessertCat);
+  
     atch.appendChild(newFoodCategoryClassification);
 };
 
 var renderNewFoodSubmit = function(attachme){
     var foodButton = document.createElement("button");
   foodButton.setAttribute("id","newFoodSubmit");
-    foodButton.innerHTML = "Add Food to this person's record";
+    foodButton.innerHTML = "Add Food to record";
     foodButton.addEventListener("click", function(ev){
        foodDB.push().set({user:userAcct,
                           food: document.getElementById("foodNamText").value,
@@ -1832,31 +1944,9 @@ var renderPersonBackButton = function(){
     oBDiv.appendChild(persEditBtn);
 };
 
-var renderDeleteRecordButton = function(){
-     var oBDiv = document.getElementById("personEdit");
-    var persDelBtn = document.createElement("button");
-    persDelBtn.setAttribute("type", "button");
-    persDelBtn.setAttribute("id", "persDelete");
-    persDelBtn.innerHTML = "Delete Entire Record";
-    persDelBtn.addEventListener("click", function(ev){
-        // resetLists();
-        
-        
-        
-        
-        var remView = document.getElementById("personEdit");
-        while(remView.firstChild)
-            remView.removeChild(remView.firstChild);
-        document.getElementById("personSearch").classList.remove("hidden");
-        document.getElementById("personResults").classList.remove("hidden");
-    });
-    oBDiv.appendChild(persDelBtn);
-};
-
-
 var adminSearchStart = function(){
+    setAdmAct();
     renderPersonSearchView();
-    // document.getElementById("persEditBtn").addEventListener("click", getDeleteKeys);
 };
 
 document.addEventListener("DOMContentLoaded", adminSearchStart);
