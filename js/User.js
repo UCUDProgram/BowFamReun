@@ -9,7 +9,6 @@ var seniorAttend = 0;
 var memberRegDue = 0;
 var memberRegPaid = 0;
 var famCost= 0;
-// var personRegKy = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
@@ -47,6 +46,20 @@ var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 // updateMemberKey(persoKy);
 // console.log(persoKy);
 // renderRegCost();
+// var personRegKy = "";
+// getPeople();
+    // getBalance();
+    // renderFamReg();
+// renderFamReg();
+  // });
+   // getPeople();
+// renderFamReg();
+     //  getPeople();
+    //  renderFamReg();   
+  // updateRegCost();
+  //   renderRegCost();
+// infoChangeUpdate();
+
 
 var setAcct = function(){
   acct = localStorage.getItem("user");
@@ -111,11 +124,6 @@ var personSubmit = function(){
                     });
     infoChangeUpdate();
     inputReset();
-
-
-    // getPeople();
-    // getBalance();
-    // renderFamReg();
 };
 
 var updateRegCost = function(){
@@ -190,10 +198,7 @@ var initGetBalance = function(){
         updateMemberRegPaid(perRegPaid);
         console.log(memberRegDue);
         renderRegCost();
-        // renderFamReg();
       })});
-      
-    // });
 };
 
 var setPeopleCount = function(){
@@ -204,8 +209,6 @@ var setPeopleCount = function(){
       });
 });
 };
-
-
 
 var updateAttendees = function(aPersAge){
   if (aPersAge == "Infant"){
@@ -286,9 +289,6 @@ var editItemName = function(personDiv, first, last,pKey){
                       lastname: newLast
                     } );
         infoChangeUpdate();
-        
-        // getPeople();
-        // renderFamReg();
     });
     $div.appendChild($updateButton);
     
@@ -386,7 +386,6 @@ var renderFirstNew = function(){
 };
 
 var renderLastNew = function(){
-    
     var $nPLHead = document.getElementById("newPersonInput");
     var $lNameDiv = document.createElement("div");
     $lNameDiv.classList.add("individual_block");
@@ -505,9 +504,6 @@ $childClassification.setAttribute("id", "newChildAge");
          attendeeDB.child(itemK).update({age: newAge
                     } );
         infoChangeUpdate();            
-                    
-        //  getPeople();
-        //  renderFamReg();
       });
        
    $indAgeDiv.appendChild($ageClassification);
@@ -535,9 +531,6 @@ var renderNewPerson = function(){
 var renderFamReg = function(){
     determineFamCost();
     
-    // updateRegCost();
-    
-    
     var $costHead = document.getElementById("registrationCost");
     while($costHead.firstChild)
         $costHead.removeChild($costHead.firstChild);
@@ -554,8 +547,6 @@ var renderFamReg = function(){
   $cHeader.innerHTML = attendanceString.concat(costString);
   cosHd.appendChild($cHeader);
    $costHead.appendChild(cosHd);
-   
-//   renderRegCost();
 };
 
 var renderRegPaymentNews = function(){
@@ -587,7 +578,6 @@ var renderRegPayment = function(atDv){
   atDv.appendChild(pymntDv);  
 };
 
-
 var renderMemberNav = function(){
   var $div = document.getElementById("memberNav");
   var $butt = document.createElement("button");
@@ -605,7 +595,6 @@ var renderMemberNav = function(){
       showMemberFoodScreen();
   });
   $div.appendChild($foodButt);
-    
 };
 
 var renderLogoutButton = function(){
@@ -657,13 +646,11 @@ var renderPaymentInfo = function(){
 var userStart = function(){
     setAcct();
     renderUser();
-    // infoChangeUpdate();
     getPeople();
     determineFamCost();
     initGetBalance();
     renderFamReg();
     renderRegCost();
-    
 };
 
 document.addEventListener('DOMContentLoaded',userStart);

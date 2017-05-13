@@ -91,6 +91,14 @@ var pushMemInfo = function(){
   });
 };
 
+var pushMemUserInfo = function(){
+    var regData = DB.child("Users");
+    regData.push().set({userName:newOfflineUserName,
+                        password: "changeMe",
+                        email: document.getElementById("offlineEmail").value
+    });
+};
+
 var pushPaymentInfo = function(){
     var regData = DB.child("Fees");
   regData.push().set({userName: newOfflineUserName,
@@ -798,11 +806,12 @@ var renderAddMemberButtons = function(){
         var lasNam = document.getElementById("offlineLName").value;
         var regisName = firNam.concat(" ").concat(lasNam);
         pushMemInfo();
+        pushMemUserInfo();
         pushAttendees();
-        setOfflineRegCost();
-        pushShirtOrder();
-        setOfflineShirtCost();
         pushFood();
+        pushShirtOrder();
+        setOfflineRegCost();
+        setOfflineShirtCost();
         pushPaymentInfo();
         resetAllFields();
         alert("You have registered " + regisName);

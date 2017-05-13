@@ -114,8 +114,16 @@ var setAdmAct = function(){
 //   console.log(index_of_uLastNm);
 //   console.log(index_of_userNm);
 // document.getElementById("persEditBtn").addEventListener("click", getDeleteKeys);
-
-
+    // console.log(userAcct);
+ // getDeleteKeys();
+ // resetLists();
+ //  console.log(shirtKey);
+// console.log(attKey);
+// console.log(fdKey);
+// console.log(urKy);
+// console.log(feesKey);
+ // var deleteKeys = [];
+ 
 
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW
 var persFirst = "";
@@ -167,15 +175,12 @@ var renderPersonSearchView = function(){
   var resu = document.getElementById("searchResults");
   while(resu.firstChild)
         resu.removeChild(resu.firstChild);
-  
   var perVie = document.getElementById("personView");
   while(perVie.firstChild)
         perVie.removeChild(perVie.firstChild);
-  
   var perEdi = document.getElementById("personEdit");
   while(perEdi.firstChild)
         perEdi.removeChild(perEdi.firstChild);
-
     renderPersonSearch();
 };
 
@@ -203,7 +208,7 @@ var renderPersonFirstSearch = function(){
   fNamLbl.setAttribute("for", "persFName");
   fNamLbl.innerHTML = "First Name: ";
   dv.appendChild(fNamLbl);
-  
+
   var fNamIpt = document.createElement("input");
   fNamIpt.setAttribute("type", "text");
   fNamIpt.setAttribute("id", "persFName");
@@ -309,12 +314,9 @@ var renderIndivResult = function(frstNm, lstNm, usrN){
 
 //THIS SECTION ADDRESSES THE VIEWING OF AN ACCOUNT
 var getRecord = function(){
-    
     var divS = document.getElementById("personView");
     while(divS.firstChild)
         divS.removeChild(divS.firstChild);
-    
-    console.log(userAcct);
     
     document.getElementById("personSearch").classList.add("hidden");
     document.getElementById("searchResults").classList.add("hidden");
@@ -510,7 +512,6 @@ var renderShirtOrder = function(sm, me, lg, xl, xxl, xxxl, xxxxl){
 };
 
 var renderFood = function(fdNam, fdCateg, attacDv){
-  
   var foodDv = document.createElement("div");
   var fdNmDv = document.createElement("div");
   fdNmDv.classList.add("individual_block_first");
@@ -522,11 +523,9 @@ var renderFood = function(fdNam, fdCateg, attacDv){
   fdCtDv.innerHTML = "Category: " + fdCateg;
   foodDv.appendChild(fdCtDv);
   attacDv.appendChild(foodDv);
-    
 };
 
 var renderAttendent = function(attFirst, attLast, attAge, attDv){
- 
  var persDv = document.createElement("div");
  
   var atFirDv = document.createElement("div");
@@ -554,7 +553,6 @@ var renderPersonEditButton = function(){
     persEditBtn.setAttribute("id", "personEditBut");
     persEditBtn.innerHTML = "Edit Person";
     persEditBtn.addEventListener("click", function(ev){
-        // getDeleteKeys();
         getEditRecord();
     });
     oBDiv.appendChild(persEditBtn);
@@ -567,7 +565,6 @@ var renderBackButton = function(){
     persEditBtn.setAttribute("id", "persList");
     persEditBtn.innerHTML = "Return to Results";
     persEditBtn.addEventListener("click", function(ev){
-        // resetLists();
         var remView = document.getElementById("personView");
         while(remView.firstChild)
             remView.removeChild(remView.firstChild);
@@ -576,8 +573,6 @@ var renderBackButton = function(){
     });
     oBDiv.appendChild(persEditBtn);
 };
-
-
 
 var deleteContactKey = function(){
     accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
@@ -597,7 +592,6 @@ var deleteShirtKey = function(){
     shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var shirtKey = childSnapshot.key();
-         console.log(shirtKey);
         deleteShirt(shirtKey);
      });
     });
@@ -611,7 +605,6 @@ var deleteAttendeesKeys = function(){
     attendDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
         var attKey = childSnapshot.key();
-        console.log(attKey);
         deleteAttendees(attKey);
      });
   });
@@ -625,7 +618,6 @@ var deleteFoodKeys = function(){
     foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
        snapshot.forEach(function(childSnapshot){
            var fdKey = childSnapshot.key();
-           console.log(fdKey);
             deleteFood(fdKey);
        });
     });
@@ -640,7 +632,6 @@ var deleteUserKey = function(){
     userData.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var urKy = childSnapshot.key();
-         console.log(urKy);
         deleteUser(urKy);
      });
     });
@@ -654,7 +645,6 @@ var deleteFeesKey = function(){
     feeDB.orderByChild("userName").equalTo(userAcct).once("value").then(function(snapshot){
      snapshot.forEach(function(childSnapshot){
          var feesKey = childSnapshot.key();
-         console.log(feesKey);
         deleteFees(feesKey);
      });
     });
@@ -715,7 +705,6 @@ var newShirtOrder =0;
 var childCounter = 0;
 var adultCounter = 0;
 var newAttendantOrder = 0;
-var deleteKeys = [];
 
 var updateFirstName = function(newFrNm){
     newFirstName = newFrNm;    
@@ -776,6 +765,7 @@ var updateXXXLShirt = function(newXXXLg){
 var updateXXXXLShirt = function(newXXXXLg){
     newXXXXLShirt = newXXXXLg;
 };
+
 var getPersonEditInfo = function(){
   accountDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
       snapshot.forEach(function(childSnapshot){
@@ -994,7 +984,6 @@ var renderPersEditName = function(dv){
 };
 
 var renderPersEditFirstName = function(adV){
-    
     var $fNameDiv = document.createElement("div");
     $fNameDiv.classList.add("individual_block_first");
     
@@ -1016,7 +1005,6 @@ var renderPersEditFirstName = function(adV){
 };
 
 var renderPersEditLastName = function(adV){
-    
     var $fNameDiv = document.createElement("div");
     $fNameDiv.classList.add("individual_block");
     
@@ -1062,7 +1050,6 @@ var renderPersEditAddrInfo = function(aDv){
     renderEditZip(addressDiv);
     aDv.appendChild(addressDiv);
 };
-
 
 var renderEditCity = function(dv){
   var addDiv = document.createElement("div");
@@ -1486,7 +1473,7 @@ var renderAttendAgeEdit = function(age, attacDiv, dvName){
     var atedDiv = document.createElement("div");
     atedDiv.classList.add("individual_block");
     
-    var attendageInput = document.createElement("input");
+    // var attendageInput = document.createElement("input");
     var attendageLabel = document.createElement("label");
       attendageLabel.setAttribute("for", "attendageInput");
   attendageLabel.innerHTML = "Age";
@@ -1746,7 +1733,6 @@ var renderAttendHeader = function(atDivm){
 };
 
 var renderAttendFirst = function(attD){
-    
      var attendfNameDiv = document.createElement("div");
     attendfNameDiv.classList.add("individual_block_first");
     
