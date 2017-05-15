@@ -67,6 +67,7 @@ var resetAll = function(){
   useAcct = "";
   accountList = [];
     renderReset();
+    renderUserPaySearch();
 };
 
 var getFirstNames = function(){
@@ -106,12 +107,12 @@ var removeChangedValue = function(nameCat, oldUser){
 };
 
 var setNewDues = function(key){
-  var newReg = parseInt(document.getElementById("payReg").value, 10);
-  var newShirt = parseInt(document.getElementById("payShirt").value,10);
+  var newReg = +document.getElementById("payReg").value;
+  var newShirt = +document.getElementById("payShirt").value;
   updateRegPaid(newReg);
   updateShirtPaid(newShirt);
-  feeDB.child(key).update({regPaid: regPd,
-                            shirtPaid: shrtPd
+  feeDB.child(key).update({regPaid: +regPd,
+                            shirtPaid: +shrtPd
   });
 };
 
@@ -258,6 +259,10 @@ var renderIndResult = function(frstNm, lstNm, usr){
 };
 
 var renderReset = function(){
+  var sea = document.getElementById("userPaySearch");
+   while(sea.firstChild)
+        sea.removeChild(sea.firstChild);
+    
   var res = document.getElementById("userPayRetrieve");
    while(res.firstChild)
         res.removeChild(res.firstChild);
@@ -427,7 +432,6 @@ var admPayStart = function(){
     getAdminis();
     renderPayHeader();
     renderUserPaySearch();
-    
 };
 
 document.addEventListener('DOMContentLoaded', admPayStart);
