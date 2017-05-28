@@ -1,10 +1,23 @@
-var shtBalance = 0;
+ // var divNam = firstNam.concat(lastNam).concat("ShirtReport");
+        // attach.setAttribute("id", divNam);
+ // var firstNam = childSnapshot.val().firstname;
+        // var lastNam = childSnapshot.val().lastname;
+        // console.log(shirtRec);
+        //  var attData = DB.child("TShirt");
+        // attData.orderByChild("account").equalTo(userNm).on("value", function(snapshot){
+        //     snapshot.forEach(function (childSnapshot){
+        //         var shtKy = childSnapshot.key();
+        //         getShirtBalanceDue(userNm);
+        //         renderPersonShirtInfo(firstNam, lastNam, userNm);
+        //     });
+    // });
+    // console.log(firstNam);
+    // renderPersonShirtInfo();
+    
+    
+    
 var adm = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
-
-var setShirtBalance = function(shBa){
-    shtBalance = shBa;    
-};
 
 var getAdm = function(){
     adm = localStorage.getItem("admin");
@@ -12,25 +25,60 @@ var getAdm = function(){
       showAdminLoginScreen();
      }
 };
-var getNames = function(){
-  var regData = DB.child("Accounts");
-  regData.orderByKey().on("value", function (snapshot){
-     snapshot.forEach(function (childSnapshot){
+
+var getShirtOrderName = function(usNm, attach){
+    var attData = DB.child("Accounts");
+    attData.orderByChild("userName").equalTo(usNm).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
         var firstNam = childSnapshot.val().firstname;
         var lastNam = childSnapshot.val().lastname;
-        var userky = childSnapshot.val().userName;
         
-         var attData = DB.child("TShirt");
-        attData.orderByChild("account").equalTo(userky).on("value", function(snapshot){
-            if(snapshot.val() != null){
-                getShirtBalanceDue(userky);
-                renderPersonShirtInfo(firstNam, lastNam, userky);
-            }}); 
+    var fnamDiv = document.createElement("div");
+    fnamDiv.classList.add("individual_block_first");
+    fnamDiv.innerHTML = firstNam;
+    attach.appendChild(fnamDiv);
+        
+    var lnamDiv = document.createElement("div");
+    lnamDiv.classList.add("individual_block");
+    lnamDiv.innerHTML = lastNam;
+    attach.appendChild(lnamDiv);
+});
+});
+};
+
+var getShirtOrder = function (aUser, attach){
+    var shtData = DB.child("TShirt");
+    shtData.orderByChild("account").equalTo(aUser).once("value", function(snapshot){
+       snapshot.forEach(function(childSnapshot){
+           var shtDv = document.createElement("div");
+            shtDv.classList.add("individual_block");
+          var smSh = +childSnapshot.val().small; 
+          var mdSh = +childSnapshot.val().medium;
+          var lgSh = +childSnapshot.val().large;
+          var xlSh = +childSnapshot.val().xL;
+          var xxLSh = +childSnapshot.val().xxLarge;
+          var tripxLSh = +childSnapshot.val().xxxLarge;
+          var quadxLSh = +childSnapshot.val().xxxxLarge;
+          shirtString(smSh, mdSh, lgSh, xlSh, xxLSh, tripxLSh, quadxLSh,shtDv);
+          attach.appendChild(shtDv);
+       }); 
+    });
+};
+
+var getNames = function(){
+    // var shirtRec = 20;
+        var regData = DB.child("Accounts"); 
+      regData.orderByKey().on("value", function (snapshot){
+     snapshot.forEach(function (childSnapshot){
+        var userNm = childSnapshot.val().userName;
+        getShirtBreakdown(userNm);
     });
     });
 };
 
-var getShirtBreakdown = function(aKy, shirtDv){
+
+
+var getShirtBreakdown = function(aKy){
     var attData = DB.child("TShirt");
     attData.orderByChild("account").equalTo(aKy).on("value", function(snapshot){
        snapshot.forEach(function(childSnapshot){
@@ -41,47 +89,60 @@ var getShirtBreakdown = function(aKy, shirtDv){
           var xxLSht = childSnapshot.val().xxLarge;
           var tripxLSht = childSnapshot.val().xxxLarge;
           var quadxLSht = childSnapshot.val().xxxxLarge;
-            shirtString(smSht,mdSht, lgSht, xlSht,xxLSht,tripxLSht, quadxLSht, shirtDv);
+        var shirtTot = +smSht + +mdSht + +lgSht + +xlSht + +xxLSht + +tripxLSht + +quadxLSht;
+        if (shirtTot > 0)
+            renderOrder(aKy);
+        
+        //     console.log(1);
+        //     // return 1;
+        // else
+        //     console.log(0);
+        //     // return 0;
        }); 
     });
 };
 
-var getShirtBalanceDue = function(usKy){
+var getShirtBalanceDue = function(usKy, attach){
     var balData = DB.child("Fees");
     balData.orderByChild("userName").equalTo(usKy).on("value", function(snapshot){
        snapshot.forEach(function(childSnapshot){
-          var shtBal = childSnapshot.val().shirtDue;
-          setShirtBalance(shtBal);
+            var shtBalDiv = document.createElement("div");
+            shtBalDiv.classList.add("individual_block");
+            var shtDue = childSnapshot.val().shirtDue;
+            var shtPd = childSnapshot.val().shirtPaid;
+            var shtBal = +shtDue - +shtPd;
+            if(shtBal > 0)
+                shtBalDiv.style.color = "Red";
+    shtBalDiv.innerHTML = shtBal;
+    attach.appendChild(shtBalDiv);
        }); 
     });
 };
 
-var shirtString = function(sm, med, lg, xl, xxl, xxxl, xxxxl, attachment){
+var shirtString = function(sSm, sMd, sLg, sxL, sxxL, sxxxL, sxxxxL,attachment){
     while(attachment.firstChild)
         attachment.removeChild(attachment.firstChild);
     var sString = "";
-    var smallShirtStr = sm + " Small, ";
-    var mediumShirtStr = med + " Medium, ";
-    var largeShirtStr = lg + " Large, ";
-    var xlShirtStr = xl + " XL, ";
-    var xxlShirtStr = xxl + " XXL, ";
-    var xxxlShirtStr = xxxl + " XXXL, ";
-    var xxxxlShirtStr = xxxxl + " XXXXL Shirts. ";
-    console.log(sm);
-    console.log(med);
-    if (sm >0)
+    var smallShirtStr = sSm + " Small, ";
+    var mediumShirtStr = sMd + " Medium, ";
+    var largeShirtStr = sLg + " Large, ";
+    var xlShirtStr = sxL + " XL, ";
+    var xxlShirtStr = sxxL + " XXL, ";
+    var xxxlShirtStr = sxxxL + " XXXL, ";
+    var xxxxlShirtStr = sxxxxL + " XXXXL Shirts. ";
+    if (sSm >0)
         sString += smallShirtStr;
-    if (med >0)
+    if (sMd >0)
         sString += mediumShirtStr;
-    if (lg > 0)
+    if (sLg > 0)
         sString += largeShirtStr;
-    if (xl > 0)
+    if (sxL > 0)
         sString += xlShirtStr;
-    if (xxl > 0)
+    if (sxxL > 0)
         sString += xxlShirtStr;
-    if (xxxl >0)
+    if (sxxxL >0)
         sString += xxxlShirtStr;
-    if (xxxxl >0)
+    if (sxxxxL >0)
         sString += xxxxlShirtStr;
     
     sString = sString.substring(0, sString.length -2);
@@ -97,35 +158,13 @@ var renderReportHeader = function(){
  div.appendChild(regTitle);
 };
 
-var renderPersonShirtInfo = function(first, last, aky){
-    var div = document.getElementById("shirtReport");
-    
-    var divNam = first.concat(last).concat("ShirtReport");
-    var persShtDiv = document.createElement("div");
-    persShtDiv.setAttribute("id", divNam);
-    
-    var fnamDiv = document.createElement("div");
-    fnamDiv.classList.add("individual_block_first");
-    fnamDiv.innerHTML = first;
-    persShtDiv.appendChild(fnamDiv);
-    
-    var lnamDiv = document.createElement("div");
-    lnamDiv.classList.add("individual_block");
-    lnamDiv.innerHTML = last;
-    persShtDiv.appendChild(lnamDiv);
-    
-    var shtDv = document.createElement("div");
-    shtDv.classList.add("individual_block");
-    getShirtBreakdown(aky, shtDv);
-    persShtDiv.appendChild(shtDv);
-   
-    
-    var shtBalDiv = document.createElement("div");
-    shtBalDiv.classList.add("individual_block");
-    shtBalDiv.innerHTML = shtBalance;
-    persShtDiv.appendChild(shtBalDiv);
-    
-    div.appendChild(persShtDiv);
+var renderOrder = function(usR){
+        var div = document.getElementById("shirtReport");
+     var persShtDiv = document.createElement("div");
+        getShirtOrderName(usR,persShtDiv);
+        getShirtOrder(usR, persShtDiv);
+        getShirtBalanceDue(usR, persShtDiv);
+        div.appendChild(persShtDiv);
 };
 
 var shirtReportStart = function(){

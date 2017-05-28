@@ -20,7 +20,7 @@ var infantCount = 0;
 var infantCost = 0;
 var infantTot = 0;
 var childCount = 0;
-var childCost = 5;
+var childCost = 10;
 var childTot = 0;
 var adultCount = 0;
 var adultCost = 20;
@@ -29,9 +29,16 @@ var seniorCount = 0;
 var seniorCost = 0;
 var seniorTot = 0;
 
+var shrtTot = 0;
+var attTot = 0;
+var shirtDu = 0;
+var attDu = 0;
+
 var admi = "";
 var attendanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var shirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
+var feesDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
+
 
 var getAdminist = function(){
     admi = localStorage.getItem("admin");
@@ -88,6 +95,27 @@ var getAttendanceTotals = function(){
       });
   });
 };
+
+var getMoneyReceived = function(){
+    feesDB.orderByKey().on("value", function(snapshot){
+     snapshot.forEach(function (snap){
+     var monDiv = document.getElementById("moneyIntake");
+     while(monDiv.firstChild)
+        monDiv.removeChild(monDiv.firstChild);
+     var personReg = snap.val().regPaid;
+     var personShirt = snap.val().shirtPaid;
+     var personRegD = snap.val().regDue;
+     var personShirtD = snap.val().shirtDue;
+     
+     updateRegTot(personReg);
+     updateRegDue(personRegD);
+    updateShirtTot(personShirt);
+    updateShirtDue(personShirtD);
+    renderRevenueTable();
+      });
+  });
+};
+
 
 var getPersonAge = function(aPAge){
   if (aPAge == "Infant"){
@@ -187,6 +215,22 @@ var updateSeniorCount = function(){
 
 var updateSeniorTotal = function(){
   seniorTot = seniorCount * seniorCost;  
+};
+
+var updateShirtTot = function(shtPad){
+  shrtTot += shtPad;  
+};
+
+var updateRegTot = function(regPad){
+  attTot += regPad;  
+};
+
+var updateRegDue = function(regisDe){
+  attDu += regisDe;  
+};
+
+var updateShirtDue = function(shrDe){
+  shirtDu += shrDe;  
 };
 
 var updateShirtCosts = function(){
@@ -481,13 +525,85 @@ var renderSeniorRow = function(attend){
     attend.appendChild(seniorRow);
 };
 
+var renderRevenueTable = function(){
+  var attTblSrc = document.getElementById("moneyIntake");
+  
+  var revDiv = document.createElement("div");
+  
+  var monTblHead = document.createElement("h1");
+  monTblHead.innerHTML = "Money Received";
+  revDiv.appendChild(monTblHead);
+  
+  var monTbl = document.createElement("table");
+    
+    renderMoneyKey(monTbl);
+    renderAttendance(monTbl);
+    renderShirt(monTbl);
+    
+    revDiv.appendChild(monTbl);
+    attTblSrc.appendChild(revDiv);
+};
+
+var renderMoneyKey = function(mon){
+    var seniorRow = document.createElement("tr");
+    
+    var seniorName = document.createElement("td");
+    seniorName.innerHTML = "Category";
+    seniorRow.appendChild(seniorName);
+    
+    var seniorQuant = document.createElement("td");
+    seniorQuant.innerHTML = "Money Received";
+    seniorRow.appendChild(seniorQuant);
+    
+    var seniorQuant = document.createElement("td");
+    seniorQuant.innerHTML = "Money Due";
+    seniorRow.appendChild(seniorQuant);
+    
+    mon.appendChild(seniorRow);
+};
+
+var renderAttendance = function(mny){
+    var seniorRow = document.createElement("tr");
+    
+    var seniorName = document.createElement("td");
+    seniorName.innerHTML = "Registration";
+    seniorRow.appendChild(seniorName);
+    
+    var seniorQuant = document.createElement("td");
+    seniorQuant.innerHTML = attTot;
+    seniorRow.appendChild(seniorQuant);
+    
+    var seniorQuan = document.createElement("td");
+    seniorQuan.innerHTML = attDu;
+    seniorRow.appendChild(seniorQuan);
+    
+    mny.appendChild(seniorRow);
+};
+
+var renderShirt = function(mone){
+    var seniorRow = document.createElement("tr");
+    
+    var seniorName = document.createElement("td");
+    seniorName.innerHTML = "Shirt";
+    seniorRow.appendChild(seniorName);
+    
+    var seniorQuant = document.createElement("td");
+    seniorQuant.innerHTML = shrtTot;
+    seniorRow.appendChild(seniorQuant);
+    
+    var senioQuan = document.createElement("td");
+    senioQuan.innerHTML = shirtDu;
+    seniorRow.appendChild(senioQuan);
+    
+    mone.appendChild(seniorRow);
+};
 
 var adminExpenseStart = function(){
     getAdminist();
     renderExpenseHead();
     getShirtTotals();
     getAttendanceTotals();
-    
+    getMoneyReceived();
 };
 
 document.addEventListener('DOMContentLoaded', adminExpenseStart);

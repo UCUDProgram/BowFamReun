@@ -9,6 +9,7 @@ var loadHomePage = function(){
   renderNews();
   renderReunPhoto();
   renderHomeNavButtons();
+  renderContact();
 };
 
 var renderHomeTitle = function(){
@@ -112,6 +113,13 @@ var renderNews = function(){
   $head.innerHTML = "Family Reunion Tee-Shirts will be available.  More information about cost will be provided once one has created a free account and logged in. The buttons below will give you basic information";
     $div.appendChild($head); 
     homeP.appendChild($div);
+};
+
+var renderContact = function(){
+  var conDiv = document.getElementById("contact");
+  var contaDv = document.createElement("h2");
+  contaDv.innerHTML = "If you have any questions, you can contact us via email @ nerprouc@gmail.com";
+  conDiv.appendChild(contaDv);
 };
 
 var renderHomeNavButtons = function(){

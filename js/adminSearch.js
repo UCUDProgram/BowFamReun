@@ -1581,9 +1581,9 @@ var getAttendanceOrderKey = function(atKy){
 };
 
 var setPersonRegCost = function(){
-    var childCost = +childCounter * 10;
-    var adultCost = +adultCounter * 20;
-    newAttendantOrder = +childCost + +adultCost;
+    var childCost = childCounter * 10;
+    var adultCost = adultCounter * 20;
+    newAttendantOrder = childCost + adultCost;
 };
 
 var renderIndFood = function(foodName, foodCat, foodKey){
