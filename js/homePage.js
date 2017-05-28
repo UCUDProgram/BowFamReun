@@ -118,8 +118,14 @@ var renderNews = function(){
 var renderContact = function(){
   var conDiv = document.getElementById("contact");
   var contaDv = document.createElement("h2");
-  contaDv.innerHTML = "If you have any questions, you can contact us via email @ nerprouc@gmail.com";
+  contaDv.innerHTML = "If you have any questions, you can contact us via email @ ";
   conDiv.appendChild(contaDv);
+  
+  var emlnk = document.createElement("a");
+  emlnk.setAttribute("href", "mailto:nerprouc@gmail.com");
+  emlnk.innerHTML = "nerprouc@gmail.com";
+  emlnk.style.fontSize = "28px";
+  conDiv.appendChild(emlnk);
 };
 
 var renderHomeNavButtons = function(){
