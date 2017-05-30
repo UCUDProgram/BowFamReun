@@ -149,7 +149,7 @@ var renderAdminLogoutButton = function(){
   adminLogoutButton.innerHTML = "Logout";
   adminLogoutButton.addEventListener("click",function(ev){
         localStorage.clear();
-      window.location.href = "index.html";
+      showHomePageScreen();
   });
     logDiv.appendChild(adminLogoutButton);  
 };
