@@ -101,13 +101,13 @@ var renderAdminReports = function(){
   });
     rptDiv.appendChild(adminRegReportButton);
   
-   var adminAttendRegLstButton = document.createElement("button");
-  adminAttendRegLstButton.setAttribute("id","adminAttendRegLstButton");
-  adminAttendRegLstButton.innerHTML = "Attendees Report";
-  adminAttendRegLstButton.addEventListener("click",function(ev){
+   var adminAttRegLstButton = document.createElement("button");
+  adminAttRegLstButton.setAttribute("id","adminAttRegLstButton");
+  adminAttRegLstButton.innerHTML = "Attendees Report";
+  adminAttRegLstButton.addEventListener("click",function(ev){
       showAdminAttendRptScreen();
   });
-    rptDiv.appendChild(adminAttendRegLstButton);
+    rptDiv.appendChild(adminAttRegLstButton);
   
   var adminExpensesButton = document.createElement("button");
   adminExpensesButton.setAttribute("id","adminExpensesButton");

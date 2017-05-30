@@ -93,3 +93,7 @@ var showAdminPaymentUpdateScreen = function(){
 var showAdminSearchScreen = function(){
   window.location.href = "adminSearch.html";
 };
+
+var showAdminAttendRptScreen = function(){
+  window.location.href = "adminAttendeeRegistrationList.html";
+};
