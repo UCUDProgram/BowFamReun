@@ -101,9 +101,17 @@ var renderAdminReports = function(){
   });
     rptDiv.appendChild(adminRegReportButton);
   
+   var adminAttendRegLstButton = document.createElement("button");
+  adminAttendRegLstButton.setAttribute("id","adminAttendRegLstButton");
+  adminAttendRegLstButton.innerHTML = "Attendees Report";
+  adminAttendRegLstButton.addEventListener("click",function(ev){
+      showAdminAttendeesListScreen();
+  });
+    rptDiv.appendChild(adminAttendRegLstButton);
+  
   var adminExpensesButton = document.createElement("button");
   adminExpensesButton.setAttribute("id","adminExpensesButton");
-  adminExpensesButton.innerHTML = "Expenses";
+  adminExpensesButton.innerHTML = "Expense Report";
   adminExpensesButton.addEventListener("click",function(ev){
       showAdminExpenseScreen();
   });

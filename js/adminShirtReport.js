@@ -13,7 +13,11 @@
     // });
     // console.log(firstNam);
     // renderPersonShirtInfo();
-    
+            //     console.log(1);
+        //     // return 1;
+        // else
+        //     console.log(0);
+        //     // return 0;
     
     
 var adm = "";
@@ -67,6 +71,10 @@ var getShirtOrder = function (aUser, attach){
 
 var getNames = function(){
     // var shirtRec = 20;
+    var clrShtRpt = document.getElementById("shirtReport");
+    while(clrShtRpt.firstChild)
+        clrShtRpt.removeChild(clrShtRpt.firstChild);
+        
         var regData = DB.child("Accounts"); 
       regData.orderByKey().on("value", function (snapshot){
      snapshot.forEach(function (childSnapshot){
@@ -75,8 +83,6 @@ var getNames = function(){
     });
     });
 };
-
-
 
 var getShirtBreakdown = function(aKy){
     var attData = DB.child("TShirt");
@@ -92,12 +98,6 @@ var getShirtBreakdown = function(aKy){
         var shirtTot = +smSht + +mdSht + +lgSht + +xlSht + +xxLSht + +tripxLSht + +quadxLSht;
         if (shirtTot > 0)
             renderOrder(aKy);
-        
-        //     console.log(1);
-        //     // return 1;
-        // else
-        //     console.log(0);
-        //     // return 0;
        }); 
     });
 };
