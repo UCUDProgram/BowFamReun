@@ -11,6 +11,7 @@ var getAdministrator = function(){
 var renderAdminHeader = function(){
     var div = document.getElementById("adminHeader");
     var adminHead = document.createElement("h1");
+    adminHead.classList.add("individual_block_first");
     adminHead.innerHTML= "Welcome Administer " + adminUser;
     div.appendChild(adminHead);
 };
@@ -67,6 +68,33 @@ var renderAdminMembers = function(){
   admMem.appendChild(memDiv);
 };
 
+var renderAdminTotals = function(){
+  var admTot = document.getElementById("adminTotals");
+  
+  var totHead = document.createElement("h1");
+  totHead.innerHTML = "Totals/Counts";
+  admTot.appendChild(totHead);
+  
+  var totDiv = document.createElement("div");
+  
+   var adminTShirtButton = document.createElement("button");
+  adminTShirtButton.setAttribute("id","adminTShirtsButton");
+  adminTShirtButton.innerHTML = "T-Shirt Ordering Total";
+  adminTShirtButton.addEventListener("click",function(ev){
+      showAdminShirtsScreen();
+  });
+    totDiv.appendChild(adminTShirtButton);
+    
+    var adminAttendeesButton = document.createElement("button");
+  adminAttendeesButton.setAttribute("id","adminAttendeesButton");
+  adminAttendeesButton.innerHTML = "Attendees Total";
+  adminAttendeesButton.addEventListener("click",function(ev){
+      showAdminAttendeesScreen();
+  });
+    totDiv.appendChild(adminAttendeesButton);
+  admTot.appendChild(totDiv);
+};
+
 var renderAdminReports = function(){
   
   var admRpt = document.getElementById("adminReports");
@@ -76,22 +104,6 @@ var renderAdminReports = function(){
   admRpt.appendChild(rptHead);
   
   var rptDiv = document.createElement("div");
-  
-    var adminTShirtButton = document.createElement("button");
-  adminTShirtButton.setAttribute("id","adminTShirtsButton");
-  adminTShirtButton.innerHTML = "T-Shirt Ordering Total";
-  adminTShirtButton.addEventListener("click",function(ev){
-      showAdminShirtsScreen();
-  });
-    rptDiv.appendChild(adminTShirtButton);
-    
-    var adminAttendeesButton = document.createElement("button");
-  adminAttendeesButton.setAttribute("id","adminAttendeesButton");
-  adminAttendeesButton.innerHTML = "Attendees Total";
-  adminAttendeesButton.addEventListener("click",function(ev){
-      showAdminAttendeesScreen();
-  });
-    rptDiv.appendChild(adminAttendeesButton);
   
    var adminRegReportButton = document.createElement("button");
   adminRegReportButton.setAttribute("id","adminRegistrationReportButton");
@@ -128,8 +140,11 @@ var renderAdminReports = function(){
 };
 
 var renderAdminLogoutButton = function(){
-    var logDiv = document.getElementById("adminLogout");
+    // var logDiv = document.getElementById("adminLogout");
+    var logDiv = document.getElementById("adminHeader");
+    
     var adminLogoutButton = document.createElement("button");
+    adminLogoutButton.classList.add("individual_block");
   adminLogoutButton.setAttribute("id","adminLogOutButton");
   adminLogoutButton.innerHTML = "Logout";
   adminLogoutButton.addEventListener("click",function(ev){
@@ -144,6 +159,7 @@ var adminHomeStart = function(){
     renderAdminHeader();
     renderAdminLogoutButton();
     renderAdminMembers();
+    renderAdminTotals();
     renderAdminReports();
 };
 
