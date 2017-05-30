@@ -105,7 +105,7 @@ var renderAdminReports = function(){
   adminAttendRegLstButton.setAttribute("id","adminAttendRegLstButton");
   adminAttendRegLstButton.innerHTML = "Attendees Report";
   adminAttendRegLstButton.addEventListener("click",function(ev){
-      showAdminAttendeesListScreen();
+      showAdminAttendRptScreen();
   });
     rptDiv.appendChild(adminAttendRegLstButton);
   
