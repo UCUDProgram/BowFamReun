@@ -4,7 +4,7 @@ var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var getAdmn = function(){
     admn = localStorage.getItem("admin");
      if(admn == null){
-      showAdminLoginScreen();
+        showAdminLoginScreen();
      }
 };
 
@@ -13,40 +13,40 @@ var getNameList = function(){
     while(clrShtRpt.firstChild)
         clrShtRpt.removeChild(clrShtRpt.firstChild);
         
-        var regData = DB.child("Accounts"); 
-      regData.orderByKey().on("value", function (snapshot){
-     snapshot.forEach(function (childSnapshot){
-        var userFirst = childSnapshot.val().firstname;
-        var userLast = childSnapshot.val().lastname; 
-        var userNm = childSnapshot.val().userName;
-        var div = document.createElement("div");
-        renderUserName(userFirst,userLast, div); 
-        getUserAttendee(userNm, div);
-        clrShtRpt.appendChild(div);
-    });
+    var regData = DB.child("Accounts"); 
+    regData.orderByKey().on("value", function (snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var userFirst = childSnapshot.val().firstname;
+            var userLast = childSnapshot.val().lastname; 
+            var userNm = childSnapshot.val().userName;
+            var div = document.createElement("div");
+            renderUserName(userFirst,userLast, div); 
+            getUserAttendee(userNm, div);
+            clrShtRpt.appendChild(div);
+        });
     });
 };
 
 var getUserAttendee = function(uName, attDiv){
     var attData = DB.child("Attendees");
     attData.orderByChild("account").equalTo(uName).on("value", function(snapshot){
-     snapshot.forEach(function(childSnapshot){
-        var attFirst = childSnapshot.val().firstname;
-        var attLast = childSnapshot.val().lastname;
-        var attAge = childSnapshot.val().age;
-        var attDv = document.createElement("div");
-        renderAttendee(attFirst, attLast, attAge, attDv);
-        attDiv.appendChild(attDv);
-     });
+        snapshot.forEach(function(childSnapshot){
+            var attFirst = childSnapshot.val().firstname;
+            var attLast = childSnapshot.val().lastname;
+            var attAge = childSnapshot.val().age;
+            var attDv = document.createElement("div");
+            renderAttendee(attFirst, attLast, attAge, attDv);
+            attDiv.appendChild(attDv);
+        });
     });
 };
 
 // RENDERING THE SCREEN (VIEW)
 var renderListHeader = function(){
- var div = document.getElementById("attendListHeader");
- var listTitle = document.createElement("h1");
- listTitle.innerHTML = "Attendee Registration List Report";
- div.appendChild(listTitle);
+    var div = document.getElementById("attendListHeader");
+    var listTitle = document.createElement("h1");
+    listTitle.innerHTML = "Attendee Registration List Report";
+    div.appendChild(listTitle);
 };
 
 var renderAttendee = function(atFrst, atLst, attAg, atta){
@@ -62,11 +62,11 @@ var renderAttendee = function(atFrst, atLst, attAg, atta){
     atLasDv.style.paddingLeft = "1em";
     atta.appendChild(atLasDv);
     
-     var atAgeDv = document.createElement("div");
+    var atAgeDv = document.createElement("div");
     atAgeDv.innerHTML = attAg;
     atAgeDv.style.display = "inline-block";
     atAgeDv.style.paddingLeft = "1em";
-    
+
     atta.appendChild(atAgeDv);
     
 };

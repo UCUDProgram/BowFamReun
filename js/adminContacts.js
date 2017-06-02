@@ -3,9 +3,9 @@ var DB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 
 var getAdmin = function(){
     admini = localStorage.getItem("admin");
-     if(admini == null){
-      showAdminLoginScreen();
-     }
+    if(admini == null){
+        showAdminLoginScreen();
+    }
 };
 
 var getContactList = function(){
@@ -26,15 +26,15 @@ var getContactList = function(){
 
 // RENDERING THE SCREEN (VIEW)
 var renderContactPage = function(){
-  renderContactHeader();
-  getContactList();
+    renderContactHeader();
+    getContactList();
 };
 
 var renderContactHeader = function(){
     var cont = document.getElementById("contactHead");
-  var contHead = document.createElement("h1");
-  contHead.innerHTML = "Registered Users";
-  cont.appendChild(contHead);
+    var contHead = document.createElement("h1");
+    contHead.innerHTML = "Registered Users";
+    cont.appendChild(contHead);
 };
 
 

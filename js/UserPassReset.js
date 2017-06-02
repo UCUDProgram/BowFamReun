@@ -10,7 +10,7 @@ var userDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var passDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 
 var storageClear = function(){
-  localStorage.clear();  
+    localStorage.clear();  
 };
 
 var setContact = function(){
@@ -22,8 +22,8 @@ var setNewPass = function(){
 };
 
 var resetUserPassword = function(){
-  document.getElementById("passReset").value = "";
-  setNewPass();
+    document.getElementById("passReset").value = "";
+    setNewPass();
 };
 
 var setNewPassVer = function(){
@@ -36,16 +36,11 @@ var resetUserPassVer = function(){
 };
 
 var userTrue = function(){
-  userCheckFail = true;  
+    userCheckFail = true;  
 };
 
 var emailTrue = function(){
-  emailCheckFail = true;  
-};
-
-var variableReset = function(){
-    userCheckFail = false;
-    emailCheckFail = false;
+    emailCheckFail = true;  
 };
 
 var setUserPwdCkRst = function(reset){
@@ -57,34 +52,34 @@ var setUserPwdChkMsg = function(messag){
 };
 
 var clearPassResetFields = function(){
-  document.getElementById("contact").value = "";
-  document.getElementById("passReset").value = "";
-  document.getElementById("passResetVerify").value = "";
+    document.getElementById("contact").value = "";
+    document.getElementById("passReset").value = "";
+    document.getElementById("passResetVerify").value = "";
 };
 
 var updatePassword = function(){
-        newPasswordChangeVerification();
-        if (newPassWordVerify){
+    newPasswordChangeVerification();
+    if (newPassWordVerify){
         userPasswordChangeCheck();
         emailPasswordChangeCheck();
         changeDecision();
-        } else {
-            alert("The New Password Fields do not Match");
-            clearPassResetFields();
-            showPasswordResetScreen();
-        }
+    } else {
+        alert("The New Password Fields do not Match");
+        clearPassResetFields();
+        showPasswordResetScreen();
+    }
 };
 
 var userPasswordChangeCheck = function(){
     userDB.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot) {
         if(snapshot.val() == null){
-         userTrue();   
+            userTrue();   
         } else {
-             snapshot.forEach(function(childSnapshot){
-            userDB.child(childSnapshot.key()).update({password: newPass
-                });
-        });
-    }});
+            snapshot.forEach(function(childSnapshot){
+                userDB.child(childSnapshot.key()).update({password: newPass});
+            });
+        }
+    });
 };
 
 var emailPasswordChangeCheck = function(){
@@ -93,10 +88,10 @@ var emailPasswordChangeCheck = function(){
             emailTrue();
         } else {
             eSnapshot.forEach(function(childSnap){
-            userDB.child(childSnap.key()).update({password: newPass
+                userDB.child(childSnap.key()).update({password: newPass});
             });
-      });
-        }});
+        }
+    });
 };
 
 var newPasswordChangeVerification = function(){
@@ -106,75 +101,75 @@ var newPasswordChangeVerification = function(){
 };
 
 var userVer = function(chuckJSON){
-  parseUserResponse(chuckJSON);
-  if (userPassChgResult){
-    alert(userPassChgMessage);
-  } else {
-    alert(userPassChgMessage);  
-    resetUserPassword();
-    resetUserPassVer();
-  }
+    parseUserResponse(chuckJSON);
+    if (userPassChgResult){
+        alert(userPassChgMessage);
+    } else {
+        alert(userPassChgMessage);  
+        resetUserPassword();
+        resetUserPassVer();
+    }
 };
 
 var userPasswordSend = function(){
-  var uPassVald = JSON.stringify({password:newPass});
-  return uPassVald;
+    var uPassVald = JSON.stringify({password:newPass});
+    return uPassVald;
 };
 
 var parseUserResponse = function(chuckJSON){
-  var userdata = JSON.parse(chuckJSON);
-  var userpwdrst = userdata.response;
-  setUserPwdCkRst(userpwdrst);
-  var userpwdmsg = userdata.message;
-  setUserPwdChkMsg(userpwdmsg);
+    var userdata = JSON.parse(chuckJSON);
+    var userpwdrst = userdata.response;
+    setUserPwdCkRst(userpwdrst);
+    var userpwdmsg = userdata.message;
+    setUserPwdChkMsg(userpwdmsg);
 };
 
 var getUserPasswordCheck = function(){
-  var URL = "../php/validPasswordCheck.php";
-  var xhr = new XMLHttpRequest();
+    var URL = "../php/validPasswordCheck.php";
+    var xhr = new XMLHttpRequest();
   
-  xhr.onload = function(){
-    if (this.status == 200){
-      userVer(this.response);
-    }
-  };
-  var data = userPasswordSend();
-  xhr.open("POST", URL);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(data);
+    xhr.onload = function(){
+        if (this.status == 200){
+            userVer(this.response);
+        }
+    };
+    var data = userPasswordSend();
+    xhr.open("POST", URL);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(data);
 };
 
 var userPasswordCheck = function(){
-  if(newPass != newPassVer){
-    alert("The Two Passwords do not match");
-  } else{
-    getUserPasswordCheck();
-  }
+    if(newPass != newPassVer){
+        alert("The Two Passwords do not match");
+    } else{
+        getUserPasswordCheck();
+    }
 };
 
 var changeDecision = function(){
     if(userCheckFail && emailCheckFail){
-            alert("User Account and/or email are not valid"); 
-            clearPassResetFields();
-            showPasswordResetScreen();
-        } else {
-            alert("Your Password has been changed");
-            clearPassResetFields();
-            showHomePageScreen(); 
-            }
+        alert("User Account and/or email are not valid"); 
+        clearPassResetFields();
+        showPasswordResetScreen();
+    } else {
+        alert("Your Password has been changed");
+        clearPassResetFields();
+        showHomePageScreen(); 
+    }
 };
 
 //  RENDERING THE SCREEN (VIEW)
 var renderPassResetScreen = function(){
-  renderPassHeader();
-  renderPassReset();
+    renderPassHeader();
+    renderPassReset();
 };
 
 var renderPassHeader = function(){
-     var $div = document.getElementById("pass_reset");
-  var $head = document.createElement("h1");
-  $head.innerHTML = "Password Reset";
-  $div.appendChild($head);
+    var $div = document.getElementById("pass_reset");
+    var $head = document.createElement("h1");
+    $head.innerHTML = "Password Reset";
+    $div.appendChild($head);
 };
 
 var renderPassReset = function(){
@@ -224,7 +219,7 @@ var renderPassResetPass = function(){
     nPassDiv.appendChild(newPassTxt);
     $inputDiv.appendChild(nPassDiv);
     
-     var nPassVerDiv = document.createElement("div");
+    var nPassVerDiv = document.createElement("div");
     var passVerLbl = document.createElement("label");
     passVerLbl.setAttribute("for", "passReset");
     passVerLbl.innerHTML = "New Password Verify: "; 
@@ -267,7 +262,6 @@ var renderPassResetButt = function(){
     var $div = document.getElementById("pass_reset");
     var $buttonDiv = document.createElement("div");
     $buttonDiv.classList.add("screenButtons");
-    
     
     var passSubmit = document.createElement("button");
     passSubmit.setAttribute("type", "button");

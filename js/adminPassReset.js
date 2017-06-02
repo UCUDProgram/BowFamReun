@@ -6,11 +6,10 @@ var adminUserCheckFail = false;
 var adminEmailCheckFail = false;
 var adminPassChgResult = false;
 var adminPassChgMessage = "";
-
 var admDB = new Firebase("https://bowmanfamreun.firebaseio.com/Admin");
 
 var clrStrg = function(){
-  localStorage.clear();  
+    localStorage.clear();  
 };
 
 var setAdminContact = function(){
@@ -31,16 +30,16 @@ var setAdminNewPassVer = function(){
 };
 
 var resetAdminNewPassVer = function(){
-  document.getElementById("adminPassResetVerify").value = "";
-  setAdminNewPassVer();
+    document.getElementById("adminPassResetVerify").value = "";
+    setAdminNewPassVer();
 };
 
 var adminUserTrue = function(){
-  adminUserCheckFail = true;  
+    adminUserCheckFail = true;  
 };
 
 var adminEmailTrue = function(){
-  adminEmailCheckFail = true;  
+    adminEmailCheckFail = true;  
 };
 
 var setAdminPassRst = function(rst){
@@ -48,67 +47,60 @@ var setAdminPassRst = function(rst){
 };
 
 var setAdminPassMsg = function(messa){
-  adminPassChgMessage = messa;  
+    adminPassChgMessage = messa;  
 };
-
-
-var adminVariableReset = function(){
-    adminUserCheckFail = false;
-    adminEmailCheckFail = false;
-};
-
 
 var clearAdminPassResetFields = function(){
-  document.getElementById("admContact").value = "";
-  document.getElementById("adminPassReset").value = "";
-  document.getElementById("adminPassResetVerify").value = "";
+    document.getElementById("admContact").value = "";
+    document.getElementById("adminPassReset").value = "";
+    document.getElementById("adminPassResetVerify").value = "";
 };
 
 var adminPasswordSend = function(){
-  var adminVald = JSON.stringify({password:newAdminPass});
-  return adminVald;
+    var adminVald = JSON.stringify({password:newAdminPass});
+    return adminVald;
 };
 
 var parseAdminResponse = function(chuckJSON){
-  var admindata = JSON.parse(chuckJSON);
-  var adminrst = admindata.response;
-  setAdminPassRst(adminrst);
-  var adminmsg = admindata.message;
-  setAdminPassMsg(adminmsg);
-  };
+    var admindata = JSON.parse(chuckJSON);
+    var adminrst = admindata.response;
+    setAdminPassRst(adminrst);
+    var adminmsg = admindata.message;
+    setAdminPassMsg(adminmsg);
+};
 
 var adminVer = function(chuckJSON){
-  parseAdminResponse(chuckJSON);
-  if (adminPassChgResult){
-    alert(adminPassChgMessage);
-  } else {
-    alert(adminPassChgMessage);  
-    resetAdminNewPass();
-    resetAdminNewPassVer();
-  }
+    parseAdminResponse(chuckJSON);
+    if (adminPassChgResult){
+        alert(adminPassChgMessage);
+    } else {
+        alert(adminPassChgMessage);  
+        resetAdminNewPass();
+        resetAdminNewPassVer();
+    }
 };
 
 var getAdminPasswordCheck = function(){
-  var URL = "../php/validPasswordCheck.php";
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function(){
-    if (this.status == 200){
-      adminVer(this.response);
-    }
-  };
-  var data = adminPasswordSend();
-  xhr.open("POST", URL);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(data);
+    var URL = "../php/validPasswordCheck.php";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function(){
+        if (this.status == 200){
+            adminVer(this.response);
+        }
+    };
+    var data = adminPasswordSend();
+    xhr.open("POST", URL);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(data);
 };
 
 
 var adminPasswordCheck = function(){
-  if(newAdminPass != newAdminPassVer){
-    alert("The Two Passwords do not match");
-  } else{
-    getAdminPasswordCheck();
- }
+    if(newAdminPass != newAdminPassVer){
+        alert("The Two Passwords do not match");
+    } else{
+        getAdminPasswordCheck();
+    }
 };
 
 var updateAdminPassword = function(){
@@ -127,13 +119,13 @@ var updateAdminPassword = function(){
 var userAdminPasswordChangeCheck = function(){
     admDB.orderByChild("userName").equalTo(adminAcct).on("value", function(snapshot) {
         if(snapshot.val() == null){
-         adminUserTrue();   
+            adminUserTrue();   
         } else {
-             snapshot.forEach(function(childSnapshot){
-            admDB.child(childSnapshot.key()).update({passWord: newAdminPass
-                });
-        });
-    }});
+            snapshot.forEach(function(childSnapshot){
+                    admDB.child(childSnapshot.key()).update({passWord: newAdminPass});
+            });
+        }
+    });
 };
 
 var emailAdminPasswordChangeCheck = function(){
@@ -142,10 +134,10 @@ var emailAdminPasswordChangeCheck = function(){
             adminEmailTrue();
         } else {
             eSnapshot.forEach(function(childSnap){
-            admDB.child(childSnap.key()).update({passWord: newAdminPass
+                admDB.child(childSnap.key()).update({passWord: newAdminPass});
             });
-      });
-        }});
+        }
+    });
 };
 
 var newAdminPasswordChangeVerification = function(){
@@ -156,27 +148,27 @@ var newAdminPasswordChangeVerification = function(){
 
 var adminChangeDecision = function(){
     if(adminUserCheckFail && adminEmailCheckFail){
-            alert("User Account and/or email are not valid"); 
-            clearAdminPassResetFields();
-            showAdminPasswordResetScreen();
-        } else {
-            alert("Your Password has been changed");
-            clearAdminPassResetFields();
-            showAdminLoginScreen(); 
-            }
+        alert("User Account and/or email are not valid"); 
+        clearAdminPassResetFields();
+        showAdminPasswordResetScreen();
+    } else {
+        alert("Your Password has been changed");
+        clearAdminPassResetFields();
+        showAdminLoginScreen(); 
+    }
 };
 
 //  RENDERING THE SCREEN (VIEW)
 var renderAdminPassResetScreen = function(){
-  renderAdminPassHeader();
-  renderAdminPassReset();
+    renderAdminPassHeader();
+    renderAdminPassReset();
 };
 
 var renderAdminPassHeader = function(){
      var $div = document.getElementById("admin_pass_reset");
-  var $head = document.createElement("h1");
-  $head.innerHTML = "Administer Password Reset";
-  $div.appendChild($head);
+    var $head = document.createElement("h1");
+    $head.innerHTML = "Administer Password Reset";
+    $div.appendChild($head);
 };
 
 var renderAdminPassReset = function(){
@@ -211,7 +203,6 @@ var renderAdminPassResetPass = function(){
     var $adminInputDiv = document.createElement("div");
     $adminInputDiv.classList.add("individual_block_first");
     
-    
     var adminPassDiv = document.createElement("div");
     var adminPassLbl = document.createElement("label");
     adminPassLbl.setAttribute("for", "adminPassReset");
@@ -227,7 +218,7 @@ var renderAdminPassResetPass = function(){
     adminPassDiv.appendChild(newAdminPassTxt);
     $adminInputDiv.appendChild(adminPassDiv);
     
-     var AdminPassVerDiv = document.createElement("div");
+    var AdminPassVerDiv = document.createElement("div");
     var AdminPassVerLbl = document.createElement("label");
     AdminPassVerLbl.setAttribute("for", "adminPassResetVerify");
     AdminPassVerLbl.innerHTML = "New Password Verify: "; 

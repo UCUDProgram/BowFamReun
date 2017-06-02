@@ -12,8 +12,8 @@ var getFoodList = function(){
 
 // RENDERING THE SCREEN (VIEW)
 var renderMenu= function(){
-  renderCategoryHeaders();
-  getFoodList();  
+    renderCategoryHeaders();
+    getFoodList();  
 };
 
 var renderCategoryHeaders = function(){
@@ -72,28 +72,28 @@ var renderIndividualFood = function(afood, aCategory){
 };
 
 var renderSalad = function (aSalad){
-  var saladDiv = document.getElementById("saladSection");
+    var saladDiv = document.getElementById("saladSection");
     var saladItem = document.createElement("div");
     saladItem.innerHTML = aSalad;
     saladDiv.appendChild(saladItem);
 };
 
 var renderSideDish = function (aSideDish){
-  var sideDishDiv = document.getElementById("sideDishSection");
+    var sideDishDiv = document.getElementById("sideDishSection");
     var sideDishItem = document.createElement("div");
     sideDishItem.innerHTML = aSideDish;
     sideDishDiv.appendChild(sideDishItem);
 };
 
 var renderMeat = function (aMeat){
-  var meatDiv = document.getElementById("meatSection");
+    var meatDiv = document.getElementById("meatSection");
     var meatItem = document.createElement("div");
     meatItem.innerHTML = aMeat;
     meatDiv.appendChild(meatItem);
 };
 
 var renderDessert = function (aDessert){
-  var dessertDiv = document.getElementById("dessertSection");
+    var dessertDiv = document.getElementById("dessertSection");
     var dessertItem = document.createElement("div");
     dessertItem.innerHTML = aDessert;
     dessertDiv.appendChild(dessertItem);
@@ -101,7 +101,6 @@ var renderDessert = function (aDessert){
 
 var renderGenMenuNav = function(){
     var navDiv = document.getElementById("genMenuNav");
-    
     var menuReturn = document.createElement("button");
     menuReturn.setAttribute("type", "button");
     menuReturn.setAttribute("id", "homeRtn");

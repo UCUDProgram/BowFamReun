@@ -13,7 +13,7 @@ var getAdministratorUser = function(){
 };
 
 var updateInfant = function(){
-  infantTotal += 1;  
+    infantTotal += 1;  
 }; 
 
 var updateChild = function(){
@@ -29,28 +29,28 @@ var updateSenior = function(){
 };
 
 var personDetermination = function(aPerson){
-  if (aPerson == "Infant"){
-      updateInfant();
-  } else if (aPerson == "Child"){
-      updateChild();
-  } else if (aPerson == "Adult"){
-      updateAdult();
-  } else {
-      updateSenior();
-  }
+    if (aPerson == "Infant"){
+        updateInfant();
+    } else if (aPerson == "Child"){
+        updateChild();
+    } else if (aPerson == "Adult"){
+        updateAdult();
+    } else {
+        updateSenior();
+    }
 };
 
 var getAttendees = function(){
-  attendeesDB.orderByKey().on("value", function(snapshot){
-     snapshot.forEach(function (snap){
-     var attDiv = document.getElementById("attendCount");
-     while(attDiv.firstChild)
-        attDiv.removeChild(attDiv.firstChild);
-     var attendeePerson = snap.val().age;
-    personDetermination(attendeePerson);
-    renderAttendeeTotal();
-      });
-  });
+    attendeesDB.orderByKey().on("value", function(snapshot){
+        snapshot.forEach(function (snap){
+            var attDiv = document.getElementById("attendCount");
+            while(attDiv.firstChild)
+                attDiv.removeChild(attDiv.firstChild);
+            var attendeePerson = snap.val().age;
+            personDetermination(attendeePerson);
+            renderAttendeeTotal();
+        });
+    });
 };
 
 // RENDERING THE SCREEN (VIEW)
@@ -75,10 +75,10 @@ var renderAttendeeTotal = function(){
 };
 
 var renderAttendHead = function(){
-  var attHead = document.getElementById("totHead");
-  var attTitle = document.createElement("h2");
-  attTitle.innerHTML = "Bowman Family Reunion Attendee Totals";
-  attHead.appendChild(attTitle);
+    var attHead = document.getElementById("totHead");
+    var attTitle = document.createElement("h2");
+    attTitle.innerHTML = "Bowman Family Reunion Attendee Totals";
+    attHead.appendChild(attTitle);
 };
 
 var attendeeTotalStart = function(){

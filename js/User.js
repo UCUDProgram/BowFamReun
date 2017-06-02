@@ -13,60 +13,11 @@ var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 var attendeeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
 var balanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 
-// var decrementChildAgeTotal = function(){
-//     childAttend -= 1;    
-// };
-// var decrementInfantAgeTotal = function(){
-//     infantAttend -= 1;  
-// };
-// var decrementAdultAgeTotal = function(){
-//     adultAttend -=1;    
-// };
-// var decrementSeniorAgeTotal = function(){
-//     seniorAttend -= 1;    
-// };
-// var attendeesAgeChange = function(ageche){
-//   if(ageche == "Infant"){
-//       decrementInfantAgeTotal();
-//   } else if(ageche == "Child"){
-//       decrementChildAgeTotal();
-//   } else if(ageche == "Adult"){
-//       decrementAdultAgeTotal();
-//   } else {
-//       decrementSeniorAgeTotal();
-//   }
-// };
-// var updateMemberKey = function(regKy){
-//     personRegKy = regKy;
-//     console.log(personRegKy);
-// };
-// updateRegCost();
-//   renderFamReg();
-// var persoKy = childSnapshot.key();
-// updateMemberKey(persoKy);
-// console.log(persoKy);
-// renderRegCost();
-// var personRegKy = "";
-// getPeople();
-    // getBalance();
-    // renderFamReg();
-// renderFamReg();
-  // });
-   // getPeople();
-// renderFamReg();
-     //  getPeople();
-    //  renderFamReg();   
-  // updateRegCost();
-  //   renderRegCost();
-// infoChangeUpdate();
-
-
 var setAcct = function(){
-  acct = localStorage.getItem("user");
-  console.log(acct);
-  if(acct == null){
-      showLoginScreen();
-  }
+    acct = localStorage.getItem("user");
+    if(acct == null){
+        showLoginScreen();
+    }
 };
 
 var logout = function(){
@@ -116,12 +67,11 @@ var deletePerson = function(aKey){
 
 var personSubmit = function(){
     setAge();
-  var regData = DB.child("Attendees");
-  regData.push().set({firstname: first,
+    var regData = DB.child("Attendees");
+    regData.push().set({firstname: first,
                         account: acct, 
                       lastname: last,
-                      age: ageStatus
-                    });
+                      age: ageStatus});
     infoChangeUpdate();
     inputReset();
 };
@@ -130,30 +80,24 @@ var updateRegCost = function(){
     balanceDB.orderByChild("userName").equalTo(acct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
             var regKey = childSnapshot.key();
-            console.log(regKey);
-            balanceDB.child(regKey).update({regDue: famCost
-                    } );  
+            balanceDB.child(regKey).update({regDue: famCost});  
         });
     });
 };
 
-var updateAgeStatus = function(anAgeOption){
-    ageStatus = anAgeOption;
-};
-
 var inputReset = function(){
-  document.getElementById("newFnameText").value = "";
-  document.getElementById("newLnameText").value = "";
-  document.getElementById("ageOption").selectedIndex = 0;
+    document.getElementById("newFnameText").value = "";
+    document.getElementById("newLnameText").value = "";
+    document.getElementById("ageOption").selectedIndex = 0;
 };
 
 var infoChangeUpdate = function(){
-  getPeople();
-  determineFamCost();
-  updateRegCost();
-  getBalance();
-  renderFamReg();
-  renderRegCost();
+    getPeople();
+    determineFamCost();
+    updateRegCost();
+    getBalance();
+    renderFamReg();
+    renderRegCost();
 };
 
 var getPeople = function(){
@@ -163,63 +107,54 @@ var getPeople = function(){
     while(parDiv.firstChild)
         parDiv.removeChild(parDiv.firstChild);
     resetAges();
-     attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
+    attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
             var itemKey = childSnapshot.key();
-          var aFirst = childSnapshot.val().firstname;
-          var aLast = childSnapshot.val().lastname;
-          var anAge = childSnapshot.val().age;
-        renderPerson(aFirst,aLast,anAge,itemKey);
-        updateAttendees(anAge);
-      determineFamCost();
-      getBalance();
-      renderFamReg();
-      });
+            var aFirst = childSnapshot.val().firstname;
+            var aLast = childSnapshot.val().lastname;
+            var anAge = childSnapshot.val().age;
+            renderPerson(aFirst,aLast,anAge,itemKey);
+            updateAttendees(anAge);
+            determineFamCost();
+            getBalance();
+            renderFamReg();
+        });
     });
 }; 
 
 var getBalance = function(){
     balanceDB.orderByChild("userName").equalTo(acct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
-          var perRegDue = childSnapshot.val().regDue;
-          var perRegPaid = childSnapshot.val().regPaid;
-        updateMemberRegDue(perRegDue);
-        updateMemberRegPaid(perRegPaid);
-      });
+            var perRegDue = childSnapshot.val().regDue;
+            var perRegPaid = childSnapshot.val().regPaid;
+            updateMemberRegDue(perRegDue);
+            updateMemberRegPaid(perRegPaid);
+        });
     });
 };
 
 var initGetBalance = function(){
     balanceDB.orderByChild("userName").equalTo(acct).once('value').then(function(snapshot){
         snapshot.forEach(function (childSnapshot){
-          var perRegDue = childSnapshot.val().regDue;
-          var perRegPaid = childSnapshot.val().regPaid;
-        updateMemberRegDue(perRegDue);
-        updateMemberRegPaid(perRegPaid);
-        console.log(memberRegDue);
-        renderRegCost();
-      })});
-};
-
-var setPeopleCount = function(){
-    attendeeDB.orderByChild("account").equalTo(acct).on("value", function(snapshot){
-        snapshot.forEach(function (childSnapshot){
-          var anAge = childSnapshot.val().age;
-        updateAttendees(anAge);
-      });
-});
+            var perRegDue = childSnapshot.val().regDue;
+            var perRegPaid = childSnapshot.val().regPaid;
+            updateMemberRegDue(perRegDue);
+            updateMemberRegPaid(perRegPaid);
+            renderRegCost();
+        });
+    });
 };
 
 var updateAttendees = function(aPersAge){
-  if (aPersAge == "Infant"){
-      updateInfantAge();
-  } else if(aPersAge == "Child"){
-      updateChildAge();
-  } else if(aPersAge == "Adult"){
-      updateAdultAge();
-  } else {
-      updateSeniorAge();
-  }
+    if (aPersAge == "Infant"){
+        updateInfantAge();
+    } else if(aPersAge == "Child"){
+        updateChildAge();
+    } else if(aPersAge == "Adult"){
+        updateAdultAge();
+    } else {
+        updateSeniorAge();
+    }
 };
 
 var determineFamCost = function(){
@@ -258,26 +193,26 @@ var renderNewPersonHeader = function(){
 var editItemName = function(personDiv, first, last,pKey){
     var newFirst = first;
     var newLast = last;
-  var $div =document.getElementById(personDiv);
-  $div.innerHTML = "";
-  var $fnameInput = document.createElement("input");
-  $fnameInput.setAttribute("type", "text");
-  $fnameInput.setAttribute("id", "fnameText");
-  $fnameInput.setAttribute("value", first);
-  $fnameInput.innerHTML = first;
-  $fnameInput.addEventListener("blur", function(ev){
+    var $div =document.getElementById(personDiv);
+    $div.innerHTML = "";
+    var $fnameInput = document.createElement("input");
+    $fnameInput.setAttribute("type", "text");
+    $fnameInput.setAttribute("id", "fnameText");
+    $fnameInput.setAttribute("value", first);
+    $fnameInput.innerHTML = first;
+    $fnameInput.addEventListener("blur", function(ev){
          newFirst = document.getElementById("fnameText").value;
     });
- $div.appendChild($fnameInput);
+    $div.appendChild($fnameInput);
  
-  var $lnameInput = document.createElement("input");
-  $lnameInput.setAttribute("type", "text");
-  $lnameInput.setAttribute("id", "lnameText");
-  $lnameInput.setAttribute("value", last);
-  $lnameInput.addEventListener("blur", function(ev){
+    var $lnameInput = document.createElement("input");
+    $lnameInput.setAttribute("type", "text");
+    $lnameInput.setAttribute("id", "lnameText");
+    $lnameInput.setAttribute("value", last);
+    $lnameInput.addEventListener("blur", function(ev){
         newLast = document.getElementById("lnameText").value;
     });
-      $div.appendChild($lnameInput);
+    $div.appendChild($lnameInput);
 
     var $updateButton = document.createElement("button");
     $updateButton.setAttribute("type","button");
@@ -286,8 +221,7 @@ var editItemName = function(personDiv, first, last,pKey){
     $updateButton.innerHTML ="Update";
     $updateButton.addEventListener("click", function(ev){
         attendeeDB.child(pKey).update({firstname: newFirst, 
-                      lastname: newLast
-                    } );
+                      lastname: newLast});
         infoChangeUpdate();
     });
     $div.appendChild($updateButton);
@@ -344,23 +278,22 @@ var renderPerson = function(firstName, lastName,aAge,itemKey){
         deletePerson(itemKey);
     });
     $namediv.appendChild($deleteButton);
-    
     $div.appendChild($namediv);
 };
 
 var renderWelcome= function(){
-   var $titleHead = document.getElementById("loginHeader");
-   var $tHeader =document.createElement("h1");
-   $tHeader.classList.add("individual_block_first");
-  $tHeader.innerHTML = "Welcome " + acct;
-   $titleHead.appendChild($tHeader);
+    var $titleHead = document.getElementById("loginHeader");
+    var $tHeader =document.createElement("h1");
+    $tHeader.classList.add("individual_block_first");
+    $tHeader.innerHTML = "Welcome " + acct;
+    $titleHead.appendChild($tHeader);
 };
 
 var renderTitle = function(){
     var $head = document.getElementById("logHead");
-   var $header =document.createElement("h2");
-  $header.innerHTML = "Your attendees for the Bowman Family Reunion";
-   $head.appendChild($header);
+    var $header =document.createElement("h2");
+    $header.innerHTML = "Your attendees for the Bowman Family Reunion";
+    $head.appendChild($header);
 };
 
 var renderFirstNew = function(){
@@ -369,20 +302,20 @@ var renderFirstNew = function(){
     $fNameDiv.classList.add("individual_block_first");
     
     var $newFnameInput = document.createElement("input");
-  var $newFnameLabel = document.createElement("label");
-      $newFnameLabel.setAttribute("for", "$newFnameInput");
-  $newFnameLabel.setAttribute("value", "First Name");
-  $newFnameLabel.innerHTML = "First Name";
-  $fNameDiv.appendChild($newFnameLabel);  
+    var $newFnameLabel = document.createElement("label");
+    $newFnameLabel.setAttribute("for", "$newFnameInput");
+    $newFnameLabel.setAttribute("value", "First Name");
+    $newFnameLabel.innerHTML = "First Name";
+    $fNameDiv.appendChild($newFnameLabel);  
     
-  $newFnameInput.setAttribute("type", "text");
-  $newFnameInput.setAttribute("id", "newFnameText");
-  $newFnameInput.innerHTML = null;
-  $newFnameInput.addEventListener("blur", function(ev){
+    $newFnameInput.setAttribute("type", "text");
+    $newFnameInput.setAttribute("id", "newFnameText");
+    $newFnameInput.innerHTML = null;
+    $newFnameInput.addEventListener("blur", function(ev){
          first = document.getElementById("newFnameText").value;
-  });
- $fNameDiv.appendChild($newFnameInput);
-  $nPFHead.appendChild($fNameDiv);
+    });
+    $fNameDiv.appendChild($newFnameInput);
+    $nPFHead.appendChild($fNameDiv);
 };
 
 var renderLastNew = function(){
@@ -390,10 +323,10 @@ var renderLastNew = function(){
     var $lNameDiv = document.createElement("div");
     $lNameDiv.classList.add("individual_block");
     
- var $newLnameLabel = document.createElement("label");
-  $newLnameLabel.setAttribute("for", $newLnameInput);
-  $newLnameLabel.innerHTML = "Last Name";
-      $lNameDiv.appendChild($newLnameLabel);
+    var $newLnameLabel = document.createElement("label");
+    $newLnameLabel.setAttribute("for", $newLnameInput);
+    $newLnameLabel.innerHTML = "Last Name";
+    $lNameDiv.appendChild($newLnameLabel);
     
     var $newLnameInput = document.createElement("input");
     $newLnameInput.setAttribute("type", "text");
@@ -402,8 +335,8 @@ var renderLastNew = function(){
         last = document.getElementById("newLnameText").value;
     });
     
-   $lNameDiv.appendChild($newLnameInput);
-   $nPLHead.appendChild($lNameDiv);
+    $lNameDiv.appendChild($newLnameInput);
+    $nPLHead.appendChild($lNameDiv);
 };
 
 var renderAgeNew = function(){
@@ -412,113 +345,112 @@ var renderAgeNew = function(){
     $ageDiv.classList.add("individual_block");
     
     var $ageClassify = document.createElement("select");
-  $ageClassify.setAttribute("name", "age");
-  $ageClassify.setAttribute("id", "ageOption");  
+    $ageClassify.setAttribute("name", "age");
+    $ageClassify.setAttribute("id", "ageOption");  
  
     var $defaultClassify = document.createElement("option");
-$defaultClassify.setAttribute("value", "Choose Age");
-$defaultClassify.setAttribute("selected", true);
-  $defaultClassify.setAttribute("id", "defaultOption");
-  $defaultClassify.innerHTML = "Choose Person's Age";
-       $ageClassify.appendChild($defaultClassify);
+    $defaultClassify.setAttribute("value", "Choose Age");
+    $defaultClassify.setAttribute("selected", true);
+    $defaultClassify.setAttribute("id", "defaultOption");
+    $defaultClassify.innerHTML = "Choose Person's Age";
+    $ageClassify.appendChild($defaultClassify);
     
     var $infantClassify = document.createElement("option");
-  $infantClassify.setAttribute("value", "Infant");
-  $infantClassify.setAttribute("id", "infantAge");
-  $infantClassify.innerHTML = "Infant";
-      $ageClassify.appendChild($infantClassify);
+    $infantClassify.setAttribute("value", "Infant");
+    $infantClassify.setAttribute("id", "infantAge");
+    $infantClassify.innerHTML = "Infant";
+    $ageClassify.appendChild($infantClassify);
       
     var $childClassify = document.createElement("option");
-$childClassify.setAttribute("value", "Child");
-$childClassify.setAttribute("id", "childAge");
-  $childClassify.innerHTML = "Child";
-      $ageClassify.appendChild($childClassify);
+    $childClassify.setAttribute("value", "Child");
+    $childClassify.setAttribute("id", "childAge");
+    $childClassify.innerHTML = "Child";
+    $ageClassify.appendChild($childClassify);
       
-  var $adultClassify = document.createElement("option");
-  $adultClassify.setAttribute("value", "Adult");
-  $adultClassify.setAttribute("id", "adultAge");
-  $adultClassify.innerHTML = "Adult";
-  $adultClassify.classList.add("Adult");
-      $ageClassify.appendChild($adultClassify);
+    var $adultClassify = document.createElement("option");
+    $adultClassify.setAttribute("value", "Adult");
+    $adultClassify.setAttribute("id", "adultAge");
+    $adultClassify.innerHTML = "Adult";
+    $adultClassify.classList.add("Adult");
+    $ageClassify.appendChild($adultClassify);
       
-  var $seniorClassify = document.createElement("option");
-  $seniorClassify.setAttribute("value", "Senior");
-  $seniorClassify.setAttribute("id", "seniorAge");
-  $seniorClassify.innerHTML = "Distinguished Adult";
-      $ageClassify.appendChild($seniorClassify);
+    var $seniorClassify = document.createElement("option");
+    $seniorClassify.setAttribute("value", "Senior");
+    $seniorClassify.setAttribute("id", "seniorAge");
+    $seniorClassify.innerHTML = "Distinguished Adult";
+    $ageClassify.appendChild($seniorClassify);
       
-   $ageDiv.appendChild($ageClassify);
-   $nPAHead.appendChild($ageDiv);
+    $ageDiv.appendChild($ageClassify);
+    $nPAHead.appendChild($ageDiv);
 };
 
 var renderChangeAge = function(apersonDiv, attachDiv, persAge,itemK){
     var newAge = "";
-   var $indAgeDiv = document.createElement("div");
-     var divNameAge = apersonDiv.concat("Age");
+    var $indAgeDiv = document.createElement("div");
+    var divNameAge = apersonDiv.concat("Age");
     $indAgeDiv.classList.add('individual_block');
     $indAgeDiv.setAttribute("id",divNameAge);
     
     var $ageClassification = document.createElement("select");
-  $ageClassification.setAttribute("name", "age");
-  var nameSelect = apersonDiv.concat("Select");
-  $ageClassification.setAttribute("id", nameSelect);
+    $ageClassification.setAttribute("name", "age");
+    var nameSelect = apersonDiv.concat("Select");
+    $ageClassification.setAttribute("id", nameSelect);
   
     var $infantClassification = document.createElement("option");
-  $infantClassification.setAttribute("value", "Infant");
-  $infantClassification.setAttribute("id", "newInfantAge");
-  $infantClassification.innerHTML = "Infant";
-      if(persAge == "Infant"){
-          $infantClassification.setAttribute("selected",true);
-      }
-      $ageClassification.appendChild($infantClassification);
+    $infantClassification.setAttribute("value", "Infant");
+    $infantClassification.setAttribute("id", "newInfantAge");
+    $infantClassification.innerHTML = "Infant";
+    if(persAge == "Infant"){
+        $infantClassification.setAttribute("selected",true);
+    }
+    $ageClassification.appendChild($infantClassification);
 
     var $childClassification = document.createElement("option");
-$childClassification.setAttribute("value", "Child");
-$childClassification.setAttribute("id", "newChildAge");
-  $childClassification.innerHTML = "Child";
-     if(persAge == "Child"){
-          $childClassification.setAttribute("selected",true);
-      }
-      $ageClassification.appendChild($childClassification);
+    $childClassification.setAttribute("value", "Child");
+    $childClassification.setAttribute("id", "newChildAge");
+    $childClassification.innerHTML = "Child";
+    if(persAge == "Child"){
+        $childClassification.setAttribute("selected",true);
+    }
+    $ageClassification.appendChild($childClassification);
       
-  var $adultClassification = document.createElement("option");
-  $adultClassification.setAttribute("value", "Adult");
-  $adultClassification.setAttribute("id", "newAdultAge");
-  $adultClassification.innerHTML = "Adult";
-     if(persAge == "Adult"){
-          $adultClassification.setAttribute("selected",true);
-      }
-      $ageClassification.appendChild($adultClassification);
+    var $adultClassification = document.createElement("option");
+    $adultClassification.setAttribute("value", "Adult");
+    $adultClassification.setAttribute("id", "newAdultAge");
+    $adultClassification.innerHTML = "Adult";
+    if(persAge == "Adult"){
+        $adultClassification.setAttribute("selected",true);
+    }
+    $ageClassification.appendChild($adultClassification);
      
-  var $seniorClassification = document.createElement("option");
-  $seniorClassification.setAttribute("value", "Senior");
-  $seniorClassification.setAttribute("id", "newSeniorAge");
-  $seniorClassification.innerHTML = "Distinguished Adult";
+    var $seniorClassification = document.createElement("option");
+    $seniorClassification.setAttribute("value", "Senior");
+    $seniorClassification.setAttribute("id", "newSeniorAge");
+    $seniorClassification.innerHTML = "Distinguished Adult";
     if(persAge == "Senior"){
-          $seniorClassification.setAttribute("selected",true);
-      }
+        $seniorClassification.setAttribute("selected",true);
+    }
     
-      $ageClassification.appendChild($seniorClassification);
-      $ageClassification.addEventListener("change",function(ev){
-         newAge =  document.getElementById(nameSelect).value;
-         attendeeDB.child(itemK).update({age: newAge
-                    } );
+    $ageClassification.appendChild($seniorClassification);
+    $ageClassification.addEventListener("change",function(ev){
+        newAge =  document.getElementById(nameSelect).value;
+        attendeeDB.child(itemK).update({age: newAge});
         infoChangeUpdate();            
-      });
+    });
        
-   $indAgeDiv.appendChild($ageClassification);
-   attachDiv.appendChild($indAgeDiv);
+    $indAgeDiv.appendChild($ageClassification);
+    attachDiv.appendChild($indAgeDiv);
 };
 
 var renderSubmission = function(){
-     var $nPLHead = document.getElementById("newPersonInput");
+    var $nPLHead = document.getElementById("newPersonInput");
     var $buttSubmit = document.createElement("button");
-     $buttSubmit.setAttribute("id", "personSubmit");
-  $buttSubmit.innerHTML = "Add New Person";
-  $buttSubmit.addEventListener("click", function(ev){
-      personSubmit();
-  });
-  $nPLHead.appendChild($buttSubmit);
+    $buttSubmit.setAttribute("id", "personSubmit");
+    $buttSubmit.innerHTML = "Add New Person";
+    $buttSubmit.addEventListener("click", function(ev){
+        personSubmit();
+    });
+    $nPLHead.appendChild($buttSubmit);
 };
 
 var renderNewPerson = function(){
@@ -536,24 +468,24 @@ var renderFamReg = function(){
         $costHead.removeChild($costHead.firstChild);
     
     var cosHd = document.createElement("div");
-   var $cHeader =document.createElement("h4");
-   var stringBeg = "Your family has ";
-   var infantString = infantAttend + " Infants, ";
-   var childString = " " + childAttend + " Children, ";
-   var adultString = " " + adultAttend + " Adults ";
-   var seniorString = " and " + seniorAttend + " Seniors attending.";
+    var $cHeader =document.createElement("h4");
+    var stringBeg = "Your family has ";
+    var infantString = infantAttend + " Infants, ";
+    var childString = " " + childAttend + " Children, ";
+    var adultString = " " + adultAttend + " Adults ";
+    var seniorString = " and " + seniorAttend + " Seniors attending.";
     var attendanceString = stringBeg.concat(infantString).concat(childString).concat(adultString).concat(seniorString);   
-   var costString = "  The cost for your family to attend is ".concat(famCost).concat(".00 dollars.");
-  $cHeader.innerHTML = attendanceString.concat(costString);
-  cosHd.appendChild($cHeader);
-   $costHead.appendChild(cosHd);
+    var costString = "  The cost for your family to attend is ".concat(famCost).concat(".00 dollars.");
+    $cHeader.innerHTML = attendanceString.concat(costString);
+    cosHd.appendChild($cHeader);
+    $costHead.appendChild(cosHd);
 };
 
 var renderRegPaymentNews = function(){
-  var srD = document.getElementById("regPayNews");
-  var regNews = document.createElement("h2");
-  regNews.innerHTML = "If you have already sent your payment in, it may take a couple of days to be reflected.";
-  srD.appendChild(regNews);
+    var srD = document.getElementById("regPayNews");
+    var regNews = document.createElement("h2");
+    regNews.innerHTML = "If you have already sent your payment in, it may take a couple of days to be reflected.";
+    srD.appendChild(regNews);
 };
 
 var renderRegCost = function(){
@@ -565,56 +497,56 @@ var renderRegCost = function(){
 };
 
 var renderRegPayment = function(atDv){
-  var pymntDv = document.createElement("div");    
+    var pymntDv = document.createElement("div");    
     var feePaid = document.createElement("h2");
     feePaid.innerHTML = "You have paid " + memberRegPaid + " dollars.";
     pymntDv.appendChild(feePaid);
   
-  var payBalDue = memberRegDue - memberRegPaid; 
+    var payBalDue = memberRegDue - memberRegPaid; 
   
-  var feeLeft = document.createElement("h2");
-  feeLeft.innerHTML =  "You have a Registration balance of " + payBalDue + " dollars.";
-  pymntDv.appendChild(feeLeft);
-  atDv.appendChild(pymntDv);  
+    var feeLeft = document.createElement("h2");
+    feeLeft.innerHTML =  "You have a Registration balance of " + payBalDue + " dollars.";
+    pymntDv.appendChild(feeLeft);
+    atDv.appendChild(pymntDv);  
 };
 
 var renderMemberNav = function(){
-  var $div = document.getElementById("memberNav");
-  var $butt = document.createElement("button");
-  $butt.setAttribute("id", "tShirtMem");
-  $butt.innerHTML = "TShirt Ordering";
-  $butt.addEventListener("click", function(ev){
-      showMemberShirtScreen();
-  });
-  $div.appendChild($butt);
+    var $div = document.getElementById("memberNav");
+    var $butt = document.createElement("button");
+    $butt.setAttribute("id", "tShirtMem");
+    $butt.innerHTML = "TShirt Ordering";
+    $butt.addEventListener("click", function(ev){
+        showMemberShirtScreen();
+    });
+    $div.appendChild($butt);
   
-   var $foodButt = document.createElement("button");
-  $foodButt.setAttribute("id", "foodMem");
-  $foodButt.innerHTML = "Food You Will Bring";
-  $foodButt.addEventListener("click", function(ev){
-      showMemberFoodScreen();
-  });
-  $div.appendChild($foodButt);
+    var $foodButt = document.createElement("button");
+    $foodButt.setAttribute("id", "foodMem");
+    $foodButt.innerHTML = "Food You Will Bring";
+    $foodButt.addEventListener("click", function(ev){
+        showMemberFoodScreen();
+    });
+    $div.appendChild($foodButt);
 };
 
 var renderLogoutButton = function(){
-     var $div = document.getElementById("loginHeader");
-  var logoutButton = document.createElement("button");
-  logoutButton.classList.add("individual_block");
-  logoutButton.setAttribute("id","logOutButton");
-  logoutButton.innerHTML = "Logout";
-  logoutButton.addEventListener("click",function(ev){
-      logout();
-      showHomePageScreen();
-  });
-  $div.appendChild(logoutButton);
+    var $div = document.getElementById("loginHeader");
+    var logoutButton = document.createElement("button");
+    logoutButton.classList.add("individual_block");
+    logoutButton.setAttribute("id","logOutButton");
+    logoutButton.innerHTML = "Logout";
+    logoutButton.addEventListener("click",function(ev){
+        logout();
+        showHomePageScreen();
+    });
+    $div.appendChild(logoutButton);
 };
 
 var renderMemberInformation = function(){
-  var memDiv = document.getElementById("memberNews");
-  var payChgDiv = document.createElement("h2");
-  payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address.";
-  memDiv.appendChild(payChgDiv);
+    var memDiv = document.getElementById("memberNews");
+    var payChgDiv = document.createElement("h2");
+    payChgDiv.innerHTML = "Before sending the money in make sure that you have the right address.";
+    memDiv.appendChild(payChgDiv);
 };
 
 var renderPaymentInfo = function(){

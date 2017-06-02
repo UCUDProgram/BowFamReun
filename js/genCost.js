@@ -1,5 +1,5 @@
 var clrStrDt = function(){
-  localStorage.clear();  
+    localStorage.clear();  
 };
 
 //  RENDERING THE SCREEN (VIEW)
@@ -18,8 +18,8 @@ var costHeader = function(){
 
 var costInfo = function(){
     var costDiv = document.getElementById("costInf");
-     var $costInfoDiv = document.createElement("div");
-     $costInfoDiv.setAttribute("id","costInfo");
+    var $costInfoDiv = document.createElement("div");
+    $costInfoDiv.setAttribute("id","costInfo");
     $costInfoDiv.innerHTML = "";
     var $child = document.createElement("h2");
     $child.innerHTML = "Cost for a child(Age 3-17) is $10.00";
@@ -47,7 +47,7 @@ var costNav = function(){
 
 var genCostStart = function(){
     clrStrDt();
-  loadGenCost();  
+    loadGenCost();  
 };
 
 document.addEventListener('DOMContentLoaded',genCostStart);

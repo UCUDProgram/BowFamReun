@@ -42,103 +42,103 @@ var feesDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 
 var getAdminist = function(){
     admi = localStorage.getItem("admin");
-     if(admi == null){
-      showAdminLoginScreen();
-     }
+    if(admi == null){
+        showAdminLoginScreen();
+    }
 };
 
 var getShirtTotals = function(){
-   shirtDB.orderByKey().on("value", function(snapshot){
-     snapshot.forEach(function (child){
-      var parDiv = document.getElementById("shirtRevenue");
-      while(parDiv.firstChild)
-          parDiv.removeChild(parDiv.firstChild);
-       var shirtSm = child.val().small;
-       var shirtMed = child.val().medium;
-       var shirtLg = child.val().large;
-       var shirtxLg = child.val().xL;
-       var shirtXXL = child.val().xxLarge;
-       var shirtXXXL = child.val().xxxLarge;
-       var shirtXXXXL = child.val().xxxxLarge;
+    shirtDB.orderByKey().on("value", function(snapshot){
+        snapshot.forEach(function (child){
+            var parDiv = document.getElementById("shirtRevenue");
+            while(parDiv.firstChild)
+                parDiv.removeChild(parDiv.firstChild);
+            var shirtSm = child.val().small;
+            var shirtMed = child.val().medium;
+            var shirtLg = child.val().large;
+            var shirtxLg = child.val().xL;
+            var shirtXXL = child.val().xxLarge;
+            var shirtXXXL = child.val().xxxLarge;
+            var shirtXXXXL = child.val().xxxxLarge;
        
-       var shirtSmall = parseInt(shirtSm ,10);
-       var shirtMedium = parseInt(shirtMed,10);
-       var shirtLarge = parseInt(shirtLg,10);
-       var shirtXLarge = parseInt(shirtxLg,10);
-       var shirtDoubleL = parseInt(shirtXXL,10);
-       var shirtTripleXL = parseInt(shirtXXXL,10);
-       var shirtQuadXL = parseInt(shirtXXXXL,10);
+            var shirtSmall = parseInt(shirtSm ,10);
+            var shirtMedium = parseInt(shirtMed,10);
+            var shirtLarge = parseInt(shirtLg,10);
+            var shirtXLarge = parseInt(shirtxLg,10);
+            var shirtDoubleL = parseInt(shirtXXL,10);
+            var shirtTripleXL = parseInt(shirtXXXL,10);
+            var shirtQuadXL = parseInt(shirtXXXXL,10);
        
-       updateSmallShirtTotal(shirtSmall);
-       updateMediumShirtTotal(shirtMedium);
-      updateLargeShirtTotal(shirtLarge);
-      updateXLShirtTotal(shirtXLarge);
-       updateXXLShirtTotal(shirtDoubleL);
-       updateXXXLShirtTotal(shirtTripleXL);
-       updateXXXXLShirtTotal(shirtQuadXL);
-       updateShirtCosts();
-      renderShirtTable();
-     });
-   });
+            updateSmallShirtTotal(shirtSmall);
+            updateMediumShirtTotal(shirtMedium);
+            updateLargeShirtTotal(shirtLarge);
+            updateXLShirtTotal(shirtXLarge);
+            updateXXLShirtTotal(shirtDoubleL);
+            updateXXXLShirtTotal(shirtTripleXL);
+            updateXXXXLShirtTotal(shirtQuadXL);
+            updateShirtCosts();
+            renderShirtTable();
+        });
+    });
 };
 
 var getAttendanceTotals = function(){
     attendanceDB.orderByKey().on("value", function(snapshot){
-     snapshot.forEach(function (snap){
-     var attDiv = document.getElementById("registrationExpense");
-     while(attDiv.firstChild)
-        attDiv.removeChild(attDiv.firstChild);
-     var personAge = snap.val().age;
-    getPersonAge(personAge);
-    updateRegCosts();
-    renderAttendanceTable();
-      });
-  });
+        snapshot.forEach(function (snap){
+            var attDiv = document.getElementById("registrationExpense");
+            while(attDiv.firstChild)
+                attDiv.removeChild(attDiv.firstChild);
+            var personAge = snap.val().age;
+            getPersonAge(personAge);
+            updateRegCosts();
+            renderAttendanceTable();
+        });
+    });
 };
 
 var getMoneyReceived = function(){
     feesDB.orderByKey().on("value", function(snapshot){
-     snapshot.forEach(function (snap){
-     var monDiv = document.getElementById("moneyIntake");
-     while(monDiv.firstChild)
-        monDiv.removeChild(monDiv.firstChild);
-     var personReg = snap.val().regPaid;
-     var personShirt = snap.val().shirtPaid;
-     var personRegD = snap.val().regDue;
-     var personShirtD = snap.val().shirtDue;
+        snapshot.forEach(function (snap){
+            var monDiv = document.getElementById("moneyIntake");
+            while(monDiv.firstChild)
+                monDiv.removeChild(monDiv.firstChild);
+            var personReg = snap.val().regPaid;
+            var personShirt = snap.val().shirtPaid;
+            var personRegD = snap.val().regDue;
+            var personShirtD = snap.val().shirtDue;
      
-     updateRegTot(personReg);
-     updateRegDue(personRegD);
-    updateShirtTot(personShirt);
-    updateShirtDue(personShirtD);
-    renderRevenueTable();
-      });
-  });
+            updateRegTot(personReg);
+            updateRegDue(personRegD);
+            updateShirtTot(personShirt);
+            updateShirtDue(personShirtD);
+            renderRevenueTable();
+        });
+    });
 };
 
 
 var getPersonAge = function(aPAge){
-  if (aPAge == "Infant"){
-      updateInfantCount();
-  } else if(aPAge == "Child"){
-      updateChildCount();
-  } else if(aPAge == "Adult"){
-      updateAdultCount();
-  } else {
-      updateSeniorCount();
-  }
+    if (aPAge == "Infant"){
+        updateInfantCount();
+    } else if(aPAge == "Child"){
+        updateChildCount();
+    } else if(aPAge == "Adult"){
+        updateAdultCount();
+    } else {
+        updateSeniorCount();
+    }
 };
 
 var updateSmallShirtTotal = function(smallOrder){
-  smallCount += smallOrder;  
+    smallCount += smallOrder;  
 };
 
 var updateSmallTotal = function(){
-  smallTot = smallCount * regularTShirtCost;  
+    smallTot = smallCount * regularTShirtCost;  
 };
 
 var updateMediumShirtTotal = function(mediumOrder){
-  mediumCount +=mediumOrder;  
+    mediumCount +=mediumOrder;  
 };
 
 var updateMediumTotal = function(){
@@ -146,43 +146,43 @@ var updateMediumTotal = function(){
 };
 
 var updateLargeShirtTotal = function(largeOrder){
-  largeCount += largeOrder;  
+    largeCount += largeOrder;  
 };
 
 var updateLargeTotal = function(){
-  largeTot = largeCount * regularTShirtCost;  
+    largeTot = largeCount * regularTShirtCost;  
 };
 
 var updateXLShirtTotal = function(xlOrder){
-  xLCount += xlOrder;  
+    xLCount += xlOrder;  
 };
 
 var updateXLTotal = function(){
-  xLTot = xLCount * regularTShirtCost;  
+    xLTot = xLCount * regularTShirtCost;  
 };
 
 var updateXXLShirtTotal = function(xxlOrder){
-  xXLCount += xxlOrder;  
+    xXLCount += xxlOrder;  
 };
 
 var updateXXLTotal = function(){
-  xXLTot = xXLCount * regularTShirtCost;  
+    xXLTot = xXLCount * regularTShirtCost;  
 };
 
 var updateXXXLShirtTotal = function(xxxlOrder){
-  xXXLCount += xxxlOrder;  
+    xXXLCount += xxxlOrder;  
 };
 
 var updateXXXLTotal = function(){
-  xXXLTot = xXXLCount * largerTShirtCost;  
+    xXXLTot = xXXLCount * largerTShirtCost;  
 };
 
 var updateXXXXLShirtTotal = function(xxxxlOrder){
-  xXXXLCount += xxxxlOrder;  
+    xXXXLCount += xxxxlOrder;  
 };
 
 var updateXXXXLTotal = function(){
-  xXXXLTot = xXXXLCount * largerTShirtCost;  
+    xXXXLTot = xXXXLCount * largerTShirtCost;  
 };
 
 var updateInfantCount = function(){
@@ -198,7 +198,7 @@ var updateChildCount = function(){
 };
 
 var updateChildTotal = function(){
-  childTot = childCount * childCost;  
+    childTot = childCount * childCost;  
 };
 
 var updateAdultCount = function(){
@@ -214,60 +214,60 @@ var updateSeniorCount = function(){
 };
 
 var updateSeniorTotal = function(){
-  seniorTot = seniorCount * seniorCost;  
+    seniorTot = seniorCount * seniorCost;  
 };
 
 var updateShirtTot = function(shtPad){
-  shrtTot += shtPad;  
+    shrtTot += shtPad;  
 };
 
 var updateRegTot = function(regPad){
-  attTot += regPad;  
+    attTot += regPad;  
 };
 
 var updateRegDue = function(regisDe){
-  attDu += regisDe;  
+    attDu += regisDe;  
 };
 
 var updateShirtDue = function(shrDe){
-  shirtDu += shrDe;  
+    shirtDu += shrDe;  
 };
 
 var updateShirtCosts = function(){
-  updateSmallTotal();
-  updateMediumTotal();
-  updateLargeTotal();
-  updateXLTotal();
-  updateXXLTotal();
-  updateXXXLTotal();
-  updateXXXXLTotal();
+    updateSmallTotal();
+    updateMediumTotal();
+    updateLargeTotal();
+    updateXLTotal();
+    updateXXLTotal();
+    updateXXXLTotal();
+    updateXXXXLTotal();
 };
 
 var updateRegCosts = function(){
     updateInfantTotal();
-  updateChildTotal();
-  updateAdultTotal();
-  updateSeniorTotal();
+    updateChildTotal();
+    updateAdultTotal();
+    updateSeniorTotal();
 };
 
 // RENDERING THE SCREEN (VIEW)
 var renderExpenseHead = function(){
-  var expHead = document.getElementById("expenseHeader");
-  var expTitle = document.createElement("h2");
-  expTitle.innerHTML = "Expenses for the Bowman Family Reunion";
+    var expHead = document.getElementById("expenseHeader");
+    var expTitle = document.createElement("h2");
+    expTitle.innerHTML = "Expenses for the Bowman Family Reunion";
     expHead.appendChild(expTitle);
 };
 
 var renderShirtTable = function(){
-  var shtTblSrc = document.getElementById("shirtRevenue");
+    var shtTblSrc = document.getElementById("shirtRevenue");
   
-  var shtDiv = document.createElement("div");
+    var shtDiv = document.createElement("div");
   
-  var shtTblHead = document.createElement("h1");
-  shtTblHead.innerHTML = "Shirt Revenue";
-  shtDiv.appendChild(shtTblHead);
+    var shtTblHead = document.createElement("h1");
+    shtTblHead.innerHTML = "Shirt Revenue";
+    shtDiv.appendChild(shtTblHead);
   
-  var shtTbl = document.createElement("table");
+    var shtTbl = document.createElement("table");
   
     renderShirtKeyRow(shtTbl);
     renderSmallShirtRow(shtTbl);
@@ -420,15 +420,15 @@ var renderXXXXLShirtRow = function(siTae){
 };
 
 var renderAttendanceTable = function(){
-  var attTblSrc = document.getElementById("registrationExpense");
+    var attTblSrc = document.getElementById("registrationExpense");
   
-  var revDiv = document.createElement("div");
+    var revDiv = document.createElement("div");
   
-  var revTblHead = document.createElement("h1");
-  revTblHead.innerHTML = "Attendance Revenue";
-  revDiv.appendChild(revTblHead);
+    var revTblHead = document.createElement("h1");
+    revTblHead.innerHTML = "Attendance Revenue";
+    revDiv.appendChild(revTblHead);
   
-  var attTbl = document.createElement("table");
+    var attTbl = document.createElement("table");
     
     renderAttendanceKey(attTbl);
     renderInfantRow(attTbl);
@@ -475,7 +475,7 @@ var renderInfantRow = function(attndTbl){
 };
 
 var renderChildRow = function(atndTbl){
-      var childRow = document.createElement("tr");
+    var childRow = document.createElement("tr");
     
     var childName = document.createElement("td");
     childName.innerHTML = "Child";
@@ -492,7 +492,7 @@ var renderChildRow = function(atndTbl){
 };
 
 var renderAdultRow = function(aTbl){
-     var adultRow = document.createElement("tr");
+    var adultRow = document.createElement("tr");
     
     var adultName = document.createElement("td");
     adultName.innerHTML = "Adult";
@@ -526,15 +526,15 @@ var renderSeniorRow = function(attend){
 };
 
 var renderRevenueTable = function(){
-  var attTblSrc = document.getElementById("moneyIntake");
+    var attTblSrc = document.getElementById("moneyIntake");
   
-  var revDiv = document.createElement("div");
+    var revDiv = document.createElement("div");
   
-  var monTblHead = document.createElement("h1");
-  monTblHead.innerHTML = "Money Received";
-  revDiv.appendChild(monTblHead);
+    var monTblHead = document.createElement("h1");
+    monTblHead.innerHTML = "Money Received";
+    revDiv.appendChild(monTblHead);
   
-  var monTbl = document.createElement("table");
+    var monTbl = document.createElement("table");
     
     renderMoneyKey(monTbl);
     renderAttendance(monTbl);
@@ -545,57 +545,57 @@ var renderRevenueTable = function(){
 };
 
 var renderMoneyKey = function(mon){
-    var seniorRow = document.createElement("tr");
+    var moneyKeyRow = document.createElement("tr");
     
-    var seniorName = document.createElement("td");
-    seniorName.innerHTML = "Category";
-    seniorRow.appendChild(seniorName);
+    var moneyCat = document.createElement("td");
+    moneyCat.innerHTML = "Category";
+    moneyKeyRow.appendChild(moneyCat);
     
-    var seniorQuant = document.createElement("td");
-    seniorQuant.innerHTML = "Money Received";
-    seniorRow.appendChild(seniorQuant);
+    var moneyRec = document.createElement("td");
+    moneyRec.innerHTML = "Money Received";
+    moneyKeyRow.appendChild(moneyRec);
     
-    var seniorQuant = document.createElement("td");
-    seniorQuant.innerHTML = "Money Due";
-    seniorRow.appendChild(seniorQuant);
+    var moneyDue = document.createElement("td");
+    moneyDue.innerHTML = "Money Due";
+    moneyKeyRow.appendChild(moneyDue);
     
-    mon.appendChild(seniorRow);
+    mon.appendChild(moneyKeyRow);
 };
 
 var renderAttendance = function(mny){
-    var seniorRow = document.createElement("tr");
+    var regRow = document.createElement("tr");
     
-    var seniorName = document.createElement("td");
-    seniorName.innerHTML = "Registration";
-    seniorRow.appendChild(seniorName);
+    var regName = document.createElement("td");
+    regName.innerHTML = "Registration";
+    regRow.appendChild(regName);
     
-    var seniorQuant = document.createElement("td");
-    seniorQuant.innerHTML = attTot;
-    seniorRow.appendChild(seniorQuant);
+    var regRec = document.createElement("td");
+    regRec.innerHTML = attTot;
+    regRow.appendChild(regRec);
     
-    var seniorQuan = document.createElement("td");
-    seniorQuan.innerHTML = attDu;
-    seniorRow.appendChild(seniorQuan);
+    var registDue = document.createElement("td");
+    registDue.innerHTML = attDu;
+    regRow.appendChild(registDue);
     
-    mny.appendChild(seniorRow);
+    mny.appendChild(regRow);
 };
 
 var renderShirt = function(mone){
-    var seniorRow = document.createElement("tr");
+    var shirtRow = document.createElement("tr");
     
-    var seniorName = document.createElement("td");
-    seniorName.innerHTML = "Shirt";
-    seniorRow.appendChild(seniorName);
+    var shirtName = document.createElement("td");
+    shirtName.innerHTML = "Shirt";
+    shirtRow.appendChild(shirtName);
     
-    var seniorQuant = document.createElement("td");
-    seniorQuant.innerHTML = shrtTot;
-    seniorRow.appendChild(seniorQuant);
+    var shirtRec = document.createElement("td");
+    shirtRec.innerHTML = shrtTot;
+    shirtRow.appendChild(shirtRec);
     
-    var senioQuan = document.createElement("td");
-    senioQuan.innerHTML = shirtDu;
-    seniorRow.appendChild(senioQuan);
+    var shirtD = document.createElement("td");
+    shirtD.innerHTML = shirtDu;
+    shirtRow.appendChild(shirtD);
     
-    mone.appendChild(seniorRow);
+    mone.appendChild(shirtRow);
 };
 
 var adminExpenseStart = function(){

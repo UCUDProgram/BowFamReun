@@ -1,73 +1,60 @@
-// var regBalance = 0;
-// var setRegBalance = function(bal){
-//     regBalance = bal;  
-// };
-// var firstNam = childSnapshot.val().firstname;
-        // var lastNam = childSnapshot.val().lastname;
- // var div = document.getElementById("registrationReport");
-    // var persRptDiv = document.createElement("div");
-    // persRptDiv.setAttribute("id", divNam);
-    
-    
-    
 var administr = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
 var getAdministra = function(){
     administr = localStorage.getItem("admin");
-     if(administr == null){
-      showAdminLoginScreen();
-     }
+    if(administr == null){
+        showAdminLoginScreen();
+    }
 };
 
 var getRegNames = function(){
-  var regData = DB.child("Accounts");
-  regData.orderByKey().on("value", function (snapshot){
-     snapshot.forEach(function (childSnapshot){
-        var userky = childSnapshot.val().userName;
-        renderRegistrationReport(userky);
-     }); 
-  });
+    var regData = DB.child("Accounts");
+    regData.orderByKey().on("value", function (snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var userky = childSnapshot.val().userName;
+            renderRegistrationReport(userky);
+        }); 
+    });
 };
 
 var getPersonRegInfo = function(key, attDv){
-     var regData = DB.child("Accounts");
+    var regData = DB.child("Accounts");
     regData.orderByChild("userName").equalTo(key).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
-        var frstNam = childSnapshot.val().firstname;
-        var lstNam = childSnapshot.val().lastname;
-    var divNam = frstNam .concat(lstNam).concat("RegReport");
-    attDv.setAttribute("id", divNam);
+            var frstNam = childSnapshot.val().firstname;
+            var lstNam = childSnapshot.val().lastname;
+            var divNam = frstNam .concat(lstNam).concat("RegReport");
+            attDv.setAttribute("id", divNam);
     
-    var fnameDiv = document.createElement("div");
-    fnameDiv.classList.add("individual_block_first");
-    fnameDiv.innerHTML = frstNam;
-    attDv.appendChild(fnameDiv);
+            var fnameDiv = document.createElement("div");
+            fnameDiv.classList.add("individual_block_first");
+            fnameDiv.innerHTML = frstNam;
+            attDv.appendChild(fnameDiv);
     
-    var lnameDiv = document.createElement("div");
-    lnameDiv.classList.add("individual_block");
-    lnameDiv.innerHTML = lstNam;
-    attDv.appendChild(lnameDiv);
-});
-});
+            var lnameDiv = document.createElement("div");
+            lnameDiv.classList.add("individual_block");
+            lnameDiv.innerHTML = lstNam;
+            attDv.appendChild(lnameDiv);
+        });
+    });
 };
 
 var getBalanceDue = function(usKy,ataD){
     var balData = DB.child("Fees");
     balData.orderByChild("userName").equalTo(usKy).on("value", function(snapshot){
-       snapshot.forEach(function(childSnapshot){
-           var regBalDiv = document.createElement("div");
-           regBalDiv.classList.add("individual_block");
-          var regDe = childSnapshot.val().regDue;
-          var regPad = childSnapshot.val().regPaid;
-          var regBal = +regDe - +regPad;
-          if(regBal >0 ){
-              regBalDiv.style.color = "Red";
-              
-          }
-          regBalDiv.innerHTML = regBal;
-          ataD.appendChild(regBalDiv);
-       }); 
+        snapshot.forEach(function(childSnapshot){
+            var regBalDiv = document.createElement("div");
+            regBalDiv.classList.add("individual_block");
+            var regDe = childSnapshot.val().regDue;
+            var regPad = childSnapshot.val().regPaid;
+            var regBal = +regDe - +regPad;
+            if(regBal >0 ){
+                regBalDiv.style.color = "Red";
+            }
+            regBalDiv.innerHTML = regBal;
+            ataD.appendChild(regBalDiv);
+        }); 
     });
 };
 
@@ -80,8 +67,8 @@ var getAttendBreakdown = function(aKy, attachmDv){
     attndDv.classList.add("individual_block");
     var attData = DB.child("Attendees");
     attData.orderByChild("account").equalTo(aKy).once("value", function(snapshot){
-       snapshot.forEach(function(childSnapshot){
-          var attAge = childSnapshot.val().age;
+        snapshot.forEach(function(childSnapshot){
+            var attAge = childSnapshot.val().age;
             if (attAge == "Infant"){
                 infan +=1;
             } else if (attAge == "Child"){
@@ -92,7 +79,7 @@ var getAttendBreakdown = function(aKy, attachmDv){
                 senio +=1;
             }
             setAttendString(infan, chil, adul, senio, attndDv);
-       }); 
+        }); 
     });
     attachmDv.appendChild(attndDv);
 };
@@ -139,20 +126,20 @@ var setAttendString = function(infa, chi, adu, seni,attachment){
 };
 
 // RENDERING THE SCREEN (VIEW)
-var renderRegisHeader = function(){
- var div = document.getElementById("registrationReportHeader");
- var regTitle = document.createElement("h1");
- regTitle.innerHTML = "Registration Report";
- div.appendChild(regTitle);
+    var renderRegisHeader = function(){
+    var div = document.getElementById("registrationReportHeader");
+    var regTitle = document.createElement("h1");
+    regTitle.innerHTML = "Registration Report";
+    div.appendChild(regTitle);
 };
 
 var renderRegistrationReport = function(usrNme){
     var div = document.getElementById("registrationReport");
-        var regDiv = document.createElement("div");
-        getPersonRegInfo(usrNme, regDiv);
-        getAttendBreakdown(usrNme,regDiv);
-        getBalanceDue(usrNme, regDiv);
-        div.appendChild(regDiv);
+    var regDiv = document.createElement("div");
+    getPersonRegInfo(usrNme, regDiv);
+    getAttendBreakdown(usrNme,regDiv);
+    getBalanceDue(usrNme, regDiv);
+    div.appendChild(regDiv);
 };
 
 var regReportStart = function(){

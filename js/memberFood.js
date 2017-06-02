@@ -34,9 +34,9 @@ var setOtherFoodCat = function(oCat){
 
 var getFoodUser = function(){
     userAcct = localStorage.getItem("user");
-     if(userAcct == null){
-      showLoginScreen();
-     }
+    if(userAcct == null){
+        showLoginScreen();
+    }
 };
 
 var deleteFood = function(aKey){
@@ -45,52 +45,47 @@ var deleteFood = function(aKey){
 };
 
 var saladSubmit = function(){
-  foodDB.push().set({user:userAcct,
+    foodDB.push().set({user:userAcct,
                         food:saladChoice,
-                        category:"Salad"
-  });
+                        category:"Salad"});
 };
 
 var sideDishSubmit = function(){
-  foodDB.push().set({user:userAcct,
+    foodDB.push().set({user:userAcct,
                         food:sideDishChoice,
-                        category:"Side Dish"
-  });
+                        category:"Side Dish"});
 };
 
 var meatSubmit = function(){
-  foodDB.push().set({user:userAcct,
+    foodDB.push().set({user:userAcct,
                         food:meatChoice,
-                        category:"Meat"
-  });
+                        category:"Meat"});
 };
 
 var dessertSubmit = function(){
-  foodDB.push().set({user:userAcct,
+    foodDB.push().set({user:userAcct,
                         food:dessertChoice,
-                        category:"Dessert"
-  });
+                        category:"Dessert"});
 };
 
 var otherFoodSubmit = function(){
-  foodDB.push().set({user:userAcct,
+    foodDB.push().set({user:userAcct,
                         food:otherFoodChoice,
-                        category:otherFoodCat
-  });
+                        category:otherFoodCat});
 };
 
 var getFood = function(){
-     var parDiv = document.getElementById("foodList");
+    var parDiv = document.getElementById("foodList");
     while(parDiv.firstChild)
         parDiv.removeChild(parDiv.firstChild);
-     foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
+    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
         snapshot.forEach(function (childSnapshot){
-          var foodName = childSnapshot.val().food;
-          var foodCat = childSnapshot.val().category;
-          var foodKey = childSnapshot.key();
-        renderFood(foodName,foodCat,foodKey);
-      });
-});
+            var foodName = childSnapshot.val().food;
+            var foodCat = childSnapshot.val().category;
+            var foodKey = childSnapshot.key();
+            renderFood(foodName,foodCat,foodKey);
+        });
+    });
 };
 
 //  RENDERING THE SCREEN (VIEW)
@@ -106,32 +101,32 @@ var renderFoodScreen = function(){
 };
 
 var renderFoodOrderHeader = function(){
-  var $fdHead = document.getElementById("foodHeader");
-  var fdHeadText = document.createElement("h1");
-  fdHeadText.innerHTML = "Enter the food that you will bring to the Family Renunion";
+    var $fdHead = document.getElementById("foodHeader");
+    var fdHeadText = document.createElement("h1");
+    fdHeadText.innerHTML = "Enter the food that you will bring to the Family Renunion";
   
-  var fdHeadInfo = document.createElement("h2");
-  fdHeadInfo.innerHTML = "Keep in mind the food needs to be able to feed AT LEAST 15 People.";
+    var fdHeadInfo = document.createElement("h2");
+    fdHeadInfo.innerHTML = "Keep in mind the food needs to be able to feed AT LEAST 15 People.";
   
-  var fdHeadOther = document.createElement("h2");
-  fdHeadOther.innerHTML = "If you do not see the food you are bringing, you can enter it in other food Item Area.  For Example, enter Macaroni Salad in the Textbox and select the Salad option in the accompanying Checkbox.";
+    var fdHeadOther = document.createElement("h2");
+    fdHeadOther.innerHTML = "If you do not see the food you are bringing, you can enter it in other food Item Area.  For Example, enter Macaroni Salad in the Textbox and select the Salad option in the accompanying Checkbox.";
   
-  $fdHead.appendChild(fdHeadText);
-  $fdHead.appendChild(fdHeadInfo);
-  $fdHead.appendChild(fdHeadOther);
+    $fdHead.appendChild(fdHeadText);
+    $fdHead.appendChild(fdHeadInfo);
+    $fdHead.appendChild(fdHeadOther);
 };
 
 var renderFoodNews = function(){
-  var newsHead = document.getElementById("foodHeader");
+    var newsHead = document.getElementById("foodHeader");
   
-  var newsText = document.createElement("h1");
-  newsText.innerHTML = "If you do not plan on bringing food, please submit 10 dollars ($10) so the committee can buy food for you and your family.";
+    var newsText = document.createElement("h1");
+    newsText.innerHTML = "If you do not plan on bringing food, please submit 10 dollars ($10) so the committee can buy food for you and your family.";
     newsHead.appendChild(newsText);
   
-  var noFoodDiv = document.createElement("div");
-  var foodText = document.createElement("h1");
-  foodText.innerHTML = "Also, if you are bringing nothing, you do not need to create a record of nothing";
-  noFoodDiv.appendChild(foodText);
+    var noFoodDiv = document.createElement("div");
+    var foodText = document.createElement("h1");
+    foodText.innerHTML = "Also, if you are bringing nothing, you do not need to create a record of nothing";
+    noFoodDiv.appendChild(foodText);
     
     var deleteFoodWarn = document.createElement("h1");
     deleteFoodWarn.innerHTML = "WARNING: Creating a nothing Brought food Item can lead to administrator deleting that record";
@@ -153,50 +148,50 @@ var renderSaladOptions = function(){
 };
 
 var renderSaladList = function(sldDiv){
-  var saladClassification = document.createElement("select");
-  saladClassification.setAttribute("name", "salad");
-  saladClassification.setAttribute("id", "saladSelection");
+    var saladClassification = document.createElement("select");
+    saladClassification.setAttribute("name", "salad");
+    saladClassification.setAttribute("id", "saladSelection");
   
-  var defSaladOpt = document.createElement("option");
-  defSaladOpt.setAttribute("value", "Select Salad");
-  defSaladOpt.setAttribute("id", "defSalOpt");
-  defSaladOpt.innerHTML = "Select Salad";
-  saladClassification.appendChild(defSaladOpt);
+    var defSaladOpt = document.createElement("option");
+    defSaladOpt.setAttribute("value", "Select Salad");
+    defSaladOpt.setAttribute("id", "defSalOpt");
+    defSaladOpt.innerHTML = "Select Salad";
+    saladClassification.appendChild(defSaladOpt);
   
-  var fruitOpt = document.createElement("option");
-  fruitOpt.setAttribute("value", "Fruit Salad");
-  fruitOpt.setAttribute("id", "fruitOption");
-  fruitOpt.innerHTML = "Fruit Salad";
-  saladClassification.appendChild(fruitOpt);
+    var fruitOpt = document.createElement("option");
+    fruitOpt.setAttribute("value", "Fruit Salad");
+    fruitOpt.setAttribute("id", "fruitOption");
+    fruitOpt.innerHTML = "Fruit Salad";
+    saladClassification.appendChild(fruitOpt);
   
-  var pastaOpt = document.createElement("option");
-  pastaOpt.setAttribute("value", "Pasta Salad");
-  pastaOpt.setAttribute("id", "pastaOption");
-  pastaOpt.innerHTML = "Pasta Salad";
-  saladClassification.appendChild(pastaOpt);
+    var pastaOpt = document.createElement("option");
+    pastaOpt.setAttribute("value", "Pasta Salad");
+    pastaOpt.setAttribute("id", "pastaOption");
+    pastaOpt.innerHTML = "Pasta Salad";
+    saladClassification.appendChild(pastaOpt);
   
-  var potatoOpt = document.createElement("option");
-  potatoOpt.setAttribute("value", "Potato Salad");
-  potatoOpt.setAttribute("id", "potatoOption");
-  potatoOpt.innerHTML = "Potato Salad";
-  saladClassification.appendChild(potatoOpt);
+    var potatoOpt = document.createElement("option");
+    potatoOpt.setAttribute("value", "Potato Salad");
+    potatoOpt.setAttribute("id", "potatoOption");
+    potatoOpt.innerHTML = "Potato Salad";
+    saladClassification.appendChild(potatoOpt);
     
-  var greenOpt = document.createElement("option");
-  greenOpt.setAttribute("value", "Green Salad");
-  greenOpt.setAttribute("id", "greenOption");
-  greenOpt.innerHTML = "Green Salad";
-  saladClassification.appendChild(greenOpt);
+    var greenOpt = document.createElement("option");
+    greenOpt.setAttribute("value", "Green Salad");
+    greenOpt.setAttribute("id", "greenOption");
+    greenOpt.innerHTML = "Green Salad";
+    saladClassification.appendChild(greenOpt);
 
-saladClassification.addEventListener("change",function(ev){
-   setSaladChoice(document.getElementById("saladSelection").value); 
-});
+    saladClassification.addEventListener("change",function(ev){
+        setSaladChoice(document.getElementById("saladSelection").value); 
+    });
 
     sldDiv.appendChild(saladClassification);
 };
 
 var renderSaladSubmitButton = function(sldDv){
-  var saladButton = document.createElement("button");
-  saladButton.setAttribute("id","saladSubmit");
+    var saladButton = document.createElement("button");
+    saladButton.setAttribute("id","saladSubmit");
     saladButton.innerHTML = "Register the Salad";
     saladButton.addEventListener("click", function(ev){
         saladSubmit();
@@ -220,56 +215,56 @@ var renderSideDishOptions = function(){
 };
 
 var renderSideDishList = function(sdDiv){
-  var sideDishClassification = document.createElement("select");
-  sideDishClassification.setAttribute("name", "sideDish");
-  sideDishClassification.setAttribute("id", "sideDishSelection");
+    var sideDishClassification = document.createElement("select");
+    sideDishClassification.setAttribute("name", "sideDish");
+    sideDishClassification.setAttribute("id", "sideDishSelection");
     
     var defSideOpt = document.createElement("option");
-  defSideOpt.setAttribute("value", "Select Side Dish");
-  defSideOpt.setAttribute("id", "defSidOpt");
-  defSideOpt.innerHTML = "Select Side Dish";
-  sideDishClassification.appendChild(defSideOpt);
+    defSideOpt.setAttribute("value", "Select Side Dish");
+    defSideOpt.setAttribute("id", "defSidOpt");
+    defSideOpt.innerHTML = "Select Side Dish";
+    sideDishClassification.appendChild(defSideOpt);
       
     var bakedBeansOpt = document.createElement("option");
-  bakedBeansOpt.setAttribute("value", "Baked Beans");
-  bakedBeansOpt.setAttribute("id", "bakedBeansOption");
-  bakedBeansOpt.innerHTML = "Baked Beans";
-  sideDishClassification.appendChild(bakedBeansOpt);
+    bakedBeansOpt.setAttribute("value", "Baked Beans");
+    bakedBeansOpt.setAttribute("id", "bakedBeansOption");
+    bakedBeansOpt.innerHTML = "Baked Beans";
+    sideDishClassification.appendChild(bakedBeansOpt);
 
     var cornOpt = document.createElement("option");
-  cornOpt.setAttribute("value", "Corn");
-  cornOpt.setAttribute("id", "cornOption");
-  cornOpt.innerHTML = "Corn";
-  sideDishClassification.appendChild(cornOpt);
+    cornOpt.setAttribute("value", "Corn");
+    cornOpt.setAttribute("id", "cornOption");
+    cornOpt.innerHTML = "Corn";
+    sideDishClassification.appendChild(cornOpt);
   
-  var devilEggOpt = document.createElement("option");
-  devilEggOpt.setAttribute("value", "Deviled Eggs");
-  devilEggOpt.setAttribute("id", "devilEggOption");
-  devilEggOpt.innerHTML = "Deviled Eggs";
-  sideDishClassification.appendChild(devilEggOpt);
+    var devilEggOpt = document.createElement("option");
+    devilEggOpt.setAttribute("value", "Deviled Eggs");
+    devilEggOpt.setAttribute("id", "devilEggOption");
+    devilEggOpt.innerHTML = "Deviled Eggs";
+    sideDishClassification.appendChild(devilEggOpt);
   
-   var stringBeansOpt = document.createElement("option");
-  stringBeansOpt.setAttribute("value", "String Beans");
-  stringBeansOpt.setAttribute("id", "stringBeansOption");
-  stringBeansOpt.innerHTML = "String Beans";
-  sideDishClassification.appendChild(stringBeansOpt);
+    var stringBeansOpt = document.createElement("option");
+    stringBeansOpt.setAttribute("value", "String Beans");
+    stringBeansOpt.setAttribute("id", "stringBeansOption");
+    stringBeansOpt.innerHTML = "String Beans";
+    sideDishClassification.appendChild(stringBeansOpt);
       
     var macaroniOpt = document.createElement("option");
-  macaroniOpt.setAttribute("value", "Macaroni");
-  macaroniOpt.setAttribute("id", "macaroniOption");
-  macaroniOpt.innerHTML = "Macaroni";
-  sideDishClassification.appendChild(macaroniOpt);
+    macaroniOpt.setAttribute("value", "Macaroni");
+    macaroniOpt.setAttribute("id", "macaroniOption");
+    macaroniOpt.innerHTML = "Macaroni";
+    sideDishClassification.appendChild(macaroniOpt);
   
-  sideDishClassification.addEventListener("change",function(ev){
-     setSideDishChoice(document.getElementById("sideDishSelection").value); 
-  });
+    sideDishClassification.addEventListener("change",function(ev){
+        setSideDishChoice(document.getElementById("sideDishSelection").value); 
+    });
   
-  sdDiv.appendChild(sideDishClassification);
+    sdDiv.appendChild(sideDishClassification);
 };
 
 var renderSideDishSubmitButton = function(sideDiv){
-  var sideDishButton = document.createElement("button");
-  sideDishButton.setAttribute("id","sideSubmit");
+    var sideDishButton = document.createElement("button");
+    sideDishButton.setAttribute("id","sideSubmit");
     sideDishButton.innerHTML = "Register the Side Dish";
     sideDishButton.addEventListener("click", function(ev){
         sideDishSubmit();
@@ -288,46 +283,46 @@ var renderMeatOptions = function(){
     meatName.innerHTML = "Meat: ";
     meatOpt.appendChild(meatName);
     renderMeatList(meatOpt);
-   renderMeatSubmitButton(meatOpt);
+    renderMeatSubmitButton(meatOpt);
     meatDiv.appendChild(meatOpt);
 };
 
 var renderMeatList = function(meatOpt){
-   var meatClassification = document.createElement("select");
-  meatClassification.setAttribute("name", "meat");
-  meatClassification.setAttribute("id", "meatSelection");
+    var meatClassification = document.createElement("select");
+    meatClassification.setAttribute("name", "meat");
+    meatClassification.setAttribute("id", "meatSelection");
   
-  var defMeatOpt = document.createElement("option");
-  defMeatOpt.setAttribute("value", "Select Meat Option");
-  defMeatOpt.setAttribute("id", "defMeatOpt");
-  defMeatOpt.innerHTML = "Select Meat Option";
-  meatClassification.appendChild(defMeatOpt);
+    var defMeatOpt = document.createElement("option");
+    defMeatOpt.setAttribute("value", "Select Meat Option");
+    defMeatOpt.setAttribute("id", "defMeatOpt");
+    defMeatOpt.innerHTML = "Select Meat Option";
+    meatClassification.appendChild(defMeatOpt);
   
-  var chickenOpt = document.createElement("option");
-  chickenOpt.setAttribute("value", "Chicken");
-  chickenOpt.setAttribute("id", "chickenOption");
-  chickenOpt.innerHTML = "Chicken";
-  meatClassification.appendChild(chickenOpt);
+    var chickenOpt = document.createElement("option");
+    chickenOpt.setAttribute("value", "Chicken");
+    chickenOpt.setAttribute("id", "chickenOption");
+    chickenOpt.innerHTML = "Chicken";
+    meatClassification.appendChild(chickenOpt);
   
     var hamOpt = document.createElement("option");
-  hamOpt.setAttribute("value", "Ham");
-  hamOpt.setAttribute("id", "hamOption");
-  hamOpt.innerHTML = "Ham";
-  meatClassification.appendChild(hamOpt);
+    hamOpt.setAttribute("value", "Ham");
+    hamOpt.setAttribute("id", "hamOption");
+    hamOpt.innerHTML = "Ham";
+    meatClassification.appendChild(hamOpt);
   
     var ribsOpt = document.createElement("option");
-  ribsOpt.setAttribute("value", "Ribs");
-  ribsOpt.setAttribute("id", "ribsOption");
-  ribsOpt.innerHTML = "Ribs";
-  meatClassification.appendChild(ribsOpt);
+    ribsOpt.setAttribute("value", "Ribs");
+    ribsOpt.setAttribute("id", "ribsOption");
+    ribsOpt.innerHTML = "Ribs";
+    meatClassification.appendChild(ribsOpt);
     
     meatClassification.addEventListener("change", function(ev){
-       if(document.getElementById("meatSelection").value == "Chicken"){
-           renderChickenOptions();
-       } else {
-           document.getElementById("chickenChoice").classList.add("hidden");
-           setMeatChoice(document.getElementById("meatSelection").value);
-       } 
+        if(document.getElementById("meatSelection").value == "Chicken"){
+            renderChickenOptions();
+        } else {
+            document.getElementById("chickenChoice").classList.add("hidden");
+            setMeatChoice(document.getElementById("meatSelection").value);
+        } 
     });
     meatOpt.appendChild(meatClassification);
 };
@@ -335,42 +330,41 @@ var renderMeatList = function(meatOpt){
 var renderChickenOptions = function(){
     var chickenOpt = document.getElementById("chickenChoice");
     chickenOpt.classList.remove("hidden");
-    
     while(chickenOpt.firstChild)
         chickenOpt.removeChild(chickenOpt.firstChild);
     
     var chickenClassification = document.createElement("select");
-  chickenClassification.setAttribute("name", "chicken");
-  chickenClassification.setAttribute("id", "chickenSelection");
+    chickenClassification.setAttribute("name", "chicken");
+    chickenClassification.setAttribute("id", "chickenSelection");
   
-  var bbqChickenOpt = document.createElement("option");
-  bbqChickenOpt.setAttribute("value", "BBQ Chicken");
-  bbqChickenOpt.setAttribute("id", "bbqChickenOption");
-  bbqChickenOpt.innerHTML = "BBQ Chicken";
-  chickenClassification.appendChild(bbqChickenOpt);
+    var bbqChickenOpt = document.createElement("option");
+    bbqChickenOpt.setAttribute("value", "BBQ Chicken");
+    bbqChickenOpt.setAttribute("id", "bbqChickenOption");
+    bbqChickenOpt.innerHTML = "BBQ Chicken";
+    chickenClassification.appendChild(bbqChickenOpt);
   
-  var bakedChickenOpt = document.createElement("option");
-  bakedChickenOpt.setAttribute("value", "Baked Chicken");
-  bakedChickenOpt.setAttribute("id", "bakedChickenOption");
-  bakedChickenOpt.innerHTML = "Baked Chicken";
-  chickenClassification.appendChild(bakedChickenOpt);
+    var bakedChickenOpt = document.createElement("option");
+    bakedChickenOpt.setAttribute("value", "Baked Chicken");
+    bakedChickenOpt.setAttribute("id", "bakedChickenOption");
+    bakedChickenOpt.innerHTML = "Baked Chicken";
+    chickenClassification.appendChild(bakedChickenOpt);
   
-   var friedChickenOpt = document.createElement("option");
-  friedChickenOpt.setAttribute("value", "Fried Chicken");
-  friedChickenOpt.setAttribute("id", "friedChickenOption");
-  friedChickenOpt.innerHTML = "Fried Chicken";
-  chickenClassification.appendChild(friedChickenOpt);
+    var friedChickenOpt = document.createElement("option");
+    friedChickenOpt.setAttribute("value", "Fried Chicken");
+    friedChickenOpt.setAttribute("id", "friedChickenOption");
+    friedChickenOpt.innerHTML = "Fried Chicken";
+    chickenClassification.appendChild(friedChickenOpt);
   
-  chickenClassification.addEventListener("change", function(ev){
-      setMeatChoice(document.getElementById("chickenSelection").value);
-  });
+    chickenClassification.addEventListener("change", function(ev){
+        setMeatChoice(document.getElementById("chickenSelection").value);
+    });
   
-  chickenOpt.appendChild(chickenClassification);
+    chickenOpt.appendChild(chickenClassification);
 };
 
 var renderMeatSubmitButton = function(meatDiv){
-  var meatButton = document.createElement("button");
-  meatButton.setAttribute("id","meatSubmit");
+    var meatButton = document.createElement("button");
+    meatButton.setAttribute("id","meatSubmit");
     meatButton.innerHTML = "Register the Meat";
     meatButton.addEventListener("click", function(ev){
         meatSubmit();
@@ -404,7 +398,7 @@ var renderDessertOptions = function(){
 
 var renderDessertSubmitButton = function(dessDiv){
     var dessertButton = document.createElement("button");
-  dessertButton.setAttribute("id","dessertSubmit");
+    dessertButton.setAttribute("id","dessertSubmit");
     dessertButton.innerHTML = "Register the Dessert";
     dessertButton.addEventListener("click", function(ev){
         dessertSubmit();
@@ -414,7 +408,7 @@ var renderDessertSubmitButton = function(dessDiv){
 };
 
 var renderOtherFoodOptions = function(){
-var $otherFood = document.getElementById("otherOption");
+    var $otherFood = document.getElementById("otherOption");
     $otherFood.classList.add("optionSeperation");
     var otherDiv = document.createElement("div");
     otherDiv.classList.add("individual_block_first");
@@ -438,44 +432,43 @@ var $otherFood = document.getElementById("otherOption");
 };
 
 var renderOtherFoodCategory = function(otDv){
-   var otherFoodCategoryClassification = document.createElement("select");
-  otherFoodCategoryClassification.setAttribute("name", "otherCat");
-  otherFoodCategoryClassification.setAttribute("id", "otherCategorySelection");
+    var otherFoodCategoryClassification = document.createElement("select");
+    otherFoodCategoryClassification.setAttribute("name", "otherCat");
+    otherFoodCategoryClassification.setAttribute("id", "otherCategorySelection");
   
-   var defCat = document.createElement("option");
-  defCat.setAttribute("value", "Select Category");
-  defCat.setAttribute("id", "defCategory");
-  defCat.innerHTML = "Select Category";
-  otherFoodCategoryClassification.appendChild(defCat);
+    var defCat = document.createElement("option");
+    defCat.setAttribute("value", "Select Category");
+    defCat.setAttribute("id", "defCategory");
+    defCat.innerHTML = "Select Category";
+    otherFoodCategoryClassification.appendChild(defCat);
   
-  var saladCat = document.createElement("option");
-  saladCat.setAttribute("value", "Salad");
-  saladCat.setAttribute("id", "saladCategory");
-  saladCat.innerHTML = "Salad";
-  otherFoodCategoryClassification.appendChild(saladCat);
+    var saladCat = document.createElement("option");
+    saladCat.setAttribute("value", "Salad");
+    saladCat.setAttribute("id", "saladCategory");
+    saladCat.innerHTML = "Salad";
+    otherFoodCategoryClassification.appendChild(saladCat);
   
-  var sideDishCat = document.createElement("option");
-  sideDishCat.setAttribute("value", "Side Dish");
-  sideDishCat.setAttribute("id", "sideDishCategory");
-  sideDishCat.innerHTML = "Side Dish";
-  otherFoodCategoryClassification.appendChild(sideDishCat);
+    var sideDishCat = document.createElement("option");
+    sideDishCat.setAttribute("value", "Side Dish");
+    sideDishCat.setAttribute("id", "sideDishCategory");
+    sideDishCat.innerHTML = "Side Dish";
+    otherFoodCategoryClassification.appendChild(sideDishCat);
   
-  var meatCat = document.createElement("option");
-  meatCat.setAttribute("value", "Meat");
-  meatCat.setAttribute("id", "meatCategory");
-  meatCat.innerHTML = "Meat";
-  otherFoodCategoryClassification.appendChild(meatCat);
+    var meatCat = document.createElement("option");
+    meatCat.setAttribute("value", "Meat");
+    meatCat.setAttribute("id", "meatCategory");
+    meatCat.innerHTML = "Meat";
+    otherFoodCategoryClassification.appendChild(meatCat);
   
     otherFoodCategoryClassification.addEventListener("change", function(ev){
-      setOtherFoodCat(document.getElementById("otherCategorySelection").value);
-      console.log(otherFoodCat);
-  });
+        setOtherFoodCat(document.getElementById("otherCategorySelection").value);
+    });
     otDv.appendChild(otherFoodCategoryClassification);
 };
 
 var renderOtherFoodSubmitButton = function(otherDiv){
     var otherButton = document.createElement("button");
-  otherButton.setAttribute("id","otherSubmit");
+    otherButton.setAttribute("id","otherSubmit");
     otherButton.innerHTML = "Register this Food Item";
     otherButton.addEventListener("click", function(ev){
         otherFoodSubmit();
@@ -485,10 +478,10 @@ var renderOtherFoodSubmitButton = function(otherDiv){
 };
 
 var renderFoodHead = function(){
-  var fdHd = document.getElementById("foodBroughtHead");
-  var fdHdTxt = document.createElement("h3");
-  fdHdTxt.innerHTML = "The List of Foods selected by your Family.";
-  fdHd.appendChild(fdHdTxt);
+    var fdHd = document.getElementById("foodBroughtHead");
+    var fdHdTxt = document.createElement("h3");
+    fdHdTxt.innerHTML = "The List of Foods selected by your Family.";
+    fdHd.appendChild(fdHdTxt);
 };
 
 var editFoodItem = function(afdDiv, afdName, afdCat, afoodKey){
@@ -496,14 +489,14 @@ var editFoodItem = function(afdDiv, afdName, afdCat, afoodKey){
     var $fddiv = document.getElementById(afdDiv);
     $fddiv.innerHTML = "";
     var $fdnameInput = document.createElement("input");
-  $fdnameInput.setAttribute("type", "text");
-  $fdnameInput.setAttribute("id", "foodNameText");
-  $fdnameInput.setAttribute("value", afdName);
-  $fdnameInput.innerHTML = afdName;
-  $fdnameInput.addEventListener("blur", function(ev){
-         newName = document.getElementById("foodNameText").value;
+    $fdnameInput.setAttribute("type", "text");
+    $fdnameInput.setAttribute("id", "foodNameText");
+    $fdnameInput.setAttribute("value", afdName);
+    $fdnameInput.innerHTML = afdName;
+    $fdnameInput.addEventListener("blur", function(ev){
+        newName = document.getElementById("foodNameText").value;
     });
- $fddiv.appendChild($fdnameInput);
+    $fddiv.appendChild($fdnameInput);
     
     var $foodUpdateButton = document.createElement("button");
     $foodUpdateButton.setAttribute("type","button");
@@ -511,13 +504,12 @@ var editFoodItem = function(afdDiv, afdName, afdCat, afoodKey){
     $foodUpdateButton.setAttribute("id",foodUpdateName);
     $foodUpdateButton.innerHTML ="Update";
     $foodUpdateButton.addEventListener("click", function(ev){
-        foodDB.child(afoodKey).update({food: newName
-                    } );
+        foodDB.child(afoodKey).update({food: newName});
         getFood();
     });
     $fddiv.appendChild($foodUpdateButton);
     
-     var $foodCancelButton = document.createElement("button");
+    var $foodCancelButton = document.createElement("button");
     $foodCancelButton.setAttribute("type","button");
     $foodCancelButton.setAttribute("id","cancel");
     $foodCancelButton.innerHTML ="Cancel";
@@ -566,75 +558,74 @@ var renderFood = function(fdName, fdCat, fdKey){
 
 var renderCatChange = function(afoodDiv,attachDiv, foodCateg,indFoodKey){
     var newCat = "";
-   var $indCatDiv = document.createElement("div");
-     var divNameCat = afoodDiv.concat("Category");
+    var $indCatDiv = document.createElement("div");
+    var divNameCat = afoodDiv.concat("Category");
     $indCatDiv.classList.add('individual_block');
     $indCatDiv.setAttribute("id",divNameCat);
     
     var $catClassification = document.createElement("select");
-  $catClassification.setAttribute("name", "categ");
-  var foodCatSelect = afoodDiv.concat("Select");
-  $catClassification.setAttribute("id", foodCatSelect);
+    $catClassification.setAttribute("name", "categ");
+    var foodCatSelect = afoodDiv.concat("Select");
+    $catClassification.setAttribute("id", foodCatSelect);
   
-        var $saladClassification = document.createElement("option");
-  $saladClassification.setAttribute("value", "Salad");
-  $saladClassification.setAttribute("id", "newSalad");
-  $saladClassification.innerHTML = "Salad";
-      if(foodCateg == "Salad"){
-          $saladClassification.setAttribute("selected",true);
-      }
-      $catClassification.appendChild($saladClassification);
+    var $saladClassification = document.createElement("option");
+    $saladClassification.setAttribute("value", "Salad");
+    $saladClassification.setAttribute("id", "newSalad");
+    $saladClassification.innerHTML = "Salad";
+    if(foodCateg == "Salad"){
+        $saladClassification.setAttribute("selected",true);
+    }
+    $catClassification.appendChild($saladClassification);
       
-        var $sideDishClassification = document.createElement("option");
-  $sideDishClassification.setAttribute("value", "Side Dish");
-  $sideDishClassification.setAttribute("id", "newSideDish");
-  $sideDishClassification.innerHTML = "Side Dish";
-      if(foodCateg == "Side Dish"){
-          $sideDishClassification.setAttribute("selected",true);
-      }
-      $catClassification.appendChild($sideDishClassification);
+    var $sideDishClassification = document.createElement("option");
+    $sideDishClassification.setAttribute("value", "Side Dish");
+    $sideDishClassification.setAttribute("id", "newSideDish");
+    $sideDishClassification.innerHTML = "Side Dish";
+    if(foodCateg == "Side Dish"){
+        $sideDishClassification.setAttribute("selected",true);
+    }
+    $catClassification.appendChild($sideDishClassification);
       
     var $meatClassification = document.createElement("option");
-$meatClassification.setAttribute("value", "Meat");
-$meatClassification.setAttribute("id", "newmeat");
-  $meatClassification.innerHTML = "Meat";
-     if(foodCateg == "Meat"){
-          $meatClassification.setAttribute("selected",true);
-      }
-      $catClassification.appendChild($meatClassification);
+    $meatClassification.setAttribute("value", "Meat");
+    $meatClassification.setAttribute("id", "newmeat");
+    $meatClassification.innerHTML = "Meat";
+    if(foodCateg == "Meat"){
+        $meatClassification.setAttribute("selected",true);
+    }
+    $catClassification.appendChild($meatClassification);
       
-  var $dessertClassification = document.createElement("option");
-  $dessertClassification.setAttribute("value", "Dessert");
-  $dessertClassification.setAttribute("id", "newDessert");
-  $dessertClassification.innerHTML = "Dessert";
-     if(foodCateg == "Dessert"){
-          $dessertClassification.setAttribute("selected",true);
-      }
-      $catClassification.appendChild($dessertClassification);
+    var $dessertClassification = document.createElement("option");
+    $dessertClassification.setAttribute("value", "Dessert");
+    $dessertClassification.setAttribute("id", "newDessert");
+    $dessertClassification.innerHTML = "Dessert";
+    if(foodCateg == "Dessert"){
+        $dessertClassification.setAttribute("selected",true);
+    }
+    $catClassification.appendChild($dessertClassification);
       
-      $catClassification.addEventListener("change",function(ev){
-         newCat =  document.getElementById(foodCatSelect).value;
-         foodDB.child(indFoodKey).update({category: newCat
-                    } );
-         getFood();
-      });
-   $indCatDiv.appendChild($catClassification);
-   attachDiv.appendChild($indCatDiv);
+    $catClassification.addEventListener("change",function(ev){
+        newCat =  document.getElementById(foodCatSelect).value;
+        foodDB.child(indFoodKey).update({category: newCat});
+        getFood();
+    });
+    $indCatDiv.appendChild($catClassification);
+    attachDiv.appendChild($indCatDiv);
 };
 
 var renderFoodNavButtons = function(){
     var $fdnav = document.getElementById("foodNav");
-  var $foodNavDiv = document.createElement("div");
-  var $rtnHomeButton = document.createElement("button");
-  $rtnHomeButton.setAttribute("type", "button");
-  $rtnHomeButton.setAttribute("id", "memberHomeRtn");
-  $rtnHomeButton.innerHTML = "Return to User Home Screen";
-  $rtnHomeButton.addEventListener("click", function(ev){
-    showLoginHomeScreen();
-  });
-  $foodNavDiv.appendChild($rtnHomeButton);
+    var $foodNavDiv = document.createElement("div");
+    var $rtnHomeButton = document.createElement("button");
+    $rtnHomeButton.setAttribute("type", "button");
+    $rtnHomeButton.setAttribute("id", "memberHomeRtn");
+    $rtnHomeButton.innerHTML = "Return to User Home Screen";
+    $rtnHomeButton.addEventListener("click", function(ev){
+        showLoginHomeScreen();
+    });
+    $foodNavDiv.appendChild($rtnHomeButton);
   
-  $fdnav.appendChild($foodNavDiv);
+    $fdnav.appendChild($foodNavDiv);
 };
 
 var memFoodStart = function(){

@@ -14,17 +14,17 @@ var accDB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 
 var getAdminis = function(){
     admAct = localStorage.getItem("admin");
-     if(admAct == null){
-      showAdminLoginScreen();
-     }
+    if(admAct == null){
+        showAdminLoginScreen();
+    }
 };
 
 var setShirtPaid = function(shirt){
-  shrtPd = shirt;  
+    shrtPd = shirt;  
 };
 
 var updateShirtPaid = function(shtValue){
-  shrtPd += shtValue;  
+    shrtPd += shtValue;  
 };
 
 var setShirtDue = function(shtDue){
@@ -32,7 +32,7 @@ var setShirtDue = function(shtDue){
 };
 
 var setRegPaid = function(reg){
-  regPd = reg;  
+    regPd = reg;  
 };
 
 var setRegDue = function(regDe){
@@ -40,11 +40,11 @@ var setRegDue = function(regDe){
 };
 
 var updateRegPaid = function(regValue){
-  regPd +=regValue;  
+    regPd +=regValue;  
 };
 
 var setUserFirst = function(newFirst){
-  userFirst = newFirst;  
+    userFirst = newFirst;  
 };
 
 var setUserLast = function(newLast){
@@ -52,167 +52,161 @@ var setUserLast = function(newLast){
 };
 
 var setUserAccount = function(usAct){
-  useAcct = usAct;  
+    useAcct = usAct;  
 };
 
 var resetAll = function(){
-  shrtPd =0;
-  shrtDue = 0;
-  regPd =0;
-  regD = 0;
-  regPayment =0;
-  shirtPayment = 0;
-  userFirst = "";
-  userLast = "";
-  useAcct = "";
-  accountList = [];
+    shrtPd =0;
+    shrtDue = 0;
+    regPd =0;
+    regD = 0;
+    regPayment =0;
+    shirtPayment = 0;
+    userFirst = "";
+    userLast = "";
+    useAcct = "";
+    accountList = [];
     renderReset();
     renderUserPaySearch();
 };
 
 var getFirstNames = function(){
-  accDB.orderByChild("firstname").equalTo(userFirst).on("value", function(snapshot){
-      snapshot.forEach(function(childSnapshot){
-          var acctKy = childSnapshot.val().userName;
-          var index_of_uFirstNm = accountList.indexOf(acctKy);
-          console.log(index_of_uFirstNm);
-          if(index_of_uFirstNm == -1)
-            accountList.push(acctKy);
-      });
-  });
+    accDB.orderByChild("firstname").equalTo(userFirst).on("value", function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            var acctKy = childSnapshot.val().userName;
+            var index_of_uFirstNm = accountList.indexOf(acctKy);
+            if(index_of_uFirstNm == -1)
+                accountList.push(acctKy);
+        });
+    });
 };
 
 var getLastNames = function(){
-  accDB.orderByChild("lastname").equalTo(userLast).on("value", function(snapshot){
-      snapshot.forEach(function(childSnapshot){
-          var accoutKy = childSnapshot.val().userName;
-          var index_of_uLastNm = accountList.indexOf(accoutKy);
-          console.log(index_of_uLastNm);
-          if(index_of_uLastNm == -1)
-            accountList.push(accoutKy);
-      });
-  });
+    accDB.orderByChild("lastname").equalTo(userLast).on("value", function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            var accoutKy = childSnapshot.val().userName;
+            var index_of_uLastNm = accountList.indexOf(accoutKy);
+            if(index_of_uLastNm == -1)
+                accountList.push(accoutKy);
+        });
+    });
 };
 
 var removeChangedValue = function(nameCat, oldUser){
-  accDB.orderByChild(nameCat).equalTo(oldUser).on("value", function(snapshot){
-      snapshot.forEach(function(childSnapshot){
-          var acctKy = childSnapshot.val().userName;
-          var index_of_userNm = accountList.indexOf(acctKy);
-          console.log(index_of_userNm);
-          if(index_of_userNm > -1)
-            accountList.splice(index_of_userNm,1);
-      });
-  });
+    accDB.orderByChild(nameCat).equalTo(oldUser).on("value", function(snapshot){
+        snapshot.forEach(function(childSnapshot){
+            var acctKy = childSnapshot.val().userName;
+            var index_of_userNm = accountList.indexOf(acctKy);
+            if(index_of_userNm > -1)
+                accountList.splice(index_of_userNm,1);
+        });
+    });
 };
 
 var setNewDues = function(key){
-  var newReg = +document.getElementById("payReg").value;
-  var newShirt = +document.getElementById("payShirt").value;
-  updateRegPaid(newReg);
-  updateShirtPaid(newShirt);
-  feeDB.child(key).update({regPaid: +regPd,
-                            shirtPaid: +shrtPd
-  });
+    var newReg = +document.getElementById("payReg").value;
+    var newShirt = +document.getElementById("payShirt").value;
+    updateRegPaid(newReg);
+    updateShirtPaid(newShirt);
+    feeDB.child(key).update({regPaid: +regPd,
+                            shirtPaid: +shrtPd});
 };
 
 var getResults = function(){
-    
     var dv = document.getElementById("userPayRetrieve");
     while (dv.firstChild)
         dv.removeChild(dv.firstChild);
-    
-  accountList.forEach(function (userN){
-     accDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-           var fNm = childSnapshot.val().firstname;
-           var lNm = childSnapshot.val().lastname;
-           renderIndResult(fNm, lNm, userN);
-        }); 
-     });
-  });
+    accountList.forEach(function (userN){
+        accDB.orderByChild("userName").equalTo(userN).on("value", function(snapshot){
+            snapshot.forEach(function(childSnapshot){
+                var fNm = childSnapshot.val().firstname;
+                var lNm = childSnapshot.val().lastname;
+                renderIndResult(fNm, lNm, userN);
+            }); 
+        });
+    });
 };
 
 var getFees = function(){
-  feeDB.orderByChild("userName").equalTo(useAcct).on("value", function(snapshot){
-      snapshot.forEach(function (childSnapshot){
-         var shrt = childSnapshot.val().shirtPaid;
-         var reg = childSnapshot.val().regPaid;
-         var regD = childSnapshot.val().regDue;
-         var shrDue = childSnapshot.val().shirtDue;
-         var key = childSnapshot.key();
+    feeDB.orderByChild("userName").equalTo(useAcct).on("value", function(snapshot){
+        snapshot.forEach(function (childSnapshot){
+            var shrt = childSnapshot.val().shirtPaid;
+            var reg = childSnapshot.val().regPaid;
+            var regD = childSnapshot.val().regDue;
+            var shrDue = childSnapshot.val().shirtDue;
+            var key = childSnapshot.key();
          
-         setRegPaid(reg);
-         setShirtPaid(shrt);
-         setRegDue(regD);
-         setShirtDue(shrDue);
-         renderUserCurrentPaid();
-         renderPayUpdate();
-         renderPayUpdateButton(key);
-      });
-  });
+            setRegPaid(reg);
+            setShirtPaid(shrt);
+            setRegDue(regD);
+            setShirtDue(shrDue);
+            renderUserCurrentPaid();
+            renderPayUpdate();
+            renderPayUpdateButton(key);
+        });
+    });
 };
 
 // RENDERING THE SCREEN (VIEW)
 var renderPayHeader = function(){
- var div = document.getElementById("payHeader");
- var regTitle = document.createElement("h1");
- regTitle.innerHTML = "Update a Member's Payment Record";
- div.appendChild(regTitle);
+    var div = document.getElementById("payHeader");
+    var regTitle = document.createElement("h1");
+    regTitle.innerHTML = "Update a Member's Payment Record";
+    div.appendChild(regTitle);
 };
 
 var renderUserPaySearch = function(){
-  renderUserFirstSearch();
-  renderUserLastSearch();
-  renderSearchButton();
+    renderUserFirstSearch();
+    renderUserLastSearch();
+    renderSearchButton();
 };
 
 var renderUserFirstSearch = function(){
-  var orDiv = document.getElementById("userPaySearch");
+    var orDiv = document.getElementById("userPaySearch");
   
-  var dv = document.createElement("div");
-  dv.classList.add("individual_block_first");
+    var dv = document.createElement("div");
+    dv.classList.add("individual_block_first");
   
-  var fNamLbl = document.createElement("label");
-  fNamLbl.setAttribute("for", "payFName");
-  fNamLbl.innerHTML = "First Name: ";
-  dv.appendChild(fNamLbl);
+    var fNamLbl = document.createElement("label");
+    fNamLbl.setAttribute("for", "payFName");
+    fNamLbl.innerHTML = "First Name: ";
+    dv.appendChild(fNamLbl);
   
-  var fNamIpt = document.createElement("input");
-  fNamIpt.setAttribute("type", "text");
-  fNamIpt.setAttribute("id", "payFName");
-  fNamIpt.addEventListener("blur", function(ev){
-    removeChangedValue("firstname", userFirst);
-      setUserFirst(document.getElementById("payFName").value);
-      getFirstNames();
-      getLastNames();
-  });
-  dv.appendChild(fNamIpt);
-  orDiv.appendChild(dv);
+    var fNamIpt = document.createElement("input");
+    fNamIpt.setAttribute("type", "text");
+    fNamIpt.setAttribute("id", "payFName");
+    fNamIpt.addEventListener("blur", function(ev){
+        removeChangedValue("firstname", userFirst);
+        setUserFirst(document.getElementById("payFName").value);
+        getFirstNames();
+        getLastNames();
+    });
+    dv.appendChild(fNamIpt);
+    orDiv.appendChild(dv);
 };
 
 var renderUserLastSearch = function(){
     var oDiv = document.getElementById("userPaySearch");
   
-  var ldv = document.createElement("div");
-  ldv.classList.add("individual_block");
+    var ldv = document.createElement("div");
+    ldv.classList.add("individual_block");
   
-  var lNamLbl = document.createElement("label");
-  lNamLbl.setAttribute("for", "payLName");
-  lNamLbl.innerHTML = "Last Name: ";
-  ldv.appendChild(lNamLbl);
+    var lNamLbl = document.createElement("label");
+    lNamLbl.setAttribute("for", "payLName");
+    lNamLbl.innerHTML = "Last Name: ";
+    ldv.appendChild(lNamLbl);
   
-  var lNamIpt = document.createElement("input");
-  lNamIpt.setAttribute("type", "text");
-  lNamIpt.setAttribute("id", "payLName");
-  lNamIpt.addEventListener("blur", function(ev){
-      removeChangedValue("lastname",userLast);
-      setUserLast(document.getElementById("payLName").value);
-      getLastNames();
-      getFirstNames();
-  });
-  ldv.appendChild(lNamIpt);
-  oDiv.appendChild(ldv);
+    var lNamIpt = document.createElement("input");
+    lNamIpt.setAttribute("type", "text");
+    lNamIpt.setAttribute("id", "payLName");
+    lNamIpt.addEventListener("blur", function(ev){
+        removeChangedValue("lastname",userLast);
+        setUserLast(document.getElementById("payLName").value);
+        getLastNames();
+        getFirstNames();
+    });
+    ldv.appendChild(lNamIpt);
+    oDiv.appendChild(ldv);
 };
 
 var renderSearchButton = function(){
@@ -259,16 +253,16 @@ var renderIndResult = function(frstNm, lstNm, usr){
 };
 
 var renderReset = function(){
-  var sea = document.getElementById("userPaySearch");
-   while(sea.firstChild)
+    var sea = document.getElementById("userPaySearch");
+    while(sea.firstChild)
         sea.removeChild(sea.firstChild);
     
-  var res = document.getElementById("userPayRetrieve");
-   while(res.firstChild)
+    var res = document.getElementById("userPayRetrieve");
+    while(res.firstChild)
         res.removeChild(res.firstChild);
   
-  var pay = document.getElementById("currPayment");
-  while(pay.firstChild)
+    var pay = document.getElementById("currPayment");
+    while(pay.firstChild)
         pay.removeChild(pay.firstChild);
     
     var payIpt = document.getElementById("userPayUpdate");
@@ -278,12 +272,12 @@ var renderReset = function(){
 
 var searchReset = function(){
     var pay = document.getElementById("currPayment");
-        while(pay.firstChild)
-            pay.removeChild(pay.firstChild);
+    while(pay.firstChild)
+        pay.removeChild(pay.firstChild);
     
     var payIpt = document.getElementById("userPayUpdate");
-        while(payIpt.firstChild)
-            payIpt.removeChild(payIpt.firstChild);
+    while(payIpt.firstChild)
+        payIpt.removeChild(payIpt.firstChild);
 };
 
 var renderUserCurrentPaid = function(){
@@ -299,7 +293,6 @@ var renderUserCurrentPaid = function(){
 
 var renderUserRegPayment = function(){
     var sourc = document.getElementById("currPayment");
-    // sourc.classList.add("curr_pay_info");
     
     var regDv = document.createElement("div");
     regDv.classList.add("individual_block_first");
@@ -364,55 +357,55 @@ var renderUserShirtDue = function(){
 
 var renderPayUpdate = function(){
     var pDv = document.getElementById("userPayUpdate");
-     while(pDv.firstChild)
+    while(pDv.firstChild)
         pDv.removeChild(pDv.firstChild);
         
-  renderRegPayUpdate();
-  renderShtPayUpdate();
+    renderRegPayUpdate();
+    renderShtPayUpdate();
 };
 
 var renderRegPayUpdate = function(){
     var oDiv = document.getElementById("userPayUpdate");
   
-  var rPDv = document.createElement("div");
-  rPDv.classList.add("individual_block");
+    var rPDv = document.createElement("div");
+    rPDv.classList.add("individual_block");
   
-  var regNamLbl = document.createElement("label");
-  regNamLbl.setAttribute("for", "payReg");
-  regNamLbl.innerHTML = "Registration Payment: ";
-  rPDv.appendChild(regNamLbl);
+    var regNamLbl = document.createElement("label");
+    regNamLbl.setAttribute("for", "payReg");
+    regNamLbl.innerHTML = "Registration Payment: ";
+    rPDv.appendChild(regNamLbl);
   
-  var regNamIpt = document.createElement("input");
-  regNamIpt.setAttribute("type", "text");
-  regNamIpt.setAttribute("id", "payReg");
-  regNamIpt.setAttribute("value",0);
-  regNamIpt.addEventListener("blur", function(ev){
-      regPayment = document.getElementById("payReg").value;
-  });
-  rPDv.appendChild(regNamIpt);
-  oDiv.appendChild(rPDv);
+    var regNamIpt = document.createElement("input");
+    regNamIpt.setAttribute("type", "text");
+    regNamIpt.setAttribute("id", "payReg");
+    regNamIpt.setAttribute("value",0);
+    regNamIpt.addEventListener("blur", function(ev){
+        regPayment = document.getElementById("payReg").value;
+    });
+    rPDv.appendChild(regNamIpt);
+    oDiv.appendChild(rPDv);
 };
 
 var renderShtPayUpdate = function(){
     var oDiv = document.getElementById("userPayUpdate");
   
-  var sPDv = document.createElement("div");
-  sPDv.classList.add("individual_block");
+    var sPDv = document.createElement("div");
+    sPDv.classList.add("individual_block");
   
-  var shrtNamLbl = document.createElement("label");
-  shrtNamLbl.setAttribute("for", "payShirt");
-  shrtNamLbl.innerHTML = "Shirt Payment: ";
-  sPDv.appendChild(shrtNamLbl);
+    var shrtNamLbl = document.createElement("label");
+    shrtNamLbl.setAttribute("for", "payShirt");
+    shrtNamLbl.innerHTML = "Shirt Payment: ";
+    sPDv.appendChild(shrtNamLbl);
   
-  var shrtNamIpt = document.createElement("input");
-  shrtNamIpt.setAttribute("type", "text");
-  shrtNamIpt.setAttribute("id", "payShirt");
-  shrtNamIpt.setAttribute("value", 0);
-  shrtNamIpt.addEventListener("blur", function(ev){
-      shirtPayment = document.getElementById("payShirt").value;
-  });
-  sPDv.appendChild(shrtNamIpt);
-  oDiv.appendChild(sPDv);
+    var shrtNamIpt = document.createElement("input");
+    shrtNamIpt.setAttribute("type", "text");
+    shrtNamIpt.setAttribute("id", "payShirt");
+    shrtNamIpt.setAttribute("value", 0);
+    shrtNamIpt.addEventListener("blur", function(ev){
+        shirtPayment = document.getElementById("payShirt").value;
+    });
+    sPDv.appendChild(shrtNamIpt);
+    oDiv.appendChild(sPDv);
 };
 
 var renderPayUpdateButton = function(key){
