@@ -292,7 +292,7 @@ var getPersonFoodList = function(){
     origiDv.appendChild(sourcDv);
 };
 
-var renderPersonInfo = function(fn,ln, ad, cy, sa, zi, em, ph){
+var renderPersonInfo = function(fn,ln, ad, cy, sa, zi, ph, em){
     var div = document.getElementById("personView");
     var personInfoDiv = document.createElement("div");
     
