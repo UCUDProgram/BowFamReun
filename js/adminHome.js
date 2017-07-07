@@ -41,6 +41,22 @@ var renderAdminMembers = function(){
     });
     memDiv.appendChild(adminAttendeesListButton);
     
+     var adminCommitteeButton = document.createElement("button");
+    adminCommitteeButton.setAttribute("id","adminCommitteeButton");
+    adminCommitteeButton.innerHTML = "Committee Members";
+    adminCommitteeButton.addEventListener("click",function(ev){
+      showAdminCommitteeScreen();
+    });
+    memDiv.appendChild(adminCommitteeButton);
+    
+    var adminMailingListButton = document.createElement("button");
+    adminMailingListButton.setAttribute("id","adminMailingListButton");
+    adminMailingListButton.innerHTML = "Mailing List";
+    adminMailingListButton.addEventListener("click",function(ev){
+      showAdminMailingListScreen();
+    });
+    memDiv.appendChild(adminMailingListButton);
+    
     var adminAddNewMemberButton = document.createElement("button");
     adminAddNewMemberButton.setAttribute("id","adminAddNewMemberButton");
     adminAddNewMemberButton.innerHTML = "Add a New Member's Information";
@@ -136,6 +152,15 @@ var renderAdminReports = function(){
       showAdminShirtReportScreen();
     });
     rptDiv.appendChild(adminShirtReportButton);
+    
+    var adminAncestryRptButton = document.createElement("button");
+    adminAncestryRptButton.setAttribute("id","adminAncestryRptButton");
+    adminAncestryRptButton.innerHTML = "Ancestry Report Requests";
+    adminAncestryRptButton.addEventListener("click",function(ev){
+      showAdminAncestryRptScreen();
+    });
+    rptDiv.appendChild(adminAncestryRptButton);
+    
     admRpt.appendChild(rptDiv);
 };
 

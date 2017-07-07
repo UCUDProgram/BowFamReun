@@ -115,12 +115,73 @@ var pushReportOrder = function(){
                         pickup:pickupOnly});
 };
 
+var resetScreen = function(){
+    document.getElementById("yourFName").value = "";
+    document.getElementById("yourLName").value = "";
+    document.getElementById("rptSt").value = "";
+    document.getElementById("rptGen").value = "";
+    document.getElementById("mailN").value = "";
+    document.getElementById("mailA").value = "";
+    document.getElementById("mailC").value = "";
+    document.getElementById("mailS").value = "";
+    document.getElementById("mailZ").value = "";
+    document.getElementById("emailN").value = "";
+    document.getElementById("emailAdd").value = "";
+    mailOnly = false;
+    emailOnly = false;
+    pickupOnly = false;
+};
+
+var registerSubmission = function(){
+    resetScreen();
+    alert("Thank You for submitting an ancestry Report.");
+};
+
 // RENDERING THE SCREEN
 var renderReportHead = function(){
     var rptHd = document.getElementById("reportHeader");
     var rptTitle = document.createElement("h1");
     rptTitle.innerHTML = "Ancestry Report Request";
     rptHd.appendChild(rptTitle);
+};
+
+var renderExplanation = function(){
+    var expDv = document.getElementById("reportExplain");
+    reportExp(expDv);
+    nameExplain(expDv);
+    rptStartExplain(expDv);
+    rptGenExplain(expDv);
+    rptDeliveryExplain(expDv);
+};
+
+var reportExp = function(exDv){
+    var repEx = document.createElement("h2");
+    repEx.innerHTML = "This report gives an ancestry breakdown of a person going backward a specified number of generations.";
+    exDv.appendChild(repEx);
+};
+
+var nameExplain = function(expD){
+    var nmExp = document.createElement("h3");
+    nmExp.innerHTML = "Enter your First & Last name to indicate who is making a report Request";
+    expD.appendChild(nmExp);
+};
+
+var rptStartExplain = function(eD){
+    var startExp = document.createElement("h3");
+    startExp.innerHTML = "Indicate who you want to generate the report on, in the Person start report area.";
+    eD.appendChild(startExp);
+};
+
+var rptGenExplain = function(exDi){
+    var genExp = document.createElement("h3");
+    genExp.innerHTML = "Indicate, in the generations section, the number of generations (Between 1 & 12, inclusively) to create a report on";
+    exDi.appendChild(genExp);
+};
+
+var rptDeliveryExplain = function(expDi){
+    var delExp = document.createElement("h3");
+    delExp.innerHTML = "The report can be sent to you via email, mail or both";
+    expDi.appendChild(delExp);
 };
 
 var renderReportOrder = function(){
@@ -231,25 +292,24 @@ var renderReportOptions = function(){
 };
 
 var renderMailOption = function(rpOp){
-  var mailDv = document.createElement("div");
-  mailDv.classList.add("individual_block_first");
-  renderMailTitle(mailDv);
-  renderMailName(mailDv);
-  renderMailAddr(mailDv);
-  renderMailDest(mailDv);
-  rpOp.appendChild(mailDv);
+    var mailDv = document.createElement("div");
+    mailDv.classList.add("individual_block_first");
+    renderMailTitle(mailDv);
+    renderMailName(mailDv);
+    renderMailAddr(mailDv);
+    renderMailDest(mailDv);
+    rpOp.appendChild(mailDv);
 };
 
 var renderMailTitle = function(maD){
-  var mTitle = document.createElement("div");
-  mTitle.innerHTML = "Mail";
-  maD.appendChild(mTitle);
-    
+    var mTitle = document.createElement("h1");
+    mTitle.innerHTML = "Mailing Information";
+    maD.appendChild(mTitle);
 };
 
 var renderMailName = function(mD){
     var mailNamediv = document.createElement("div");
-    mailNamediv.classList.add("individual_block");
+    // mailNamediv.classList.add("individual_block");
   
     var mailnameLab = document.createElement("label");
     mailnameLab.setAttribute("for", "mailN");
@@ -269,7 +329,7 @@ var renderMailName = function(mD){
 
 var renderMailAddr = function(maDi){
     var mailAddrdiv = document.createElement("div");
-    mailAddrdiv.classList.add("individual_block");
+    // mailAddrdiv.classList.add("individual_block");
   
     var mailAddrLab = document.createElement("label");
     mailAddrLab.setAttribute("for", "mailA");
@@ -357,14 +417,22 @@ var renderDestZip = function(desDiv){
 
 var renderEmailOption = function(repOpt){
     var emalDv = document.createElement("div");
+    emalDv.classList.add("individual_block");
+    renderEmailTitle(emalDv);
     renderEmailName(emalDv);
     renderEmailAddr(emalDv);
     repOpt.appendChild(emalDv);
 };
 
+var renderEmailTitle = function(emaD){
+    var eTitle = document.createElement("h1");
+    eTitle.innerHTML = "E-Mail Information";
+    emaD.appendChild(eTitle);
+};
+
 var renderEmailName = function(emDv){
     var emailNamediv = document.createElement("div");
-    emailNamediv.classList.add("individual_block_first");
+    // emailNamediv.classList.add("individual_block_first");
   
     var emailNameLab = document.createElement("label");
     emailNameLab.setAttribute("for", "emailN");
@@ -384,7 +452,7 @@ var renderEmailName = function(emDv){
 
 var renderEmailAddr = function(emlDv){
     var emailAddrdiv = document.createElement("div");
-    emailAddrdiv.classList.add("individual_block");
+    // emailAddrdiv.classList.add("individual_block");
   
     var emailAddrLab = document.createElement("label");
     emailAddrLab.setAttribute("for", "emailAdd");
@@ -404,10 +472,11 @@ var renderEmailAddr = function(emlDv){
 
 var renderReportSelection = function(){
     var rptSel = document.getElementById("reportSelection");
+    rptSel.classList.add("buttonPad");
     renderMailOrderOption(rptSel);
     renderEmailOrderOption(rptSel);
     renderBothOrderOption(rptSel);
-    renderPickupOrderOption(rptSel);
+    // renderPickupOrderOption(rptSel);
 };
 
 var renderMailOrderOption = function(attmen){
@@ -420,6 +489,7 @@ var renderMailOrderOption = function(attmen){
     mailOrder.addEventListener("click", function(ev){
         mailOnlyReport();
         pushReportOrder();
+        registerSubmission();
     });
     mailDiv.appendChild(mailOrder);
     attmen.appendChild(mailDiv);
@@ -435,6 +505,7 @@ var renderEmailOrderOption = function(attament){
     emailOrder.addEventListener("click", function(ev){
         emailOnlyReport();
         pushReportOrder();
+        registerSubmission();
     });
     emailDiv.appendChild(emailOrder);
     attament.appendChild(emailDiv);
@@ -450,6 +521,7 @@ var renderBothOrderOption = function(am){
     bothOrder.addEventListener("click", function(ev){
         bothReport();
         pushReportOrder();
+        registerSubmission();
     });
     bothDv.appendChild(bothOrder);
     am.appendChild(bothDv);
@@ -465,6 +537,7 @@ var renderPickupOrderOption = function(attmnt){
     pickupOrder.addEventListener("click", function(ev){
         pickupReport();
         pushReportOrder();
+        registerSubmission();
     });
     pupDv.appendChild(pickupOrder);
     attmnt.appendChild(pupDv);
@@ -472,9 +545,8 @@ var renderPickupOrderOption = function(attmnt){
 
 var ancestryRptStart = function(){
     renderReportHead();
-  
+    renderExplanation();
     renderReportOrder();
-    
     renderReportOptions();
     renderReportSelection();
 };

@@ -15,13 +15,13 @@ var getShirtOrderName = function(usNm, attach){
             var firstNam = childSnapshot.val().firstname;
             var lastNam = childSnapshot.val().lastname;
         
-            var fnamDiv = document.createElement("div");
-            fnamDiv.classList.add("individual_block_first");
+            var fnamDiv = document.createElement("td");
+            // fnamDiv.classList.add("individual_block_first");
             fnamDiv.innerHTML = firstNam;
             attach.appendChild(fnamDiv);
         
-            var lnamDiv = document.createElement("div");
-            lnamDiv.classList.add("individual_block");
+            var lnamDiv = document.createElement("td");
+            // lnamDiv.classList.add("individual_block");
             lnamDiv.innerHTML = lastNam;
             attach.appendChild(lnamDiv);
         });
@@ -32,8 +32,8 @@ var getShirtOrder = function (aUser, attach){
     var shtData = DB.child("TShirt");
     shtData.orderByChild("account").equalTo(aUser).once("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
-            var shtDv = document.createElement("div");
-            shtDv.classList.add("individual_block");
+            var shtDv = document.createElement("td");
+            // shtDv.classList.add("individual_block");
             var smSh = +childSnapshot.val().small; 
             var mdSh = +childSnapshot.val().medium;
             var lgSh = +childSnapshot.val().large;
@@ -83,8 +83,8 @@ var getShirtBalanceDue = function(usKy, attach){
     var balData = DB.child("Fees");
     balData.orderByChild("userName").equalTo(usKy).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
-            var shtBalDiv = document.createElement("div");
-            shtBalDiv.classList.add("individual_block");
+            var shtBalDiv = document.createElement("td");
+            // shtBalDiv.classList.add("individual_block");
             var shtDue = childSnapshot.val().shirtDue;
             var shtPd = childSnapshot.val().shirtPaid;
             var shtBal = +shtDue - +shtPd;
@@ -137,11 +137,14 @@ var renderReportHeader = function(){
 
 var renderOrder = function(usR){
     var div = document.getElementById("shirtReport");
-    var persShtDiv = document.createElement("div");
+    var persSht = document.createElement("table");
+    var persShtDiv = document.createElement("tr");
+    
     getShirtOrderName(usR,persShtDiv);
     getShirtOrder(usR, persShtDiv);
     getShirtBalanceDue(usR, persShtDiv);
-    div.appendChild(persShtDiv);
+    persSht.appendChild(persShtDiv);
+    div.appendChild(persSht);
 };
 
 var shirtReportStart = function(){

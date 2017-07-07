@@ -1,0 +1,42 @@
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
+
+#rafExemptBtn{
+    width:200px;
+    height:30px;
+    background-color:Red;
+    color:White;
+    border-radius: 15px;
+}
+
+#genNumButton{
+    width:400px;
+    height:50px;
+    font-size:20px;
+    color: White;
+    background-color: Green;
+}
+
+#prizeSubmit{
+    width:300px;
+    height:35px;
+    background-color: Red;
+    font-size:20px;
+    color:Black;
+}
+
+#prizeSubmission {
+    padding-top:2em;
+}
+
+#generateWinNum {
+    padding-top:1.25em;
+    padding-bottom:1.25em;
+}

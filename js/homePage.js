@@ -102,20 +102,30 @@ var renderNews = function(){
 var renderContact = function(){
     var conDiv = document.getElementById("contact");
     var contaDv = document.createElement("h2");
-    contaDv.innerHTML = "If you have any questions, you can contact us via email @ ";
+    contaDv.innerHTML = "If you have any questions, you can contact us via email @ nerprouc@gmail.com";
     conDiv.appendChild(contaDv);
   
-    var emlnk = document.createElement("a");
-    emlnk.setAttribute("href", "mailto:nerprouc@gmail.com");
-    emlnk.innerHTML = "nerprouc@gmail.com";
-    emlnk.style.fontSize = "28px";
-    conDiv.appendChild(emlnk);
+    // var emlnk = document.createElement("a");
+    // emlnk.setAttribute("href", "mailto:nerprouc@gmail.com");
+    // emlnk.innerHTML = "nerprouc@gmail.com";
+    // emlnk.style.fontSize = "28px";
+    // conDiv.appendChild(emlnk);
 };
 
 var renderHomeNavButtons = function(){
     var home = document.getElementById("navigation");
     var nav = document.createElement("div");
-    
+    renderEventCost(nav);
+    renderShirtInfo(nav);
+    renderMenuInfo(nav);
+    renderAncestryReport(nav);
+    renderMailingSignup(nav);
+    renderCommitteeSignup(nav);
+    renderRaffleInfo(nav);
+    home.appendChild(nav);
+};
+
+var renderEventCost = function(atD){
     var costDiv = document.createElement("div");
     costDiv.classList.add("individual_block_first");
     
@@ -127,8 +137,10 @@ var renderHomeNavButtons = function(){
         showCostScreen();
     });
     costDiv.appendChild(homeCostBut);
-    nav.appendChild(costDiv);
-    
+    atD.appendChild(costDiv);
+};
+
+var renderShirtInfo = function(ataD){
     var shirtDv = document.createElement("div");
     shirtDv.classList.add("individual_block");
     
@@ -140,8 +152,10 @@ var renderHomeNavButtons = function(){
         showTeeShirtGeneralScreen();
     });
     shirtDv.appendChild(homeGenTBut);
-    nav.appendChild(shirtDv);
-    
+    ataD.appendChild(shirtDv);
+};
+
+var renderMenuInfo = function(ataDi){
     var menuDiv = document.createElement("div");
     menuDiv.classList.add("individual_block");
     
@@ -153,9 +167,70 @@ var renderHomeNavButtons = function(){
         showCurrentMenuScreen();
     });
     menuDiv.appendChild(homeMenuBut);
-    nav.appendChild(menuDiv);
-    home.appendChild(nav);
+    ataDi.appendChild(menuDiv);
 };
+    
+var renderAncestryReport = function(atDi){    
+    var ancestDiv = document.createElement("div");
+    ancestDiv.classList.add("individual_block");
+    
+    var ancestRptBut = document.createElement("button");
+    ancestRptBut.setAttribute("type", "button");
+    ancestRptBut.setAttribute("id", "ancestRptBut");
+    ancestRptBut.innerHTML = "Ancestry <br />  Report <br /> Request";
+    ancestRptBut.addEventListener("click", function(ev){
+        showAncestryReportRequestScreen();
+    });
+    ancestDiv.appendChild(ancestRptBut);
+    atDi.appendChild(ancestDiv);
+};
+    
+var renderMailingSignup = function(attDiv){
+    var mailingListDiv = document.createElement("div");
+    mailingListDiv.classList.add("individual_block");
+    
+    var mailingListBut = document.createElement("button");
+    mailingListBut.setAttribute("type", "button");
+    mailingListBut.setAttribute("id", "mailingListBut");
+    mailingListBut.innerHTML = "Mailing List <br />  Signup";
+    mailingListBut.addEventListener("click", function(ev){
+        showMailingListScreen();
+    });
+    mailingListDiv.appendChild(mailingListBut);
+    attDiv.appendChild(mailingListDiv);
+};
+
+var renderCommitteeSignup = function(atDv){
+    var committeeDiv = document.createElement("div");
+    committeeDiv.classList.add("individual_block");
+    
+    var committeeBut = document.createElement("button");
+    committeeBut.setAttribute("type", "button");
+    committeeBut.setAttribute("id", "committeeBut");
+    committeeBut.innerHTML = "2018 Committee <br />  Signup";
+    committeeBut.addEventListener("click", function(ev){
+        showCommitteeScreen();
+    });
+    committeeDiv.appendChild(committeeBut);
+    atDv.appendChild(committeeDiv);
+};    
+
+var renderRaffleInfo = function(aDv){
+    var raffleDiv = document.createElement("div");
+    raffleDiv.classList.add("individual_block");
+    
+    var raffleBut = document.createElement("button");
+    raffleBut.setAttribute("type", "button");
+    raffleBut.setAttribute("id", "raffleBut");
+    raffleBut.innerHTML = "Raffle";
+    raffleBut.addEventListener("click", function(ev){
+        showRaffleScreen();
+    });
+    raffleDiv.appendChild(raffleBut);
+    aDv.appendChild(raffleDiv);
+};    
+    
+
 
 var homeStart = function(){
     clearStorage();

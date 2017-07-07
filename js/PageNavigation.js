@@ -35,6 +35,22 @@ var showAdminLoginScreen = function(){
   window.location.href = "adminLogin.html";
 };
 
+var showAncestryReportRequestScreen = function(){
+  window.location.href = "ancestryReportRequest.html";
+};
+
+var showMailingListScreen = function(){
+    window.location.href = "mailingList.html";
+};
+
+var showCommitteeScreen = function(){
+  window.location.href = "committee.html";
+};
+
+var showRaffleScreen = function(){
+  window.location.href = "raffle.html";
+};
+
 // These pages can be viewed only by Registered Users
 
 var showLoginHomeScreen = function(){
@@ -64,6 +80,14 @@ var showAdminContactsScreen = function(){
 
 var showAdminAttendeesScreen = function(){
   window.location.href = "adminAttendees.html";
+};
+
+var showAdminCommitteeScreen = function(){
+    window.location.href = "adminCommittee.html";
+};
+
+var showAdminMailingListScreen = function(){
+  window.location.href = "adminMailingList.html";
 };
 
 var showAdminAttendeesListScreen = function(){
@@ -96,4 +120,8 @@ var showAdminSearchScreen = function(){
 
 var showAdminAttendRptScreen = function(){
   window.location.href = "adminAttendeeRegistrationList.html";
+};
+
+var showAdminAncestryRptScreen = function(){
+    window.location.href = "adminAncestryReport.html";
 };

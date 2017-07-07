@@ -1,0 +1,22 @@
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
+
+.buttAlignment{
+    padding-top:2em;
+    padding-left:4em;
+}
+
+#committSubmit{
+    width:500px;
+    height: 50px;
+    background-color:Red;
+    color:Black;
+    font-size:22px;
+}

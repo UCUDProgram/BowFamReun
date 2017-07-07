@@ -6,15 +6,15 @@ var getAncestOrders = function(){
         snapshot.forEach(function(childSnapshot){
             var mailOrder = childSnapshot.val().mailPick;
             var emailOrder = childSnapshot.val().emailPick;
-            var pickOrder = childSnapshot.val().pickup;
+            // var pickOrder = childSnapshot.val().pickup;
             var orderKey = childSnapshot.key();
             console.log(mailOrder);
             if(mailOrder == true)
                 renderMailOrder(orderKey);
             if (emailOrder == true)
                 renderEmailOrder(orderKey);
-            if (pickOrder == true)
-                renderPickupOrder(orderKey);
+            // if (pickOrder == true)
+            //     renderPickupOrder(orderKey);
         });
     });
 };
@@ -30,7 +30,7 @@ var renderAncestReportHead = function(){
 var renderHeaders = function(){
     mailHeader();
     emailHeader();
-    pickupHeader();
+    // pickupHeader();
 };
 
 var mailHeader = function(){
@@ -47,12 +47,12 @@ var emailHeader = function(){
     emailHed.appendChild(emailTitle);
 };
 
-var pickupHeader = function(){
-    var pickupHed = document.getElementById("pickupOrders");
-    var pickupTitle = document.createElement("h1");
-    pickupTitle.innerHTML = "Pickup Orders";
-    pickupHed.appendChild(pickupTitle);
-};
+// var pickupHeader = function(){
+//     var pickupHed = document.getElementById("pickupOrders");
+//     var pickupTitle = document.createElement("h1");
+//     pickupTitle.innerHTML = "Pickup Orders";
+//     pickupHed.appendChild(pickupTitle);
+// };
 
 var renderMailOrder = function(ordrKy){
     var mailOrdr = DB.child("AncestryRpt");
@@ -78,6 +78,7 @@ var renderMail = function(mN,mA,mC, mS, mZ, rFN, rLN, rNm, rG){
     renderOrdHead(rFN, rLN, indMailOrder);
     renderRptInfo(rFN, rLN, rG, rNm, indMailOrder);
     var maiDv = document.createElement("div");
+    maiDv.classList.add("ordSpace");
     renderMailAddressHead(maiDv);
     renderMailName(mN, maiDv);
     renderMailAddress(mA, maiDv);
@@ -89,15 +90,15 @@ var renderMail = function(mN,mA,mC, mS, mZ, rFN, rLN, rNm, rG){
 
 var renderOrdHead = function(fi, la, mDv){
     var persOrdDv = document.createElement("div");
-    var fNaD = document.createElement("h2");
-    fNaD.classList.add("individual_block_first");
-    fNaD.innerHTML = fi;
-    persOrdDv.appendChild(fNaD);
+    var naD = document.createElement("h3");
+    // fNaD.classList.add("individual_block_first");
+    naD.innerHTML = fi + " " + la;
+    persOrdDv.appendChild(naD);
     
-    var lNaD = document.createElement("h2");
-    lNaD.classList.add("individual_block");
-    lNaD.innerHTML = la;
-    persOrdDv.appendChild(lNaD);
+    // var lNaD = document.createElement("h2");
+    // lNaD.classList.add("individual_block");
+    // lNaD.innerHTML = la;
+    // persOrdDv.appendChild(lNaD);
     
     mDv.appendChild(persOrdDv);
 };
@@ -106,26 +107,26 @@ var renderRptInfo = function(fir, las, geN,rptN, miDv){
     var rptDiv = document.createElement("div");
     
     var rptNa = document.createElement("div");
-    var rptFNm = document.createElement("div");
-    rptFNm.classList.add("individual_block_first");
-    rptFNm.innerHTML = fir;
-    rptNa.appendChild(rptFNm);
+    var rptNm = document.createElement("div");
+    rptNm.classList.add("individual_block_first");
+    rptNm.innerHTML = "Report Request: " + fir + " " + las;
+    rptNa.appendChild(rptNm);
     
-    var rptLNm = document.createElement("div");
-    rptLNm.classList.add("individual_block");
-    rptLNm.innerHTML = las;
-    rptNa.appendChild(rptLNm);
+    // var rptLNm = document.createElement("div");
+    // rptLNm.classList.add("individual_block");
+    // rptLNm.innerHTML = las;
+    // rptNa.appendChild(rptLNm);
     rptDiv.appendChild(rptNa);
     
     var rptOd = document.createElement("div");
     var rptO = document.createElement("div");
     rptO.classList.add("individual_block_first");
-    rptO.innerHTML = rptN;
+    rptO.innerHTML = "Report Start: " + rptN;
     rptOd.appendChild(rptO);
     
     var rptGn = document.createElement("div");
     rptGn.classList.add("individual_block");
-    rptGn.innerHTML = geN;
+    rptGn.innerHTML = "Generations: " + geN;
     rptOd.appendChild(rptGn);
     
     rptDiv.appendChild(rptOd);
@@ -189,44 +190,47 @@ var renderEmail = function(eN, eA, rF,rL, rN, rGe){
     var emailSource = document.getElementById("emailOrders");
     var indEmailOrder = document.createElement("div");
     renderOrdHead(rF, rL, indEmailOrder);
-    renderEmailN(eN, indEmailOrder);
-    renderEmailA(eA, indEmailOrder);
     renderRptInfo(rF,rL,rGe,rN,indEmailOrder);
+    var emailDv = document.createElement("div");
+    emailDv.classList.add("ordSpace");
+    renderEmailN(eN, emailDv);
+    renderEmailA(eA, emailDv);
+    indEmailOrder.appendChild(emailDv);
     emailSource.appendChild(indEmailOrder);
 };
 
 var renderEmailN = function(eNa,emD){
     var emDiv = document.createElement("div");
-    emDiv.innerHTML = eNa;
+    emDiv.innerHTML = "Email Name: " + eNa;
     emD.appendChild(emDiv);
 };
 
 var renderEmailA = function(eAdd, emDi){
     var emADv = document.createElement("div");
-    emADv.innerHTML = eAdd;
+    emADv.innerHTML = "Email Address: " + eAdd;
     emDi.appendChild(emADv);
 };
 
-var renderPickupOrder = function(ordrKey){
-    var pckupOrdr = DB.child("AncestryRpt");
-    pckupOrdr.orderByKey().equalTo(ordrKey).on("value",function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-            var rFNm = childSnapshot.val().firstName;
-            var rLNm = childSnapshot.val().lastName;
-            var rptNm = childSnapshot.val().rptName;
-            var rptGn = childSnapshot.val().rptGen;
-            renderPickup(rFNm,rLNm,rptNm, rptGn);
-        });
-    });
-};
+// var renderPickupOrder = function(ordrKey){
+//     var pckupOrdr = DB.child("AncestryRpt");
+//     pckupOrdr.orderByKey().equalTo(ordrKey).on("value",function(snapshot){
+//         snapshot.forEach(function(childSnapshot){
+//             var rFNm = childSnapshot.val().firstName;
+//             var rLNm = childSnapshot.val().lastName;
+//             var rptNm = childSnapshot.val().rptName;
+//             var rptGn = childSnapshot.val().rptGen;
+//             renderPickup(rFNm,rLNm,rptNm, rptGn);
+//         });
+//     });
+// };
 
-var renderPickup = function(rFa, rLa, rRN, rRG){
-     var pickupSource = document.getElementById("pickupOrders");
-    var indPickupOrder = document.createElement("div");
-    renderOrdHead(rFa, rLa, indPickupOrder);
-    renderRptInfo(rFa,rLa,rRG, rRN,indPickupOrder);
-    pickupSource.appendChild(indPickupOrder);
-};
+// var renderPickup = function(rFa, rLa, rRN, rRG){
+//      var pickupSource = document.getElementById("pickupOrders");
+//     var indPickupOrder = document.createElement("div");
+//     renderOrdHead(rFa, rLa, indPickupOrder);
+//     renderRptInfo(rFa,rLa,rRG, rRN,indPickupOrder);
+//     pickupSource.appendChild(indPickupOrder);
+// };
 
 var adminAncestryRptStart = function(){
     renderAncestReportHead();
