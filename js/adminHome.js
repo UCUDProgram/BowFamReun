@@ -8,12 +8,57 @@ var getAdministrator = function(){
 };
 
 // RENDERING THE SCREEN (VIEW)
+var renderAdminHomePage = function(){
+     renderAdminHeader();
+     renderAdminLogoutButton();
+     renderAdminContactInfo();
+     renderAdminMembers();
+     renderAdminTotals();
+     renderAdminReports();
+};
+
 var renderAdminHeader = function(){
     var div = document.getElementById("adminHeader");
     var adminHead = document.createElement("h1");
     adminHead.classList.add("individual_block_first");
     adminHead.innerHTML= "Welcome Administer " + adminUser;
     div.appendChild(adminHead);
+};
+
+var renderAdminContactInfo = function(){
+     var contMem = document.getElementById("adminContacts");
+  
+    var contHead = document.createElement("h1");
+    contHead.innerHTML = "Contact Information";
+    contMem.appendChild(contHead);
+  
+    var contDiv = document.createElement("div");
+
+     var adminContactButton = document.createElement("button");
+    adminContactButton.setAttribute("id","adminContactButton");
+    adminContactButton.innerHTML = "Contact Information";
+    adminContactButton.addEventListener("click",function(ev){
+      showAdminContactsScreen();
+    });
+    contDiv.appendChild(adminContactButton);
+    
+    var adminMailingListButton = document.createElement("button");
+    adminMailingListButton.setAttribute("id","adminMailingListButton");
+    adminMailingListButton.innerHTML = "Mailing List";
+    adminMailingListButton.addEventListener("click",function(ev){
+      showAdminMailingListScreen();
+    });
+    contDiv.appendChild(adminMailingListButton);
+    
+    var adminCommitteeButton = document.createElement("button");
+    adminCommitteeButton.setAttribute("id","adminCommitteeButton");
+    adminCommitteeButton.innerHTML = "Committee Members";
+    adminCommitteeButton.addEventListener("click",function(ev){
+      showAdminCommitteeScreen();
+    });
+    contDiv.appendChild(adminCommitteeButton);
+    
+    contMem.appendChild(contDiv);
 };
 
 var renderAdminMembers = function(){
@@ -25,14 +70,6 @@ var renderAdminMembers = function(){
   
     var memDiv = document.createElement("div");
   
-    var adminContactButton = document.createElement("button");
-    adminContactButton.setAttribute("id","adminContactButton");
-    adminContactButton.innerHTML = "Contact Information";
-    adminContactButton.addEventListener("click",function(ev){
-      showAdminContactsScreen();
-    });
-    memDiv.appendChild(adminContactButton);
-    
     var adminAttendeesListButton = document.createElement("button");
     adminAttendeesListButton.setAttribute("id","adminAttendeesListButton");
     adminAttendeesListButton.innerHTML = "Attendees List";
@@ -40,22 +77,6 @@ var renderAdminMembers = function(){
       showAdminAttendeesListScreen();
     });
     memDiv.appendChild(adminAttendeesListButton);
-    
-     var adminCommitteeButton = document.createElement("button");
-    adminCommitteeButton.setAttribute("id","adminCommitteeButton");
-    adminCommitteeButton.innerHTML = "Committee Members";
-    adminCommitteeButton.addEventListener("click",function(ev){
-      showAdminCommitteeScreen();
-    });
-    memDiv.appendChild(adminCommitteeButton);
-    
-    var adminMailingListButton = document.createElement("button");
-    adminMailingListButton.setAttribute("id","adminMailingListButton");
-    adminMailingListButton.innerHTML = "Mailing List";
-    adminMailingListButton.addEventListener("click",function(ev){
-      showAdminMailingListScreen();
-    });
-    memDiv.appendChild(adminMailingListButton);
     
     var adminAddNewMemberButton = document.createElement("button");
     adminAddNewMemberButton.setAttribute("id","adminAddNewMemberButton");
@@ -180,11 +201,7 @@ var renderAdminLogoutButton = function(){
 
 var adminHomeStart = function(){
     getAdministrator();
-    renderAdminHeader();
-    renderAdminLogoutButton();
-    renderAdminMembers();
-    renderAdminTotals();
-    renderAdminReports();
+    renderAdminHomePage();
 };
 
 document.addEventListener('DOMContentLoaded', adminHomeStart);
