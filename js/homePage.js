@@ -230,7 +230,20 @@ var renderRaffleInfo = function(aDv){
     aDv.appendChild(raffleDiv);
 };    
     
-
+var renderShirtRequestInfo = function(aDv){
+    var raffleDiv = document.createElement("div");
+    raffleDiv.classList.add("individual_block");
+    
+    var raffleBut = document.createElement("button");
+    raffleBut.setAttribute("type", "button");
+    raffleBut.setAttribute("id", "shirtOrdBut");
+    raffleBut.innerHTML = "Shirt Orders";
+    raffleBut.addEventListener("click", function(ev){
+        showShirtSignupScreen();
+    });
+    raffleDiv.appendChild(raffleBut);
+    aDv.appendChild(raffleDiv);
+};    
 
 var homeStart = function(){
     clearStorage();

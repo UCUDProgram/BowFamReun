@@ -51,6 +51,10 @@ var showRaffleScreen = function(){
   window.location.href = "raffle.html";
 };
 
+var showShirtSignupScreen = function(){
+  window.location.href = "shirtOrdering.html";
+};
+
 // These pages can be viewed only by Registered Users
 
 var showLoginHomeScreen = function(){
