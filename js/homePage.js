@@ -122,6 +122,7 @@ var renderHomeNavButtons = function(){
     renderMailingSignup(nav);
     renderCommitteeSignup(nav);
     renderRaffleInfo(nav);
+    renderShirtRequestInfo(nav);
     home.appendChild(nav);
 };
 
