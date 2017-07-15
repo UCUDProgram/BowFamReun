@@ -92,7 +92,8 @@ var pushNewShirtOrder = function(){
                            XLShirt: shirtXL,
                            XXLShirt:shirtXXL,
                            XXXLShirt:shirtXXXL,
-                           XXXXLShirt: shirtXXXXL
+                           XXXXLShirt: shirtXXXXL,
+                           moneyPaid:0
     });
 };
 
@@ -167,6 +168,10 @@ var renderOrderInfo = function(){
     var shrOrdBigCost = document.createElement("h3");
     shrOrdBigCost.innerHTML = "Triple & Quad Large Shirts will cost $20 per shirt.";
     shrOrdCost.appendChild(shrOrdBigCost);
+    
+    var shrOrdShipCost = document.createElement("h3");
+    shrOrdShipCost.innerHTML = "Shipping cost will be $5, must be added to the check.";
+    shrOrdCost.appendChild(shrOrdShipCost);
     souc.appendChild(shrOrdCost);
 };
 
