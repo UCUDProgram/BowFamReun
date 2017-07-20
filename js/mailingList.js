@@ -141,7 +141,7 @@ var renderMailLastName = function(maDv){
   
     var mailLnameLab = document.createElement("label");
     mailLnameLab.setAttribute("for", "lasName");
-    mailLnameLab.innerHTML = "First Name: ";
+    mailLnameLab.innerHTML = "Last Name: ";
     mailLNamediv.appendChild(mailLnameLab);
   
     var mailLnameIpt = document.createElement("input");

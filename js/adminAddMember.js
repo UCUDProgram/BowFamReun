@@ -12,42 +12,42 @@ var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
 var getAdminAcct = function(){
     adminAct = localStorage.getItem("admin");
-     if(adminAct == null){
-      showAdminLoginScreen();
-     }
+    if(adminAct == null){
+        showAdminLoginScreen();
+    }
 };
 
 var setOfflineUserName = function(){
     var firstNa= document.getElementById("offlineFName").value;
     var lastNa = document.getElementById("offlineLName").value;
     var name = firstNa.concat(lastNa);
-  newOfflineUserName = name;  
+    newOfflineUserName = name;  
 };
 
 var setShirtCost = function(shtCt){
-  shirtsCost = shtCt;  
+    shirtsCost = shtCt;  
 };
 
 var setRegCost = function(regCt){
-  registCost = regCt;  
+    registCost = regCt;  
 };
 
 var setOfflineRegCost = function(){
-  var chi = 0;
-  var adu = 0;
-  attendList.forEach(function(atten){
-     var atAge = atten[2];
-     if(atAge == "Child")
-        chi +=1;
-    if(atAge =="Adult")
-        adu +=1;
-  });
+    var chi = 0;
+    var adu = 0;
+    attendList.forEach(function(atten){
+        var atAge = atten[2];
+        if(atAge == "Child")
+            chi +=1;
+        if(atAge =="Adult")
+            adu +=1;
+    });
   
-  var chiTot = chi * childReg;
-  var aduTot = adu * adultReg;
+    var chiTot = chi * childReg;
+    var aduTot = adu * adultReg;
   
-  var regTot = chiTot + aduTot;
-  setRegCost(regTot);
+    var regTot = chiTot + aduTot;
+    setRegCost(regTot);
 };
 
 var setOfflineShirtCost = function(){
@@ -73,13 +73,13 @@ var setOfflineShirtCost = function(){
  
     var regShtTot = regShtCount * regShtCt;
     var lgShtTot = lgShtCount * lgShtCt;
-    var shtTot = regShtTot + lgShtTot;
+    var shtTot = +regShtTot + +lgShtTot;
     setShirtCost(shtTot);
 };
 
 var pushMemInfo = function(){
     var regData = DB.child("Accounts");
-  regData.push().set({firstname: document.getElementById("offlineFName").value,
+    regData.push().set({firstname: document.getElementById("offlineFName").value,
                         lastname: document.getElementById("offlineLName").value,
                         address: document.getElementById("offlineAddr").value,
                         city: document.getElementById("offlineCity").value,
@@ -101,7 +101,7 @@ var pushMemUserInfo = function(){
 
 var pushPaymentInfo = function(){
     var regData = DB.child("Fees");
-  regData.push().set({userName: newOfflineUserName,
+    regData.push().set({userName: newOfflineUserName,
                       regPaid:0,
                       regDue:registCost,
                       shirtPaid:0,
@@ -111,7 +111,7 @@ var pushPaymentInfo = function(){
 
 var pushShirtOrder = function(){
     var regData = DB.child("TShirt");
-  regData.push().set({account:newOfflineUserName, 
+    regData.push().set({account:newOfflineUserName, 
                       small: document.getElementById("smallOrd").value,
                       medium: document.getElementById("mediumOrd").value,
                       large: document.getElementById("largeOrd").value,
@@ -144,10 +144,10 @@ var pushFood = function(){
 };
 
 var updateAttendeeList = function(){
-  var newAttendee = [];
-  newAttendee.push(document.getElementById("attendFName").value);
-  newAttendee.push(document.getElementById("attendLName").value);
-  newAttendee.push(document.getElementById("ageSelection").value);
+    var newAttendee = [];
+    newAttendee.push(document.getElementById("attendFName").value);
+    newAttendee.push(document.getElementById("attendLName").value);
+    newAttendee.push(document.getElementById("ageSelection").value);
     attendList.push(newAttendee);
     renderAttendeeList();
 };
@@ -172,47 +172,47 @@ var resetFoodFields = function(){
 };
 
 var resetAllFields = function(){
-  document.getElementById("offlineFName").value = "";
-  document.getElementById("offlineLName").value = "";
-  document.getElementById("offlineAddr").value = "";
-  document.getElementById("offlineCity").value = "";
-  document.getElementById("offlineState").value = "";
-  document.getElementById("offlineZip").value = "";
-  document.getElementById("offlinePhone").value = "";
-  document.getElementById("offlineEmail").value = "";
-  document.getElementById("attendFName").value = "";
-  document.getElementById("attendLName").value = "";
-  document.getElementById("ageSelection").selectedIndex = 0;
-  document.getElementById("smallOrd").selectedIndex = 0;
-  document.getElementById("mediumOrd").selectedIndex = 0;
-  document.getElementById("largeOrd").selectedIndex = 0;
-  document.getElementById("xlargeOrd").selectedIndex = 0;
-  document.getElementById("doubXXLOrd").selectedIndex = 0;
-  document.getElementById("tripXLOrd").selectedIndex = 0;
-  document.getElementById("quadXLOrd").selectedIndex = 0;
-  document.getElementById("foodName").value = "";
-  document.getElementById("foodSelection").selectedIndex = 0;
-  foodList = [];
-  attendList = [];
-  registCost =0;
-  shirtsCost=0;
+    document.getElementById("offlineFName").value = "";
+    document.getElementById("offlineLName").value = "";
+    document.getElementById("offlineAddr").value = "";
+    document.getElementById("offlineCity").value = "";
+    document.getElementById("offlineState").value = "";
+    document.getElementById("offlineZip").value = "";
+    document.getElementById("offlinePhone").value = "";
+    document.getElementById("offlineEmail").value = "";
+    document.getElementById("attendFName").value = "";
+    document.getElementById("attendLName").value = "";
+    document.getElementById("ageSelection").selectedIndex = 0;
+    document.getElementById("smallOrd").selectedIndex = 0;
+    document.getElementById("mediumOrd").selectedIndex = 0;
+    document.getElementById("largeOrd").selectedIndex = 0;
+    document.getElementById("xlargeOrd").selectedIndex = 0;
+    document.getElementById("doubXXLOrd").selectedIndex = 0;
+    document.getElementById("tripXLOrd").selectedIndex = 0;
+    document.getElementById("quadXLOrd").selectedIndex = 0;
+    document.getElementById("foodName").value = "";
+    document.getElementById("foodSelection").selectedIndex = 0;
+    foodList = [];
+    attendList = [];
+    registCost =0;
+    shirtsCost=0;
 };
 
 // RENDERING THE SCREEN (VIEW)
 var renderMembHead = function(){
-  var $div = document.getElementById("addMemberHeader");
-  var head = document.createElement("h1");
-  head.innerHTML = "Register an offline Member";
-  $div.appendChild(head);
+    var $div = document.getElementById("addMemberHeader");
+    var head = document.createElement("h1");
+    head.innerHTML = "Register an offline Member";
+    $div.appendChild(head);
 };
 
 var renderMemberInfo = function(){
-  renderMemContact();
-  renderNewMembAttend();
-  renderAttendeeList();
-  renderMemShirts();
-  renderNewMemFood();
-  renderFoodList();
+    renderMemContact();
+    renderNewMembAttend();
+    renderAttendeeList();
+    renderMemShirts();
+    renderNewMemFood();
+    renderFoodList();
 };
 
 var renderMemContact = function(){
@@ -227,144 +227,144 @@ var renderMemContact = function(){
 };
 
 var renderMemConRow1 = function(aDiv){
-     var $row1div = document.createElement("div");
+    var $row1div = document.createElement("div");
     $row1div.classList.add("row_block");
     var fNamediv = document.createElement("div");
-  fNamediv.classList.add("individual_block_first");
+    fNamediv.classList.add("individual_block_first");
     
-     var fnameLab = document.createElement("label");
-  fnameLab.setAttribute("for", "fName");
-  fnameLab.innerHTML = "First Name: ";
-  fNamediv.appendChild(fnameLab);
+    var fnameLab = document.createElement("label");
+    fnameLab.setAttribute("for", "fName");
+    fnameLab.innerHTML = "First Name: ";
+    fNamediv.appendChild(fnameLab);
   
-  var fnameIpt = document.createElement("input");
-  fnameIpt.setAttribute("type", "text");
-  fnameIpt.setAttribute("id", "offlineFName");
+    var fnameIpt = document.createElement("input");
+    fnameIpt.setAttribute("type", "text");
+    fnameIpt.setAttribute("id", "offlineFName");
  
     fNamediv.appendChild(fnameIpt);
-   $row1div.appendChild(fNamediv);
+    $row1div.appendChild(fNamediv);
    
-   var lNamediv = document.createElement("div");
-  lNamediv.classList.add("individual_block");
+    var lNamediv = document.createElement("div");
+    lNamediv.classList.add("individual_block");
   
-  var lnameLab = document.createElement("label");
-  lnameLab.setAttribute("for", "lName");
-  lnameLab.innerHTML = "Last Name: ";
-  lNamediv.appendChild(lnameLab);
+    var lnameLab = document.createElement("label");
+    lnameLab.setAttribute("for", "lName");
+    lnameLab.innerHTML = "Last Name: ";
+    lNamediv.appendChild(lnameLab);
   
-  var lnameIpt = document.createElement("input");
-  lnameIpt.setAttribute("type", "text");
-  lnameIpt.setAttribute("id", "offlineLName");
+    var lnameIpt = document.createElement("input");
+    lnameIpt.setAttribute("type", "text");
+    lnameIpt.setAttribute("id", "offlineLName");
  
-  lNamediv.appendChild(lnameIpt);
-   $row1div.appendChild(lNamediv);
-   aDiv.appendChild($row1div);
+    lNamediv.appendChild(lnameIpt);
+    $row1div.appendChild(lNamediv);
+    aDiv.appendChild($row1div);
 };
 
 var renderMemConRow2 = function(aDV){
     var $row2div = document.createElement("div");
-  $row2div.classList.add("row_block");
+    $row2div.classList.add("row_block");
   
-  var addDiv = document.createElement("div");
-  var addrLbl = document.createElement("label");
-  addrLbl.setAttribute("for", "addr");
-  addrLbl.innerHTML = "Address: ";
-  addDiv.appendChild(addrLbl);
+    var addDiv = document.createElement("div");
+    var addrLbl = document.createElement("label");
+    addrLbl.setAttribute("for", "addr");
+    addrLbl.innerHTML = "Address: ";
+    addDiv.appendChild(addrLbl);
   
-  var addrIpt = document.createElement("input");
-  addrIpt.setAttribute("type", "text");
-  addrIpt.setAttribute("id", "offlineAddr");
-  addDiv.appendChild(addrIpt);
-  $row2div.appendChild(addDiv);
+    var addrIpt = document.createElement("input");
+    addrIpt.setAttribute("type", "text");
+    addrIpt.setAttribute("id", "offlineAddr");
+    addDiv.appendChild(addrIpt);
+    $row2div.appendChild(addDiv);
     aDV.appendChild($row2div);    
 };
 
 var renderMemConRow3 = function(dv){
-  var $row3div = document.createElement("div");
-  $row3div.classList.add("row_block");
+    var $row3div = document.createElement("div");
+    $row3div.classList.add("row_block");
   
-  var citydiv = document.createElement("div");
-  citydiv.classList.add("individual_block_first");
+    var citydiv = document.createElement("div");
+    citydiv.classList.add("individual_block_first");
   
-  var cityLab = document.createElement("label");
-  cityLab.setAttribute("for", "city");
-  cityLab.innerHTML = "City: ";
-  citydiv.appendChild(cityLab);
+    var cityLab = document.createElement("label");
+    cityLab.setAttribute("for", "city");
+    cityLab.innerHTML = "City: ";
+    citydiv.appendChild(cityLab);
   
-  var cityIpt = document.createElement("input");
-  cityIpt.setAttribute("type", "text");
-  cityIpt.setAttribute("id", "offlineCity");
+    var cityIpt = document.createElement("input");
+    cityIpt.setAttribute("type", "text");
+    cityIpt.setAttribute("id", "offlineCity");
   
-  citydiv.appendChild(cityIpt);
-   $row3div.appendChild(citydiv);
+    citydiv.appendChild(cityIpt);
+    $row3div.appendChild(citydiv);
   
-   var statediv = document.createElement("div");
-  statediv.classList.add("individual_block");
+    var statediv = document.createElement("div");
+    statediv.classList.add("individual_block");
   
-  var stateLab = document.createElement("label");
-  stateLab.setAttribute("for", "state");
-  stateLab.innerHTML = "State: ";
-  statediv.appendChild(stateLab);
+    var stateLab = document.createElement("label");
+    stateLab.setAttribute("for", "state");
+    stateLab.innerHTML = "State: ";
+    statediv.appendChild(stateLab);
   
-  var stateIpt = document.createElement("input");
-  stateIpt.setAttribute("type", "text");
-  stateIpt.setAttribute("size","4");
-  stateIpt.setAttribute("id", "offlineState");
+    var stateIpt = document.createElement("input");
+    stateIpt.setAttribute("type", "text");
+    stateIpt.setAttribute("size","4");
+    stateIpt.setAttribute("id", "offlineState");
   
-  statediv.appendChild(stateIpt);
-   $row3div.appendChild(statediv);
+    statediv.appendChild(stateIpt);
+    $row3div.appendChild(statediv);
  
- var zipdiv = document.createElement("div");
-  zipdiv.classList.add("individual_block");
+    var zipdiv = document.createElement("div");
+    zipdiv.classList.add("individual_block");
   
-  var zipLab = document.createElement("label");
-  zipLab.setAttribute("for", "zip");
-  zipLab.innerHTML = "ZipCode: ";
-  zipdiv.appendChild(zipLab);
+    var zipLab = document.createElement("label");
+    zipLab.setAttribute("for", "zip");
+    zipLab.innerHTML = "ZipCode: ";
+    zipdiv.appendChild(zipLab);
   
-  var zipIpt = document.createElement("input");
-  zipIpt.setAttribute("type", "text");
-  zipIpt.setAttribute("size","7");
-  zipIpt.setAttribute("id", "offlineZip");
+    var zipIpt = document.createElement("input");
+    zipIpt.setAttribute("type", "text");
+    zipIpt.setAttribute("size","7");
+    zipIpt.setAttribute("id", "offlineZip");
   
-  zipdiv.appendChild(zipIpt);
-  $row3div.appendChild(zipdiv);
+    zipdiv.appendChild(zipIpt);
+    $row3div.appendChild(zipdiv);
     dv.appendChild($row3div);
 };
 
 var renderMemConRow4 = function(aD){
     var $row4div = document.createElement("div");
-  $row4div.classList.add("row_block");
+    $row4div.classList.add("row_block");
     
-     var phonediv = document.createElement("div");
-  phonediv.classList.add("individual_block");
+    var phonediv = document.createElement("div");
+    phonediv.classList.add("individual_block");
   
-  var phoneLab = document.createElement("label");
-  phoneLab.setAttribute("for", "phone");
-  phoneLab.innerHTML = "Phone Number: ";
-  phonediv.appendChild(phoneLab);
+    var phoneLab = document.createElement("label");
+    phoneLab.setAttribute("for", "phone");
+    phoneLab.innerHTML = "Phone Number: ";
+    phonediv.appendChild(phoneLab);
   
-  var phoneIpt = document.createElement("input");
-  phoneIpt.setAttribute("type", "text");
-  phoneIpt.setAttribute("id", "offlinePhone");
-  phonediv.appendChild(phoneIpt);
+    var phoneIpt = document.createElement("input");
+    phoneIpt.setAttribute("type", "text");
+    phoneIpt.setAttribute("id", "offlinePhone");
+    phonediv.appendChild(phoneIpt);
   
-   $row4div.appendChild(phonediv);
+    $row4div.appendChild(phonediv);
     
     var emaildiv = document.createElement("div");
-  emaildiv.classList.add("individual_block_first");
+    emaildiv.classList.add("individual_block_first");
   
-  var emailLab = document.createElement("label");
-  emailLab.setAttribute("for", "email");
-  emailLab.innerHTML = "Email: ";
-  emaildiv.appendChild(emailLab);
+    var emailLab = document.createElement("label");
+    emailLab.setAttribute("for", "email");
+    emailLab.innerHTML = "Email: ";
+    emaildiv.appendChild(emailLab);
   
-  var emailIpt = document.createElement("input");
-  emailIpt.setAttribute("type", "email");
-  emailIpt.setAttribute("id", "offlineEmail");
-  emaildiv.appendChild(emailIpt);
-   $row4div.appendChild(emaildiv);
-  aD.appendChild($row4div);
+    var emailIpt = document.createElement("input");
+    emailIpt.setAttribute("type", "email");
+    emailIpt.setAttribute("id", "offlineEmail");
+    emaildiv.appendChild(emailIpt);
+    $row4div.appendChild(emaildiv);
+    aD.appendChild($row4div);
 };
 
 var renderNewMembAttend = function(){
@@ -380,153 +380,153 @@ var renderNewMembAttend = function(){
 
 var renderAttendeeName = function(AttDiv){
     var fNamediv = document.createElement("div");
-  fNamediv.classList.add("individual_block_first");
+    fNamediv.classList.add("individual_block_first");
   
-  var fnameLab = document.createElement("label");
-  fnameLab.setAttribute("for", "attendFName");
-  fnameLab.innerHTML = "First Name: ";
-  fNamediv.appendChild(fnameLab);
+    var fnameLab = document.createElement("label");
+    fnameLab.setAttribute("for", "attendFName");
+    fnameLab.innerHTML = "First Name: ";
+    fNamediv.appendChild(fnameLab);
   
-  var fnameIpt = document.createElement("input");
-  fnameIpt.setAttribute("type", "text");
-  fnameIpt.setAttribute("id", "attendFName");
+    var fnameIpt = document.createElement("input");
+    fnameIpt.setAttribute("type", "text");
+    fnameIpt.setAttribute("id", "attendFName");
   
-  fNamediv.appendChild(fnameIpt);
-  AttDiv.appendChild(fNamediv); 
+    fNamediv.appendChild(fnameIpt);
+    AttDiv.appendChild(fNamediv); 
   
-   var lNamediv = document.createElement("div");
-  lNamediv.classList.add("individual_block");
+    var lNamediv = document.createElement("div");
+    lNamediv.classList.add("individual_block");
   
-  var lnameLab = document.createElement("label");
-  lnameLab.setAttribute("for", "attendLName");
-  lnameLab.innerHTML = "Last Name: ";
-  lNamediv.appendChild(lnameLab);
+    var lnameLab = document.createElement("label");
+    lnameLab.setAttribute("for", "attendLName");
+    lnameLab.innerHTML = "Last Name: ";
+    lNamediv.appendChild(lnameLab);
   
-  var lnameIpt = document.createElement("input");
-  lnameIpt.setAttribute("type", "text");
-  lnameIpt.setAttribute("id", "attendLName");
-  lNamediv.appendChild(lnameIpt);
-  AttDiv.appendChild(lNamediv);
+    var lnameIpt = document.createElement("input");
+    lnameIpt.setAttribute("type", "text");
+    lnameIpt.setAttribute("id", "attendLName");
+    lNamediv.appendChild(lnameIpt);
+    AttDiv.appendChild(lNamediv);
 }; 
 
 var renderAttendeeAgeCat = function(atDiv){
-     var ageClassify = document.createElement("select");
-  ageClassify.setAttribute("name", "age");
-  ageClassify.setAttribute("id", "ageSelection");  
+    var ageClassify = document.createElement("select");
+    ageClassify.setAttribute("name", "age");
+    ageClassify.setAttribute("id", "ageSelection");  
  
     var defaultClassify = document.createElement("option");
-defaultClassify.setAttribute("value", "Choose Age");
-defaultClassify.setAttribute("selected", true);
-  defaultClassify.setAttribute("id", "defaultOption");
-  defaultClassify.innerHTML = "Choose Person's Age";
-       ageClassify.appendChild(defaultClassify);
+    defaultClassify.setAttribute("value", "Choose Age");
+    defaultClassify.setAttribute("selected", true);
+    defaultClassify.setAttribute("id", "defaultOption");
+    defaultClassify.innerHTML = "Choose Person's Age";
+    ageClassify.appendChild(defaultClassify);
     
     var infantClassify = document.createElement("option");
-  infantClassify.setAttribute("value", "Infant");
-  infantClassify.setAttribute("id", "infantAge");
-  infantClassify.innerHTML = "Infant";
-      ageClassify.appendChild(infantClassify);
+    infantClassify.setAttribute("value", "Infant");
+    infantClassify.setAttribute("id", "infantAge");
+    infantClassify.innerHTML = "Infant";
+    ageClassify.appendChild(infantClassify);
       
     var childClassify = document.createElement("option");
-childClassify.setAttribute("value", "Child");
-childClassify.setAttribute("id", "childAge");
-  childClassify.innerHTML = "Child";
-      ageClassify.appendChild(childClassify);
+    childClassify.setAttribute("value", "Child");
+    childClassify.setAttribute("id", "childAge");
+    childClassify.innerHTML = "Child";
+    ageClassify.appendChild(childClassify);
       
-  var adultClassify = document.createElement("option");
-  adultClassify.setAttribute("value", "Adult");
-  adultClassify.setAttribute("id", "adultAge");
-  adultClassify.innerHTML = "Adult";
-  adultClassify.classList.add("Adult");
-      ageClassify.appendChild(adultClassify);
+    var adultClassify = document.createElement("option");
+    adultClassify.setAttribute("value", "Adult");
+    adultClassify.setAttribute("id", "adultAge");
+    adultClassify.innerHTML = "Adult";
+    adultClassify.classList.add("Adult");
+    ageClassify.appendChild(adultClassify);
       
-  var seniorClassify = document.createElement("option");
-  seniorClassify.setAttribute("value", "Senior");
-  seniorClassify.setAttribute("id", "seniorAge");
-  seniorClassify.innerHTML = "Distinguished Adult";
-      ageClassify.appendChild(seniorClassify);
-   atDiv.appendChild(ageClassify);
+    var seniorClassify = document.createElement("option");
+    seniorClassify.setAttribute("value", "Senior");
+    seniorClassify.setAttribute("id", "seniorAge");
+    seniorClassify.innerHTML = "Distinguished Adult";
+    ageClassify.appendChild(seniorClassify);
+    atDiv.appendChild(ageClassify);
 };
 
 var renderAttendeeAddButton = function(addDv){
     var $buttSubmit = document.createElement("button");
-     $buttSubmit.setAttribute("id", "personSubmit");
-  $buttSubmit.innerHTML = "Add Attendee";
-  $buttSubmit.addEventListener("click", function(ev){
-      updateAttendeeList();
-      resetAttendeesFields();
-  });
-  addDv.appendChild($buttSubmit);
+    $buttSubmit.setAttribute("id", "personSubmit");
+    $buttSubmit.innerHTML = "Add Attendee";
+    $buttSubmit.addEventListener("click", function(ev){
+        updateAttendeeList();
+        resetAttendeesFields();
+    });
+    addDv.appendChild($buttSubmit);
 };
 
 var renderAttendeeList= function(){
-  var div = document.getElementById("addMemberAttendeeList");
+    var div = document.getElementById("addMemberAttendeeList");
   
-  while(div.firstChild)
-    div.removeChild(div.firstChild);
+    while(div.firstChild)
+        div.removeChild(div.firstChild);
   
-  var attendListTitl = document.createElement("h1");
-  attendListTitl.innerHTML = "Person's Attendees";
-  div.appendChild(attendListTitl);
+    var attendListTitl = document.createElement("h1");
+    attendListTitl.innerHTML = "Person's Attendees";
+    div.appendChild(attendListTitl);
   
-  attendList.forEach(function (anAttendee){
-     var persDv = document.createElement("div");
+    attendList.forEach(function (anAttendee){
+        var persDv = document.createElement("div");
      
-     var firstPers = document.createElement("div");
-     firstPers.classList.add("individual_block_first");
-     firstPers.innerHTML = anAttendee[0];
-     persDv.appendChild(firstPers);
+        var firstPers = document.createElement("div");
+        firstPers.classList.add("individual_block_first");
+        firstPers.innerHTML = anAttendee[0];
+        persDv.appendChild(firstPers);
      
-     var lastPers = document.createElement("div");
-     lastPers.classList.add("individual_block");
-     lastPers.innerHTML = anAttendee[1];
-     persDv.appendChild(lastPers);
+        var lastPers = document.createElement("div");
+        lastPers.classList.add("individual_block");
+        lastPers.innerHTML = anAttendee[1];
+        persDv.appendChild(lastPers);
      
-     var agePers = document.createElement("div");
-     agePers.classList.add("individual_block");
-     agePers.innerHTML = anAttendee[2]; 
-      persDv.appendChild(agePers);
+        var agePers = document.createElement("div");
+        agePers.classList.add("individual_block");
+        agePers.innerHTML = anAttendee[2]; 
+        persDv.appendChild(agePers);
       
-      var deletePers = document.createElement("button");
-      deletePers.setAttribute("id", "personDelete");
-      deletePers.innerHTML = "Delete Person";
-      deletePers.addEventListener("click", function(ev){
-          var persIndex = attendList.indexOf(anAttendee);
-          attendList.splice(persIndex, 1);
-          console.log(attendList);
-          renderAttendeeList();
-      });
-      persDv.appendChild(deletePers);
-      div.appendChild(persDv);
-  });
+        var deletePers = document.createElement("button");
+        deletePers.setAttribute("id", "personDelete");
+        deletePers.innerHTML = "Delete Person";
+        deletePers.addEventListener("click", function(ev){
+            var persIndex = attendList.indexOf(anAttendee);
+            attendList.splice(persIndex, 1);
+            console.log(attendList);
+            renderAttendeeList();
+        });
+        persDv.appendChild(deletePers);
+        div.appendChild(persDv);
+    });
 };
 
 var renderMemShirts = function(){
-  var div = document.getElementById("addMemberShirts");
+    var div = document.getElementById("addMemberShirts");
   
-  var shtHead = document.createElement("h2");
-  shtHead.innerHTML = "TShirt Ordering";
-  div.appendChild(shtHead);
+    var shtHead = document.createElement("h2");
+    shtHead.innerHTML = "TShirt Ordering";
+    div.appendChild(shtHead);
   
-  renderMemSmall(div);
-  renderMemMed(div);
-  renderMemLg(div);
-  renderMemXL(div);
-  renderMem2XL(div);
-  renderMem3XL(div);
-  renderMem4XL(div);
+    renderMemSmall(div);
+    renderMemMed(div);
+    renderMemLg(div);
+    renderMemXL(div);
+    renderMem2XL(div);
+    renderMem3XL(div);
+    renderMem4XL(div);
 };
 
 var renderMemSmall = function(attaDv){
-     var $smallDiv = document.createElement("div");
+    var $smallDiv = document.createElement("div");
     $smallDiv.classList.add("individual_block_first");
     $smallDiv.setAttribute("id", "smallShirtDiv");
-  var $smallShirtLabel = document.createElement("div");
-  $smallShirtLabel.setAttribute("id", "shirtsmall");
-  $smallShirtLabel.innerHTML = "Small";
-  $smallDiv.appendChild($smallShirtLabel);
+    var $smallShirtLabel = document.createElement("div");
+    $smallShirtLabel.setAttribute("id", "shirtsmall");
+    $smallShirtLabel.innerHTML = "Small";
+    $smallDiv.appendChild($smallShirtLabel);
     
-   var $selection = document.createElement("select");
+    var $selection = document.createElement("select");
     $selection.setAttribute("name","smallOrder");
     $selection.setAttribute("id","smallOrd");
     for(var i =0; i<11;i++){
@@ -544,12 +544,12 @@ var renderMemSmall = function(attaDv){
 var renderMemMed = function(attacDv){
     var $mediumDiv = document.createElement("div");
     $mediumDiv.classList.add("individual_block");
-  var $mediumShirtLabel = document.createElement("div");
-  $mediumShirtLabel.setAttribute("id", "mediumShirt");
-  $mediumShirtLabel.innerHTML = "Medium";
-  $mediumDiv.appendChild($mediumShirtLabel);
+    var $mediumShirtLabel = document.createElement("div");
+    $mediumShirtLabel.setAttribute("id", "mediumShirt");
+    $mediumShirtLabel.innerHTML = "Medium";
+    $mediumDiv.appendChild($mediumShirtLabel);
     
-   var $mediumselection = document.createElement("select");
+    var $mediumselection = document.createElement("select");
     $mediumselection.setAttribute("name","mediumOrder");
     $mediumselection.setAttribute("id","mediumOrd");
     for(var i =0; i<11;i++){
@@ -568,12 +568,12 @@ var renderMemLg = function(attachDv){
     var $largeDiv = document.createElement("div");
     $largeDiv.classList.add("individual_block");
     
-  var $largeShirtLabel = document.createElement("div");
-  $largeShirtLabel.setAttribute("id", "largeShirt");
-  $largeShirtLabel.innerHTML = "Large";
-  $largeDiv.appendChild($largeShirtLabel);
+    var $largeShirtLabel = document.createElement("div");
+    $largeShirtLabel.setAttribute("id", "largeShirt");
+    $largeShirtLabel.innerHTML = "Large";
+    $largeDiv.appendChild($largeShirtLabel);
     
-   var $largeselection = document.createElement("select");
+    var $largeselection = document.createElement("select");
     $largeselection.setAttribute("name","largeOrder");
     $largeselection.setAttribute("id","largeOrd");
     for(var i =0; i<11;i++){
@@ -589,15 +589,15 @@ var renderMemLg = function(attachDv){
 };
 
 var renderMemXL = function(attaDiv){
-      var $xlargeDiv = document.createElement("div");
+    var $xlargeDiv = document.createElement("div");
     $xlargeDiv.classList.add("individual_block");
     
-  var $xlargeShirtLabel = document.createElement("div");
-  $xlargeShirtLabel.setAttribute("id", "xlargeShirt");
-  $xlargeShirtLabel.innerHTML = "XLarge";
-  $xlargeDiv.appendChild($xlargeShirtLabel);
+    var $xlargeShirtLabel = document.createElement("div");
+    $xlargeShirtLabel.setAttribute("id", "xlargeShirt");
+    $xlargeShirtLabel.innerHTML = "XLarge";
+    $xlargeDiv.appendChild($xlargeShirtLabel);
     
-   var $xlargeselection = document.createElement("select");
+    var $xlargeselection = document.createElement("select");
     $xlargeselection.setAttribute("name","xlargeOrder");
     $xlargeselection.setAttribute("id","xlargeOrd");
     for(var i =0; i<11;i++){
@@ -615,12 +615,12 @@ var renderMemXL = function(attaDiv){
 var renderMem2XL = function(attacDiv){
     var $doubXXLDiv = document.createElement("div");
     $doubXXLDiv.classList.add("individual_block");
-  var $doubXXLShirtLabel = document.createElement("div");
-  $doubXXLShirtLabel.setAttribute("id", "doubXXLShirt");
-  $doubXXLShirtLabel.innerHTML = "XXL";
-  $doubXXLDiv.appendChild($doubXXLShirtLabel);
+    var $doubXXLShirtLabel = document.createElement("div");
+    $doubXXLShirtLabel.setAttribute("id", "doubXXLShirt");
+    $doubXXLShirtLabel.innerHTML = "XXL";
+    $doubXXLDiv.appendChild($doubXXLShirtLabel);
     
-   var $doubXXLselection = document.createElement("select");
+    var $doubXXLselection = document.createElement("select");
     $doubXXLselection.setAttribute("name","doubXXLOrder");
     $doubXXLselection.setAttribute("id","doubXXLOrd");
     for(var i =0; i<11;i++){
@@ -638,12 +638,12 @@ var renderMem2XL = function(attacDiv){
 var renderMem3XL = function(ataDV){
     var $tripXLDiv = document.createElement("div");
     $tripXLDiv.classList.add("individual_block");
-  var $tripXLShirtLabel = document.createElement("div");
-  $tripXLShirtLabel.setAttribute("id", "tripXLShirt");
-  $tripXLShirtLabel.innerHTML = "XXXL";
-  $tripXLDiv.appendChild($tripXLShirtLabel);
+    var $tripXLShirtLabel = document.createElement("div");
+    $tripXLShirtLabel.setAttribute("id", "tripXLShirt");
+    $tripXLShirtLabel.innerHTML = "XXXL";
+    $tripXLDiv.appendChild($tripXLShirtLabel);
     
-   var $tripXLselection = document.createElement("select");
+    var $tripXLselection = document.createElement("select");
     $tripXLselection.setAttribute("name","tripXLOrder");
     $tripXLselection.setAttribute("id","tripXLOrd");
     for(var i =0; i<11;i++){
@@ -661,12 +661,12 @@ var renderMem3XL = function(ataDV){
 var renderMem4XL = function(ataDiv){
     var $quadXLDiv = document.createElement("div");
     $quadXLDiv.classList.add("individual_block");
-  var $quadXLShirtLabel = document.createElement("div");
-  $quadXLShirtLabel.setAttribute("id", "quadXLShirt");
-  $quadXLShirtLabel.innerHTML = "XXXXL";
-  $quadXLDiv.appendChild($quadXLShirtLabel);
+    var $quadXLShirtLabel = document.createElement("div");
+    $quadXLShirtLabel.setAttribute("id", "quadXLShirt");
+    $quadXLShirtLabel.innerHTML = "XXXXL";
+    $quadXLDiv.appendChild($quadXLShirtLabel);
     
-   var $quadXLselection = document.createElement("select");
+    var $quadXLselection = document.createElement("select");
     $quadXLselection.setAttribute("name","quadXLOrder");
     $quadXLselection.setAttribute("id","quadXLOrd");
     for(var i =0; i<11;i++){
@@ -694,67 +694,67 @@ var renderNewMemFood = function(){
 
 var renderNewFoodName = function(fdDiv){
     var fNamediv = document.createElement("div");
-  fNamediv.classList.add("individual_block_first");
+    fNamediv.classList.add("individual_block_first");
   
-  var fnameLab = document.createElement("label");
-  fnameLab.setAttribute("for", "foodName");
-  fnameLab.innerHTML = "Food Name: ";
-  fNamediv.appendChild(fnameLab);
+    var fnameLab = document.createElement("label");
+    fnameLab.setAttribute("for", "foodName");
+    fnameLab.innerHTML = "Food Name: ";
+    fNamediv.appendChild(fnameLab);
   
-  var fnameIpt = document.createElement("input");
-  fnameIpt.setAttribute("type", "text");
-  fnameIpt.setAttribute("id", "foodName");
-  fNamediv.appendChild(fnameIpt);
-  fdDiv.appendChild(fNamediv);
+    var fnameIpt = document.createElement("input");
+    fnameIpt.setAttribute("type", "text");
+    fnameIpt.setAttribute("id", "foodName");
+    fNamediv.appendChild(fnameIpt);
+    fdDiv.appendChild(fNamediv);
 };
 
 var renderNewFoodCat = function(foodDv){
      var foodCategoryClassify = document.createElement("select");
-  foodCategoryClassify.setAttribute("name", "foodCat");
-  foodCategoryClassify.setAttribute("id", "foodSelection");
+    foodCategoryClassify.setAttribute("name", "foodCat");
+    foodCategoryClassify.setAttribute("id", "foodSelection");
   
-   var defCat = document.createElement("option");
-  defCat.setAttribute("value", "Select Category");
-  defCat.setAttribute("id", "defCategory");
-  defCat.innerHTML = "Select Category";
-  foodCategoryClassify.appendChild(defCat);
+    var defCat = document.createElement("option");
+    defCat.setAttribute("value", "Select Category");
+    defCat.setAttribute("id", "defCategory");
+    defCat.innerHTML = "Select Category";
+    foodCategoryClassify.appendChild(defCat);
   
-  var saladCat = document.createElement("option");
-  saladCat.setAttribute("value", "Salad");
-  saladCat.setAttribute("id", "saladCategory");
-  saladCat.innerHTML = "Salad";
-  foodCategoryClassify.appendChild(saladCat);
+    var saladCat = document.createElement("option");
+    saladCat.setAttribute("value", "Salad");
+    saladCat.setAttribute("id", "saladCategory");
+    saladCat.innerHTML = "Salad";
+    foodCategoryClassify.appendChild(saladCat);
   
-  var sideDishCat = document.createElement("option");
-  sideDishCat.setAttribute("value", "Side Dish");
-  sideDishCat.setAttribute("id", "sideDishCategory");
-  sideDishCat.innerHTML = "Side Dish";
-  foodCategoryClassify.appendChild(sideDishCat);
+    var sideDishCat = document.createElement("option");
+    sideDishCat.setAttribute("value", "Side Dish");
+    sideDishCat.setAttribute("id", "sideDishCategory");
+    sideDishCat.innerHTML = "Side Dish";
+    foodCategoryClassify.appendChild(sideDishCat);
   
-  var meatCat = document.createElement("option");
-  meatCat.setAttribute("value", "Meat");
-  meatCat.setAttribute("id", "meatCategory");
-  meatCat.innerHTML = "Meat";
-  foodCategoryClassify.appendChild(meatCat);
+    var meatCat = document.createElement("option");
+    meatCat.setAttribute("value", "Meat");
+    meatCat.setAttribute("id", "meatCategory");
+    meatCat.innerHTML = "Meat";
+    foodCategoryClassify.appendChild(meatCat);
     
     var dessertCat = document.createElement("option");
-  dessertCat.setAttribute("value", "Dessert");
-  dessertCat.setAttribute("id", "dessertCategory");
-  dessertCat.innerHTML = "Dessert";
-  foodCategoryClassify.appendChild(dessertCat);
+    dessertCat.setAttribute("value", "Dessert");
+    dessertCat.setAttribute("id", "dessertCategory");
+    dessertCat.innerHTML = "Dessert";
+    foodCategoryClassify.appendChild(dessertCat);
   
     foodDv.appendChild(foodCategoryClassify);
 };
 
 var renderFoodAddButton = function(addBDv){
     var $buttSubmit = document.createElement("button");
-     $buttSubmit.setAttribute("id", "foodSubmit");
-  $buttSubmit.innerHTML = "Add Food";
-  $buttSubmit.addEventListener("click", function(ev){
-      updateFoodList();
-      resetFoodFields();
-  });
-  addBDv.appendChild($buttSubmit);
+    $buttSubmit.setAttribute("id", "foodSubmit");
+    $buttSubmit.innerHTML = "Add Food";
+    $buttSubmit.addEventListener("click", function(ev){
+        updateFoodList();
+        resetFoodFields();
+    });
+    addBDv.appendChild($buttSubmit);
 };
 
 var renderFoodList = function(){
@@ -767,31 +767,31 @@ var renderFoodList = function(){
     foodBringList.innerHTML = "Foods Being Brought";
     div.appendChild(foodBringList);
     
-  foodList.forEach(function (aFood){
-     var foodDv = document.createElement("div");
+    foodList.forEach(function (aFood){
+        var foodDv = document.createElement("div");
      
-     var foodNm = document.createElement("div");
-     foodNm.classList.add("individual_block_first");
-     foodNm.innerHTML = aFood[0];
-     foodDv.appendChild(foodNm);
+        var foodNm = document.createElement("div");
+        foodNm.classList.add("individual_block_first");
+        foodNm.innerHTML = aFood[0];
+        foodDv.appendChild(foodNm);
      
-     var foodCt = document.createElement("div");
-     foodCt.classList.add("individual_block");
-     foodCt.innerHTML = aFood[1];
-     foodDv.appendChild(foodCt);
+        var foodCt = document.createElement("div");
+        foodCt.classList.add("individual_block");
+        foodCt.innerHTML = aFood[1];
+        foodDv.appendChild(foodCt);
      
-      var deleteFood = document.createElement("button");
-      deleteFood.setAttribute("id", "foodDelete");
-      deleteFood.innerHTML = "Delete Food";
-      deleteFood.addEventListener("click", function(ev){
-          var foodIndex = foodList.indexOf(aFood);
-          foodList.splice(foodIndex, 1);
-          console.log(foodList);
-          renderFoodList();
-      });
-      foodDv.appendChild(deleteFood);
-      div.appendChild(foodDv);
-  });
+        var deleteFood = document.createElement("button");
+        deleteFood.setAttribute("id", "foodDelete");
+        deleteFood.innerHTML = "Delete Food";
+        deleteFood.addEventListener("click", function(ev){
+            var foodIndex = foodList.indexOf(aFood);
+            foodList.splice(foodIndex, 1);
+            console.log(foodList);
+            renderFoodList();
+        });
+        foodDv.appendChild(deleteFood);
+        div.appendChild(foodDv);
+    });
 };
 
 var renderAddMemberButtons = function(){
@@ -822,9 +822,9 @@ var renderAddMemberButtons = function(){
 
 var addMemberStart = function(){
     getAdminAcct();
-  renderMembHead();
-  renderMemberInfo();
-  renderAddMemberButtons();
+    renderMembHead();
+    renderMemberInfo();
+    renderAddMemberButtons();
 };
 
 document.addEventListener('DOMContentLoaded', addMemberStart);
