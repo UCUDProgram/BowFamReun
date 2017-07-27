@@ -94,6 +94,10 @@ var showAdminMailingListScreen = function(){
     window.location.href = "adminMailingList.html";
 };
 
+var showAdminShirtOrderingScreen = function(){
+    window.location.href = "adminShirtOrdering.html";  
+};
+
 var showAdminAttendeesListScreen = function(){
     window.location.href = "adminAttendeeList.html";
 };

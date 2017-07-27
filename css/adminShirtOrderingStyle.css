@@ -1,0 +1,17 @@
+.individual_block_first{
+    display:inline-block;
+    padding-right: 2em;
+}
+
+.individual_block{
+    display: inline-block;
+    padding-right:2em;
+}
+
+.hidden{
+    display: none;
+}
+
+.paymentDi{
+    padding-top:2em;
+}

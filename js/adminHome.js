@@ -102,6 +102,14 @@ var renderAdminMembers = function(){
     });
     memDiv.appendChild(adminSearchButton);
 
+     var adminShirtOrderButton = document.createElement("button");
+    adminShirtOrderButton.setAttribute("id","adminShirtOrderButton");
+    adminShirtOrderButton.innerHTML = "Shirt Orders";
+    adminShirtOrderButton.addEventListener("click",function(ev){
+      showAdminShirtOrderingScreen();
+    });
+    memDiv.appendChild(adminShirtOrderButton);
+    
     admMem.appendChild(memDiv);
 };
 

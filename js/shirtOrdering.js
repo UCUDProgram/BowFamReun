@@ -179,7 +179,7 @@ var renderPaymentInfo = function(){
   var payDi = document.createElement("div");
   payDi.classList.add("PaySpace");
   
-  var payHeader = document.createElement("div");
+  var payHeader = document.createElement("h3");
   payHeader.innerHTML = "Send your Payment to the Following Address";
   payDi.appendChild(payHeader);
   
