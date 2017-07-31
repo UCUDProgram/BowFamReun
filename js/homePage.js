@@ -7,6 +7,7 @@ var loadHomePage = function(){
     renderButtons();
     renderReunInfo();
     renderNews();
+    renderUpdateInfo();
     renderReunPhoto();
     renderHomeNavButtons();
     renderContact();
@@ -63,12 +64,12 @@ var renderReunInfo = function(){
     var homePa =document.getElementById("news");
     homePa.classList.add("individual_block_first");
     var attendDate = document.createElement("h1");
-    attendDate.innerHTML = "The family reunion will take place Saturday, July 15th 2017, from Noon to 6 PM.";
+    attendDate.innerHTML = "The family reunion took place Saturday, July 15th 2017, from Noon to 6 PM.";
     homePa.appendChild(attendDate);
     
     var attendLoc = document.createElement("div");
     var attendLocation = document.createElement("h1");
-    attendLocation.innerHTML = "It will take place at the following Location";
+    attendLocation.innerHTML = "It took place at the following Location";
     attendLoc.appendChild(attendLocation);
 
     var attendLoca = document.createElement("div");
@@ -94,15 +95,26 @@ var renderNews = function(){
     var $div = document.createElement("div");
     $div.innerHTML = "";
     var $head = document.createElement("h2");
-    $head.innerHTML = "Family Reunion Tee-Shirts will be available.  More information about cost will be provided once one has created a free account and logged in. The buttons below will give you basic information";
+    $head.innerHTML = "The family reunion was a huge success, with lots of laughter and joy amongst family members who wish for this event to recur in 2018.";
     $div.appendChild($head); 
     homeP.appendChild($div);
+};
+
+var renderUpdateInfo = function(){
+    var sor = document.getElementById("news");
+    var upNew = document.createElement("h2");
+    upNew.innerHTML = "This website is for the 2017 Family Reunion ONLY.  This will NOT be used for ANY future reunions.";
+    sor.appendChild(upNew);
+    
+    var retain = document.createElement("h3");
+    retain.innerHTML = "The website, data and ALL INTELLECTUAL PROPERTY belongs SOLELY to David L. Law.";
+    sor.appendChild(retain);
 };
 
 var renderContact = function(){
     var conDiv = document.getElementById("contact");
     var contaDv = document.createElement("h2");
-    contaDv.innerHTML = "If you have any questions, you can contact us via email @ nerprouc@gmail.com";
+    contaDv.innerHTML = "If you have any questions, you can contact us via email at nerprouc@gmail.com";
     conDiv.appendChild(contaDv);
   
     // var emlnk = document.createElement("a");
