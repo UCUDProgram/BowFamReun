@@ -6,6 +6,10 @@ var getAdministra = function(){
     if(administr == null){
         showAdminLoginScreen();
     }
+    if(administr != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var getRegNames = function(){

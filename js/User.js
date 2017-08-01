@@ -18,6 +18,10 @@ var setAcct = function(){
     if(acct == null){
         showLoginScreen();
     }
+    if(acct != "LawUser"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var logout = function(){

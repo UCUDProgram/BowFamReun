@@ -37,6 +37,10 @@ var getFoodUser = function(){
     if(userAcct == null){
         showLoginScreen();
     }
+    if(userAcct != "LawUser"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var deleteFood = function(aKey){

@@ -17,6 +17,10 @@ var getAdminis = function(){
     if(admAct == null){
         showAdminLoginScreen();
     }
+    if(admAct != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var setShirtPaid = function(shirt){

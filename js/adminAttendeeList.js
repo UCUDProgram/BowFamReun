@@ -1,4 +1,16 @@
+var admiAc = "";
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
+
+var getAdminUse = function(){
+    admiAc = localStorage.getItem("admin");
+    if(admiAc == null){
+        showAdminLoginScreen();
+    }
+    if(admiAc != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
+};
 
 var getAttendList = function(){
     attendDB.orderByKey().on("value", function(snapshot){
@@ -39,6 +51,7 @@ var renderListHeader = function(){
 };
 
 var attendStart = function(){
+    getAdminUse();
     renderListHeader();
     getAttendList();
 };

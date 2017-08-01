@@ -6,6 +6,10 @@ var getAdmn = function(){
      if(admn == null){
         showAdminLoginScreen();
      }
+     if(admn != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var getNameList = function(){

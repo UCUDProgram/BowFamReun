@@ -73,13 +73,17 @@ var passwordUserVerification = function(){
     setVariables();
     if(userPassword == "changeMe"){
         showPasswordResetScreen();
-    } else {
+    } 
+    if(userAcct != "LawUser"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    } else { 
         if (userPassword == acctPass){
             localStorage.setItem("user",userAcct);
             showLoginHomeScreen();
         } else {
             alert("Username and/or Password does not match!");
-        }
+        }  
     }
 };
 

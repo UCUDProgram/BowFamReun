@@ -1,4 +1,16 @@
+var admAc = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
+
+var getAdmiUser = function(){
+    admAc = localStorage.getItem("admin");
+    if(admAc == null){
+        showAdminLoginScreen();
+    }
+    if(admAc != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
+};
 
 var getAncestOrders = function(){
     var ancestOrder = DB.child("AncestryRpt");
@@ -233,6 +245,7 @@ var renderEmailA = function(eAdd, emDi){
 // };
 
 var adminAncestryRptStart = function(){
+    getAdmiUser();
     renderAncestReportHead();
     renderHeaders();
     getAncestOrders();

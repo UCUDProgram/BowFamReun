@@ -14,6 +14,10 @@ var getAdmUser = function(){
     if(administ == null){
         showAdminLoginScreen();
     }
+    if(administ != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var updateSmallCount = function(sm){

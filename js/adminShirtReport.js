@@ -6,6 +6,10 @@ var getAdm = function(){
     if(adm == null){
         showAdminLoginScreen();
     }
+    if(adm != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var getShirtOrderName = function(usNm, attach){

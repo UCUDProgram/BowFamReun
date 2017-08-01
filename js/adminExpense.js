@@ -45,6 +45,10 @@ var getAdminist = function(){
     if(admi == null){
         showAdminLoginScreen();
     }
+    if(admi != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var getShirtTotals = function(){

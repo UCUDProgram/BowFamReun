@@ -6,6 +6,10 @@ var getAdmin = function(){
     if(admini == null){
         showAdminLoginScreen();
     }
+    if(admini != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var getContactList = function(){

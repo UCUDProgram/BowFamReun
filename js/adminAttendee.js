@@ -10,6 +10,10 @@ var getAdministratorUser = function(){
     if (adminUse == null){
         showAdminLoginScreen();
     }
+    if(adminUse != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 var updateInfant = function(){

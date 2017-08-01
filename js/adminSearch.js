@@ -13,11 +13,14 @@ var setUserAccount = function(usAct){
 };
 
 var setAdmAct = function(){
-  admAct = localStorage.getItem("admin");
-  console.log(admAct);
-  if(admAct == null){
-      showAdminLoginScreen();
-  }
+    admAct = localStorage.getItem("admin");
+    if(admAct == null){
+        showAdminLoginScreen();
+    }
+    if(admAct != "LawAdmin"){
+        alert("This website is in Archive mode. Your account has been permanently disabled.");
+        showHomePageScreen();
+    }
 };
 
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW
@@ -26,7 +29,7 @@ var persLast = "";
 var persList = [];
 
 var setPersFirst = function(newFirst){
-  persFirst = newFirst;  
+    persFirst = newFirst;  
 };
 
 var setPersLast = function(newLast){
