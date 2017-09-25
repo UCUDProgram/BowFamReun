@@ -106,6 +106,10 @@ var showAdminExpenseScreen = function(){
     window.location.href = "adminExpense.html";
 };
 
+var showAdminExpensePurchaseScreen = function(){
+    window.location.href = "adminExpensePurchase.html";
+};
+
 var showAdminNewMemberInputScreen = function(){
     window.location.href = "adminAddMember.html";
 };

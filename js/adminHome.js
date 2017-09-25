@@ -178,6 +178,14 @@ var renderAdminReports = function(){
     });
     rptDiv.appendChild(adminExpensesButton);
   
+  var adminExpensePurchaseButton = document.createElement("button");
+    adminExpensePurchaseButton.setAttribute("id","adminExpensePurchaseButton");
+    adminExpensePurchaseButton.innerHTML = "Expense Purchase Submission";
+    adminExpensePurchaseButton.addEventListener("click",function(ev){
+      showAdminExpenseScreenPurchase();
+    });
+    rptDiv.appendChild(adminExpensePurchaseButton);
+  
     var adminShirtReportButton = document.createElement("button");
     adminShirtReportButton.setAttribute("id","adminShirtReportButton");
     adminShirtReportButton.innerHTML = "Shirt Report";
