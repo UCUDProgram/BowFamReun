@@ -182,7 +182,7 @@ var renderAdminReports = function(){
     adminExpensePurchaseButton.setAttribute("id","adminExpensePurchaseButton");
     adminExpensePurchaseButton.innerHTML = "Expense Purchase Submission";
     adminExpensePurchaseButton.addEventListener("click",function(ev){
-      showAdminExpenseScreenPurchase();
+      showAdminExpensePurchaseScreen();
     });
     rptDiv.appendChild(adminExpensePurchaseButton);
   
