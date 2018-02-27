@@ -4,6 +4,7 @@ var purchaseCat = "";
 var purchaseCost = 0;
 var purchaseImage = "";
 var purchaseLocation = "";
+var purchaseOwed = "";
 // var storage = new Firebase("gs://bowmanfamreun.appspot.com/");
 var storage = firebase.storage();
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
@@ -39,6 +40,10 @@ var setPurchaseLoc = function(loc){
     purchaseLocation = loc;  
 };
 
+var setPurchaseOwed = function(purNam){
+    purchaseOwed = purNam;  
+};
+
 var setImageName = function(imgNa, imgNu){
     var date = new Date();
     console.log(date);
@@ -57,6 +62,7 @@ var expenseDBSubmit = function(){
                         purCost: purchaseCost, 
                         purCat: purchaseCat,
                         purLoc: purchaseLocation,
+                        purOwedName: purchaseOwed,
                         purSubmit: adminuse,
                         purImgName: purchaseImage});
 };
@@ -85,11 +91,13 @@ var submitExpense = function(){
 
 var resetPage = function(){
     document.getElementById("expNameText").value = "";
+    document.getElementById("expNamePurText").value = "";
     document.getElementById("expenseCategory").selectedIndex = 0;
     document.getElementById("expCostText").value = "";
     document.getElementById("expLocText").value = "";
     document.getElementById("receipt").value = "";
 };
+
 // RENDERING THE SCREEN
 var renderExpenseHeader = function(){
     var $head = document.getElementById("admExpHeader");
@@ -100,6 +108,7 @@ var renderExpenseHeader = function(){
 
 var renderExpenseScreen = function(){
     renderExpenseName();
+    renderExpensePurchaseOrderName();
     renderExpenseCategory();
     renderExpenseCost();
     renderExpenseLocation();
@@ -129,6 +138,30 @@ var renderExpenseName = function(){
     
     $expPurDiv.appendChild($expNameInput);
     $expPurHead.appendChild($expPurDiv);
+};
+
+var renderExpensePurchaseOrderName = function(){
+    var $expPurHd = document.getElementById("expensePurchase");
+    var $expPurNmDiv = document.createElement("div");
+    $expPurNmDiv.classList.add("individual_block_first");
+    
+     var $expPurNameLabel = document.createElement("label");
+    $expPurNameLabel.setAttribute("for", "$expPurNameInput");
+    $expPurNameLabel.setAttribute("value", "Purchase Made");
+    $expPurNameLabel.innerHTML = "Who Made the Purchase";
+    $expPurNmDiv.appendChild($expPurNameLabel);  
+    
+    var $expPurNameInput = document.createElement("input");
+    $expPurNameInput.setAttribute("type", "text");
+    $expPurNameInput.setAttribute("id", "expNamePurText");
+    $expPurNameInput.innerHTML = null;
+    $expPurNameInput.addEventListener("blur", function(ev){
+         var purcNam = document.getElementById("expNamePurText").value;
+         setPurchaseOwed(purcNam);
+    });
+    
+    $expPurNmDiv.appendChild($expPurNameInput);
+    $expPurHd.appendChild($expPurNmDiv);
 };
 
 var renderExpenseCategory = function(){

@@ -170,13 +170,22 @@ var renderAdminReports = function(){
     });
     rptDiv.appendChild(adminAttendeeRegistrationtListButton);
   
-    var adminExpensesButton = document.createElement("button");
-    adminExpensesButton.setAttribute("id","adminExpensesButton");
-    adminExpensesButton.innerHTML = "Expense Report";
-    adminExpensesButton.addEventListener("click",function(ev){
+    var adminRevenueButton = document.createElement("button");
+    adminRevenueButton.setAttribute("id","adminRevenueButton");
+    adminRevenueButton.innerHTML = "Revenue Report";
+    adminRevenueButton.addEventListener("click",function(ev){
+      showAdminRevenueScreen();
+    });
+    rptDiv.appendChild(adminRevenueButton);
+    
+    var adminExpenseButton = document.createElement("button");
+    adminExpenseButton.setAttribute("id","adminExpenseButton");
+    adminExpenseButton.innerHTML = "Expense Report";
+    adminExpenseButton.addEventListener("click",function(ev){
       showAdminExpenseScreen();
     });
-    rptDiv.appendChild(adminExpensesButton);
+    rptDiv.appendChild(adminExpenseButton);
+    
   
   var adminExpensePurchaseButton = document.createElement("button");
     adminExpensePurchaseButton.setAttribute("id","adminExpensePurchaseButton");

@@ -102,6 +102,10 @@ var showAdminAttendeesListScreen = function(){
     window.location.href = "adminAttendeeList.html";
 };
 
+var showAdminRevenueScreen = function(){
+    window.location.href = "adminRevenue.html";
+};
+
 var showAdminExpenseScreen = function(){
     window.location.href = "adminExpense.html";
 };
@@ -124,6 +128,10 @@ var showAdminShirtReportScreen = function(){
 
 var showAdminPaymentUpdateScreen = function(){
     window.location.href = "adminPaymentUpdate.html";
+};
+
+var showAdminExpenseRepaymentUpdateScreen = function(){
+    window.location.href = "adminRepayUpdate.html";
 };
 
 var showAdminSearchScreen = function(){

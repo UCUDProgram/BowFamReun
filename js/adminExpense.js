@@ -1,613 +1,551 @@
-var smallCount = 0;
-var smallTot = 0;
-var mediumCount = 0;
-var mediumTot = 0;
-var largeCount = 0;
-var largeTot = 0;
-var xLCount = 0;
-var xLTot = 0;
-var xXLCount = 0;
-var xXLTot = 0;
-var xXXLCount = 0;
-var xXXLTot = 0;
-var xXXXLCount = 0;
-var xXXXLTot = 0;
-var regularTShirtCost = 10;
-var largerTShirtCost = 12;
+var foodCatTotal = 0;
+var cutleryCatTotal = 0;
+var entertainmentCatTotal = 0;
+var setupCatTotal = 0;
+var distributionCatTotal = 0;
+var ordersCatTotal = 0;
+var otherCatTotal =0;
+var catTotal = 0;
+var storeNames = [];
+var storeNamesTotal = [];
+var storeTotal = 0;
+var peopleNames = [];
+var peopleNamesTotal = [];
+var peopleTotal = 0;
+var ami = "";
+var expensesDB = new Firebase("https://bowmanfamreun.firebaseio.com/Expenses");
 
+var updateIndividualCategoryTotal = function(catName, itemValue){
+    if (catName == "Food")
+        foodCatTotal += itemValue;
+    if(catName == "Cutlery")
+        cutleryCatTotal += itemValue;
+    if (catName == "Entertainment")
+        entertainmentCatTotal += itemValue;
+    if (catName == "Setup")
+        setupCatTotal += itemValue;
+    if (catName == "Distribution")
+        distributionCatTotal += itemValue;
+    if(catName == "Orders")
+        ordersCatTotal += itemValue; 
+    if(catName == "Other")
+        otherCatTotal += itemValue;
+};
 
-var infantCount = 0;
-var infantCost = 0;
-var infantTot = 0;
-var childCount = 0;
-var childCost = 10;
-var childTot = 0;
-var adultCount = 0;
-var adultCost = 20;
-var adultTot = 0;
-var seniorCount = 0;
-var seniorCost = 0;
-var seniorTot = 0;
+var updateCatTotal = function(cValue){
+    catTotal += cValue;  
+};
 
-var shrtTot = 0;
-var attTot = 0;
-var shirtDu = 0;
-var attDu = 0;
+var updateStore = function(stre, stoValue){
+    var storeIndex = storeNames.indexOf(stre);
+    if(storeIndex == -1){
+        storeNames.push(stre);
+        storeNamesTotal.push(stoValue);
+    } else {
+        var oldValue = storeNamesTotal[storeIndex];
+        var newValue = +(oldValue + stoValue);
+        storeNamesTotal[storeIndex] = newValue;
+    }
+};
 
-var admi = "";
-var attendanceDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
-var shirtDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
-var feesDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
+var updateStoreTotal = function(sValue){
+    storeTotal += sValue;  
+};
 
+var updatePerson  = function(perso, persoValue){
+    var personIndex = peopleNames.indexOf(perso);
+    if(personIndex == -1){
+        peopleNames.push(perso);
+        peopleNamesTotal.push(persoValue);
+    } else {
+        var oldPersValue = peopleNamesTotal[personIndex];
+        var newPersValue = +(oldPersValue + persoValue);
+        peopleNamesTotal[personIndex] = newPersValue;
+    }
+};
 
-var getAdminist = function(){
-    admi = localStorage.getItem("admin");
-    if(admi == null){
+var updatePeopleTotal = function(pValue){
+    peopleTotal += pValue;
+};
+
+var getAdmnst = function(){
+    ami = localStorage.getItem("admin");
+    if(ami == null){
         showAdminLoginScreen();
     }
-    if(admi != "LawAdmin"){
+    if(ami != "LawAdmin"){
         alert("This website is in Archive mode. Your account has been permanently disabled.");
         showHomePageScreen();
     }
 };
 
-var getShirtTotals = function(){
-    shirtDB.orderByKey().on("value", function(snapshot){
-        snapshot.forEach(function (child){
-            var parDiv = document.getElementById("shirtRevenue");
-            while(parDiv.firstChild)
-                parDiv.removeChild(parDiv.firstChild);
-            var shirtSm = child.val().small;
-            var shirtMed = child.val().medium;
-            var shirtLg = child.val().large;
-            var shirtxLg = child.val().xL;
-            var shirtXXL = child.val().xxLarge;
-            var shirtXXXL = child.val().xxxLarge;
-            var shirtXXXXL = child.val().xxxxLarge;
-       
-            var shirtSmall = parseInt(shirtSm ,10);
-            var shirtMedium = parseInt(shirtMed,10);
-            var shirtLarge = parseInt(shirtLg,10);
-            var shirtXLarge = parseInt(shirtxLg,10);
-            var shirtDoubleL = parseInt(shirtXXL,10);
-            var shirtTripleXL = parseInt(shirtXXXL,10);
-            var shirtQuadXL = parseInt(shirtXXXXL,10);
-       
-            updateSmallShirtTotal(shirtSmall);
-            updateMediumShirtTotal(shirtMedium);
-            updateLargeShirtTotal(shirtLarge);
-            updateXLShirtTotal(shirtXLarge);
-            updateXXLShirtTotal(shirtDoubleL);
-            updateXXXLShirtTotal(shirtTripleXL);
-            updateXXXXLShirtTotal(shirtQuadXL);
-            updateShirtCosts();
-            renderShirtTable();
-        });
-    });
-};
-
-var getAttendanceTotals = function(){
-    attendanceDB.orderByKey().on("value", function(snapshot){
+var getCategoryExpenses = function(){
+    expensesDB.orderByKey().on("value", function(snapshot){
         snapshot.forEach(function (snap){
-            var attDiv = document.getElementById("registrationExpense");
-            while(attDiv.firstChild)
-                attDiv.removeChild(attDiv.firstChild);
-            var personAge = snap.val().age;
-            getPersonAge(personAge);
-            updateRegCosts();
-            renderAttendanceTable();
+            var catDiv = document.getElementById("categoryExpense");
+            while(catDiv.firstChild)
+            catDiv.removeChild(catDiv.firstChild);
+            
+            var itmCat = snap.val().purCat;
+            var itmValue = snap.val().purCost;
+            // var iValue = parseInt(itmValue, 10);
+            var iValue = parseFloat(itmValue);
+            
+            if(itmValue != undefined ){
+                updateIndividualCategoryTotal(itmCat, iValue);
+                updateCatTotal(iValue);
+                } 
+            renderCatExpenseTable();
+            
         });
     });
 };
 
-var getMoneyReceived = function(){
-    feesDB.orderByKey().on("value", function(snapshot){
+var getStoreExpenses = function(){
+    expensesDB.orderByKey().on("value", function(snapshot){
         snapshot.forEach(function (snap){
-            var monDiv = document.getElementById("moneyIntake");
-            while(monDiv.firstChild)
-                monDiv.removeChild(monDiv.firstChild);
-            var personReg = snap.val().regPaid;
-            var personShirt = snap.val().shirtPaid;
-            var personRegD = snap.val().regDue;
-            var personShirtD = snap.val().shirtDue;
-     
-            updateRegTot(personReg);
-            updateRegDue(personRegD);
-            updateShirtTot(personShirt);
-            updateShirtDue(personShirtD);
-            renderRevenueTable();
+            var strDiv = document.getElementById("storeExpense");
+            while(strDiv.firstChild)
+                strDiv.removeChild(strDiv.firstChild);
+            
+            var location = snap.val().purLoc;
+            var locValue = snap.val().purCost;
+            var lValue = parseFloat(locValue);
+            
+            if(locValue != undefined){
+                updateStore(location, lValue);
+                updateStoreTotal(lValue);
+            }
+            renderStoreExpenseTable();
         });
     });
 };
 
-
-var getPersonAge = function(aPAge){
-    if (aPAge == "Infant"){
-        updateInfantCount();
-    } else if(aPAge == "Child"){
-        updateChildCount();
-    } else if(aPAge == "Adult"){
-        updateAdultCount();
-    } else {
-        updateSeniorCount();
-    }
+var getPersonExpenses = function(){
+    expensesDB.orderByKey().on("value", function(snapshot){
+        snapshot.forEach(function (snap){
+            var perDiv = document.getElementById("personExpense");
+            while(perDiv.firstChild)
+                perDiv.removeChild(perDiv.firstChild);
+            
+            var owed = snap.val().purOwedName;
+            var owedValue = snap.val().purCost;
+            var oValue = parseFloat(owedValue);
+            
+            if(owedValue != undefined){
+                updatePerson(owed, oValue);
+                updatePeopleTotal(oValue);
+            }
+            renderPeopleExpenseTable();            
+        });
+    });
 };
 
-var updateSmallShirtTotal = function(smallOrder){
-    smallCount += smallOrder;  
+var getRepaymentExpenses = function(){
+  expensesDB.orderByKey().on("value", function(snapshot){
+        snapshot.forEach(function (snap){
+            var owed = snap.val().purOwedName;
+            var spntValue = snap.val().purCost;
+            var rpaid = snap.val().purRePaid;
+            var owedspent = parseFloat(spntValue);
+            var owedrepd = parseFloat(rpaid);
+            if(spntValue != undefined)
+                renderPersonRepaymentTable(owed,owedspent, owedrepd); 
+        });
+    });
+};
+var resetCatVariables = function(){
+    foodCatTotal = 0;
+    cutleryCatTotal = 0;
+    entertainmentCatTotal = 0;
+    setupCatTotal = 0;
+    distributionCatTotal = 0;
+    ordersCatTotal = 0;
+    otherCatTotal =0;
+    catTotal = 0;
 };
 
-var updateSmallTotal = function(){
-    smallTot = smallCount * regularTShirtCost;  
+var resetStoreVariables = function(){
+    storeNames = [];
+    storeNamesTotal = [];
+    storeTotal = 0;
 };
 
-var updateMediumShirtTotal = function(mediumOrder){
-    mediumCount +=mediumOrder;  
-};
-
-var updateMediumTotal = function(){
-    mediumTot = mediumCount * regularTShirtCost;
-};
-
-var updateLargeShirtTotal = function(largeOrder){
-    largeCount += largeOrder;  
-};
-
-var updateLargeTotal = function(){
-    largeTot = largeCount * regularTShirtCost;  
-};
-
-var updateXLShirtTotal = function(xlOrder){
-    xLCount += xlOrder;  
-};
-
-var updateXLTotal = function(){
-    xLTot = xLCount * regularTShirtCost;  
-};
-
-var updateXXLShirtTotal = function(xxlOrder){
-    xXLCount += xxlOrder;  
-};
-
-var updateXXLTotal = function(){
-    xXLTot = xXLCount * regularTShirtCost;  
-};
-
-var updateXXXLShirtTotal = function(xxxlOrder){
-    xXXLCount += xxxlOrder;  
-};
-
-var updateXXXLTotal = function(){
-    xXXLTot = xXXLCount * largerTShirtCost;  
-};
-
-var updateXXXXLShirtTotal = function(xxxxlOrder){
-    xXXXLCount += xxxxlOrder;  
-};
-
-var updateXXXXLTotal = function(){
-    xXXXLTot = xXXXLCount * largerTShirtCost;  
-};
-
-var updateInfantCount = function(){
-    infantCount +=1;
-};
-
-var updateInfantTotal = function(){
-    infantTot = infantCount * infantCost;  
-};
-
-var updateChildCount = function(){
-    childCount +=1;
-};
-
-var updateChildTotal = function(){
-    childTot = childCount * childCost;  
-};
-
-var updateAdultCount = function(){
-    adultCount +=1;  
-};
-
-var updateAdultTotal = function(){
-    adultTot = adultCount * adultCost;  
-};
-
-var updateSeniorCount = function(){
-    seniorCount +=1;  
-};
-
-var updateSeniorTotal = function(){
-    seniorTot = seniorCount * seniorCost;  
-};
-
-var updateShirtTot = function(shtPad){
-    shrtTot += shtPad;  
-};
-
-var updateRegTot = function(regPad){
-    attTot += regPad;  
-};
-
-var updateRegDue = function(regisDe){
-    attDu += regisDe;  
-};
-
-var updateShirtDue = function(shrDe){
-    shirtDu += shrDe;  
-};
-
-var updateShirtCosts = function(){
-    updateSmallTotal();
-    updateMediumTotal();
-    updateLargeTotal();
-    updateXLTotal();
-    updateXXLTotal();
-    updateXXXLTotal();
-    updateXXXXLTotal();
-};
-
-var updateRegCosts = function(){
-    updateInfantTotal();
-    updateChildTotal();
-    updateAdultTotal();
-    updateSeniorTotal();
+var resetPeopleVariables = function(){
+    peopleNames = [];
+    peopleNamesTotal = [];
+    peopleTotal = 0;
 };
 
 // RENDERING THE SCREEN (VIEW)
 var renderExpenseHead = function(){
-    var expHead = document.getElementById("expenseHeader");
+    var expHead = document.getElementById("expenseReportHeader");
     var expTitle = document.createElement("h2");
-    expTitle.innerHTML = "Expenses for the Bowman Family Reunion";
+    expTitle.innerHTML = "Expense Reports for the Bowman Family Reunion";
     expHead.appendChild(expTitle);
 };
 
-var renderShirtTable = function(){
-    var shtTblSrc = document.getElementById("shirtRevenue");
+var renderExpRptOpt = function(){
+  var rptOpt = document.getElementById("expenseReportOptions");
   
-    var shtDiv = document.createElement("div");
-  
-    var shtTblHead = document.createElement("h1");
-    shtTblHead.innerHTML = "Shirt Revenue";
-    shtDiv.appendChild(shtTblHead);
-  
-    var shtTbl = document.createElement("table");
-  
-    renderShirtKeyRow(shtTbl);
-    renderSmallShirtRow(shtTbl);
-    renderMediumShirtRow(shtTbl);
-    renderLargeShirtRow(shtTbl);
-    renderXLShirtRow(shtTbl);
-    renderXXLShirtRow(shtTbl);
-    renderXXXLShirtRow(shtTbl);
-    renderXXXXLShirtRow(shtTbl);
-
-    shtDiv.appendChild(shtTbl);
-    shtTblSrc.appendChild(shtDiv);
+  var $catOption = document.createElement("button");
+    $catOption.setAttribute("id", "catOption");
+    $catOption.innerHTML = "Report by Category";
+    $catOption.addEventListener("click", function(ev){
+        clearExpenseView();
+        resetCatVariables();
+        getCategoryExpenses();
+    });
+    rptOpt.appendChild($catOption);
+    
+    
+    var $storeOption = document.createElement("button");
+    $storeOption.setAttribute("id", "storeOption");
+    $storeOption.innerHTML = "Report by Store";
+    $storeOption.addEventListener("click", function(ev){
+        clearExpenseView();
+        resetStoreVariables();
+        getStoreExpenses();
+    });
+    rptOpt.appendChild($storeOption);
+    
+    
+    var $peopleOption = document.createElement("button");
+    $peopleOption.setAttribute("id", "peopleOption");
+    $peopleOption.innerHTML = "Report on Personal Spending";
+    $peopleOption.addEventListener("click", function(ev){
+        clearExpenseView();
+        resetPeopleVariables();
+        getPersonExpenses();
+    });
+    rptOpt.appendChild($peopleOption);
+    
+    var $repayOption = document.createElement("button");
+    $repayOption.setAttribute("id", "peopleOption");
+    $repayOption.innerHTML = "Report on Expense Repayment";
+    $repayOption.addEventListener("click", function(ev){
+        clearExpenseView();
+        renderRepaymentHeader();
+       getRepaymentExpenses(); 
+    });
+    rptOpt.appendChild($repayOption);
+    
 };
 
-var renderShirtKeyRow = function(shirtTbl){
-    var shirtRow = document.createElement("tr");
+var clearExpenseView = function(){
+    var catClr = document.getElementById("categoryExpense");
+    while(catClr.firstChild)
+        catClr.removeChild(catClr.firstChild);
     
-    var itemName = document.createElement("td");
-    itemName.innerHTML = "Size";
-    shirtRow.appendChild(itemName);
+    var strClr = document.getElementById("storeExpense");
+    while(strClr.firstChild)
+        strClr.removeChild(strClr.firstChild);
+        
+    var perClr = document.getElementById("personExpense");
+    while(perClr.firstChild)
+        perClr.removeChild(perClr.firstChild);
+        
+    var repyClr = document.getElementById("repayExpense");
+    while(repyClr.firstChild)
+        repyClr.removeChild(repyClr.firstChild);
+};
+
+var renderCatExpenseTable = function(){
+    var catTblSrc = document.getElementById("categoryExpense");
+    var cateDi = document.createElement("div");
     
-    var shirtOrd = document.createElement("td");
-    shirtOrd.innerHTML = "Quantity";
-    shirtRow.appendChild(shirtOrd);
+    var catTblHead = document.createElement("h1");
+    catTblHead.innerHTML = "Expenses sorted by Category";
+    cateDi.appendChild(catTblHead);
     
-    var shirtIntake = document.createElement("td");
-    shirtIntake.innerHTML = "Revenue";
-    shirtRow.appendChild(shirtIntake);
-    shirtTbl.appendChild(shirtRow);
+    var catTbl = document.createElement("table");
+    renderFoodCatRow(catTbl);
+    renderCutleryCatRow(catTbl);
+    renderEntertainCatRow(catTbl);
+    renderSetupCatRow(catTbl);
+    renderDistributeCatRow(catTbl);
+    renderOrdersCatRow(catTbl);
+    renderOtherCatRow(catTbl);
+    cateDi.appendChild(catTbl);
+    catTblSrc.appendChild(cateDi);
+};
+
+var renderFoodCatRow = function(catTable){
+    var foodRow = document.createElement("tr");
+    
+    var foodTotFormat = foodCatTotal.toFixed(2);
+    var fpercent = +(foodCatTotal / catTotal);
+    var fdPerc = +(fpercent * 100);
+    var fdPerValue = fdPerc.toFixed(2);
+    
+    
+    var fdNa = document.createElement("td");
+    fdNa.innerHTML = "Food";
+    foodRow.appendChild(fdNa);
+    
+    var fdVl = document.createElement("td");
+    fdVl.innerHTML = foodTotFormat;
+    foodRow.appendChild(fdVl);
+    
+    var fdPer = document.createElement("td");
+    fdPer.innerHTML = fdPerValue + "%";
+    foodRow.appendChild(fdPer);
+    catTable.appendChild(foodRow);
+};
+
+var renderCutleryCatRow = function(catTble){
+    var cutlRow = document.createElement("tr");
+    
+    var cutTotFormat = cutleryCatTotal.toFixed(2);
+    var ctPercent = +(cutleryCatTotal / catTotal);
+    var ctPerc = ctPercent * 100;
+    var ctPerValue = ctPerc.toFixed(2);
+    
+    var ctNa = document.createElement("td");
+    ctNa.innerHTML = "Cutlery";
+    cutlRow.appendChild(ctNa);
+    
+    var ctVl = document.createElement("td");
+    ctVl.innerHTML = cutTotFormat;
+    cutlRow.appendChild(ctVl);
+    
+    var ctPer = document.createElement("td");
+    ctPer.innerHTML = ctPerValue + "%";
+    cutlRow.appendChild(ctPer);
+    catTble.appendChild(cutlRow);
+};
+
+var renderEntertainCatRow = function(catTab){
+    var etRow = document.createElement("tr");
+    
+    var entertainmentTotFormat = entertainmentCatTotal.toFixed(2);
+    var etPercent = +(entertainmentCatTotal / catTotal);
+    var etPerc = etPercent * 100;
+    var etPerValue = etPerc.toFixed(2);
+    
+    var etNa = document.createElement("td");
+    etNa.innerHTML = "Entertainment";
+    etRow.appendChild(etNa);
+    
+    var etVl = document.createElement("td");
+    etVl.innerHTML = entertainmentTotFormat;
+    etRow.appendChild(etVl);
+    
+    var etPer = document.createElement("td");
+    etPer.innerHTML = etPerValue + "%";
+    etRow.appendChild(etPer);
+    catTab.appendChild(etRow);
+};
+
+var renderSetupCatRow = function(catTabl){
+    var setRow = document.createElement("tr");
+    
+    var setupTotFormat = setupCatTotal.toFixed(2);
+    var setPercent = +(setupCatTotal / catTotal);
+    var setPerc = setPercent * 100;
+    var setPerValue = setPerc.toFixed(2);
+    
+    var setNa = document.createElement("td");
+    setNa.innerHTML = "Setup";
+    setRow.appendChild(setNa);
+    
+    var setVl = document.createElement("td");
+    setVl.innerHTML = setupTotFormat;
+    setRow.appendChild(setVl);
+    
+    var setPer = document.createElement("td");
+    setPer.innerHTML = setPerValue + "%";
+    setRow.appendChild(setPer);
+    catTabl.appendChild(setRow);
+};
+
+var renderDistributeCatRow = function(catTbe){
+    var distRow = document.createElement("tr");
+    
+    var distTotFormat = distributionCatTotal.toFixed(2);
+    var distPercent = +(distributionCatTotal / catTotal);
+    var distPerc = distPercent * 100;
+    var distPerValue = distPerc.toFixed(2);
+    
+    var distNa = document.createElement("td");
+    distNa.innerHTML = "Distribution";
+    distRow.appendChild(distNa);
+    
+    var distVl = document.createElement("td");
+    distVl.innerHTML = distTotFormat;
+    distRow.appendChild(distVl);
+    
+    var distPer = document.createElement("td");
+    distPer.innerHTML = distPerValue + "%";
+    distRow.appendChild(distPer);
+    catTbe.appendChild(distRow);
+};
+
+var renderOrdersCatRow = function(catTal){
+    var orderRow = document.createElement("tr");
+    
+    var ordersTotFormat = ordersCatTotal.toFixed(2);
+    var orderPercent = +(ordersCatTotal / catTotal);
+    var orderPerc = orderPercent * 100;
+    var orderPerValue = orderPerc.toFixed(2);
+    
+    var orderNa = document.createElement("td");
+    orderNa.innerHTML = "Orders";
+    orderRow.appendChild(orderNa);
+    
+    var orderVl = document.createElement("td");
+    orderVl.innerHTML = ordersTotFormat;
+    orderRow.appendChild(orderVl);
+    
+    var orderPer = document.createElement("td");
+    orderPer.innerHTML = orderPerValue + "%";
+    orderRow.appendChild(orderPer);
+    catTal.appendChild(orderRow);
+};
+
+var renderOtherCatRow = function(catTae){
+    var otherRow = document.createElement("tr");
+    
+    var othersTotFormat = otherCatTotal.toFixed(2);
+    var otherPercent = +(otherCatTotal / catTotal);
+    var otherPerc = otherPercent * 100;
+    var orderPerValue = otherPerc.toFixed(2);
+    
+    var otherNa = document.createElement("td");
+    otherNa.innerHTML = "Other";
+    otherRow.appendChild(otherNa);
+    
+    var otherVl = document.createElement("td");
+    otherVl.innerHTML = othersTotFormat;
+    otherRow.appendChild(otherVl);
+    
+    var otherPer = document.createElement("td");
+    otherPer.innerHTML = orderPerValue + "%";
+    otherRow.appendChild(otherPer);
+    catTae.appendChild(otherRow);
+};
+
+var renderStoreExpenseTable = function(){
+    var strTblSrc = document.getElementById("storeExpense");
+    var strDi = document.createElement("div");
+    
+    var strTblHead = document.createElement("h1");
+    strTblHead.innerHTML = "Expenses sorted by Store";
+    strDi.appendChild(strTblHead);
+    
+    var strTbl = document.createElement("table");
+    for(var ind= 0; ind < storeNames.length;ind++ )
+        renderAStore(ind,strTbl);
+    
+    
+    strDi.appendChild(strTbl);
+    strTblSrc.appendChild(strDi);
+};
+
+var renderAStore = function(index, storTbl){
+    var storeRow = document.createElement("tr");
+    
+    var aStore = storeNames[index];
+    var aStoreValue = storeNamesTotal[index];
+    var storeValue = aStoreValue.toFixed(2);
+    
+    var storePercent = +(aStoreValue / storeTotal);
+    var storePerc = storePercent * 100;
+    var storePerValue = storePerc.toFixed(2);
+    
+    var storeNa = document.createElement("td");
+    storeNa.innerHTML = aStore;
+    storeRow.appendChild(storeNa);
+    
+    var storeVl = document.createElement("td");
+    storeVl.innerHTML = storeValue;
+    storeRow.appendChild(storeVl);
+    
+    var storePer = document.createElement("td");
+    storePer.innerHTML = storePerValue + "%";
+    storeRow.appendChild(storePer);
+    storTbl.appendChild(storeRow);
     
 };
 
-var renderSmallShirtRow = function(shtTable){
-    var smallRow = document.createElement("tr");
+var renderPeopleExpenseTable = function(){
+    var peopTblSrc = document.getElementById("personExpense");
+    var peopDi = document.createElement("div");
     
-    var smallName = document.createElement("td");
-    smallName.innerHTML = "Small";
-    smallRow.appendChild(smallName);
+    var peopTblHead = document.createElement("h1");
+    peopTblHead.innerHTML = "Expenses sorted by People Owed Money";
+    peopDi.appendChild(peopTblHead);
     
-    var smallQuant = document.createElement("td");
-    smallQuant.innerHTML = smallCount;
-    smallRow.appendChild(smallQuant);
+    var peopTbl = document.createElement("table");
+    for(var inde = 0; inde < peopleNames.length; inde++)
+        renderAPerson(inde, peopTbl);
     
-    var smallRev = document.createElement("td");
-    smallRev.innerHTML = smallTot;
-    smallRow.appendChild(smallRev);
-    shtTable.appendChild(smallRow);
+    peopDi.appendChild(peopTbl);
+    peopTblSrc.appendChild(peopDi);
 };
 
-var renderMediumShirtRow = function (shirtTabl){
-    var mediumRow = document.createElement("tr");
+var renderAPerson = function(perInd, perTb){
+    var personRow = document.createElement("tr");
     
-    var mediumName = document.createElement("td");
-    mediumName.innerHTML = "Medium";
-    mediumRow.appendChild(mediumName);
+    var aPerson = peopleNames[perInd];
+    var aPersonValue = peopleNamesTotal[perInd];
+    var personValue = aPersonValue.toFixed(2);
     
-    var mediumQuant = document.createElement("td");
-    mediumQuant.innerHTML = mediumCount;
-    mediumRow.appendChild(mediumQuant);
+    var personPercent = +(aPersonValue / peopleTotal);
+    var personPerc = personPercent * 100;
+    var personPerValue = personPerc.toFixed(2);
     
-    var mediumRev = document.createElement("td");
-    mediumRev.innerHTML = mediumTot;
-    mediumRow.appendChild(mediumRev);
-    shirtTabl.appendChild(mediumRow);
+    var personNa = document.createElement("td");
+    personNa.innerHTML = aPerson;
+    personRow.appendChild(personNa);
+    
+    var personVl = document.createElement("td");
+    personVl.innerHTML = personValue;
+    personRow.appendChild(personVl);
+    
+    var personPer = document.createElement("td");
+    personPer.innerHTML = personPerValue + "%";
+    personRow.appendChild(personPer);
+    perTb.appendChild(personRow);
 };
 
-var renderLargeShirtRow = function(shrtTbl){
-    var largeRow = document.createElement("tr");
+
+var renderRepaymentHeader = function(){
+  var repayHeadSrc = document.getElementById("repayExpense");
+    var repyDi = document.createElement("div");
     
-    var largeName = document.createElement("td");
-    largeName.innerHTML = "Large";
-    largeRow.appendChild(largeName);
-    
-    var largeQuant = document.createElement("td");
-    largeQuant.innerHTML = largeCount;
-    largeRow.appendChild(largeQuant);
-    
-    var largeRev = document.createElement("td");
-    largeRev.innerHTML = largeTot;
-    largeRow.appendChild(largeRev);
-    shrtTbl.appendChild(largeRow);
+    var repyHead = document.createElement("h1");
+    repyHead.innerHTML = "Repayment Balance Sheet for Family Reunion Expenses";
+    repyDi.appendChild(repyHead);
+    repayHeadSrc.appendChild(repyDi);
 };
 
-var renderXLShirtRow = function(shrtTbl){
-    var xlargeRow = document.createElement("tr");
+var renderPersonRepaymentTable = function(owedName,moneyspnt, moneyrpaid){
+    var owedPerson = +(moneyspnt - moneyrpaid);
+    var owedValue = owedPerson.toFixed(2);
     
-    var xlargeName = document.createElement("td");
-    xlargeName.innerHTML = "XL";
-    xlargeRow.appendChild(xlargeName);
+    var repayTblSrc = document.getElementById("repayExpense");
+    var repayDi = document.createElement("div");
+    var repayTbl = document.createElement("table");
+    var repayRow = document.createElement("tr");
     
-    var xlargeQuant = document.createElement("td");
-    xlargeQuant.innerHTML = xLCount;
-    xlargeRow.appendChild(xlargeQuant);
+    var repayNa = document.createElement("td");
+    repayNa.innerHTML = owedName;
+    repayRow.appendChild(repayNa);
     
-    var xlargeRev = document.createElement("td");
-    xlargeRev.innerHTML = xLTot;
-    xlargeRow.appendChild(xlargeRev);
-    shrtTbl.appendChild(xlargeRow);
-};
-
-var renderXXLShirtRow = function(siTae){
-    var xXLRow = document.createElement("tr");
+    var repayVl = document.createElement("td");
+    repayVl.innerHTML = "$ " + owedValue;
+    repayRow.appendChild(repayVl);
     
-    var xXLName = document.createElement("td");
-    xXLName.innerHTML = "XXL";
-    xXLRow.appendChild(xXLName);
-    
-    var xXLQuant = document.createElement("td");
-    xXLQuant.innerHTML = xXLCount;
-    xXLRow.appendChild(xXLQuant);
-    
-    var xXLRev = document.createElement("td");
-    xXLRev.innerHTML = xXLTot;
-    xXLRow.appendChild(xXLRev);
-    siTae.appendChild(xXLRow);
-};
-
-var renderXXXLShirtRow = function(siTae){
-    var xXXLRow = document.createElement("tr");
-    
-    var xXXLName = document.createElement("td");
-    xXXLName.innerHTML = "XXXL";
-    xXXLRow.appendChild(xXXLName);
-    
-    var xXXLQuant = document.createElement("td");
-    xXXLQuant.innerHTML = xXXLCount;
-    xXXLRow.appendChild(xXXLQuant);
-    
-    var xXXLRev = document.createElement("td");
-    xXXLRev.innerHTML = xXXLTot;
-    xXXLRow.appendChild(xXXLRev);
-    siTae.appendChild(xXXLRow);
-};
-
-var renderXXXXLShirtRow = function(siTae){
-    var xXXXLRow = document.createElement("tr");
-    
-    var xXXXLName = document.createElement("td");
-    xXXXLName.innerHTML = "XXXXL";
-    xXXXLRow.appendChild(xXXXLName);
-    
-    var xXXXLQuant = document.createElement("td");
-    xXXXLQuant.innerHTML = xXXXLCount;
-    xXXXLRow.appendChild(xXXXLQuant);
-    
-    var xXXXLRev = document.createElement("td");
-    xXXXLRev.innerHTML = xXXXLTot;
-    xXXXLRow.appendChild(xXXXLRev);
-    siTae.appendChild(xXXXLRow);
-};
-
-var renderAttendanceTable = function(){
-    var attTblSrc = document.getElementById("registrationExpense");
-  
-    var revDiv = document.createElement("div");
-  
-    var revTblHead = document.createElement("h1");
-    revTblHead.innerHTML = "Attendance Revenue";
-    revDiv.appendChild(revTblHead);
-  
-    var attTbl = document.createElement("table");
-    
-    renderAttendanceKey(attTbl);
-    renderInfantRow(attTbl);
-    renderChildRow(attTbl);
-    renderAdultRow(attTbl);
-    renderSeniorRow(attTbl);
-    
-    revDiv.appendChild(attTbl);
-    attTblSrc.appendChild(revDiv);
-};
-
-var renderAttendanceKey = function(attendTbl){
-    var attendRow = document.createElement("tr");
-    
-    var attendName = document.createElement("td");
-    attendName.innerHTML = "Age";
-    attendRow.appendChild(attendName);
-    
-    var attendQuant = document.createElement("td");
-    attendQuant.innerHTML = "Count";
-    attendRow.appendChild(attendQuant);
-    
-    var attendRev = document.createElement("td");
-    attendRev.innerHTML = "Revenue";
-    attendRow.appendChild(attendRev);
-    attendTbl.appendChild(attendRow);
-};
-
-var renderInfantRow = function(attndTbl){
-    var infantRow = document.createElement("tr");
-    
-    var infantName = document.createElement("td");
-    infantName.innerHTML = "Infant";
-    infantRow.appendChild(infantName);
-    
-    var infantQuant = document.createElement("td");
-    infantQuant.innerHTML = infantCount;
-    infantRow.appendChild(infantQuant);
-    
-    var infantRev = document.createElement("td");
-    infantRev.innerHTML = infantTot;
-    infantRow.appendChild(infantRev);
-    attndTbl.appendChild(infantRow);
-};
-
-var renderChildRow = function(atndTbl){
-    var childRow = document.createElement("tr");
-    
-    var childName = document.createElement("td");
-    childName.innerHTML = "Child";
-    childRow.appendChild(childName);
-    
-    var childQuant = document.createElement("td");
-    childQuant.innerHTML = childCount;
-    childRow.appendChild(childQuant);
-    
-    var childRev = document.createElement("td");
-    childRev.innerHTML = childTot;
-    childRow.appendChild(childRev);
-    atndTbl.appendChild(childRow);
-};
-
-var renderAdultRow = function(aTbl){
-    var adultRow = document.createElement("tr");
-    
-    var adultName = document.createElement("td");
-    adultName.innerHTML = "Adult";
-    adultRow.appendChild(adultName);
-    
-    var adultQuant = document.createElement("td");
-    adultQuant.innerHTML = adultCount;
-    adultRow.appendChild(adultQuant);
-    
-    var adultRev = document.createElement("td");
-    adultRev.innerHTML = adultTot;
-    adultRow.appendChild(adultRev);
-    aTbl.appendChild(adultRow);
-};
-
-var renderSeniorRow = function(attend){
-    var seniorRow = document.createElement("tr");
-    
-    var seniorName = document.createElement("td");
-    seniorName.innerHTML = "Senior";
-    seniorRow.appendChild(seniorName);
-    
-    var seniorQuant = document.createElement("td");
-    seniorQuant.innerHTML = seniorCount;
-    seniorRow.appendChild(seniorQuant);
-    
-    var seniorRev = document.createElement("td");
-    seniorRev.innerHTML = seniorTot;
-    seniorRow.appendChild(seniorRev);
-    attend.appendChild(seniorRow);
-};
-
-var renderRevenueTable = function(){
-    var attTblSrc = document.getElementById("moneyIntake");
-  
-    var revDiv = document.createElement("div");
-  
-    var monTblHead = document.createElement("h1");
-    monTblHead.innerHTML = "Money Received";
-    revDiv.appendChild(monTblHead);
-  
-    var monTbl = document.createElement("table");
-    
-    renderMoneyKey(monTbl);
-    renderAttendance(monTbl);
-    renderShirt(monTbl);
-    
-    revDiv.appendChild(monTbl);
-    attTblSrc.appendChild(revDiv);
-};
-
-var renderMoneyKey = function(mon){
-    var moneyKeyRow = document.createElement("tr");
-    
-    var moneyCat = document.createElement("td");
-    moneyCat.innerHTML = "Category";
-    moneyKeyRow.appendChild(moneyCat);
-    
-    var moneyRec = document.createElement("td");
-    moneyRec.innerHTML = "Money Received";
-    moneyKeyRow.appendChild(moneyRec);
-    
-    var moneyDue = document.createElement("td");
-    moneyDue.innerHTML = "Money Due";
-    moneyKeyRow.appendChild(moneyDue);
-    
-    mon.appendChild(moneyKeyRow);
-};
-
-var renderAttendance = function(mny){
-    var regRow = document.createElement("tr");
-    
-    var regName = document.createElement("td");
-    regName.innerHTML = "Registration";
-    regRow.appendChild(regName);
-    
-    var regRec = document.createElement("td");
-    regRec.innerHTML = attTot;
-    regRow.appendChild(regRec);
-    
-    var registDue = document.createElement("td");
-    registDue.innerHTML = attDu;
-    regRow.appendChild(registDue);
-    
-    mny.appendChild(regRow);
-};
-
-var renderShirt = function(mone){
-    var shirtRow = document.createElement("tr");
-    
-    var shirtName = document.createElement("td");
-    shirtName.innerHTML = "Shirt";
-    shirtRow.appendChild(shirtName);
-    
-    var shirtRec = document.createElement("td");
-    shirtRec.innerHTML = shrtTot;
-    shirtRow.appendChild(shirtRec);
-    
-    var shirtD = document.createElement("td");
-    shirtD.innerHTML = shirtDu;
-    shirtRow.appendChild(shirtD);
-    
-    mone.appendChild(shirtRow);
+    repayTbl.appendChild(repayRow);
+    repayDi.appendChild(repayTbl);
+    repayTblSrc.appendChild(repayDi);
 };
 
 var adminExpenseStart = function(){
-    getAdminist();
+    // getAdmnst();
     renderExpenseHead();
-    getShirtTotals();
-    getAttendanceTotals();
-    getMoneyReceived();
+    renderExpRptOpt();
 };
 
 document.addEventListener('DOMContentLoaded', adminExpenseStart);
