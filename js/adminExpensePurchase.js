@@ -63,6 +63,7 @@ var expenseDBSubmit = function(){
                         purCat: purchaseCat,
                         purLoc: purchaseLocation,
                         purOwedName: purchaseOwed,
+                        purRePaid: 0,
                         purSubmit: adminuse,
                         purImgName: purchaseImage});
 };

@@ -98,6 +98,14 @@ var renderAdminMembers = function(){
     });
     memDiv.appendChild(adminPaymentUpdateButton);
 
+     var adminRepayUpdateButton = document.createElement("button");
+    adminRepayUpdateButton.setAttribute("id","adminPaymentUpdateButton");
+    adminRepayUpdateButton.innerHTML = "Update an Expense Repayment Record";
+    adminRepayUpdateButton.addEventListener("click",function(ev){
+      showAdminExpenseRepaymentUpdateScreen();
+    });
+    memDiv.appendChild(adminRepayUpdateButton);
+    
     var adminSearchButton = document.createElement("button");
     adminSearchButton.setAttribute("id","adminSearchButton");
     adminSearchButton.innerHTML = "Search Member Records";
