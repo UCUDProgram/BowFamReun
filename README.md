@@ -1,4 +1,4 @@
-<script window.location.href = "../html/index.html";
+<script> window.location.href = "../html/index.html";
 </script>
 
 # BowFamReun
