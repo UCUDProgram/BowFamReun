@@ -1,5 +1,6 @@
 #tshirt{
     display:inline-block;
+    padding-left: 1em; 
 }
 
 #tshirt img{
