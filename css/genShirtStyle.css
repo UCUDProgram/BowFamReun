@@ -7,8 +7,12 @@
     width:300px;
 }
 
+#shirtRow{
+    padding-top: 2em; 
+    padding-bottom: 2em;
+}
+
 /*This Section addresses the T-Shirt Page*/
 .textCentered{
     text-align:center;
 }
-

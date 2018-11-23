@@ -6,8 +6,8 @@ var loadHomePage = function(){
     renderHomeTitle();
     renderButtons();
     renderReunInfo();
-    renderNews();
-    renderUpdateInfo();
+    // renderNews();
+    // renderUpdateInfo();
     renderReunPhoto();
     renderHomeNavButtons();
     renderContact();
@@ -64,12 +64,12 @@ var renderReunInfo = function(){
     var homePa =document.getElementById("news");
     homePa.classList.add("individual_block_first");
     var attendDate = document.createElement("h1");
-    attendDate.innerHTML = "The family reunion took place Saturday, July 15th 2017, from Noon to 6 PM.";
+    attendDate.innerHTML = "The family reunion will take place Saturday, July 20th 2019, from Noon to 6 PM.";
     homePa.appendChild(attendDate);
     
     var attendLoc = document.createElement("div");
     var attendLocation = document.createElement("h1");
-    attendLocation.innerHTML = "It took place at the following Location";
+    attendLocation.innerHTML = "It will take place at the following Location";
     attendLoc.appendChild(attendLocation);
 
     var attendLoca = document.createElement("div");
