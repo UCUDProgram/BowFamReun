@@ -68,7 +68,7 @@ var renderLillianShirt = function(firDiv){
 
 var renderShirtImagesRowTwo = function(shrtDiv){
     var secondRowDiv = document.createElement("div");
-    // secondRowDiv.classList.add("shirtRow");
+    secondRowDiv.setAttribute("id","shirtRow");
     renderEdnaShirt(secondRowDiv);
     renderElizabethShirt(secondRowDiv);
     shrtDiv.appendChild(secondRowDiv);
@@ -106,10 +106,11 @@ var renderElizabethShirt = function(firDiv){
 };
 
 var renderShirtImagesRowThree = function(shrtDiv){
-    var firstRowDiv = document.createElement("div");
-    renderMaryLueShirt(firstRowDiv);
-    renderDulceniaShirt(firstRowDiv);
-    shrtDiv.appendChild(firstRowDiv);
+    var thirdRowDiv = document.createElement("div");
+    thirdRowDiv.setAttribute("id","shirtRow");
+    renderMaryLueShirt(thirdRowDiv);
+    renderDulceniaShirt(thirdRowDiv);
+    shrtDiv.appendChild(thirdRowDiv);
     
 };
 
@@ -143,10 +144,11 @@ var renderDulceniaShirt = function(firDiv){
     firDiv.appendChild(imageRow1Div);
 };
 var renderShirtImagesRowFour = function(shrtDiv){
-    var firstRowDiv = document.createElement("div");
-    renderIreneShirt(firstRowDiv);
-    renderJimmyShirt(firstRowDiv);
-    shrtDiv.appendChild(firstRowDiv);
+    var fourthRowDiv = document.createElement("div");
+    fourthRowDiv.setAttribute("id","shirtRow");
+    renderIreneShirt(fourthRowDiv);
+    renderJimmyShirt(fourthRowDiv);
+    shrtDiv.appendChild(fourthRowDiv);
     
 };
 
@@ -180,10 +182,11 @@ var renderJimmyShirt = function(firDiv){
     firDiv.appendChild(imageRow1Div);
 };
 var renderShirtImagesRowFive = function(shrtDiv){
-    var firstRowDiv = document.createElement("div");
-    renderWardellShirt(firstRowDiv);
-    renderCommemorativeShirt(firstRowDiv);
-    shrtDiv.appendChild(firstRowDiv);
+    var fifthRowDiv = document.createElement("div");
+    fifthRowDiv.setAttribute("id","shirtRow");
+    renderWardellShirt(fifthRowDiv);
+    renderCommemorativeShirt(fifthRowDiv);
+    shrtDiv.appendChild(fifthRowDiv);
     
 };
 
