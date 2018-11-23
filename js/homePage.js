@@ -16,7 +16,7 @@ var loadHomePage = function(){
 var renderHomeTitle = function(){
     var $home =document.getElementById("homeTitle");
     var $Title = document.createElement("h1");
-    $Title.innerHTML = "Welcome to the Bowman 2017 Family Reunion";
+    $Title.innerHTML = "Welcome to the Bowman 2019 Family Reunion";
     $home.appendChild($Title);
 };
 
