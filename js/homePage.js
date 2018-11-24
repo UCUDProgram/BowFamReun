@@ -129,7 +129,7 @@ var renderHomeNavButtons = function(){
     var nav = document.createElement("div");
     renderEventCost(nav);
     renderShirtInfo(nav);
-    renderMenuInfo(nav);
+    // renderMenuInfo(nav);
     renderAncestryReport(nav);
     renderMailingSignup(nav);
     renderCommitteeSignup(nav);

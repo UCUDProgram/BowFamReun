@@ -143,13 +143,13 @@ var renderDulceniaShirt = function(firDiv){
     imageRow1Div.appendChild(frontImage);
     firDiv.appendChild(imageRow1Div);
 };
+
 var renderShirtImagesRowFour = function(shrtDiv){
     var fourthRowDiv = document.createElement("div");
     fourthRowDiv.setAttribute("id","shirtRow");
     renderIreneShirt(fourthRowDiv);
     renderJimmyShirt(fourthRowDiv);
     shrtDiv.appendChild(fourthRowDiv);
-    
 };
 
 var renderIreneShirt = function(frDiv){
@@ -181,13 +181,13 @@ var renderJimmyShirt = function(firDiv){
     imageRow1Div.appendChild(frontImage);
     firDiv.appendChild(imageRow1Div);
 };
+
 var renderShirtImagesRowFive = function(shrtDiv){
     var fifthRowDiv = document.createElement("div");
     fifthRowDiv.setAttribute("id","shirtRow");
     renderWardellShirt(fifthRowDiv);
     renderCommemorativeShirt(fifthRowDiv);
     shrtDiv.appendChild(fifthRowDiv);
-    
 };
 
 var renderWardellShirt = function(frDiv){
@@ -233,7 +233,6 @@ var renderGenShirtNews = function(){
     var ordering = document.createElement("h3");
     ordering.innerHTML = "You are not limited to order a specific shirt, you can order as many different shirts as you want.";
     shtDv.appendChild(ordering);
-    
 };
 
 var genShirtStart = function(){
