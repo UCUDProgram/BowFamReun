@@ -24,10 +24,10 @@ var getShirtUser = function(){
     if(userAccount == null){
         showLoginScreen();
     }
-    if(userAccount != "LawUser"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(userAccount != "LawUser"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var updateSmallTShirt= function(sm){
