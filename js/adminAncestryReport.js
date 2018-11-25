@@ -6,10 +6,10 @@ var getAdmiUser = function(){
     if(admAc == null){
         showAdminLoginScreen();
     }
-    if(admAc != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(admAc != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var getAncestOrders = function(){

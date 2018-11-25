@@ -6,10 +6,10 @@ var getAdmini = function(){
     if(admA == null){
         showAdminLoginScreen();
     }
-    if(admA != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(admA != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var getShirtOrderList = function(){

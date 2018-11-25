@@ -6,10 +6,10 @@ var getAdmn = function(){
     if(adstr == null){
         showAdminLoginScreen();
     }
-    if(adstr != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(adstr != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var getMailingList = function(){

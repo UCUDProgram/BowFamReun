@@ -17,10 +17,10 @@ var setAdmAct = function(){
     if(admAct == null){
         showAdminLoginScreen();
     }
-    if(admAct != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(admAct != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 //THIS SECTION ADDRESSES THE SEARCH PAGE VIEW

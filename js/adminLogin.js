@@ -70,17 +70,17 @@ var setAdminUser = function(){
 var adminPasswordVerification = function(){
      adminCheck();
      setAdminVariables();
-     if(adminAcct != "LawAdmin"){
-          alert("This website is in Archive mode. Your account has been permanently disabled.");
-          showHomePageScreen();
-     } else { 
+     // if(adminAcct != "LawAdmin"){
+     //      alert("This website is in Archive mode. Your account has been permanently disabled.");
+     //      showHomePageScreen();
+     // } else { 
           if (adminUserPass == adminPass){
                localStorage.setItem("admin",adminAcct);
                showAdminHomeScreen();
           } else {
                alert("Administrator Username and/or Password does not match!");
           }
-    }
+//    }
 };
 
 var adminLoginSubmission = function(){

@@ -6,10 +6,10 @@ var getAdminUse = function(){
     if(admiAc == null){
         showAdminLoginScreen();
     }
-    if(admiAc != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(admiAc != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var getAttendList = function(){

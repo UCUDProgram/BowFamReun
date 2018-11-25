@@ -73,10 +73,10 @@ var getAdmnst = function(){
     if(ami == null){
         showAdminLoginScreen();
     }
-    if(ami != "LawAdmin"){
-        alert("This website is in Archive mode. Your account has been permanently disabled.");
-        showHomePageScreen();
-    }
+    // if(ami != "LawAdmin"){
+    //     alert("This website is in Archive mode. Your account has been permanently disabled.");
+    //     showHomePageScreen();
+    // }
 };
 
 var getCategoryExpenses = function(){
