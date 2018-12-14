@@ -295,7 +295,7 @@ var registerAccount = function(){
         pushAccountData();
         pushUsersData();
         pushFeeData();
-        pushShirtData();
+        // pushShirtData();
         alert("Thank You for Registering.  You can now login to your account.");
         clearInputFields();
         showHomePageScreen();

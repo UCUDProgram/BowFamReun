@@ -2,13 +2,41 @@
     padding-top:2em;
 }
 
-#tshirt{
+#childTShirt{
     display:inline-block;
+    padding-right: 2em;
 }
 
-#tshirt img{
-    height:300px;
-    width:300px;
+#childTShirt img{
+    height:400px;
+    width:400px;
+}
+
+#heartTShirtZoom{
+    display:inline-block;
+    height:400px;
+    width:400px;
+}
+
+#heartTShirtZoom img{
+    width:100%;
+    height:auto;
+}
+
+#shirtSubmitBtn{
+    width:200px;
+    height:30px;
+}
+
+.firstShirtSize{
+    display:inline-block;
+    width:200px;
+    
+}
+
+.shirtSize{
+    display:inline-block;
+    width:200px;
 }
 
 /*This Section addresses the T-Shirt Page*/
@@ -19,6 +47,12 @@
 .individual_block_first{
     display:inline-block;
     padding-right: 2em;
+}
+
+.shirtButton{
+    display:inline-block;
+    padding-right: 2em;
+    padding-top: 2em;
 }
 
 .individual_block{
