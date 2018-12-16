@@ -300,7 +300,6 @@ var renderShirtKeyRow = function(shirtTbl){
     shirtIntake.innerHTML = "Revenue";
     shirtRow.appendChild(shirtIntake);
     shirtTbl.appendChild(shirtRow);
-    
 };
 
 var renderSmallShirtRow = function(shtTable){

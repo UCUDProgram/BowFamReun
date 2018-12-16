@@ -160,7 +160,7 @@ var resetCountVariables = function(){
 
 var submitShirtOrder = function(){
   var shirtOrderData = DB.child("TShirt");
-    shirtOrderData.push().set({child: bowChild,
+    shirtOrderData.push().set({childName: bowChild,
                             account: userAccount,
                             small: smallTShirtOrder,
                             medium: mediumTShirtOrder,
@@ -182,7 +182,7 @@ var getTShirtOrders = function(){
                 renderNoOrdersPlaced();
             } else {
                 var key = childSnapshot.key();
-                var chName = childSnapshot.val().child;
+                var chName = childSnapshot.val().childName;
                 var small = childSnapshot.val().small;
                 var medium = childSnapshot.val().medium;
                 var large = childSnapshot.val().large;
@@ -1031,6 +1031,7 @@ var renderOrderDeleteButton = function(oD, sKe){
 
 var renderChildOrderEdit = function(chD,chDNam,userKey){
     var newDivId = chD.getAttribute("id");
+    console.log(chD);
     while(chD.firstChild)
         chD.removeChild(chD.firstChild);
     var newDv = document.createElement("div");
