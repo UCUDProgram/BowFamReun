@@ -209,6 +209,7 @@ var getTShirtOrders = function(){
     });
 };
 
+
 var updateShirtCount = function(smal,mediu,larg,xLrG, doubleXLrg,tripXLrg,quadXLrg){
     updateSmallTShirtCount(smal);
     updateMediumTShirtCount(mediu);
@@ -640,7 +641,6 @@ var renderCommemmorativeShirt = function(coShDiv){
 
 var renderOrdersHeader = function(){
     
-    
     var tShirtHead = document.getElementById("shirtOrders");
     var $tShirtOrdHead = document.createElement("h1");
     $tShirtOrdHead.innerHTML = userAccount + " Your TShirt Orders";
@@ -942,13 +942,13 @@ var renderTShirtOrder = function(cNa,ssm, smed, slg, sxl, sxxl, sxxxl, sxxxxl,sk
     var orderSrcDiv = document.getElementById("shirtOrders");
 
     var ordDv = document.createElement("div");
-    var keylastfour = "";
-    keylastfour = sky.substring(sky.length -4, sky.length);
+    var keylastfour = sky.substring(sky.length -4, sky.length);
     var chdDivNam = cNa.concat(keylastfour);
     ordDv.setAttribute("id",chdDivNam);
-    setChildShirtOrders(sky);
+    
     renderChildName(cNa,ordDv);
     renderShirtOrderString(ssm, smed, slg, sxl, sxxl, sxxxl, sxxxxl, ordDv);
+    setChildShirtOrders(sky);
     renderOrderUpdateButton(ordDv,cNa, sky);
     renderOrderDeleteButton(ordDv, sky);
     orderSrcDiv.appendChild(ordDv);
@@ -1005,8 +1005,9 @@ var renderOrderUpdateButton = function(orD,chN, shKe){
     var shirtBut = document.createElement("button");
     shirtBut.setAttribute("type", "button");
     shirtBut.setAttribute("id", "shirtUpdateBtn");
-    shirtBut.innerHTML = "Update The Shirt Order";
+    shirtBut.innerHTML = "Update This Order";
     shirtBut.addEventListener("click", function(ev){
+        setChildShirtOrders(shKe);
         renderChildOrderEdit(orD,chN, shKe);
     });
     shtDiv.appendChild(shirtBut);
@@ -1031,12 +1032,12 @@ var renderOrderDeleteButton = function(oD, sKe){
 
 var renderChildOrderEdit = function(chD,chDNam,userKey){
     var newDivId = chD.getAttribute("id");
-    console.log(chD);
     while(chD.firstChild)
         chD.removeChild(chD.firstChild);
     var newDv = document.createElement("div");
     var newId = newDivId;
     newDv.setAttribute("id", newId);
+    setChildShirtOrders(userKey);
     renderChildName(chDNam, newDv);
     renderSmallShirtOrder(2,newDv);
     renderMediumShirtOrder(2,newDv);
