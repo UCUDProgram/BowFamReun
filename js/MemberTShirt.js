@@ -1059,7 +1059,7 @@ var renderUserShirtUpdateButton = function(atD, aKy){
     shirtUpBut.innerHTML = "Update This Shirt Order";
     shirtUpBut.addEventListener("click", function(ev){
         updateChildIndShirtOrder(aKy);
-        // shirtChangeUpdate();
+        resetCountVariables();
         renderMemberTShirtScreen();
     });
     shtUpDiv.appendChild(shirtUpBut);
@@ -1073,7 +1073,7 @@ var renderUserShirtCancelButton = function(atDi){
     shirtCanBut.setAttribute("id", "shirtCancelBtn");
     shirtCanBut.innerHTML = "Cancel This Shirt Update";
     shirtCanBut.addEventListener("click", function(ev){
-        // shirtChangeUpdate();
+        resetCountVariables();
         renderMemberTShirtScreen();
     });
     shtCanDiv.appendChild(shirtCanBut);
