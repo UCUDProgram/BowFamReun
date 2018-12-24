@@ -1,17 +1,37 @@
-var smallCount = 0;
-var smallTot = 0;
-var mediumCount = 0;
-var mediumTot = 0;
-var largeCount = 0;
-var largeTot = 0;
-var xLCount = 0;
-var xLTot = 0;
-var xXLCount = 0;
-var xXLTot = 0;
-var xXXLCount = 0;
-var xXXLTot = 0;
-var xXXXLCount = 0;
-var xXXXLTot = 0;
+var albertaRegShirt = 0;
+var albertaBiggerShirt = 0;
+
+var lillianRegShirt = 0;
+var lillianBiggerShirt = 0;
+
+var elizabethRegShirt = 0;
+var elizabethBiggerShirt = 0;
+
+var maryLueRegShirt = 0;
+var maryLueBiggerShirt = 0;
+
+var ednaRegShirt = 0;
+var ednaBiggerShirt = 0;
+
+var dulceniaRegShirt = 0;
+var dulceniaBiggerShirt = 0;
+
+var ireneRegShirt = 0;
+var ireneBiggerShirt =0;
+
+var jimmieRegShirt = 0;
+var jimmieBiggerShirt = 0;
+
+var wardellRegShirt = 0;
+var wardellBiggerShirt = 0;
+
+var commemorativeRegShirt = 0;
+var commemorativeBiggerShirt = 0;
+
+var regularShirt = 0;
+var largerShirt = 0;
+
+
 var regularTShirtCost = 10;
 var largerTShirtCost = 12;
 
@@ -56,6 +76,7 @@ var getShirtTotals = function(){
             var parDiv = document.getElementById("shirtRevenue");
             while(parDiv.firstChild)
                 parDiv.removeChild(parDiv.firstChild);
+            var chNam = child.val().childName;
             var shirtSm = child.val().small;
             var shirtMed = child.val().medium;
             var shirtLg = child.val().large;
@@ -68,18 +89,57 @@ var getShirtTotals = function(){
             var shirtMedium = parseInt(shirtMed,10);
             var shirtLarge = parseInt(shirtLg,10);
             var shirtXLarge = parseInt(shirtxLg,10);
-            var shirtDoubleL = parseInt(shirtXXL,10);
+            var shirtDoubleXL = parseInt(shirtXXL,10);
             var shirtTripleXL = parseInt(shirtXXXL,10);
             var shirtQuadXL = parseInt(shirtXXXXL,10);
        
-            updateSmallShirtTotal(shirtSmall);
-            updateMediumShirtTotal(shirtMedium);
-            updateLargeShirtTotal(shirtLarge);
-            updateXLShirtTotal(shirtXLarge);
-            updateXXLShirtTotal(shirtDoubleL);
-            updateXXXLShirtTotal(shirtTripleXL);
-            updateXXXXLShirtTotal(shirtQuadXL);
-            updateShirtCosts();
+            var regOrder = +shirtSmall + +shirtMedium + +shirtLarge + +shirtXLarge + +shirtDoubleXL;
+            var largerOrder = +shirtTripleXL + +shirtQuadXL;
+           
+           if (chNam != undefined){
+               if (chNam == "Alberta"){
+                   updateAlbertaRegCount(regOrder);
+                   updateAlbertaLarCount(largerOrder);
+               }
+               if (chNam == "Lillian"){
+                   updateLillianRegCount(regOrder);
+                   updateLillianLarCount(largerOrder);
+               }
+               if (chNam == "Elizabeth"){
+                   updateElizabethRegCount(regOrder);
+                   updateElizabethLarCount(largerOrder);
+               }
+               if (chNam == "Marylue"){
+                   updateMaryLueRegCount(regOrder);
+                   updateMaryLueLarCount(largerOrder);
+               }
+               if (chNam == "Edna"){
+                   updateEdnaRegCount(regOrder);
+                   updateEdnaLarCount(largerOrder);
+               }
+               if (chNam == "Dulcenia"){
+                   updateDulceniaRegCount(regOrder);
+                   updateDulceniaLarCount(largerOrder);
+               }
+               if (chNam == "Irene"){
+                   updateIreneRegCount(regOrder);
+                   updateIreneLarCount(largerOrder);
+               }
+               if (chNam == "Jimmy"){
+                   updateJimmieRegCount(regOrder);
+                   updateJimmieLarCount(largerOrder);
+               }
+               if (chNam == "Wardell"){
+                   updateWardellRegCount(regOrder);
+                   updateWardellLarCount(largerOrder);
+               }
+               if (chNam == "Commemorative"){
+                   updateCommemorativeRegCount(regOrder);
+                   updateCommemorativeLarCount(largerOrder);
+               }
+               updateRegCount(regOrder);
+               updateLargerCount(largerOrder);
+           }
             renderShirtTable();
         });
     });
@@ -132,61 +192,94 @@ var getPersonAge = function(aPAge){
     }
 };
 
-var updateSmallShirtTotal = function(smallOrder){
-    smallCount += smallOrder;  
+var updateAlbertaRegCount = function(alReTo){
+    albertaRegShirt += alReTo;    
 };
 
-var updateSmallTotal = function(){
-    smallTot = smallCount * regularTShirtCost;  
+var updateAlbertaLarCount = function (alLaTo){
+    albertaBiggerShirt += alLaTo;
 };
 
-var updateMediumShirtTotal = function(mediumOrder){
-    mediumCount +=mediumOrder;  
+var updateLillianRegCount = function(liReTo){
+    lillianRegShirt += liReTo;  
 };
 
-var updateMediumTotal = function(){
-    mediumTot = mediumCount * regularTShirtCost;
+var updateLillianLarCount = function(liLaTo){
+    lillianBiggerShirt += liLaTo;
 };
 
-var updateLargeShirtTotal = function(largeOrder){
-    largeCount += largeOrder;  
+var updateElizabethRegCount = function(elReTo){
+    elizabethRegShirt += elReTo;  
 };
 
-var updateLargeTotal = function(){
-    largeTot = largeCount * regularTShirtCost;  
+var updateElizabethLarCount = function(elLaTo){
+    elizabethBiggerShirt += elLaTo;
 };
 
-var updateXLShirtTotal = function(xlOrder){
-    xLCount += xlOrder;  
+var updateMaryLueRegCount = function(mlReTo){
+   maryLueRegShirt += mlReTo; 
 };
 
-var updateXLTotal = function(){
-    xLTot = xLCount * regularTShirtCost;  
+var updateMaryLueLarCount = function(mlLaTo){
+    maryLueBiggerShirt += mlLaTo;
 };
 
-var updateXXLShirtTotal = function(xxlOrder){
-    xXLCount += xxlOrder;  
+var updateEdnaRegCount = function(edReTo){
+    ednaRegShirt += edReTo;
 };
 
-var updateXXLTotal = function(){
-    xXLTot = xXLCount * regularTShirtCost;  
+var updateEdnaLarCount = function(edlaTo){
+    ednaBiggerShirt += edlaTo;
 };
 
-var updateXXXLShirtTotal = function(xxxlOrder){
-    xXXLCount += xxxlOrder;  
+var updateDulceniaRegCount = function(duReTo){
+    dulceniaRegShirt += duReTo;
 };
 
-var updateXXXLTotal = function(){
-    xXXLTot = xXXLCount * largerTShirtCost;  
+var updateDulceniaLarCount = function(dulaTo){
+    dulceniaBiggerShirt += dulaTo;
 };
 
-var updateXXXXLShirtTotal = function(xxxxlOrder){
-    xXXXLCount += xxxxlOrder;  
+var updateIreneRegCount = function(irReTo){
+    ireneRegShirt += irReTo;  
 };
 
-var updateXXXXLTotal = function(){
-    xXXXLTot = xXXXLCount * largerTShirtCost;  
+var updateIreneLarCount = function(irlaTo){
+    ireneBiggerShirt += irlaTo;
 };
+
+var updateJimmieRegCount = function(jiReTo){
+    jimmieRegShirt += jiReTo;
+};
+
+var updateJimmieLarCount = function(jilaTo){
+    jimmieBiggerShirt += jilaTo;
+};
+
+var updateWardellRegCount = function(waReTo){
+    wardellRegShirt += waReTo;
+};
+
+var updateWardellLarCount = function(walaTo){
+    wardellBiggerShirt += walaTo;
+};
+
+var updateCommemorativeRegCount = function(coReTo){
+    commemorativeRegShirt += coReTo;  
+};
+
+var updateCommemorativeLarCount = function(colaTo){
+    commemorativeBiggerShirt += colaTo;
+};
+
+var updateRegCount = function(reTo){
+    regularShirt += reTo;
+};
+
+var updateLargerCount = function(laTo){
+    largerShirt += laTo;
+};
+
 
 var updateInfantCount = function(){
     infantCount +=1;
@@ -236,16 +329,6 @@ var updateShirtDue = function(shrDe){
     shirtDu += shrDe;  
 };
 
-var updateShirtCosts = function(){
-    updateSmallTotal();
-    updateMediumTotal();
-    updateLargeTotal();
-    updateXLTotal();
-    updateXXLTotal();
-    updateXXXLTotal();
-    updateXXXXLTotal();
-};
-
 var updateRegCosts = function(){
     updateInfantTotal();
     updateChildTotal();
@@ -273,13 +356,17 @@ var renderShirtTable = function(){
     var shtTbl = document.createElement("table");
   
     renderShirtKeyRow(shtTbl);
-    renderSmallShirtRow(shtTbl);
-    renderMediumShirtRow(shtTbl);
-    renderLargeShirtRow(shtTbl);
-    renderXLShirtRow(shtTbl);
-    renderXXLShirtRow(shtTbl);
-    renderXXXLShirtRow(shtTbl);
-    renderXXXXLShirtRow(shtTbl);
+    renderAlbertaShirtTotalRow(shtTbl);
+    renderLillianShirtTotalRow(shtTbl);
+    renderElizabethShirtTotalRow(shtTbl);
+    renderMaryLueShirtTotalRow(shtTbl);
+    renderEdnaShirtTotalRow(shtTbl);
+    renderDulceniaShirtTotalRow(shtTbl);
+    renderIreneShirtTotalRow(shtTbl);
+    renderJimmieShirtTotalRow(shtTbl);
+    renderWardellShirtTotalRow(shtTbl);
+    renderCommemorativeShirtTotalRow(shtTbl);
+    renderShirtTotalRow(shtTbl);
 
     shtDiv.appendChild(shtTbl);
     shtTblSrc.appendChild(shtDiv);
@@ -289,134 +376,291 @@ var renderShirtKeyRow = function(shirtTbl){
     var shirtRow = document.createElement("tr");
     
     var itemName = document.createElement("td");
-    itemName.innerHTML = "Size";
+    itemName.innerHTML = "Child Name";
     shirtRow.appendChild(itemName);
     
+    var regShirtOrd = document.createElement("td");
+    regShirtOrd.innerHTML = "Regular Shirt Revenue (Sm - XXL)";
+    shirtRow.appendChild(regShirtOrd);
+    
+    
     var shirtOrd = document.createElement("td");
-    shirtOrd.innerHTML = "Quantity";
+    shirtOrd.innerHTML = "Larger Shirt Revenue (XXXL - XXXXL)";
     shirtRow.appendChild(shirtOrd);
     
     var shirtIntake = document.createElement("td");
-    shirtIntake.innerHTML = "Revenue";
+    shirtIntake.innerHTML = "Total Shirt Revenue";
     shirtRow.appendChild(shirtIntake);
     shirtTbl.appendChild(shirtRow);
 };
 
-var renderSmallShirtRow = function(shtTable){
+var renderAlbertaShirtTotalRow = function(shtTable){
+    var albertaRegTotal = albertaRegShirt * regularTShirtCost;
+    var albertaBigTotal = albertaBiggerShirt * largerTShirtCost;
+    var albertaRev = albertaRegTotal + albertaBigTotal;
     var smallRow = document.createElement("tr");
     
+    var albertaName = document.createElement("td");
+    albertaName.innerHTML = "Alberta";
+    smallRow.appendChild(albertaName);
+    
     var smallName = document.createElement("td");
-    smallName.innerHTML = "Small";
+    smallName.innerHTML = "$" + albertaRegTotal;
     smallRow.appendChild(smallName);
     
     var smallQuant = document.createElement("td");
-    smallQuant.innerHTML = smallCount;
+    smallQuant.innerHTML = "$" + albertaBigTotal;;
     smallRow.appendChild(smallQuant);
     
     var smallRev = document.createElement("td");
-    smallRev.innerHTML = smallTot;
+    smallRev.innerHTML = "$" + albertaRev;
     smallRow.appendChild(smallRev);
     shtTable.appendChild(smallRow);
 };
 
-var renderMediumShirtRow = function (shirtTabl){
+var renderLillianShirtTotalRow = function (shirtTabl){
+    var lillianRegTotal = lillianRegShirt * regularTShirtCost;
+    var lillianBigTotal = lillianBiggerShirt * largerTShirtCost;
+    var lillianRev = lillianRegTotal + lillianBigTotal;
+    
     var mediumRow = document.createElement("tr");
     
+    var lillianName = document.createElement("td");
+    lillianName.innerHTML = "Lillian";
+    mediumRow.appendChild(lillianName);
+    
     var mediumName = document.createElement("td");
-    mediumName.innerHTML = "Medium";
+    mediumName.innerHTML = "$" +lillianRegTotal;
     mediumRow.appendChild(mediumName);
     
     var mediumQuant = document.createElement("td");
-    mediumQuant.innerHTML = mediumCount;
+    mediumQuant.innerHTML = "$" + lillianBigTotal;
     mediumRow.appendChild(mediumQuant);
     
     var mediumRev = document.createElement("td");
-    mediumRev.innerHTML = mediumTot;
+    mediumRev.innerHTML = "$" + lillianRev;
     mediumRow.appendChild(mediumRev);
     shirtTabl.appendChild(mediumRow);
 };
 
-var renderLargeShirtRow = function(shrtTbl){
+var renderElizabethShirtTotalRow = function(shrtTbl){
+    var elizabethRegTotal = elizabethRegShirt * regularTShirtCost;
+    var elizabethBigTotal = elizabethBiggerShirt * largerTShirtCost;
+    var elizabethRev = elizabethRegTotal + elizabethBigTotal;
+    
     var largeRow = document.createElement("tr");
     
+    var elizabethName = document.createElement("td");
+    elizabethName.innerHTML = "Elizabeth";
+    largeRow.appendChild(elizabethName);
+    
     var largeName = document.createElement("td");
-    largeName.innerHTML = "Large";
+    largeName.innerHTML = "$" + elizabethRegTotal;
     largeRow.appendChild(largeName);
     
     var largeQuant = document.createElement("td");
-    largeQuant.innerHTML = largeCount;
+    largeQuant.innerHTML = "$" + elizabethBigTotal;
     largeRow.appendChild(largeQuant);
     
     var largeRev = document.createElement("td");
-    largeRev.innerHTML = largeTot;
+    largeRev.innerHTML = "$"+ elizabethRev;
     largeRow.appendChild(largeRev);
     shrtTbl.appendChild(largeRow);
 };
 
-var renderXLShirtRow = function(shrtTbl){
+var renderMaryLueShirtTotalRow = function(shrtTbl){
+    var maryLueRegTotal = maryLueRegShirt * regularTShirtCost;
+    var maryLueBigTotal = maryLueBiggerShirt * largerTShirtCost;
+    var maryLueRev = maryLueRegTotal + maryLueBigTotal;
+    
     var xlargeRow = document.createElement("tr");
     
+    var maryLueName = document.createElement("td");
+    maryLueName.innerHTML = "MaryLue";
+    xlargeRow.appendChild(maryLueName);
+    
     var xlargeName = document.createElement("td");
-    xlargeName.innerHTML = "XL";
+    xlargeName.innerHTML = "$"+ maryLueRegTotal;
     xlargeRow.appendChild(xlargeName);
     
     var xlargeQuant = document.createElement("td");
-    xlargeQuant.innerHTML = xLCount;
+    xlargeQuant.innerHTML = "$" + maryLueBigTotal;
     xlargeRow.appendChild(xlargeQuant);
     
     var xlargeRev = document.createElement("td");
-    xlargeRev.innerHTML = xLTot;
+    xlargeRev.innerHTML = "$" + maryLueRev;
     xlargeRow.appendChild(xlargeRev);
     shrtTbl.appendChild(xlargeRow);
 };
 
-var renderXXLShirtRow = function(siTae){
+var renderEdnaShirtTotalRow = function(siTae){
+    var ednaRegTotal = ednaRegShirt * regularTShirtCost;
+    var ednaBigTotal = ednaBiggerShirt * largerTShirtCost;
+    var ednaRev = ednaRegTotal + ednaBigTotal;
+    
     var xXLRow = document.createElement("tr");
     
+    var ednaName = document.createElement("td");
+    ednaName.innerHTML = "Edna";
+    xXLRow.appendChild(ednaName);
+    
     var xXLName = document.createElement("td");
-    xXLName.innerHTML = "XXL";
+    xXLName.innerHTML = "$" + ednaRegTotal;
     xXLRow.appendChild(xXLName);
     
     var xXLQuant = document.createElement("td");
-    xXLQuant.innerHTML = xXLCount;
+    xXLQuant.innerHTML = "$" + ednaBigTotal;
     xXLRow.appendChild(xXLQuant);
     
     var xXLRev = document.createElement("td");
-    xXLRev.innerHTML = xXLTot;
+    xXLRev.innerHTML = "$" + ednaRev;
     xXLRow.appendChild(xXLRev);
     siTae.appendChild(xXLRow);
 };
 
-var renderXXXLShirtRow = function(siTae){
+var renderDulceniaShirtTotalRow = function(siTae){
+    var dulceniaRegTotal = dulceniaRegShirt * regularTShirtCost;
+    var dulceniaBigTotal = dulceniaBiggerShirt * largerTShirtCost;
+    var dulceniaRev = dulceniaRegTotal + dulceniaBigTotal;
+    
     var xXXLRow = document.createElement("tr");
     
+    var dulceniaName = document.createElement("td");
+    dulceniaName.innerHTML = "Dulcenia";
+    xXXLRow.appendChild(dulceniaName);
+    
     var xXXLName = document.createElement("td");
-    xXXLName.innerHTML = "XXXL";
+    xXXLName.innerHTML = "$" + dulceniaRegTotal;
     xXXLRow.appendChild(xXXLName);
     
     var xXXLQuant = document.createElement("td");
-    xXXLQuant.innerHTML = xXXLCount;
+    xXXLQuant.innerHTML = "$" + dulceniaBigTotal;
     xXXLRow.appendChild(xXXLQuant);
     
     var xXXLRev = document.createElement("td");
-    xXXLRev.innerHTML = xXXLTot;
+    xXXLRev.innerHTML = "$" + dulceniaRev;
     xXXLRow.appendChild(xXXLRev);
     siTae.appendChild(xXXLRow);
 };
 
-var renderXXXXLShirtRow = function(siTae){
+var renderIreneShirtTotalRow = function(siTae){
+    var ireneRegTotal = ireneRegShirt * regularTShirtCost;
+    var ireneBigTotal = ireneBiggerShirt * largerTShirtCost;
+    var ireneRev = ireneRegTotal + ireneBigTotal;
     var xXXXLRow = document.createElement("tr");
     
+    var ireneName = document.createElement("td");
+    ireneName.innerHTML = "Irene";
+    xXXXLRow.appendChild(ireneName);
+    
     var xXXXLName = document.createElement("td");
-    xXXXLName.innerHTML = "XXXXL";
+    xXXXLName.innerHTML = "$" + ireneRegTotal;
     xXXXLRow.appendChild(xXXXLName);
     
     var xXXXLQuant = document.createElement("td");
-    xXXXLQuant.innerHTML = xXXXLCount;
+    xXXXLQuant.innerHTML = "$" + ireneBigTotal;
     xXXXLRow.appendChild(xXXXLQuant);
     
     var xXXXLRev = document.createElement("td");
-    xXXXLRev.innerHTML = xXXXLTot;
+    xXXXLRev.innerHTML = "$" + ireneRev;
+    xXXXLRow.appendChild(xXXXLRev);
+    siTae.appendChild(xXXXLRow);
+};
+
+var renderJimmieShirtTotalRow = function(siTae){
+    var jimmieRegTotal = jimmieRegShirt * regularTShirtCost;
+    var jimmieBigTotal = jimmieBiggerShirt * largerTShirtCost;
+    var jimmieRev = jimmieRegTotal + jimmieBigTotal;
+    var xXXXLRow = document.createElement("tr");
+    
+    var jimmieName = document.createElement("td");
+    jimmieName.innerHTML = "Jimmie";
+    xXXXLRow.appendChild(jimmieName);
+    
+    var xXXXLName = document.createElement("td");
+    xXXXLName.innerHTML = "$" + jimmieRegTotal;
+    xXXXLRow.appendChild(xXXXLName);
+    
+    var xXXXLQuant = document.createElement("td");
+    xXXXLQuant.innerHTML = "$" + jimmieBigTotal;
+    xXXXLRow.appendChild(xXXXLQuant);
+    
+    var xXXXLRev = document.createElement("td");
+    xXXXLRev.innerHTML = "$" + jimmieRev;
+    xXXXLRow.appendChild(xXXXLRev);
+    siTae.appendChild(xXXXLRow);
+};
+
+var renderWardellShirtTotalRow = function(siTae){
+    var wardellRegTotal = wardellRegShirt * regularTShirtCost;
+    var wardellBigTotal = wardellBiggerShirt * largerTShirtCost;
+    var wardellRev = wardellRegTotal + wardellBigTotal;
+    var xXXXLRow = document.createElement("tr");
+    
+    var wardellName = document.createElement("td");
+    wardellName.innerHTML = "Wardell";
+    xXXXLRow.appendChild(wardellName);
+    
+    var xXXXLName = document.createElement("td");
+    xXXXLName.innerHTML = "$" + wardellRegTotal;
+    xXXXLRow.appendChild(xXXXLName);
+    
+    var xXXXLQuant = document.createElement("td");
+    xXXXLQuant.innerHTML = "$" + wardellBigTotal;
+    xXXXLRow.appendChild(xXXXLQuant);
+    
+    var xXXXLRev = document.createElement("td");
+    xXXXLRev.innerHTML = "$" + wardellRev;
+    xXXXLRow.appendChild(xXXXLRev);
+    siTae.appendChild(xXXXLRow);
+};
+
+var renderCommemorativeShirtTotalRow = function(siTae){
+    var commemorativeRegTotal = commemorativeRegShirt * regularTShirtCost;
+    var commemorativeBigTotal = commemorativeBiggerShirt * largerTShirtCost;
+    var commemorativeRev = commemorativeRegTotal + commemorativeBigTotal;
+    
+    var xXXXLRow = document.createElement("tr");
+    
+    var commemorativeName = document.createElement("td");
+    commemorativeName.innerHTML = "Commemorative";
+    xXXXLRow.appendChild(commemorativeName);
+    
+    var xXXXLName = document.createElement("td");
+    xXXXLName.innerHTML = "$" + commemorativeRegTotal;
+    xXXXLRow.appendChild(xXXXLName);
+    
+    var xXXXLQuant = document.createElement("td");
+    xXXXLQuant.innerHTML = "$" + commemorativeBigTotal;
+    xXXXLRow.appendChild(xXXXLQuant);
+    
+    var xXXXLRev = document.createElement("td");
+    xXXXLRev.innerHTML = "$" + commemorativeRev;
+    xXXXLRow.appendChild(xXXXLRev);
+    siTae.appendChild(xXXXLRow);
+};
+
+var renderShirtTotalRow = function(siTae){
+    var regTotal = regularShirt * regularTShirtCost;
+    var bigTotal = largerShirt * largerTShirtCost;
+    var shirtRev = regTotal + bigTotal;
+    
+    var xXXXLRow = document.createElement("tr");
+    
+    var shirtName = document.createElement("td");
+    shirtName.innerHTML = "Totals";
+    xXXXLRow.appendChild(shirtName);
+    
+    var xXXXLName = document.createElement("td");
+    xXXXLName.innerHTML = "$" + regTotal;
+    xXXXLRow.appendChild(xXXXLName);
+    
+    var xXXXLQuant = document.createElement("td");
+    xXXXLQuant.innerHTML = "$" + bigTotal;
+    xXXXLRow.appendChild(xXXXLQuant);
+    
+    var xXXXLRev = document.createElement("td");
+    xXXXLRev.innerHTML = "$" + shirtRev;
     xXXXLRow.appendChild(xXXXLRev);
     siTae.appendChild(xXXXLRow);
 };
