@@ -523,14 +523,6 @@ var renderMemberNav = function(){
         showMemberShirtScreen();
     });
     $div.appendChild($butt);
-  
-    var $foodButt = document.createElement("button");
-    $foodButt.setAttribute("id", "foodMem");
-    $foodButt.innerHTML = "Food You Will Bring";
-    $foodButt.addEventListener("click", function(ev){
-        showMemberFoodScreen();
-    });
-    $div.appendChild($foodButt);
 };
 
 var renderLogoutButton = function(){

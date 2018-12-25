@@ -3,7 +3,6 @@ var admAct = "";
 var accountDB = new Firebase("https://bowmanfamreun.firebaseio.com/Accounts");
 var shirtsDB = new Firebase("https://bowmanfamreun.firebaseio.com/TShirt");
 var attendDB = new Firebase("https://bowmanfamreun.firebaseio.com/Attendees");
-var foodDB = new Firebase("https://bowmanfamreun.firebaseio.com/Food");
 var feeDB = new Firebase("https://bowmanfamreun.firebaseio.com/Fees");
 var useDB = new Firebase("https://bowmanfamreun.firebaseio.com/Users");
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
@@ -225,7 +224,6 @@ var getRecord = function(){
     getPersonInfo();
     getPersonAttendeesList();
     getPersonShirtOrder();
-    getPersonFoodList();
 };
 
 var getPersonInfo = function(){
@@ -276,23 +274,6 @@ var getPersonShirtOrder = function(){
             renderShirtOrder(persSm, persMd, persLg, persXL, persxxL, persxxxL, persxxxxL);
         }); 
     });  
-};
-
-var getPersonFoodList = function(){
-    var origiDv = document.getElementById("personView");
-    var sourcDv = document.createElement("div");
-    
-    var foodHead = document.createElement("h3");
-    foodHead.innerHTML = "Food";
-    sourcDv.appendChild(foodHead);
-    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-            var fdNm = childSnapshot.val().food;
-            var fdCat = childSnapshot.val().category;
-            renderFood(fdNm, fdCat, sourcDv);
-        });
-    });
-    origiDv.appendChild(sourcDv);
 };
 
 var renderPersonInfo = function(fn,ln, ad, cy, sa, zi, ph, em){
@@ -510,19 +491,6 @@ var deleteAttendees = function(attnd){
     attendDB.child(attnd).remove(); 
 };
 
-var deleteFoodKeys = function(){
-    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-            var fdKey = childSnapshot.key();
-            deleteFood(fdKey);
-        });
-    });
-};
-
-var deleteFood = function(fod){
-    foodDB.child(fod).remove(); 
-};
-
 var deleteUserKey = function(){
     var userData = DB.child("Users");
     userData.orderByChild("userName").equalTo(userAcct).on("value", function(snapshot){
@@ -556,7 +524,6 @@ var deleteEntireRecord = function(){
     deleteFeesKey();
     deleteShirtKey();
     deleteAttendeesKeys();
-    deleteFoodKeys();
 };
 
 var renderDeleteRecordButton = function(){
@@ -732,18 +699,6 @@ var getAttendCount = function(){
     });
 };
 
-var getAssocFood = function(){
-    renderFoodEditHeader();
-    foodDB.orderByChild("user").equalTo(userAcct).on("value", function(snapshot){
-        snapshot.forEach(function(childSnapshot){
-            var fdNm = childSnapshot.val().food;
-            var fdCat = childSnapshot.val().category;
-            var fdKey = childSnapshot.key();
-            renderIndFood(fdNm, fdCat, fdKey);
-        });
-    });  
-};
-
 var getEditRecord = function(){
     document.getElementById("personSearch").classList.add("hidden");
     document.getElementById("searchResults").classList.add("hidden");
@@ -762,8 +717,6 @@ var renderEditScreen = function(){
     getPersonShirtEditOrder();
     getAssocAttend();
     renderNewAttendant();
-    getAssocFood();
-    renderNewFood();
 };
 
 var clearAllScreen = function(){
@@ -1474,134 +1427,6 @@ var setPersonRegCost = function(){
     newAttendantOrder = childCost + adultCost;
 };
 
-var renderIndFood = function(foodName, foodCat, foodKey){
-    var fdDiv = document.getElementById("personEdit");
-    var foodDiv = document.createElement("div");
-    var foodDivName = foodName.concat(foodCat);
-    renderFoodNameEdit(foodName,foodDiv,foodDivName);
-    renderFoodCatEdit(foodCat, foodDiv, foodDivName);
-    renderFoodUpdateButton(foodKey,foodDiv, foodDivName);
-    renderFoodDeleteButton(foodKey,foodDiv, foodDivName);
-    fdDiv.appendChild(foodDiv);
-};
-
-var renderFoodNameEdit = function(fdNme, fdDiv,fdDvNm){
-    var foodNm = fdDvNm.concat("Food");
-    var fodDiv = document.createElement("div");
-    fodDiv.classList.add("individual_block_first");
-
-    var foodnameInput = document.createElement("input");
-    var foodnameLabel = document.createElement("label");
-    foodnameLabel.setAttribute("for", "foodnameInput");
-    foodnameLabel.innerHTML = "Food Name";
-    fodDiv.appendChild(foodnameLabel);  
-    
-    foodnameInput.setAttribute("type", "text");
-    foodnameInput.setAttribute("id", foodNm);
-    foodnameInput.setAttribute("value", fdNme);
-    foodnameInput.innerHTML = fdNme;
-    fodDiv.appendChild(foodnameInput);
-
-    fdDiv.appendChild(fodDiv);
-};
-
-var renderFoodCatEdit = function(fdCate, fdDiv, fdDivNm){
-    var foodCt = fdDivNm.concat("Cat");
-    var fodDiv = document.createElement("div");
-    fodDiv.classList.add("individual_block");
-
-    // var foodCatInput = document.createElement("input");
-    var foodCatLabel = document.createElement("label");
-    foodCatLabel.setAttribute("for", "foodCatInput");
-    foodCatLabel.innerHTML = "Food Category";
-    fodDiv.appendChild(foodCatLabel);  
-    
-    foodCatSelection(fdCate,foodCt,fodDiv);
-    fdDiv.appendChild(fodDiv);
-};
-
-var foodCatSelection = function(fdCategory, foodId, attachmDv){
-    var foodCategoryClassification = document.createElement("select");
-    foodCategoryClassification.setAttribute("name", "foodCat");
-    foodCategoryClassification.setAttribute("id", foodId);
-  
-    var defCat = document.createElement("option");
-    defCat.setAttribute("value", "Select Category");
-    defCat.setAttribute("id", "defCategory");
-    defCat.innerHTML = "Select Category";
-    foodCategoryClassification.appendChild(defCat);
-  
-    var saladCat = document.createElement("option");
-    saladCat.setAttribute("value", "Salad");
-    saladCat.setAttribute("id", "saladCategory");
-    saladCat.innerHTML = "Salad";
-    if(fdCategory == "Salad"){
-        saladCat.setAttribute("selected",true);
-    }
-    foodCategoryClassification.appendChild(saladCat);
-  
-    var sideDishCat = document.createElement("option");
-    sideDishCat.setAttribute("value", "Side Dish");
-    sideDishCat.setAttribute("id", "sideDishCategory");
-    sideDishCat.innerHTML = "Side Dish";
-    if(fdCategory == "Side Dish"){
-        sideDishCat.setAttribute("selected",true);
-    }
-    foodCategoryClassification.appendChild(sideDishCat);
-  
-    var meatCat = document.createElement("option");
-    meatCat.setAttribute("value", "Meat");
-    meatCat.setAttribute("id", "meatCategory");
-    meatCat.innerHTML = "Meat";
-    if(fdCategory == "Meat"){
-        meatCat.setAttribute("selected",true);
-    }
-    foodCategoryClassification.appendChild(meatCat);
-  
-    var dessCat = document.createElement("option");
-    dessCat.setAttribute("value", "Dessert");
-    dessCat.setAttribute("id", "dessCategory");
-    dessCat.innerHTML = "Dessert";
-    if(fdCategory == "Dessert"){
-        dessCat.setAttribute("selected",true);
-    }
-    foodCategoryClassification.appendChild(dessCat);
-  
-    attachmDv.appendChild(foodCategoryClassification);
-};
-
-var renderFoodUpdateButton = function(fKey,fDiv, fDName){
-    var foodNm = fDName.concat("Food");
-    var fodCt = fDName.concat("Cat");
-    var fdUpButDiv = document.createElement("div");
-    fdUpButDiv.classList.add("individual_block");
-    var fdSubmit = document.createElement("button");
-    fdSubmit.setAttribute("id", "updateFoodSubmit");
-    fdSubmit.innerHTML = "Update Food Item";
-    fdSubmit.addEventListener("click", function(ev){
-        foodDB.child(fKey).update({user: userAcct,
-                            food: document.getElementById(foodNm).value,
-                            category: document.getElementById(fodCt).value});
-        renderEditScreen();
-    });
-    fdUpButDiv.appendChild(fdSubmit);
-    fDiv.appendChild(fdUpButDiv);
-};
-
-var renderFoodDeleteButton = function(fKey,fDiv, fDName){
-    var fdUpButDiv = document.createElement("div");
-    fdUpButDiv.classList.add("individual_block");
-    var fdSubmit = document.createElement("button");
-    fdSubmit.setAttribute("id", "deleteFood");
-    fdSubmit.innerHTML = "Delete Food Item";
-    fdSubmit.addEventListener("click", function(ev){
-        foodDB.child(fKey).remove();
-        renderEditScreen();
-    });
-    fdUpButDiv.appendChild(fdSubmit);
-    fDiv.appendChild(fdUpButDiv);
-};
-
 var renderNewAttendant = function(){
     var nAttSrc = document.getElementById("personEdit");
     var nAttDiv = document.createElement("div");
@@ -1712,89 +1537,6 @@ var renderAttendSubmit = function(attachm){
         renderEditScreen();
     });
     attachm.appendChild(attendButton);
-};
-
-var renderNewFood = function(){
-    var nFoodSrc = document.getElementById("personEdit");
-    var nFoodDiv = document.createElement("div");
-    renderFoodHeader(nFoodDiv);
-    renderNewFoodName(nFoodDiv);
-    renderNewFoodCat(nFoodDiv);
-    renderNewFoodSubmit(nFoodDiv);
-    nFoodSrc.appendChild(nFoodDiv);
-};
-
-var renderFoodHeader = function(fdDivm){
-    var atteHead = document.createElement("h1");
-    atteHead.innerHTML = "Add a new Food";
-    fdDivm.appendChild(atteHead);
-};
-
-var renderNewFoodName = function(attch){
-    var fdNameDiv = document.createElement("div");
-    fdNameDiv.classList.add("individual_block_first");
-    var foodNamLbl = document.createElement("label");
-    foodNamLbl.setAttribute("for", foodNamInput);
-    foodNamLbl.innerHTML = "Food Name: ";
-    fdNameDiv.appendChild(foodNamLbl);
-    
-    var foodNamInput = document.createElement("input");
-    foodNamInput.setAttribute("type", "text");
-    foodNamInput.setAttribute("id", "foodNamText");
-    fdNameDiv.appendChild(foodNamInput);
-    attch.appendChild(fdNameDiv);
-};
-
-var renderNewFoodCat = function(atch){
-    var newFoodCategoryClassification = document.createElement("select");
-    newFoodCategoryClassification.setAttribute("name", "otherCat");
-    newFoodCategoryClassification.setAttribute("id", "newFoodCategorySelection");
-  
-    var defCat = document.createElement("option");
-    defCat.setAttribute("value", "Select Category");
-    defCat.setAttribute("id", "defCategory");
-    defCat.innerHTML = "Select Category";
-    newFoodCategoryClassification.appendChild(defCat);
-  
-    var saladCat = document.createElement("option");
-    saladCat.setAttribute("value", "Salad");
-    saladCat.setAttribute("id", "saladCategory");
-    saladCat.innerHTML = "Salad";
-    newFoodCategoryClassification.appendChild(saladCat);
-  
-    var sideDishCat = document.createElement("option");
-    sideDishCat.setAttribute("value", "Side Dish");
-    sideDishCat.setAttribute("id", "sideDishCategory");
-    sideDishCat.innerHTML = "Side Dish";
-    newFoodCategoryClassification.appendChild(sideDishCat);
-  
-    var meatCat = document.createElement("option");
-    meatCat.setAttribute("value", "Meat");
-    meatCat.setAttribute("id", "meatCategory");
-    meatCat.innerHTML = "Meat";
-    newFoodCategoryClassification.appendChild(meatCat);
-  
-    var dessertCat = document.createElement("option");
-    dessertCat.setAttribute("value", "Dessert");
-    dessertCat.setAttribute("id", "dessertCategory");
-    dessertCat.innerHTML = "Dessert";
-    newFoodCategoryClassification.appendChild(dessertCat);
-  
-    atch.appendChild(newFoodCategoryClassification);
-};
-
-var renderNewFoodSubmit = function(attachme){
-    var foodButton = document.createElement("button");
-    foodButton.setAttribute("id","newFoodSubmit");
-    foodButton.innerHTML = "Add Food to record";
-    foodButton.addEventListener("click", function(ev){
-        foodDB.push().set({user:userAcct,
-                          food: document.getElementById("foodNamText").value,
-                          category: document.getElementById("newFoodCategorySelection").value});
-        clearAllScreen();
-        renderEditScreen();
-    });
-    attachme.appendChild(foodButton);
 };
 
 var renderPersonBackButton = function(){

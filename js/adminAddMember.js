@@ -6,7 +6,6 @@ var lgShtCt = 12;
 var childReg = 10;
 var adultReg = 20;
 var attendList = [];
-var foodList = [];
 var adminAct = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
@@ -137,16 +136,6 @@ var pushAttendees = function(){
     });
 };
 
-var pushFood = function(){
-    var regData = DB.child("Food");
-    foodList.forEach(function(afd){
-       regData.push().set({user:newOfflineUserName,
-                            food:afd[0],            
-                            category:afd[1]
-        });
-    });
-};
-
 var updateAttendeeList = function(){
     var newAttendee = [];
     newAttendee.push(document.getElementById("attendFName").value);
@@ -156,23 +145,10 @@ var updateAttendeeList = function(){
     renderAttendeeList();
 };
 
-var updateFoodList = function(){
-    var newFood = [];
-    newFood.push(document.getElementById("foodName").value);
-    newFood.push(document.getElementById("foodSelection").value);
-    foodList.push(newFood);
-    renderFoodList();
-};
-
 var resetAttendeesFields = function(){
     document.getElementById("attendFName").value = "";
     document.getElementById("attendLName").value = "";
     document.getElementById("ageSelection").selectedIndex = 0;
-};
-
-var resetFoodFields = function(){
-    document.getElementById("foodName").value = "";
-    document.getElementById("foodSelection").selectedIndex = 0;
 };
 
 var resetAllFields = function(){
@@ -194,9 +170,6 @@ var resetAllFields = function(){
     document.getElementById("doubXXLOrd").selectedIndex = 0;
     document.getElementById("tripXLOrd").selectedIndex = 0;
     document.getElementById("quadXLOrd").selectedIndex = 0;
-    document.getElementById("foodName").value = "";
-    document.getElementById("foodSelection").selectedIndex = 0;
-    foodList = [];
     attendList = [];
     registCost =0;
     shirtsCost=0;
@@ -215,8 +188,6 @@ var renderMemberInfo = function(){
     renderNewMembAttend();
     renderAttendeeList();
     renderMemShirts();
-    renderNewMemFood();
-    renderFoodList();
 };
 
 var renderMemContact = function(){
@@ -685,119 +656,6 @@ var renderMem4XL = function(ataDiv){
     ataDiv.appendChild($quadXLDiv);
 };
 
-var renderNewMemFood = function(){
-    var div = document.getElementById("addNewMemberFood");
-    var foodTitl = document.createElement("h1");
-    foodTitl.innerHTML = "Register Food";
-    div.appendChild(foodTitl);
-    
-    renderNewFoodName(div);
-    renderNewFoodCat(div);
-    renderFoodAddButton(div);
-};
-
-var renderNewFoodName = function(fdDiv){
-    var fNamediv = document.createElement("div");
-    fNamediv.classList.add("individual_block_first");
-  
-    var fnameLab = document.createElement("label");
-    fnameLab.setAttribute("for", "foodName");
-    fnameLab.innerHTML = "Food Name: ";
-    fNamediv.appendChild(fnameLab);
-  
-    var fnameIpt = document.createElement("input");
-    fnameIpt.setAttribute("type", "text");
-    fnameIpt.setAttribute("id", "foodName");
-    fNamediv.appendChild(fnameIpt);
-    fdDiv.appendChild(fNamediv);
-};
-
-var renderNewFoodCat = function(foodDv){
-     var foodCategoryClassify = document.createElement("select");
-    foodCategoryClassify.setAttribute("name", "foodCat");
-    foodCategoryClassify.setAttribute("id", "foodSelection");
-  
-    var defCat = document.createElement("option");
-    defCat.setAttribute("value", "Select Category");
-    defCat.setAttribute("id", "defCategory");
-    defCat.innerHTML = "Select Category";
-    foodCategoryClassify.appendChild(defCat);
-  
-    var saladCat = document.createElement("option");
-    saladCat.setAttribute("value", "Salad");
-    saladCat.setAttribute("id", "saladCategory");
-    saladCat.innerHTML = "Salad";
-    foodCategoryClassify.appendChild(saladCat);
-  
-    var sideDishCat = document.createElement("option");
-    sideDishCat.setAttribute("value", "Side Dish");
-    sideDishCat.setAttribute("id", "sideDishCategory");
-    sideDishCat.innerHTML = "Side Dish";
-    foodCategoryClassify.appendChild(sideDishCat);
-  
-    var meatCat = document.createElement("option");
-    meatCat.setAttribute("value", "Meat");
-    meatCat.setAttribute("id", "meatCategory");
-    meatCat.innerHTML = "Meat";
-    foodCategoryClassify.appendChild(meatCat);
-    
-    var dessertCat = document.createElement("option");
-    dessertCat.setAttribute("value", "Dessert");
-    dessertCat.setAttribute("id", "dessertCategory");
-    dessertCat.innerHTML = "Dessert";
-    foodCategoryClassify.appendChild(dessertCat);
-  
-    foodDv.appendChild(foodCategoryClassify);
-};
-
-var renderFoodAddButton = function(addBDv){
-    var $buttSubmit = document.createElement("button");
-    $buttSubmit.setAttribute("id", "foodSubmit");
-    $buttSubmit.innerHTML = "Add Food";
-    $buttSubmit.addEventListener("click", function(ev){
-        updateFoodList();
-        resetFoodFields();
-    });
-    addBDv.appendChild($buttSubmit);
-};
-
-var renderFoodList = function(){
-    var div = document.getElementById("addMemberFoodList");
-    
-    while(div.firstChild)
-    div.removeChild(div.firstChild);
-    
-    var foodBringList = document.createElement("h1");
-    foodBringList.innerHTML = "Foods Being Brought";
-    div.appendChild(foodBringList);
-    
-    foodList.forEach(function (aFood){
-        var foodDv = document.createElement("div");
-     
-        var foodNm = document.createElement("div");
-        foodNm.classList.add("individual_block_first");
-        foodNm.innerHTML = aFood[0];
-        foodDv.appendChild(foodNm);
-     
-        var foodCt = document.createElement("div");
-        foodCt.classList.add("individual_block");
-        foodCt.innerHTML = aFood[1];
-        foodDv.appendChild(foodCt);
-     
-        var deleteFood = document.createElement("button");
-        deleteFood.setAttribute("id", "foodDelete");
-        deleteFood.innerHTML = "Delete Food";
-        deleteFood.addEventListener("click", function(ev){
-            var foodIndex = foodList.indexOf(aFood);
-            foodList.splice(foodIndex, 1);
-            console.log(foodList);
-            renderFoodList();
-        });
-        foodDv.appendChild(deleteFood);
-        div.appendChild(foodDv);
-    });
-};
-
 var renderAddMemberButtons = function(){
     var div = document.getElementById("addMemberButtons");
     var submitMember = document.createElement("button");
@@ -812,7 +670,6 @@ var renderAddMemberButtons = function(){
         pushMemInfo();
         pushMemUserInfo();
         pushAttendees();
-        pushFood();
         pushShirtOrder();
         setOfflineRegCost();
         setOfflineShirtCost();
