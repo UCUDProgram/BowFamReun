@@ -6,6 +6,7 @@ var lgShtCt = 12;
 var childReg = 10;
 var adultReg = 20;
 var attendList = [];
+var shirtList = [];
 var adminAct = "";
 var DB = new Firebase("https://bowmanfamreun.firebaseio.com/");
 
@@ -56,23 +57,13 @@ var setOfflineRegCost = function(){
 var setOfflineShirtCost = function(){
     var regShtCount = 0;
     var lgShtCount = 0;
-    var smal =0;
-    var medi =0;
-    var larg = 0;
-    var xlar =0;
-    var xxla = 0;
-    var xxxl = 0;
-    var xxxx =0;
+
+
+
+
+
+
     
-    smal = parseInt(document.getElementById("smallOrd").value,10);
-    medi = parseInt(document.getElementById("mediumOrd").value,10);
-    larg = parseInt(document.getElementById("largeOrd").value, 10);
-    xlar = parseInt(document.getElementById("xlargeOrd").value,10);
-    xxla = parseInt(document.getElementById("doubXXLOrd").value,10);
-    xxxl = parseInt(document.getElementById("tripXLOrd").value,10);
-    xxxx = parseInt(document.getElementById("quadXLOrd").value,10);
-    regShtCount = smal + medi + larg + xlar + xxla;
-    lgShtCount += xxxl + xxxx;
  
     var regShtTot = regShtCount * regShtCt;
     var lgShtTot = lgShtCount * lgShtCt;
@@ -112,17 +103,20 @@ var pushPaymentInfo = function(){
   });
 };
 
-var pushShirtOrder = function(){
+var pushShirtOrders = function(){
     var regData = DB.child("TShirt");
-    regData.push().set({account:newOfflineUserName, 
-                      small: document.getElementById("smallOrd").value,
-                      medium: document.getElementById("mediumOrd").value,
-                      large: document.getElementById("largeOrd").value,
-                      xL: document.getElementById("xlargeOrd").value,
-                      xxLarge: document.getElementById("doubXXLOrd").value,
-                      xxxLarge: document.getElementById("tripXLOrd").value,
-                      xxxxLarge: document.getElementById("quadXLOrd").value
-                    });
+    shirtList.forEach(function(shtOrd){
+        regData.push().set({account:newOfflineUserName, 
+                      childName: shtOrd[0],
+                      small: shtOrd[1],
+                      medium: shtOrd[2],
+                      large: shtOrd[3],
+                      xL: shtOrd[4],
+                      xxLarge: shtOrd[5],
+                      xxxLarge: shtOrd[6],
+                      xxxxLarge: shtOrd[7]
+        });
+    });
 };
 
 var pushAttendees = function(){
@@ -145,10 +139,36 @@ var updateAttendeeList = function(){
     renderAttendeeList();
 };
 
+var updateShirtList = function(){
+    var newShirt = [];
+    newShirt.push(document.getElementById("childOrd").value);
+    newShirt.push(document.getElementById("smallOrd").value);
+    newShirt.push(document.getElementById("mediumOrd").value);
+    newShirt.push(document.getElementById("largeOrd").value);
+    newShirt.push(document.getElementById("xlargeOrd").value);
+    newShirt.push(document.getElementById("doubXXLOrd").value);
+    newShirt.push(document.getElementById("tripXLOrd").value);
+    newShirt.push(document.getElementById("quadXLOrd").value);
+    shirtList.push(newShirt);
+    renderShirtList();
+};
+
 var resetAttendeesFields = function(){
     document.getElementById("attendFName").value = "";
     document.getElementById("attendLName").value = "";
     document.getElementById("ageSelection").selectedIndex = 0;
+};
+
+
+var resetShirtFields = function(){
+    document.getElementById("childOrd").selectedIndex = 0;
+    document.getElementById("smallOrd").selectedIndex = 0;
+    document.getElementById("mediumOrd").selectedIndex = 0;
+    document.getElementById("largeOrd").selectedIndex = 0;
+    document.getElementById("xlargeOrd").selectedIndex = 0;
+    document.getElementById("doubXXLOrd").selectedIndex = 0;
+    document.getElementById("tripXLOrd").selectedIndex = 0;
+    document.getElementById("quadXLOrd").selectedIndex = 0;
 };
 
 var resetAllFields = function(){
@@ -163,6 +183,7 @@ var resetAllFields = function(){
     document.getElementById("attendFName").value = "";
     document.getElementById("attendLName").value = "";
     document.getElementById("ageSelection").selectedIndex = 0;
+    document.getElementById("childOrd").selectedIndex = 0;
     document.getElementById("smallOrd").selectedIndex = 0;
     document.getElementById("mediumOrd").selectedIndex = 0;
     document.getElementById("largeOrd").selectedIndex = 0;
@@ -171,6 +192,7 @@ var resetAllFields = function(){
     document.getElementById("tripXLOrd").selectedIndex = 0;
     document.getElementById("quadXLOrd").selectedIndex = 0;
     attendList = [];
+    shirtList = [];
     registCost =0;
     shirtsCost=0;
 };
@@ -468,7 +490,6 @@ var renderAttendeeList= function(){
         deletePers.addEventListener("click", function(ev){
             var persIndex = attendList.indexOf(anAttendee);
             attendList.splice(persIndex, 1);
-            console.log(attendList);
             renderAttendeeList();
         });
         persDv.appendChild(deletePers);
@@ -483,6 +504,7 @@ var renderMemShirts = function(){
     shtHead.innerHTML = "TShirt Ordering";
     div.appendChild(shtHead);
   
+    renderChildSelectionName(div);  
     renderMemSmall(div);
     renderMemMed(div);
     renderMemLg(div);
@@ -490,11 +512,96 @@ var renderMemShirts = function(){
     renderMem2XL(div);
     renderMem3XL(div);
     renderMem4XL(div);
+    renderShirtOrderButton(div);
+};
+
+var renderChildSelectionName = function(aDi){
+    var $childDiv = document.createElement("div");
+    $childDiv.classList.add("individual_block_first");
+    $childDiv.setAttribute("id", "childDiv");
+    var $childShirtLabel = document.createElement("div");
+    $childShirtLabel.setAttribute("id", "shirtchild");
+    $childShirtLabel.innerHTML = "Child";
+    $childDiv.appendChild($childShirtLabel);
+    
+    var $selection = document.createElement("select");
+    $selection.setAttribute("name","childOrder");
+    $selection.setAttribute("id","childOrd");
+
+    var defaultOption = document.createElement("option");
+    defaultOption.setAttribute("value","Choose Child Shirt");
+    defaultOption.setAttribute("id", "defaultChoice");
+    defaultOption.innerHTML = "Choose Child's Shirt";
+    defaultOption.setAttribute("Selected", true);
+    $selection.appendChild(defaultOption);
+
+    var albertaOption = document.createElement("option");
+    albertaOption.setAttribute("value","Alberta");
+    albertaOption.setAttribute("id", "albertaChoice");
+    albertaOption.innerHTML = "Alberta";
+    $selection.appendChild(albertaOption);
+    
+    var lillianOption = document.createElement("option");
+    lillianOption.setAttribute("value","Lillian");
+    lillianOption.setAttribute("id", "lillianChoice");
+    lillianOption.innerHTML = "Lillian";
+    $selection.appendChild(lillianOption);
+    
+    var elizabethOption = document.createElement("option");
+    elizabethOption.setAttribute("value","Elizabeth");
+    elizabethOption.setAttribute("id", "elizabethChoice");
+    elizabethOption.innerHTML = "Elizabeth";
+    $selection.appendChild(elizabethOption);
+    
+    var maryLueOption = document.createElement("option");
+    maryLueOption.setAttribute("value","MaryLue");
+    maryLueOption.setAttribute("id", "maryLueChoice");
+    maryLueOption.innerHTML = "MaryLue";
+    $selection.appendChild(maryLueOption);
+    
+    var ednaOption = document.createElement("option");
+    ednaOption.setAttribute("value","Edna");
+    ednaOption.setAttribute("id", "ednaChoice");
+    ednaOption.innerHTML = "Edna";
+    $selection.appendChild(ednaOption);
+    
+    var dulceniaOption = document.createElement("option");
+    dulceniaOption.setAttribute("value","Dulcenia");
+    dulceniaOption.setAttribute("id", "dulceniaChoice");
+    dulceniaOption.innerHTML = "Dulcenia";
+    $selection.appendChild(dulceniaOption);
+
+    var ireneOption = document.createElement("option");
+    ireneOption.setAttribute("value","Irene");
+    ireneOption.setAttribute("id", "ireneChoice");
+    ireneOption.innerHTML = "Irene";
+    $selection.appendChild(ireneOption);
+    
+    var jimmieOption = document.createElement("option");
+    jimmieOption.setAttribute("value","Jimmie");
+    jimmieOption.setAttribute("id", "jimmieChoice");
+    jimmieOption.innerHTML = "Jimmie";
+    $selection.appendChild(jimmieOption);
+    
+    var wardellOption = document.createElement("option");
+    wardellOption.setAttribute("value","Wardell");
+    wardellOption.setAttribute("id", "wardellChoice");
+    wardellOption.innerHTML = "Wardell";
+    $selection.appendChild(wardellOption);
+    
+    var commemorativeOption = document.createElement("option");
+    commemorativeOption.setAttribute("value","Commemorative");
+    commemorativeOption.setAttribute("id", "commemorativeChoice");
+    commemorativeOption.innerHTML = "Commemorative";
+    $selection.appendChild(commemorativeOption);
+
+    $childDiv.appendChild($selection);
+    aDi.appendChild($childDiv);
 };
 
 var renderMemSmall = function(attaDv){
     var $smallDiv = document.createElement("div");
-    $smallDiv.classList.add("individual_block_first");
+    $smallDiv.classList.add("individual_block");
     $smallDiv.setAttribute("id", "smallShirtDiv");
     var $smallShirtLabel = document.createElement("div");
     $smallShirtLabel.setAttribute("id", "shirtsmall");
@@ -656,6 +763,83 @@ var renderMem4XL = function(ataDiv){
     ataDiv.appendChild($quadXLDiv);
 };
 
+var renderShirtOrderButton = function(sDi){
+    var $shirtSubmit = document.createElement("button");
+    $shirtSubmit.setAttribute("id", "shirtSubmit");
+    $shirtSubmit.innerHTML = "Add Shirt Order";
+    $shirtSubmit.addEventListener("click", function(ev){
+        updateShirtList();
+        resetShirtFields();
+    });
+    sDi.appendChild($shirtSubmit);
+};
+
+var renderShirtList= function(){
+    var div = document.getElementById("addMemberShirtList");
+  
+    while(div.firstChild)
+        div.removeChild(div.firstChild);
+  
+    var attendListTitl = document.createElement("h1");
+    attendListTitl.innerHTML = "Shirt Orders";
+    div.appendChild(attendListTitl);
+  
+    shirtList.forEach(function (aShtOrder){
+        var persDv = document.createElement("div");
+     
+        var childNameOrder = document.createElement("div");
+        childNameOrder.classList.add("individual_block_first");
+        childNameOrder.innerHTML = aShtOrder[0];
+        persDv.appendChild(childNameOrder);
+     
+        var smOrd = document.createElement("div");
+        smOrd.classList.add("individual_block");
+        smOrd.innerHTML = aShtOrder[1] + " Small";
+        persDv.appendChild(smOrd);
+     
+        var mdOrd = document.createElement("div");
+        mdOrd.classList.add("individual_block");
+        mdOrd.innerHTML = aShtOrder[2] + " Medium";
+        persDv.appendChild(mdOrd);
+      
+        var lgOrd = document.createElement("div");
+        lgOrd.classList.add("individual_block");
+        lgOrd.innerHTML = aShtOrder[3] + " Large";
+        persDv.appendChild(lgOrd);
+      
+        var xLOrd = document.createElement("div");
+        xLOrd.classList.add("individual_block");
+        xLOrd.innerHTML = aShtOrder[4] + " XL";
+        persDv.appendChild(xLOrd);
+      
+      var xXLOrd = document.createElement("div");
+        xXLOrd.classList.add("individual_block");
+        xXLOrd.innerHTML = aShtOrder[5] + " XXL";
+        persDv.appendChild(xXLOrd);
+        
+        var xXXLOrd = document.createElement("div");
+        xXXLOrd.classList.add("individual_block");
+        xXXLOrd.innerHTML = aShtOrder[6] + " XXXL";
+        persDv.appendChild(xXXLOrd);
+        
+        var xXXXLOrd = document.createElement("div");
+        xXXXLOrd.classList.add("individual_block");
+        xXXXLOrd.innerHTML = aShtOrder[7] + " XXXXL";
+        persDv.appendChild(xXXXLOrd);
+      
+        var deleteShrt = document.createElement("button");
+        deleteShrt.setAttribute("id", "shirtDelete");
+        deleteShrt.innerHTML = "Delete Shirt Order";
+        deleteShrt.addEventListener("click", function(ev){
+            var shrtIndex = shirtList.indexOf(aShtOrder);
+            shirtList.splice(shrtIndex, 1);
+            renderShirtList();
+        });
+        persDv.appendChild(deleteShrt);
+        div.appendChild(persDv);
+    });
+};
+
 var renderAddMemberButtons = function(){
     var div = document.getElementById("addMemberButtons");
     var submitMember = document.createElement("button");
@@ -670,7 +854,7 @@ var renderAddMemberButtons = function(){
         pushMemInfo();
         pushMemUserInfo();
         pushAttendees();
-        pushShirtOrder();
+        pushShirtOrders();
         setOfflineRegCost();
         setOfflineShirtCost();
         pushPaymentInfo();
