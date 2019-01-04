@@ -664,7 +664,7 @@ var getShirtCount = function(){
                     updateIreneXXXXLCount(shirtXXXXL);
                     updateIreneTotalCount(childTot);
                 }
-                if (childNa == "Jimmy"){
+                if (childNa == "James"){
                     updateJimmieSmallCount(shirtSmall);
                     updateJimmieMediumCount(shirtMedium);
                     updateJimmieLargeCount(shirtLarge);
@@ -1075,7 +1075,7 @@ var renderJimmyShirtRow = function(shTb){
     var jimmyRow = document.createElement("tr");
     
     var childName = document.createElement("td");
-    childName.innerHTML = "Jimmy";
+    childName.innerHTML = "James";
     jimmyRow.appendChild(childName);
     
     var smallOrd = document.createElement("td");

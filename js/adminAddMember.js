@@ -57,14 +57,6 @@ var setOfflineRegCost = function(){
 var setOfflineShirtCost = function(){
     var regShtCount = 0;
     var lgShtCount = 0;
-
-
-
-
-
-
-    
- 
     var regShtTot = regShtCount * regShtCt;
     var lgShtTot = lgShtCount * lgShtCt;
     var shtTot = +regShtTot + +lgShtTot;
@@ -578,9 +570,9 @@ var renderChildSelectionName = function(aDi){
     $selection.appendChild(ireneOption);
     
     var jimmieOption = document.createElement("option");
-    jimmieOption.setAttribute("value","Jimmie");
-    jimmieOption.setAttribute("id", "jimmieChoice");
-    jimmieOption.innerHTML = "Jimmie";
+    jimmieOption.setAttribute("value","James");
+    jimmieOption.setAttribute("id", "jamesChoice");
+    jimmieOption.innerHTML = "James";
     $selection.appendChild(jimmieOption);
     
     var wardellOption = document.createElement("option");

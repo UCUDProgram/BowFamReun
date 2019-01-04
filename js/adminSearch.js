@@ -284,13 +284,10 @@ var getPersonAttendeesList = function(){
 };
 
 var getPersonShirtOrders = function(){
-    
-     var origDv = document.getElementById("personViewShirts");
-    
+    var origDv = document.getElementById("personViewShirts");
     var shirtHead = document.createElement("h3");
     shirtHead.innerHTML = "Shirt Orders";
     origDv.appendChild(shirtHead);
-    
     shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
             var persNm = childSnapshot.val().childName;
@@ -1177,10 +1174,10 @@ var renderEditShirtName = function(sD){
     $nameselection.appendChild($ireneEditOption);
         
     var $jimmieEditOption = document.createElement("option");
-    $jimmieEditOption.setAttribute("value","Jimmie");
-    $jimmieEditOption.setAttribute("id", "jimmie Edit Option");
-    $jimmieEditOption.innerHTML = "Jimmie";
-    if(newNameShirt == "Jimmie"){
+    $jimmieEditOption.setAttribute("value","James");
+    $jimmieEditOption.setAttribute("id", "james Edit Option");
+    $jimmieEditOption.innerHTML = "James";
+    if(newNameShirt == "James"){
             $jimmieEditOption.setAttribute("selected", true);
         }
     $nameselection.appendChild($jimmieEditOption);
@@ -1516,9 +1513,9 @@ var renderNewChildNameShirt = function(nShDi){
     $childShirtSelect.appendChild($ireneOption);
         
     var $jimmieOption = document.createElement("option");
-    $jimmieOption.setAttribute("value","Jimmie");
-    $jimmieOption.setAttribute("id", "jimmie Option");
-    $jimmieOption.innerHTML = "Jimmie";
+    $jimmieOption.setAttribute("value","James");
+    $jimmieOption.setAttribute("id", "james Option");
+    $jimmieOption.innerHTML = "James";
     $childShirtSelect.appendChild($jimmieOption);
         
     var $blaineOption = document.createElement("option");
@@ -1712,8 +1709,6 @@ var renderNewShirtOrderButton = function(neStDv){
     shtDiv.appendChild(shtSubmit);
     neStDv.appendChild(shtDiv);
 };
-
-
 
 var renderIndAttend = function(ifirst, iLast, iAge, iKey){
     var indDiv = document.getElementById("personEditAtt");

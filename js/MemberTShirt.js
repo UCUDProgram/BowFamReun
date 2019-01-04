@@ -203,8 +203,6 @@ var getTShirtOrders = function(){
                 updateShirtCount(shSmall,shMedium,shLarge,shxLG, shXXLg,shXXXLg,shXXXXLg);
                 renderShirtCost(); 
             }
-            
-           
         });
     });
 };
@@ -219,7 +217,6 @@ var updateShirtCount = function(smal,mediu,larg,xLrG, doubleXLrg,tripXLrg,quadXL
     updateXXXLTShirtCount(tripXLrg);
     updateXXXXLTShirtCount(quadXLrg);
 };
-
 
 var getShirtCosts = function(){
     var shirtFee = DB.child("Fees");
@@ -414,9 +411,9 @@ var renderChildSelection = function(selectAppend){
     $childShirtSelect.appendChild($ireneOption);
         
     var $jimmieOption = document.createElement("option");
-    $jimmieOption.setAttribute("value","Jimmie");
-    $jimmieOption.setAttribute("id", "jimmie Option");
-    $jimmieOption.innerHTML = "Jimmie";
+    $jimmieOption.setAttribute("value","James");
+    $jimmieOption.setAttribute("id", "james Option");
+    $jimmieOption.innerHTML = "James";
     $childShirtSelect.appendChild($jimmieOption);
         
     var $blaineOption = document.createElement("option");
@@ -467,7 +464,7 @@ var renderShirtView = function(){
     if (bowChild == "Irene"){
         renderIreneShirt(tShirtImgDiv);
     }
-    if (bowChild == "Jimmie"){
+    if (bowChild == "James"){
         renderJimmieShirt(tShirtImgDiv);
     }
     if (bowChild == "Blaine"){

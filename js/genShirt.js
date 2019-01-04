@@ -173,7 +173,7 @@ var renderJimmyShirt = function(firDiv){
     
     var frontText = document.createElement("div");
     frontText.classList.add("textCentered");
-    frontText.innerHTML = "Jimmy Bowman ";
+    frontText.innerHTML = "James Bowman";
     imageRow1Div.appendChild(frontText);
     
     var frontImage = document.createElement("img");
