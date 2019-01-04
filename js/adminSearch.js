@@ -211,9 +211,11 @@ var renderIndivResult = function(frstNm, lstNm, usrN){
 
 //THIS SECTION ADDRESSES THE VIEWING OF AN ACCOUNT
 var getRecord = function(){
-    var divS = document.getElementById("personView");
-    while(divS.firstChild)
-        divS.removeChild(divS.firstChild);
+    var viewClr = document.getElementById("personView");
+    while (viewClr.firstChild)
+        viewClr.removeChild(viewClr.firstChild);
+    
+    personViewInitialize();
     
     document.getElementById("personSearch").classList.add("hidden");
     document.getElementById("searchResults").classList.add("hidden");
@@ -223,7 +225,27 @@ var getRecord = function(){
     renderDeleteRecordButton();
     getPersonInfo();
     getPersonAttendeesList();
-    getPersonShirtOrder();
+    getPersonShirtOrders();
+};
+
+var personViewInitialize = function(){
+    var viewSrc = document.getElementById("personView");
+    
+    var navDiv = document.createElement("div");
+    navDiv.setAttribute("id","personViewNav");
+    viewSrc.appendChild(navDiv); 
+   
+    var conDiv = document.createElement("div");
+    conDiv.setAttribute("id","personViewContact");
+    viewSrc.appendChild(conDiv);
+        
+    var attDiv = document.createElement("div");
+    attDiv.setAttribute("id","personViewAttendees");
+    viewSrc.appendChild(attDiv);
+
+    var shtDiv = document.createElement("div");
+    shtDiv.setAttribute("id","personViewShirts");
+    viewSrc.appendChild(shtDiv);
 };
 
 var getPersonInfo = function(){
@@ -243,7 +265,7 @@ var getPersonInfo = function(){
 };
 
 var getPersonAttendeesList = function(){
-    var originDv = document.getElementById("personView");
+    var originDv = document.getElementById("personViewAttendees");
     var sourceDv = document.createElement("div");
     
     var attendHead = document.createElement("h3");
@@ -261,9 +283,17 @@ var getPersonAttendeesList = function(){
     originDv.appendChild(sourceDv);
 };
 
-var getPersonShirtOrder = function(){
+var getPersonShirtOrders = function(){
+    
+     var origDv = document.getElementById("personViewShirts");
+    
+    var shirtHead = document.createElement("h3");
+    shirtHead.innerHTML = "Shirt Orders";
+    origDv.appendChild(shirtHead);
+    
     shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
+            var persNm = childSnapshot.val().childName;
             var persSm = childSnapshot.val().small;
             var persMd = childSnapshot.val().medium;
             var persLg = childSnapshot.val().large;
@@ -271,13 +301,13 @@ var getPersonShirtOrder = function(){
             var persxxL = childSnapshot.val().xxLarge;
             var persxxxL = childSnapshot.val().xxxLarge;
             var persxxxxL = childSnapshot.val().xxxxLarge;
-            renderShirtOrder(persSm, persMd, persLg, persXL, persxxL, persxxxL, persxxxxL);
+            renderShirtOrder(persNm, persSm, persMd, persLg, persXL, persxxL, persxxxL, persxxxxL);
         }); 
     });  
 };
 
 var renderPersonInfo = function(fn,ln, ad, cy, sa, zi, ph, em){
-    var div = document.getElementById("personView");
+    var div = document.getElementById("personViewContact");
     var personInfoDiv = document.createElement("div");
     
     var infoHead = document.createElement("h3");
@@ -350,57 +380,51 @@ var renderPersContact = function(phon, emai, perDiv){
     perDiv.appendChild(conDv);
 };
 
-var renderShirtOrder = function(sm, me, lg, xl, xxl, xxxl, xxxxl){
-    var shrtSrc = document.getElementById("personView");
+var renderShirtOrder = function(cN, sm, me, lg, xl, xxl, xxxl, xxxxl){
+    var shrtSrc = document.getElementById("personViewShirts");
     var shrtDv = document.createElement("div");
   
-    var shrtHead = document.createElement("h3");
-    shrtHead.innerHTML = "Shirt Ordering";
-    shrtDv.appendChild(shrtHead);
+    var chld = document.createElement("div");
+    chld.classList.add("individual_block_first");
+    chld.innerHTML = cN;
+    shrtDv.appendChild(chld);
   
     var smll = document.createElement("div");
     smll.innerHTML = sm + " Small Shirts";
+    smll.classList.add("individual_block");
     shrtDv.appendChild(smll);
   
     var mdm = document.createElement("div");
+    mdm.classList.add("individual_block");
     mdm.innerHTML = me + " Medium Shirts";
     shrtDv.appendChild(mdm);
   
     var lrg = document.createElement("div");
+    lrg.classList.add("individual_block");
     lrg.innerHTML = lg + " Large Shirts";
     shrtDv.appendChild(lrg);
   
     var xlrg = document.createElement("div");
+    xlrg.classList.add("individual_block");
     xlrg.innerHTML = xl + " XL Shirts";
     shrtDv.appendChild(xlrg);
   
     var xxlrg = document.createElement("div");
+    xxlrg.classList.add("individual_block");
     xxlrg.innerHTML = xxl + " XXL Shirts";
     shrtDv.appendChild(xxlrg);
   
     var xxxlrg = document.createElement("div");
+    xxxlrg.classList.add("individual_block");
     xxxlrg.innerHTML = xxxl + " XXXL Shirts";
     shrtDv.appendChild(xxxlrg);
   
     var xxxxlrg = document.createElement("div");
+    xxxxlrg.classList.add("individual_block");
     xxxxlrg.innerHTML = xxxxl + " XXXXL Shirts";
     shrtDv.appendChild(xxxxlrg);
     
     shrtSrc.appendChild(shrtDv);
-};
-
-var renderFood = function(fdNam, fdCateg, attacDv){
-    var foodDv = document.createElement("div");
-    var fdNmDv = document.createElement("div");
-    fdNmDv.classList.add("individual_block_first");
-    fdNmDv.innerHTML = "Food Name: " + fdNam;
-    foodDv.appendChild(fdNmDv);
-  
-    var fdCtDv = document.createElement("div");
-    fdCtDv.classList.add("individual_block");
-    fdCtDv.innerHTML = "Category: " + fdCateg;
-    foodDv.appendChild(fdCtDv);
-    attacDv.appendChild(foodDv);
 };
 
 var renderAttendent = function(attFirst, attLast, attAge, attDv){
@@ -425,7 +449,7 @@ var renderAttendent = function(attFirst, attLast, attAge, attDv){
 };
 
 var renderPersonEditButton = function(){
-    var oBDiv = document.getElementById("personView");
+    var oBDiv = document.getElementById("personViewNav");
     var persEditBtn = document.createElement("button");
     persEditBtn.setAttribute("type", "button");
     persEditBtn.setAttribute("id", "personEditBut");
@@ -437,7 +461,7 @@ var renderPersonEditButton = function(){
 };
 
 var renderBackButton = function(){
-    var oBDiv = document.getElementById("personView");
+    var oBDiv = document.getElementById("personViewNav");
     var persEditBtn = document.createElement("button");
     persEditBtn.setAttribute("type", "button");
     persEditBtn.setAttribute("id", "persList");
@@ -527,7 +551,7 @@ var deleteEntireRecord = function(){
 };
 
 var renderDeleteRecordButton = function(){
-    var oBDiv = document.getElementById("personView");
+    var oBDiv = document.getElementById("personViewNav");
     var persDelBtn = document.createElement("button");
     persDelBtn.setAttribute("type", "button");
     persDelBtn.setAttribute("id", "persDelete");
@@ -557,6 +581,7 @@ var newState = "";
 var newZipCode = "";
 var newEmail = "";
 var newPhone = "";
+var newNameShirt = "";
 var newSmallShirt = 0;
 var newMediumShirt = 0;
 var newLargeShirt = 0;
@@ -599,6 +624,10 @@ var updateEmail = function(newEma){
 
 var updatePhone = function(newPhn){
     newPhone = newPhn;  
+};
+
+var updateShirtName = function(newNm){
+    newNameShirt = newNm;    
 };
 
 var updateSmallShirt = function(newSm){
@@ -655,8 +684,10 @@ var getPersonEditInfo = function(){
 };
 
 var getPersonShirtEditOrder = function(){
+    renderPersonShirtHeader();
     shirtsDB.orderByChild("account").equalTo(userAcct).on("value", function(snapshot){
         snapshot.forEach(function(childSnapshot){
+            var persNam = childSnapshot.val().childName;
             var persSma = childSnapshot.val().small;
             var persMed = childSnapshot.val().medium;
             var persLag = childSnapshot.val().large;
@@ -665,6 +696,7 @@ var getPersonShirtEditOrder = function(){
             var persxxxLa = childSnapshot.val().xxxLarge;
             var persxxxxLa = childSnapshot.val().xxxxLarge;
             var perKey = childSnapshot.key();
+            updateShirtName(persNam);
             updateSmallShirt(persSma);
             updateMediumShirt(persMed);
             updateLgShirt(persLag);
@@ -672,7 +704,7 @@ var getPersonShirtEditOrder = function(){
             updateXXLShirt(persxxLa);
             updateXXXLShirt(persxxxLa);
             updateXXXXLShirt(persxxxxLa);
-            renderShirtEditOrder(perKey);
+            renderShirtEditOrder(persNam,perKey);
         }); 
     });  
 };
@@ -708,15 +740,33 @@ var getEditRecord = function(){
 };
 
 var renderEditScreen = function(){
-    var divS = document.getElementById("personEdit");
-    while(divS.firstChild)
-        divS.removeChild(divS.firstChild);
-    
+    personEditInitialize();
     headerButtons();
     getPersonEditInfo();
-    getPersonShirtEditOrder();
-    getAssocAttend();
     renderNewAttendant();
+    getAssocAttend();
+    renderNewShirtOrder();
+    getPersonShirtEditOrder();
+};
+
+var personEditInitialize = function(){
+    var editSrc = document.getElementById("personEdit");
+    
+    var editNav = document.createElement("div");
+    editNav.setAttribute("id", "personEditNav");
+    editSrc.appendChild(editNav);
+    
+    var editCon = document.createElement("div");
+    editCon.setAttribute("id", "personEditCon");
+    editSrc.appendChild(editCon);
+    
+    var editAtt = document.createElement("div");
+    editAtt.setAttribute("id", "personEditAtt");
+    editSrc.appendChild(editAtt);
+    
+    var editSht = document.createElement("div");
+    editSht.setAttribute("id","personEditSht");
+    editSrc.appendChild(editSht);
 };
 
 var clearAllScreen = function(){
@@ -729,6 +779,17 @@ var resetAttendVar = function(){
     childCounter = 0;
     adultCounter = 0;
     newAttendantOrder = 0;
+};
+
+var resetShirtOrderVar = function(){
+    document.getElementById("newChildTSh").selectedIndex = 0;
+    document.getElementById("newSmallTSh").selectedIndex = 0;
+    document.getElementById("newMediumTSh").selectedIndex = 0;
+    document.getElementById("newLargeTSh").selectedIndex = 0;
+    document.getElementById("newXLTSh").selectedIndex = 0;
+    document.getElementById("newXXLTSh").selectedIndex = 0;
+    document.getElementById("newXXXLTSh").selectedIndex = 0;
+    document.getElementById("newXXXXLTSh").selectedIndex = 0;
 };
 
 var updateAccountInfo = function(key){
@@ -783,13 +844,26 @@ var updateRegCostInfo = function(key){
     feeDB.child(key).update({regDue:newAttendantOrder});  
 };
 
+var pushNewShirtOrder = function(){
+    shirtsDB.child().push({account: userAcct,
+                            childName: document.getElementById("newChildTSh").value,
+                            small: document.getElementById("newSmallTSh").value,
+                            medium: document.getElementById("newMediumTSh").value,
+                            large: document.getElementById("newLargelTSh").value,
+                            xL: document.getElementById("newXLTSh").value,
+                            xxLarge: document.getElementById("newXXLTSh").value,
+                            xxxLarge: document.getElementById("newXXXLTSh").value,
+                            xxxxLarge: document.getElementById("newXXXXLTSh").value
+                        });
+};
+
 var headerButtons = function(){
     renderPersonBackButton();
 };
 
 var renderPersonEdit = function(ky){
     renderPersonEditHeader();
-    var persoDiv = document.getElementById("personEdit");
+    var persoDiv = document.getElementById("personEditCon");
     var perEditDv = document.createElement("div");
     renderPersEditName(perEditDv);
     renderPersEditAddr(perEditDv);
@@ -800,23 +874,16 @@ var renderPersonEdit = function(ky){
 };
 
 var renderPersonEditHeader = function(){
-    var editContactHead = document.getElementById("personEdit");
+    var editContactHead = document.getElementById("personEditCon");
     var editHead = document.createElement("h2");
     editHead.innerHTML = "Contact Information";
     editContactHead.appendChild(editHead);
 };
 
 var renderAttendeesEditHeader = function(){
-    var editContactHead = document.getElementById("personEdit");
+    var editContactHead = document.getElementById("personEditAtt");
     var editHead = document.createElement("h2");
     editHead.innerHTML = "Attendees";
-    editContactHead.appendChild(editHead);
-};
-
-var renderFoodEditHeader = function(){
-    var editContactHead = document.getElementById("personEdit");
-    var editHead = document.createElement("h2");
-    editHead.innerHTML = "Food Brought";
     editContactHead.appendChild(editHead);
 };
 
@@ -1010,10 +1077,11 @@ var renderUpdateEditPerson = function(adiv, persKy){
     adiv.appendChild(updatePersInfoButton);
 };
 
-var renderShirtEditOrder = function(aky){
-    renderPersonShirtHeader();
-    var shirtDiv = document.getElementById("personEdit");
+var renderShirtEditOrder = function(shtNa,aky){
+    var shirtDiv = document.getElementById("personEditSht");
     var shirtEditDiv = document.createElement("div");
+    shirtEditDiv.classList.add("shirt_edit_block");
+    renderEditShirtName(shirtEditDiv);
     renderEditSmallShirt(shirtEditDiv);
     renderEditMediumShirt(shirtEditDiv);
     renderEditLargeShirt(shirtEditDiv);
@@ -1026,10 +1094,121 @@ var renderShirtEditOrder = function(aky){
 };
 
 var renderPersonShirtHeader = function(){
-    var editShirtHead = document.getElementById("personEdit");
+    var editShirtHead = document.getElementById("personEditSht");
     var editHead = document.createElement("h2");
-    editHead.innerHTML = "Shirt Ordering Information";
+    editHead.innerHTML = "Shirt Orders";
     editShirtHead.appendChild(editHead);
+};
+
+var renderEditShirtName = function(sD){
+    
+    var $nameDiv = document.createElement("div");
+    $nameDiv.classList.add("individual_block_first");
+    var $nameShirtLabel = document.createElement("div");
+    $nameShirtLabel.setAttribute("id", "nameShirt");
+    $nameShirtLabel.innerHTML = "Child";
+    $nameDiv.appendChild($nameShirtLabel);
+    
+    var $nameselection = document.createElement("select");
+    $nameselection.setAttribute("name","nameOrder");
+    $nameselection.setAttribute("id","nameTSh");
+   
+   var $albertaEditOption = document.createElement("option");
+    $albertaEditOption.setAttribute("value","Alberta");
+    $albertaEditOption.setAttribute("id", "alberta Edit Option");
+    $albertaEditOption.innerHTML = "Alberta";
+    if(newNameShirt == "Alberta"){
+            $albertaEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($albertaEditOption);
+    
+    var $lillianEditOption = document.createElement("option");
+    $lillianEditOption.setAttribute("value","Lillian");
+    $lillianEditOption.setAttribute("id", "lillian Edit Option");
+    $lillianEditOption.innerHTML = "Lillian";
+    if(newNameShirt == "Lillian"){
+            $lillianEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($lillianEditOption);
+        
+    var $ednaEditOption = document.createElement("option");
+    $ednaEditOption.setAttribute("value","Edna");
+    $ednaEditOption.setAttribute("id", "edna Edit Option");
+    $ednaEditOption.innerHTML = "Edna";
+    if(newNameShirt == "Edna"){
+            $ednaEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($ednaEditOption);
+        
+    var $elizabethEditOption = document.createElement("option");
+    $elizabethEditOption.setAttribute("value","Elizabeth");
+    $elizabethEditOption.setAttribute("id", "elizabeth Edit Option");
+    $elizabethEditOption.innerHTML = "Elizabeth";
+    if(newNameShirt == "Elizabeth"){
+            $elizabethEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($elizabethEditOption);
+        
+    var $maryLueEditOption = document.createElement("option");
+    $maryLueEditOption.setAttribute("value","MaryLue");
+    $maryLueEditOption.setAttribute("id", "marylue Edit Option");
+    $maryLueEditOption.innerHTML = "MaryLue";
+    if(newNameShirt == "MaryLue"){
+            $maryLueEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($maryLueEditOption);
+        
+    var $dulceniaEditOption = document.createElement("option");
+    $dulceniaEditOption.setAttribute("value","Dulcenia");
+    $dulceniaEditOption.setAttribute("id", "dulcenia Edit Option");
+    $dulceniaEditOption.innerHTML = "Dulcenia";
+    if(newNameShirt == "Dulcenia"){
+            $dulceniaEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($dulceniaEditOption);
+        
+    var $ireneEditOption = document.createElement("option");
+    $ireneEditOption.setAttribute("value","Irene");
+    $ireneEditOption.setAttribute("id", "irene Edit Option");
+    $ireneEditOption.innerHTML = "Irene";
+    if(newNameShirt == "Irene"){
+            $ireneEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($ireneEditOption);
+        
+    var $jimmieEditOption = document.createElement("option");
+    $jimmieEditOption.setAttribute("value","Jimmie");
+    $jimmieEditOption.setAttribute("id", "jimmie Edit Option");
+    $jimmieEditOption.innerHTML = "Jimmie";
+    if(newNameShirt == "Jimmie"){
+            $jimmieEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($jimmieEditOption);
+        
+    var $blaineEditOption = document.createElement("option");
+    $blaineEditOption.setAttribute("value","Blaine");
+    $blaineEditOption.setAttribute("id", "blaine Edit Option");
+    $blaineEditOption.innerHTML = "Blaine";
+    if(newNameShirt == "Blaine"){
+            $blaineEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($blaineEditOption);
+    
+    var $commemorativeEditOption = document.createElement("option");
+    $commemorativeEditOption.setAttribute("value","Commemorative");
+    $commemorativeEditOption.setAttribute("id", "commemorative Edit Option");
+    $commemorativeEditOption.innerHTML = "Commemorative";
+    if(newNameShirt == "Commemorative"){
+            $commemorativeEditOption.setAttribute("selected", true);
+        }
+    $nameselection.appendChild($commemorativeEditOption);
+      
+    $nameselection.addEventListener("change", function(ev){
+        newNameShirt = document.getElementById("nameTSh").value;
+    });
+    $nameDiv.appendChild($nameselection);
+    sD.appendChild($nameDiv);
+    
 };
 
 var renderEditSmallShirt = function(srcDv){
@@ -1259,8 +1438,285 @@ var renderUpdateEditShirt = function(ataDv, shKy){
     ataDv.appendChild(updateShirtButton);
 };
 
+var renderNewShirtOrder = function(){
+    var shrtOrdSrc = document.getElementById("personEditSht");
+    var shrtOrdDiv = document.createElement("div");
+    renderShirtHeader(shrtOrdDiv);
+    renderNewChildNameShirt(shrtOrdDiv);
+    renderNewSmallShirt(shrtOrdDiv);
+    renderNewMediumShirt(shrtOrdDiv);
+    renderNewLargeShirt(shrtOrdDiv);
+    renderNewXLShirt(shrtOrdDiv);
+    renderNewXXLShirt(shrtOrdDiv);
+    renderNewXXXLShirt(shrtOrdDiv);
+    renderNewXXXXLShirt(shrtOrdDiv);
+    renderNewShirtOrderButton(shrtOrdDiv);
+    shrtOrdSrc.appendChild(shrtOrdDiv);
+};
+var renderShirtHeader = function(shtDivm){
+    var shirtHead = document.createElement("h1");
+    shirtHead.innerHTML = "Add a new Shirt Order";
+    shtDivm.appendChild(shirtHead);
+};
+
+var renderNewChildNameShirt = function(nShDi){
+    var childSelDiv = document.createElement("div");
+     childSelDiv.classList.add("individual_block_first");
+    var $childShirtSelect = document.createElement("select");
+    $childShirtSelect.setAttribute("name","newChildTSh");
+    $childShirtSelect.setAttribute("id","newChildTSh");
+    
+    var $defaultOption = document.createElement("option");
+    $defaultOption.setAttribute("value","None");
+    $defaultOption.setAttribute("id", "Default Option");
+    $defaultOption.innerHTML = "None Selected";
+    $defaultOption.setAttribute("selected", true);
+    $childShirtSelect.appendChild($defaultOption);
+    
+    var $albertaOption = document.createElement("option");
+    $albertaOption.setAttribute("value","Alberta");
+    $albertaOption.setAttribute("id", "alberta Option");
+    $albertaOption.innerHTML = "Alberta";
+    $childShirtSelect.appendChild($albertaOption);
+    
+    var $lillianOption = document.createElement("option");
+    $lillianOption.setAttribute("value","Lillian");
+    $lillianOption.setAttribute("id", "lillian Option");
+    $lillianOption.innerHTML = "Lillian";
+    $childShirtSelect.appendChild($lillianOption);
+        
+    var $ednaOption = document.createElement("option");
+    $ednaOption.setAttribute("value","Edna");
+    $ednaOption.setAttribute("id", "edna Option");
+    $ednaOption.innerHTML = "Edna";
+    $childShirtSelect.appendChild($ednaOption);
+        
+    var $elizabethOption = document.createElement("option");
+    $elizabethOption.setAttribute("value","Elizabeth");
+    $elizabethOption.setAttribute("id", "elizabeth Option");
+    $elizabethOption.innerHTML = "Elizabeth";
+    $childShirtSelect.appendChild($elizabethOption);
+        
+    var $maryLueOption = document.createElement("option");
+    $maryLueOption.setAttribute("value","MaryLue");
+    $maryLueOption.setAttribute("id", "marylue Option");
+    $maryLueOption.innerHTML = "MaryLue";
+    $childShirtSelect.appendChild($maryLueOption);
+        
+    var $dulceniaOption = document.createElement("option");
+    $dulceniaOption.setAttribute("value","Dulcenia");
+    $dulceniaOption.setAttribute("id", "dulcenia Option");
+    $dulceniaOption.innerHTML = "Dulcenia";
+    $childShirtSelect.appendChild($dulceniaOption);
+        
+    var $ireneOption = document.createElement("option");
+    $ireneOption.setAttribute("value","Irene");
+    $ireneOption.setAttribute("id", "irene Option");
+    $ireneOption.innerHTML = "Irene";
+    $childShirtSelect.appendChild($ireneOption);
+        
+    var $jimmieOption = document.createElement("option");
+    $jimmieOption.setAttribute("value","Jimmie");
+    $jimmieOption.setAttribute("id", "jimmie Option");
+    $jimmieOption.innerHTML = "Jimmie";
+    $childShirtSelect.appendChild($jimmieOption);
+        
+    var $blaineOption = document.createElement("option");
+    $blaineOption.setAttribute("value","Blaine");
+    $blaineOption.setAttribute("id", "blaine Option");
+    $blaineOption.innerHTML = "Blaine";
+    $childShirtSelect.appendChild($blaineOption);
+    
+    var $commemorativeOption = document.createElement("option");
+    $commemorativeOption.setAttribute("value","Commemorative");
+    $commemorativeOption.setAttribute("id", "commemorative Option");
+    $commemorativeOption.innerHTML = "Commemorative";
+    $childShirtSelect.appendChild($commemorativeOption);
+    
+    childSelDiv.appendChild($childShirtSelect);
+    nShDi.appendChild(childSelDiv);
+};
+
+var renderNewSmallShirt = function(neShDi){
+    var $newSmallDiv = document.createElement("div");
+    $newSmallDiv.classList.add("individual_block");
+    var $newSmallShirtLabel = document.createElement("div");
+    $newSmallShirtLabel.setAttribute("id", "newSmallShirt");
+    $newSmallShirtLabel.innerHTML = "Small";
+    $newSmallDiv.appendChild($newSmallShirtLabel);
+    
+    var $newSmallselection = document.createElement("select");
+    $newSmallselection.setAttribute("name","newSmallOrder");
+    $newSmallselection.setAttribute("id","newSmallTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newSmallselection.appendChild($iOption);
+    }
+    $newSmallDiv.appendChild($newSmallselection);
+    neShDi.appendChild($newSmallDiv);
+};
+
+var renderNewMediumShirt = function(newShiDiv){
+     var $newMediumDiv = document.createElement("div");
+    $newMediumDiv.classList.add("individual_block");
+    var $newMediumShirtLabel = document.createElement("div");
+    $newMediumShirtLabel.setAttribute("id", "newMediumShirt");
+    $newMediumShirtLabel.innerHTML = "Medium";
+    $newMediumDiv.appendChild($newMediumShirtLabel);
+    
+    var $newMediumselection = document.createElement("select");
+    $newMediumselection.setAttribute("name","newMediumOrder");
+    $newMediumselection.setAttribute("id","newMediumTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newMediumselection.appendChild($iOption);
+    }
+    $newMediumDiv.appendChild($newMediumselection);
+    newShiDiv.appendChild($newMediumDiv);
+};
+
+var renderNewLargeShirt = function(nSD){
+    var $newLargeDiv = document.createElement("div");
+    $newLargeDiv.classList.add("individual_block");
+    var $newLargeShirtLabel = document.createElement("div");
+    $newLargeShirtLabel.setAttribute("id", "newLargeShirt");
+    $newLargeShirtLabel.innerHTML = "Large";
+    $newLargeDiv.appendChild($newLargeShirtLabel);
+    
+    var $newLargeselection = document.createElement("select");
+    $newLargeselection.setAttribute("name","newLargeOrder");
+    $newLargeselection.setAttribute("id","newLargeTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newLargeselection.appendChild($iOption);
+    }
+    $newLargeDiv.appendChild($newLargeselection);
+    nSD.appendChild($newLargeDiv);
+};
+
+var renderNewXLShirt = function(nShD){
+    var $newXLDiv = document.createElement("div");
+    $newXLDiv.classList.add("individual_block");
+    var $newXLShirtLabel = document.createElement("div");
+    $newXLShirtLabel.setAttribute("id", "newXLShirt");
+    $newXLShirtLabel.innerHTML = "XL";
+    $newXLDiv.appendChild($newXLShirtLabel);
+    
+    var $newXLselection = document.createElement("select");
+    $newXLselection.setAttribute("name","newXLOrder");
+    $newXLselection.setAttribute("id","newXLTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newXLselection.appendChild($iOption);
+    }
+    $newXLDiv.appendChild($newXLselection);
+    nShD.appendChild($newXLDiv);
+};
+
+var renderNewXXLShirt = function(nSrDv){
+    var $newXXLDiv = document.createElement("div");
+    $newXXLDiv.classList.add("individual_block");
+    var $newXXLShirtLabel = document.createElement("div");
+    $newXXLShirtLabel.setAttribute("id", "newXXLShirt");
+    $newXXLShirtLabel.innerHTML = "XXL";
+    $newXXLDiv.appendChild($newXXLShirtLabel);
+    
+    var $newXXLselection = document.createElement("select");
+    $newXXLselection.setAttribute("name","newXXLOrder");
+    $newXXLselection.setAttribute("id","newXXLTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newXXLselection.appendChild($iOption);
+    }
+    $newXXLDiv.appendChild($newXXLselection);
+    nSrDv.appendChild($newXXLDiv);
+};
+
+var renderNewXXXLShirt = function(nStDv){
+    var $newXXXLDiv = document.createElement("div");
+    $newXXXLDiv.classList.add("individual_block");
+    var $newXXXLShirtLabel = document.createElement("div");
+    $newXXXLShirtLabel.setAttribute("id", "newXXXLShirt");
+    $newXXXLShirtLabel.innerHTML = "XXXL";
+    $newXXXLDiv.appendChild($newXXXLShirtLabel);
+    
+    var $newXXXLselection = document.createElement("select");
+    $newXXXLselection.setAttribute("name","newXXXLOrder");
+    $newXXXLselection.setAttribute("id","newXXXLTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newXXXLselection.appendChild($iOption);
+    }
+    $newXXXLDiv.appendChild($newXXXLselection);
+    nStDv.appendChild($newXXXLDiv);
+};
+
+var renderNewXXXXLShirt = function(neStDi){
+    var $newXXXXLDiv = document.createElement("div");
+    $newXXXXLDiv.classList.add("individual_block");
+    var $newXXXXLShirtLabel = document.createElement("div");
+    $newXXXXLShirtLabel.setAttribute("id", "newXXXLShirt");
+    $newXXXXLShirtLabel.innerHTML = "XXXL";
+    $newXXXXLDiv.appendChild($newXXXXLShirtLabel);
+    
+    var $newXXXXLselection = document.createElement("select");
+    $newXXXXLselection.setAttribute("name","newXXXLOrder");
+    $newXXXXLselection.setAttribute("id","newXXXLTSh");
+    for(var i =0; i<11;i++){
+        var $iOption = document.createElement("option");
+        $iOption.setAttribute("value",i);
+        var itemId = i + "Option";
+        $iOption.setAttribute("id", itemId);
+        $iOption.innerHTML = i;
+        $newXXXXLselection.appendChild($iOption);
+    }
+    $newXXXXLDiv.appendChild($newXXXXLselection);
+    neStDi.appendChild($newXXXXLDiv);
+};
+
+var renderNewShirtOrderButton = function(neStDv){
+    var shtDiv = document.createElement("div");
+    shtDiv.classList.add("individual_block");
+    var shtSubmit = document.createElement("button");
+    shtSubmit.setAttribute("id", "newShirtSubmit");
+    shtSubmit.innerHTML = "Submit New Shirt Order";
+    shtSubmit.addEventListener("click", function(ev){
+        pushNewShirtOrder();
+        resetShirtOrderVar();
+        renderEditScreen();
+    });
+    shtDiv.appendChild(shtSubmit);
+    neStDv.appendChild(shtDiv);
+};
+
+
+
 var renderIndAttend = function(ifirst, iLast, iAge, iKey){
-    var indDiv = document.getElementById("personEdit");
+    var indDiv = document.getElementById("personEditAtt");
     var attendDiv = document.createElement("div");
     var attendDivName = ifirst.concat(iLast);
     renderAttendFirstEdit(ifirst, attendDiv,attendDivName);
@@ -1428,7 +1884,7 @@ var setPersonRegCost = function(){
 };
 
 var renderNewAttendant = function(){
-    var nAttSrc = document.getElementById("personEdit");
+    var nAttSrc = document.getElementById("personEditAtt");
     var nAttDiv = document.createElement("div");
     renderAttendHeader(nAttDiv);
     renderAttendFirst(nAttDiv);
@@ -1540,7 +1996,7 @@ var renderAttendSubmit = function(attachm){
 };
 
 var renderPersonBackButton = function(){
-    var oBDiv = document.getElementById("personEdit");
+    var oBDiv = document.getElementById("personEditNav");
     var persEditBtn = document.createElement("button");
     persEditBtn.setAttribute("type", "button");
     persEditBtn.setAttribute("id", "persEditBck");
