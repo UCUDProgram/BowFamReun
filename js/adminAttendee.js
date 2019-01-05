@@ -51,7 +51,9 @@ var getAttendees = function(){
             while(attDiv.firstChild)
                 attDiv.removeChild(attDiv.firstChild);
             var attendeePerson = snap.val().age;
+            if (attendeePerson != undefined){
             personDetermination(attendeePerson);
+            }
             renderAttendeeTotal();
         });
     });
